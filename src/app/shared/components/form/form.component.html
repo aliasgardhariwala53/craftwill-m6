@@ -1,0 +1,22 @@
+
+ <form method="POST" [formGroup]="formGroup">
+<div class="form-group md:w-2/3 justify-center mx-auto" *ngFor="let data of formData;let i=index">
+    <div class="input-group1" >
+    <input
+        type={{type[i]}}
+        placeholder={{placeholder[i]}}
+        formControlName="data"
+        class="authinput form-control rounded-xl"
+    />
+    </div>
+
+    <div class="text-red-500 errors mx-2" >
+    {{ formErrors[data]}}
+    </div>
+</div>
+     <input
+                type="submit"
+                (click)="submit()"
+                class="submit btn rounded-xl"
+                value="Login"
+                /> 

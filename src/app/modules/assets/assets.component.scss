@@ -1,0 +1,114 @@
+
+.form-group {
+    margin-bottom: 0.8rem;
+    font-weight: bold;
+    font-family: "Gilroy";
+  }
+  .input-group1 {
+    display: inline-block;
+    width: 100%;
+  
+    .radio_image {
+      cursor: pointer;
+      border-radius: 50%;
+      border: 2px solid #fff;
+    }
+    .input_label {
+      font-weight: lighter;
+      color: #8d8d8d;
+      margin-bottom: 0.1rem;
+    }
+  }
+  .authinput {
+    width: 100%;
+    background: rgba(247, 247, 247, 1);
+    border-radius: 22px;
+    border: none;
+    font-size: 0.8rem;
+    padding: 20px;
+  }
+  .authinput:focus {
+    outline: none;
+    box-shadow: none;
+  }
+  ::placeholder {
+    font-weight: 600;
+  }
+  .errors {
+    font-size: 12px;
+  }
+.createMember_btn {
+    background: #ff6782 0% 0% no-repeat padding-box;
+
+    color: #fff;
+    align-items: center;
+    
+    font-family: "Gilroy";
+    text-align: left;
+  }
+// radio bn
+  [type="radio"]:checked,
+[type="radio"]:not(:checked) {
+    position: absolute;
+    left: -9999px;
+}
+[type="radio"]:checked + label,
+[type="radio"]:not(:checked) + label
+{
+    position: relative;
+    padding-left: 28px;
+    cursor: pointer;
+    line-height: 20px;
+    display: inline-block;
+    color: #666;
+}
+[type="radio"]:checked + label:before,
+[type="radio"]:not(:checked) + label:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #ff6782;
+    border-radius: 100%;
+    background: #fff;
+}
+[type="radio"]:checked + label:after,
+[type="radio"]:not(:checked) + label:after {
+    content: '';
+   
+    width: 12px;
+    height: 12px;
+    background: #ff6782;
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    border-radius: 100%;
+    transition: all 0.2s ease;
+}
+[type="radio"]:not(:checked) + label:after {
+    opacity: 0;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+}
+[type="radio"]:checked + label:after {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+  /* width */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+      background-color: #ff6782;
+    border-radius: 10px;
+  }

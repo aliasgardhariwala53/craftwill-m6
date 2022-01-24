@@ -1,0 +1,270 @@
+// .container {
+//     background-color: #fff;
+//     font-size: 1rem;
+//     font-family: "Gilroy";
+//   }
+  
+//   .title h1 {
+//     display: flex;
+//     font-family: "Gilroy";
+//     font-weight: bold;
+//   }
+  
+//   .title h2 {
+//     display: flex;
+//     font-family: "Gilroy";
+//     font-weight: bold;
+//   }
+//   .title p {
+//     display: flex;
+//     justify-content: center;
+//     font-family: "Gilroy";
+//     color: #979797;
+//     font-size: 16px;
+//   }
+//   .form {
+//     width: 65%;
+//     margin: auto;
+//   }
+//   @media only screen and (max-width: 772px) {
+//     .form {
+//       width: 100%;
+//       margin: auto;
+//     }
+//   }
+//   .form-group {
+//     margin-bottom: 0.8rem;
+//     font-weight: bold;
+//     font-family: "Gilroy";
+//   }
+//   .input-group1 {
+//     display: inline-block;
+//     width: 100%;
+//     input[type="radio"] {
+//       display: none;
+  
+  
+//     }
+//     input[type="radio"]:checked ~ img {
+//       border-radius: 50%;
+//       border: 2px solid #ff6782;
+   
+//     }
+  
+//     .radio_image {
+//       cursor: pointer;
+//       border-radius: 50%;
+//       border: 2px solid #fff;
+  
+//     }
+//   }
+//   .authinput {
+//     width: 100%;
+//     background: #f7f7f7 0% 0% no-repeat padding-box;
+   
+//     border: none;
+//     font-size: 0.8rem;
+//     padding: 22px;
+//   }
+//   .authinput:focus {
+//     outline: none;
+//     box-shadow: none;
+//   }
+//   // .input-group-append{
+//   //     display: inline-block;
+//   //     text-align: center;
+//   //     width: 10%;
+//   //     padding: 6px;
+//   //     font-size: .8rem;
+//   //     background-color: #ebebeb;
+//   //     border: none;
+//   //     border-top-right-radius: 6px;
+//   //     border-bottom-right-radius: 6px;
+//   // }
+//   ::placeholder {
+//     font-weight: 600;
+//   }
+//   .errors {
+//     font-size: 12px;
+//   }
+//   .icon {
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     background-color: #ebebeb;
+//     border-radius: 10px;
+//   }
+//   .button {
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     position: relative;
+//     .btn {
+//       box-shadow: none;
+//     }
+//   }
+//   .button .next_arrow {
+//     position: absolute;
+//     right: 20px;
+//     color: #fff;
+//     font-size: 20px;
+//   }
+//   .button .submit {
+//     width: 100%;
+//     align-items: center;
+//     padding: 10px 20px;
+//     background: #ff6782 0% 0% no-repeat padding-box;
+   
+//     color: #fff;
+//     align-items: center;
+//     // margin-bottom: 16px;
+//     font-size: 15px;
+//     font-weight: bold;
+//     font-family: "Gilroy";
+//     text-align: left;
+//   }
+//   .custom-text {
+//     position: relative;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     color: #979797;
+//     font-size: 13px;
+//     font-weight: 400;
+//     font-family: "Gilroy";
+//   }
+//   .else p {
+//     color: #979797;
+//     font-family: "Gilroy";
+//   }
+//   .googlebtn {
+//     background-color: transparent;
+//     border: 1px solid black;
+//     border-radius: 10px;
+//     padding: 9px 40px;
+//     font-family: "Gilroy";
+//     font-weight: bold;
+//   }
+//   .googlebtn span,
+//   i {
+//     font-size: 12px;
+//     font-weight: 400;
+//   }
+//   .bottom {
+//     margin-top: 60px;
+//     align-items: center;
+//     bottom: 20px;
+//     color: #979797;
+//     font-size: 16px;
+//     font-weight: 400;
+//   }
+//   .bottom a {
+//     text-decoration: none;
+//     color: #000;
+//   }
+  
+//   .header_container_signup {
+//     margin: 50px 80px 0 80px;
+//     background-color: #fff;
+//     .header_top_container_signup {
+//       box-sizing: border-box;
+//       display: flex;
+//       flex-direction: row;
+//       width: 100%;
+//       justify-content: space-between;
+//       padding: 0 0 15px 0;
+//       .signup_button_signuppage {
+//         background: #ff6782 0% 0% no-repeat padding-box;
+     
+//         font-family: "Gilroy";
+//         font-weight: bold;
+//         padding: 10px 22px;
+  
+//         margin: 0px 30px;
+//         cursor: pointer;
+//         color: #fff;
+//       }
+//     }
+//   }
+//   @media only screen and (max-width: 360px) {
+//     .signup_form_container {
+//       padding: 30px;
+//     }
+//     .form {
+//       width: 100%;
+//       margin: auto;
+//     }
+//     .image_set_container img {
+//       height: 50px;
+//     }
+//     .title {
+//       text-align: center;
+//     }
+//     .header_container_signup{
+//         margin: 50px 0 0 0;
+//       }
+//   }
+//   @media only screen and (min-width: 376px) {
+//     .login_form_container {
+//       padding: 40px;
+//     }
+//     .form {
+//       width: 72%;
+//       margin: auto;
+//     }
+//     .image_set_container img {
+//       height: 60px;
+//     }
+//     .title {
+//       text-align: center;
+//     }
+ 
+//   }
+  
+//   @media only screen and (min-width: 576px) {
+//     .form {
+//       width: 100%;
+//       margin: auto;
+//     }
+//     .image_set_container img {
+//       height: 70px;
+//     }
+//     .header_container_signup{
+//       margin: 50px 80px 0 80px;
+//     }
+//   }
+  
+//   @media only screen and (min-width: 768px) {
+//     .form {
+//       width: 60%;
+//       margin: auto;
+//     }
+//     .image_set_container img {
+//       height: 80px;
+//     }
+//   }
+  
+//   @media only screen and (min-width: 992px) {
+//     .form {
+//       width: 50%;
+//       margin: auto;
+//     }
+//     .image_set_container img {
+//       height: 90px;
+//     }
+//   }
+//   @media only screen and (min-width: 1201px) {
+//     .form {
+//       width: 45%;
+//       margin: auto;
+//     }
+//   }
+//   @media only screen and (min-width: 2000px) {
+//     .form {
+//       width: 40%;
+//       margin: auto;
+//     }
+//   }
+//   .back_arrow{
+//       cursor: pointer;
+//   }

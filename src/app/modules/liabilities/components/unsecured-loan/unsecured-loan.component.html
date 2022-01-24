@@ -1,0 +1,100 @@
+
+<div class="flex flex-col px-8 py-4 space-y-2">
+    <app-header-toolbar routerlink="/liabilities/createLiabilities" pagetitle="Unsecured Loan" ></app-header-toolbar>
+  
+    <form
+    method="POST"
+    [formGroup]="UnSecuredLoan"
+  >
+    <div class="grid bold grid-cols-1 sm:grid-cols-2 md:grid-cols-4  lg:grid-cols-5 gap-4 gap-y-0 mt-3">
+ 
+      <div class="form-group">
+        <div class="input-group1">
+          <label class="input_label text-sm ml-1">Loan Provider</label>
+          <input
+            type="text"
+            placeholder="Loan Provider"
+            formControlName="loanProvider"
+            class="authinput form-control"
+          />
+        </div>
+  
+        <div class="text-red-500 errors mx-2">
+          {{ formErrors.loanProvider }}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group1">
+          <label class="input_label text-sm ml-1">Loan  Number</label>
+          <input
+            type="text"
+            placeholder="Loan Number"
+            formControlName="loan_Number"
+            class="authinput form-control"
+          />
+        </div>
+  
+        <div class="text-red-500 errors mx-2">
+          {{ formErrors.loan_Number }}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group1">
+          <label class="input_label text-sm ml-1">Loan Id Number</label>
+          <input
+            type="text"
+            placeholder="Loan Id Number"
+            formControlName="loan_Id_Number"
+            class="authinput form-control"
+          />
+        </div>
+  
+        <div class="text-red-500 errors mx-2">
+          {{ formErrors.loan_Id_Number }}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group1">
+          <label class="input_label text-sm ml-1">current Outstanding Amount</label>
+          <input
+            type="text"
+            placeholder="current Outstanding Amount"
+            formControlName="current_Outstanding_Amount"
+            class="authinput form-control"
+          />
+        </div>
+  
+        <div class="text-red-500 errors mx-2">
+          {{ formErrors.current_Outstanding_Amount }}
+        </div>
+      </div>
+  
+    </div>
+  
+  
+  <div class="w-1/2">
+      <div class="form-group">
+          <div class="input-group1">
+            <label class="input_label text-sm ml-1">Description</label>
+            <textarea
+              type="text"
+              placeholder="Description"
+              formControlName="description"
+              class="authinput form-control"
+            ></textarea>
+          </div>
+    
+          <div class="text-red-500 errors mx-2">
+            {{ formErrors.description }}
+          </div>
+        </div>
+  </div>
+
+  <div class="w-1/1 sm:w-6/12 md:w-3/12 lg:w-2/12 my-4">
+      <app-button (myMethod)="addUnSecuredLoan()" value="Add Liability" id="submitButtonId" [arrow]="true"></app-button>
+  </div>
+    <div class="text-green-500">{{responseMessage}}</div>
+    </form>
+  
+  </div>
+  

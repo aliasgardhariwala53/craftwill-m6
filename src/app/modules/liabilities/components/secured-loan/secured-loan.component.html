@@ -1,0 +1,142 @@
+
+<div class="flex flex-col px-8 py-4 space-y-2">
+  <app-header-toolbar routerlink="/liabilities/createLiabilities" pagetitle="Secured Loan" ></app-header-toolbar>
+
+  <form
+  method="POST"
+  [formGroup]="SecuredLoan"
+>
+  <div class="grid bold grid-cols-1 sm:grid-cols-2 md:grid-cols-4  lg:grid-cols-5 gap-4 gap-y-0 mt-3">
+    <div class="form-group">
+      <div class="input-group1">
+        <label class="input_label text-sm ml-1">Loan Name</label>
+        <input
+          type="text"
+          placeholder="Loan Name"
+          formControlName="loanName"
+          class="authinput form-control"
+        />
+      </div>
+
+      <div class="text-red-500 errors mx-2">
+        {{ formErrors.loanName }}
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="input-group1">
+        <label class="input_label text-sm ml-1">Loan Provider</label>
+        <input
+          type="text"
+          placeholder="Loan Provider"
+          formControlName="loanProvider"
+          class="authinput form-control"
+        />
+      </div>
+
+      <div class="text-red-500 errors mx-2">
+        {{ formErrors.loanProvider }}
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="input-group1">
+        <label class="input_label text-sm ml-1">Loan  Number</label>
+        <input
+          type="text"
+          placeholder="Loan Number"
+          formControlName="loan_Number"
+          class="authinput form-control"
+        />
+      </div>
+
+      <div class="text-red-500 errors mx-2">
+        {{ formErrors.loan_Number }}
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="input-group1">
+        <label class="input_label text-sm ml-1">Loan Id Number</label>
+        <input
+          type="text"
+          placeholder="Loan Id Number"
+          formControlName="loan_Id_Number"
+          class="authinput form-control"
+        />
+      </div>
+
+      <div class="text-red-500 errors mx-2">
+        {{ formErrors.loan_Id_Number }}
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="input-group1">
+        <label class="input_label text-sm ml-1">current Outstanding Amount</label>
+        <input
+          type="text"
+          placeholder="current Outstanding Amount"
+          formControlName="current_Outstanding_Amount"
+          class="authinput form-control"
+        />
+      </div>
+
+      <div class="text-red-500 errors mx-2">
+        {{ formErrors.current_Outstanding_Amount }}
+      </div>
+    </div>
+
+  </div>
+
+
+<div class="w-1/2">
+    <div class="form-group">
+        <div class="input-group1">
+          <label class="input_label text-sm ml-1">Description</label>
+          <textarea
+            type="text"
+            placeholder="Description"
+            formControlName="description"
+            class="authinput form-control"
+          ></textarea>
+        </div>
+  
+        <div class="text-red-500 errors mx-2">
+          {{ formErrors.description }}
+        </div>
+      </div>
+</div>
+<div class="w-full">
+    <div class="font-extrabold">Select or Add the Asset Pledged as Collateral for this Loan.</div>
+    <div class="rounded-xl bg_grey flex flex-col p-4" >
+    <div>Select and add assets</div>
+    <!-- <div class="grid bold grid-cols-1 sm:grid-cols-2 md:grid-cols-4  lg:grid-cols-6 gap-4 ">
+        <div class="bg-[#fff]  flex flex-col rounded-2xl  p-3 shadow-[0_0px_10px_rgba(0,0,0,0.1)] space-y-2 cursor-pointer  visited:bg-gray-700" *ngFor='let asset of assetsData' (click)="selectAssets(asset._id)" >
+         
+            <div><img src="../../../../../assets/Icons/Bank Account.svg"></div>
+            <div class="flex flex-row justify-between">
+                <div class="flex flex-col">
+                    <div class="font-bold text-sm">{{asset.asset_name}}</div>
+                    <div class="text-sm">Saving Bank Account</div>
+                </div>
+                <div><img src="../../../../../assets/Icons/Back.svg"></div>
+            </div>
+
+        </div>
+        <div class="bg-[#fff]  flex flex-col rounded-xl border-dashed border-2 border-[#ff6782] py-10  justify-center items-center text-red" >
+            Add Assets
+
+        </div>
+        
+        <div class="text-red-500 errors mx-2">
+          {{ formErrors.addAssets }}
+        </div>
+    </div> -->
+    <app-select-box [key]="key" [listItem]="assetsData" [classes]="classes" (onSelectId)="selectAssets($event)" avtarType="image" imageUrl="../../../../../assets/Icons/Bank Account.svg" addItemTitle="Add Assets"> </app-select-box> 
+    <!-- <app-select-box [key]="key" [listItem]="assetsData" [classes]="classes" (onSelectId)="selectAssets($event)"> </app-select-box> -->
+    </div>      
+</div>
+<div class=" sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
+    <app-button (myMethod)="addSecuredLoan()" value="Add Liability" id="submitButtonId" [arrow]="true"></app-button>
+</div>
+  <div class="text-green-500">{{responseMessage}}</div>
+  </form>
+
+</div>

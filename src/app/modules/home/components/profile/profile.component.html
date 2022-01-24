@@ -1,0 +1,494 @@
+
+
+  <div class="flex flex-col justify-content-around mx-4">
+    <div class=" ">
+      <app-header-toolbar routerlink="/home" pagetitle="Profile" ></app-header-toolbar>
+    </div>
+    <div class="flex flex-col sm:flex-row w-full">
+    <div class="w-full sm:w-1/5 mb-2 profile_sidebar_container mx-4">
+      <div
+        class="row py-2 px-3 mx-1 my-2 my-sm-4 justify-content-center profile_sidebar_button active_button bg-black"
+      >
+        profile Information
+      </div>
+      <div
+        class="row py-2 px-3 my-2 mx-1 my-sm-4 justify-content-center subscription_sidebar_button :text-2xl"
+      >
+        Subscription
+      </div>
+    </div>
+
+    <div class="w-full sm:w-4/5  profile_update_container mx-4">
+      <div class="row image_update_section">
+        <div class="col-6 text-left font-weight-bold">Personal Information</div>
+        <div class="col-6 text-right d-flex justify-content-end">
+          <span
+            (click)="changeStatus()"
+            *ngIf="inputState"
+            class="round-buttons bg-blue text-light cursor-pointer"
+          >
+            <img
+              width="33.6px"
+              height="33.6px"
+              src="../../../../assets/Icons/Edit 2.svg"
+            />
+          </span>
+          <span
+            *ngIf="!inputState"
+            (click)="profileUpdate()"
+            class="round-buttons bg-blue text-light cursor-pointer d-flex align-items-center"
+          >
+            <label class="m-0" style="cursor: pointer" for="submitButtonId"
+              ><img
+                width="28px"
+                height="28px"
+                src="../../../../assets/Icons/Personal Details.svg"
+            /></label>
+          </span>
+          <span
+            (click)="changeStatus()"
+            *ngIf="!inputState"
+            class="round-buttons mx-2 bg-grey round-buttons-cancel cursor-pointer"
+          >
+            <i class="fa fa-times-circle fa-2x" style="color: #ff6782"></i>
+          </span>
+        </div>
+        <div class="col-12 d-flex flex-row mt-3">
+          <label for="imageInput" class="image_top_icon">
+            <img width="25px" for="imageInput" src="../../../../assets/Icons/Edit 2.svg" />
+          </label>
+          <img
+            [src]="imageSrc"
+            style="width: 123px; height: 123px"
+            class="rounded-full"
+          />
+
+          <form>
+            <input
+              type="file"
+              (change)="fileChangeEvent($event)"
+              id="imageInput"
+              hidden
+            />
+          </form>
+          <div class="change_remove_container" >
+            <label class="change_btn my-1 w-[100px] rounded-xl" for="imageInput">Change</label>
+            <div class="remove_btn my-1  w-[100px] rounded-xl" (click)="remove()">remove</div>
+          </div>
+          <div *ngIf="showImageUpload">
+            <div *ngIf="showCropped" class="preview_cropped_container">
+              <img
+                [src]="croppedImage"
+                style="width: 123px; height: 123px"
+                class="rounded-full m-auto"
+              />
+              <div class="dialog_box_button_container justify-evenly pt-3 pb-2">
+                <div class="change_btn my-1" (click)="onBack()">Back</div>
+                <div class="change_btn my-1" (click)="uploadImage()">Save</div>
+              </div>
+            </div>
+
+            <div *ngIf="!showCropped" class="image_cropper_container">
+              <image-cropper
+                [imageChangedEvent]="imageChangedEvent"
+                [maintainAspectRatio]="true"
+                [aspectRatio]="2 / 2"
+                format="png"
+                [roundCropper]="true"
+                [resizeToWidth]="256"
+                (imageCropped)="imageCropped($event)"
+                (imageLoaded)="imageLoaded($event)"
+                (cropperReady)="cropperReady()"
+                (loadImageFailed)="loadImageFailed()"
+              ></image-cropper>
+              <div class="dialog_box_button_container justify-evenly pt-3 pb-2">
+                <div class="change_btn my-1" (click)="onCancel()">Cancel</div>
+                <div class="remove_btn my-1" (click)="showcroppedImage()">
+                  Preview
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <form
+        method="POST"
+        [formGroup]="userInfo"
+        class="row profile_update_section mt-3"
+      >
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="form-group">
+            <div class="input-group1">
+              <label class="input_label">Full Name</label>
+              <input
+                type="text"
+                placeholder="Full Name as per ID"
+                [ngClass]="{ input_bg: inputState }"
+                [attr.disabled]="inputState ? '' : null"
+                [ngStyle]="{ cursor: inputState ? 'not-allowed' : 'default' }"
+                formControlName="fullName"
+                class="authinput form-control"
+              />
+            </div>
+
+            <div class="text-red-500 errors mx-2">
+              {{ formErrors.fullName }}
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="form-group">
+            <div class="input-group1">
+              <label class="input_label">Email Address</label>
+              <input
+                type="text"
+                placeholder="E-mail address"
+                [readonly]="true"
+                [ngClass]="{ input_bg: true }"
+                [attr.disabled]
+                style="cursor: not-allowed"
+                formControlName="email"
+                class="authinput form-control"
+              />
+            </div>
+
+            <div class="text-red-500 errors mx-2">
+              {{ formErrors.email }}
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="form-group">
+            <div class="input-group1">
+              <label class="input_label">Date of Birth</label>
+              <input
+                type="date"
+                placeholder="Date of Birth"
+                [ngClass]="{ input_bg: inputState }"
+                [attr.disabled]="inputState ? '' : null"
+                [ngStyle]="{ cursor: inputState ? 'not-allowed' : 'default' }"
+                formControlName="dob"
+                class="authinput form-control"
+              />
+            </div>
+
+            <div class="text-red-500 errors mx-2">
+              {{ formErrors.dob }}
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="form-group">
+            <div class="input-group1">
+              <label class="input_label">Citizenship</label>
+              <input
+                type="text"
+                placeholder="Citizenship"
+                [ngClass]="{ input_bg: inputState }"
+                [attr.disabled]="inputState ? '' : null"
+                [ngStyle]="{ cursor: inputState ? 'not-allowed' : 'default' }"
+                formControlName="Citizenship"
+                class="authinput form-control"
+              />
+            </div>
+
+            <div class="text-red-500 errors mx-2">
+              {{ formErrors.Citizenship }}
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="form-group">
+            <div class="input-group1">
+              <label class="input_label">ID type</label>
+              <input
+                type="text"
+                placeholder="ID Type"
+                [readonly]="true"
+                [attr.disabled]
+                [ngClass]="{ input_bg: true }"
+                style="cursor: not-allowed"
+                formControlName="id_type"
+                class="authinput form-control"
+              />
+            </div>
+
+            <div class="text-red-500 errors mx-2">
+              {{ formErrors.id_type }}
+            </div>
+          </div>
+        </div>
+        <div class="col-4 col-sm-6 col-md-4 col-lg-3">
+          <div class="form-group">
+            <div class="input-group1">
+              <label class="input_label">NRIC Number</label>
+              <input
+                type="text"
+                placeholder="NRIC Number"
+                style="cursor: not-allowed"
+                [readonly]="true"
+                [attr.disabled]
+                [ngClass]="{ input_bg: true }"
+                formControlName="id_number"
+                class="authinput form-control"
+              />
+            </div>
+
+            <div class="text-red-500 errors mx-2">
+              {{ formErrors.id_number }}
+            </div>
+          </div>
+        </div>
+        <div class="col-4 col-sm-6 col-md-4 col-lg-3">
+          <div class="form-group">
+            <div class="input-group1">
+              <label class="input_label">ID Country</label>
+              <input
+                type="text"
+                placeholder="ID Country"
+                [ngClass]="{ input_bg: inputState }"
+                [attr.disabled]="inputState ? '' : null"
+                [ngStyle]="{ cursor: inputState ? 'not-allowed' : 'default' }"
+                formControlName="id_country"
+                class="authinput form-control"
+              />
+            </div>
+
+            <div class="text-red-500 errors mx-2">
+              {{ formErrors.id_number }}
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="form-group">
+            <div class="input-group1">
+              <label class="input_label">Gender</label>
+              <input
+                type="text"
+                placeholder="Gender"
+                [ngClass]="{ input_bg: inputState }"
+                [attr.disabled]="inputState ? '' : null"
+                [ngStyle]="{ cursor: inputState ? 'not-allowed' : 'default' }"
+                formControlName="gender"
+                class="authinput form-control"
+              />
+            </div>
+
+            <div class="text-red-500 errors mx-2">
+              {{ formErrors.id_number }}
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="form-group">
+            <div class="input-group1">
+              <label class="input_label">Floor Number</label>
+              <input
+                type="text"
+                placeholder="floor Number"
+                [ngClass]="{ input_bg: inputState }"
+                [attr.disabled]="inputState ? '' : null"
+                [ngStyle]="{ cursor: inputState ? 'not-allowed' : 'default' }"
+                formControlName="floorNumber"
+                class="authinput form-control"
+              />
+            </div>
+
+            <div class="text-red-500 errors mx-2">
+              {{ formErrors.floorNumber }}
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="form-group">
+            <div class="input-group1">
+              <label class="input_label">Unit Number</label>
+              <input
+                type="text"
+                placeholder="Unit Number"
+                [ngClass]="{ input_bg: inputState }"
+                [attr.disabled]="inputState ? '' : null"
+                [ngStyle]="{ cursor: inputState ? 'not-allowed' : 'default' }"
+                formControlName="unitNumber"
+                class="authinput form-control"
+              />
+            </div>
+
+            <div class="text-red-500 errors mx-2">
+              {{ formErrors.unitNumber }}
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="form-group">
+            <div class="input-group1">
+              <label class="input_label">Postal Code</label>
+              <input
+                type="text"
+                placeholder="Postal Code"
+                [ngClass]="{ input_bg: inputState }"
+                [attr.disabled]="inputState ? '' : null"
+                [ngStyle]="{ cursor: inputState ? 'not-allowed' : 'default' }"
+                formControlName="postalCode"
+                class="authinput form-control"
+              />
+            </div>
+            <div class="text-red-500 errors mx-2">
+              {{ formErrors.postalCode }}
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="form-group">
+            <div class="input-group1">
+              <label class="input_label">Street Name</label>
+              <input
+                type="text"
+                placeholder="Street Name"
+                [ngClass]="{ input_bg: inputState }"
+                [attr.disabled]="inputState ? '' : null"
+                [ngStyle]="{ cursor: inputState ? 'not-allowed' : 'default' }"
+                formControlName="streetName"
+                class="authinput form-control"
+              />
+            </div>
+
+            <div class="text-red-500 errors mx-2">
+              {{ formErrors.streetName }}
+            </div>
+          </div>
+        </div>
+
+        <input
+          type="submit"
+          class="submit btn"
+          id="submitButtonId"
+          hidden
+          value="Next"
+        />
+      </form>
+      <div class="row image_update_section mt-3">
+        <div class="col-6 text-left font-weight-bold">Reset Password</div>
+        <div class="col-6 text-right d-flex justify-content-end">
+          <span
+            (click)="togglePassword()"
+            *ngIf="disablePassword"
+            class="round-buttons bg-blue text-light cursor-pointer"
+          >
+            <img
+              width="33.6px"
+              height="33.6px"
+              src="../../../../assets/Icons/Edit 2.svg"
+            />
+          </span>
+          <span
+            *ngIf="!disablePassword"
+            (click)="passwordUpdate()"
+            class="round-buttons bg-blue text-light cursor-pointer d-flex align-items-center"
+          >
+            <label class="m-0" style="cursor: pointer" for="submitPassword"
+              ><img
+                width="28px"
+                height="28px"
+                src="../../../../assets/Icons/Personal Details.svg"
+            /></label>
+          </span>
+          <span
+            (click)="togglePassword()"
+            *ngIf="!disablePassword"
+            class="round-buttons mx-2 bg-grey round-buttons-cancel cursor-pointer"
+          >
+            <i class="fa fa-times-circle fa-2x" style="color: #ff6782"></i>
+          </span>
+        </div>
+      </div>
+      <form
+        method="POST"
+        [formGroup]="passwordForm"
+        class="row profile_update_section mt-1"
+      >
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="form-group">
+            <div class="input-group1">
+              <label class="input_label">Old password</label>
+              <input
+                type="text"
+                placeholder="old Password"
+                [ngClass]="{ input_bg: disablePassword }"
+                [attr.disabled]="disablePassword ? '' : null"
+                [ngStyle]="{
+                  cursor: disablePassword ? 'not-allowed' : 'default'
+                }"
+                formControlName="password"
+                class="authinput form-control"
+              />
+            </div>
+            <div class="text-red-500 errors mx-2">
+              {{ formErrors.password }}
+            </div>
+          </div>
+        </div>
+        <div *ngIf="!disablePassword" class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="form-group">
+            <div class="input-group1">
+              <label class="input_label">New Password</label>
+              <input
+                type="text"
+                placeholder="New Password"
+                [ngClass]="{ input_bg: disablePassword }"
+                [attr.disabled]="disablePassword ? '' : null"
+                [ngStyle]="{
+                  cursor: disablePassword ? 'not-allowed' : 'default'
+                }"
+                formControlName="newPassword"
+                class="authinput form-control"
+              />
+            </div>
+
+            <div class="text-red-500 errors mx-2">
+              {{ formErrors.newPassword }}
+            </div>
+          </div>
+        </div>
+        <div *ngIf="!disablePassword" class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="form-group">
+            <div class="input-group1">
+              <label class="input_label">Confirm password</label>
+              <input
+                type="text"
+                placeholder="Confirm password"
+                [ngClass]="{ input_bg: disablePassword }"
+                [attr.disabled]="disablePassword ? '' : null"
+                [ngStyle]="{
+                  cursor: disablePassword ? 'not-allowed' : 'default'
+                }"
+                formControlName="confirmPassword"
+                class="authinput form-control"
+              />
+            </div>
+
+            <div class="text-red-500 errors mx-2">
+              {{ formErrors.confirmPassword }}
+            </div>
+          </div>
+        </div>
+        <input
+          type="submit"
+          class="submit btn"
+          id="submitPassword"
+          hidden
+          value="Next"
+        />
+      </form>
+    </div>
+  </div>
+  </div>
+
+
+
+
+
+
+
+  <app-footer></app-footer>
+

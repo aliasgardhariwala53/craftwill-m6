@@ -1,0 +1,26 @@
+
+<div class="flex flex-col px-16 mt-16 sm:mt-5 pt-0 sm:pt-4 pb-4 h-[75vh] sm:h-[80vh] top-40 ">
+    <div class="flex flex-row items-center w-full bg-white ">
+        <div class="hidden sm:block w-1/12 font-extrabold text-xl">Liabilities</div>
+        <div class="w-3/12 hidden sm:flex items-center dropdown cursor-pointer font-semibold" aria-expanded="false" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" ><img class="inline-block mr-lg-2 " src="../../../../assets/Icons/Filter.svg">Sort by Liabilities
+             <i class="fa fa-chevron-down font-[12px] ml-1 " aria-hidden="true"></i>
+            <div class="dropdown-menu px-1" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" > Secured Loan </a>
+              <a class="dropdown-item"> UnSecured Loan</a>
+              <a class="dropdown-item"> Private Debt</a>
+
+            </div>
+          </div>
+        <div class="w-full left-0 px-16 sm:px-0 sm:w-2/12 flex items-center fixed sm:static top-20"><input type="search" class="sm:hidden w-96 authinput form-control rounded-xl" placeholder="search"><img aria-expanded="false" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"  class="sm:hidden inline-block ml-4 rounded-xl p-2 bg-[#f0f0f0]" src="../../../../assets/Icons/Filter.svg">
+        </div>
+        <div class="w-4/12 items-center hidden sm:flex"><img class="ml-auto h-[38px] w-[38px]" src='../../../../../assets/Icons/Group 4361.svg'></div>
+        <div class="w-12/12 sm:w-2/12 justify-end hidden sm:flex text-base text-center">
+            <app-button  value="Create New Liabilities" routelink="/liabilities/createLiabilities"></app-button>
+        </div>
+    </div>
+
+            
+<app-table [tableHeadings]='tableHeadings' (actionButton)="onClickAction($event)" [tableData]='liabilitiesData' [keys]='tableKeys' [classes]="classes" emptyTableMessage="No Liabilities Found"></app-table>
+
+    <app-button  value="Create New Assets" routelink="/assets/createAssets" class="sm:hidden"></app-button>
+    </div>

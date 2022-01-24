@@ -1,0 +1,65 @@
+.authinput {
+    width: 80%;
+    background: #f0f0f0;
+    border: none;
+    font-size: 0.8rem;
+    padding: 12px 12px;
+  }
+  .authinput:focus {
+    outline: none;
+    box-shadow: none;
+  }
+  ::placeholder {
+    font-weight: 600;
+  }
+  .dropdown{
+    .btn:focus{
+      box-shadow:none;
+    }
+    .dropdown-menu{
+      left: 0;
+      top: 0;
+      border: none;
+      box-shadow: 0 1px 4px 0 #dadada!important;
+      border-radius: 1.05rem!important;
+      position: absolute; 
+      will-change: transform;
+      transform: translate3d(-175px, 42px, 0px);
+      min-width: 12rem;
+    }
+    .dropdown-menu .dropdown-item{
+      font-family: "Gilroy";
+      padding: 5px 8px;
+      border-radius: .6em;
+      font-weight: bolder;
+      margin: 0;
+      &:active{
+        background-color: #FF6782;
+        color: #fff;
+      }
+      &:hover{
+        color: #fff;
+        text-decoration: none;
+        background-color: #FF6782;
+      }
+    }
+    .dropdown-toggle::after{
+      display: none;
+    }  
+
+  }
+  /* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+      background-color: #ff6782;
+    border-radius: 10px;
+  }

@@ -1,0 +1,238 @@
+// .container{
+//     background-color: #fff;
+//     font-size: 1rem;
+//  font-family: "Gilroy";
+// }
+
+
+// .title h3{
+//     display: flex;
+//     font-family: "Gilroy";
+//     font-weight: bold;
+// }
+// .title p{
+//     display: flex;
+//     justify-content: center;
+//  font-family: "Gilroy";
+//     color: #979797;
+//     font-size: 16px;
+// }
+// .form{
+//     width: 65%;
+//     margin: auto;
+// }
+// @media only screen and (max-width: 772px) {
+//     .form{
+//         width: 100%;
+//         margin: auto;
+//     }
+//   }
+
+// .form-group{
+//     margin-bottom: .8rem;
+//     font-weight: bold;
+//     font-family:"Gilroy"
+// }
+// .input-group1{
+//     display: inline-block;
+//     width: 100%;
+// }
+// .authinput{
+//     width: 100%;
+//     background: #F7F7F7 0% 0% no-repeat padding-box;
+    
+//     border: none;
+  
+//     // border-bottom-left-radius: 6px;
+// }
+// .authinput:focus{
+//     outline: none;
+//     box-shadow: none;
+// }
+// // .input-group-append{
+// //     display: inline-block;
+// //     text-align: center;
+// //     width: 10%;
+// //     height: 100%;
+// //     padding: 6px;
+// //     background-color: #ebebeb;
+// //     border: none;
+// //     border-top-right-radius: 6px;
+// //     border-bottom-right-radius: 6px;
+// // }
+// ::placeholder{
+//     // color: black;
+//     font-weight: 600;
+//     font-size: small;
+// }
+
+// .errors{
+//     font-size: 12px;
+// }
+// .icon{
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     background-color: #ebebeb;
+//     border-radius: 10px;
+// }
+// .forgot{
+//     text-align: center;
+//     margin-top: 11px;
+//     margin-bottom: 11px;
+//     font-weight: 600;
+//     font-family: "Gilroy";
+// }
+// .forgot a{
+//     cursor: pointer;
+//     text-decoration: none;
+//     color: #000;
+//     font-weight: bolder;
+// }
+// .button{
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     position: relative;
+//     .btn{
+//         box-shadow: none;
+//     }
+// }
+// .button .next_arrow{
+//     position: absolute;
+//     right:20px;
+//     color: #fff;
+//     font-size: 20px;
+//     }
+// .button .submit{
+//     padding: 10px 20px;
+//     width: 100%;
+//     background: #FF6782 0% 0% no-repeat padding-box;
+    
+//     color: #fff;
+//     align-items: center;
+//     // margin-bottom: 16px;
+//     font-size: 15px;
+//     font-weight: bold;
+//     font-family: "Gilroy";
+//     text-align: left;
+// }
+// .custom-text{
+//     position: relative;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     color: #979797;
+//     font-size: 13px;
+//     font-weight: 400;
+//    font-weight: bold;
+// }
+// .else p{
+//     color: #979797;
+//     font-weight: bold;
+//     font-family: "Gilroy";
+// }
+// .googlebtn{
+//     background-color: transparent;
+//     border: 1px solid black;
+//     border-radius: 10px;
+//     font-weight: bold;
+//     padding: 9px 40px;
+//     font-family: "Gilroy";
+// }
+// .googlebtn span, i{
+//     font-size: 12px;
+//     font-weight: 400;
+// }
+// .bottom{
+//     position: fixed;
+//     align-items: center;
+//     bottom: 20px;
+//     color: #979797;
+//     font-size: 16px;
+//     font-weight: 400;
+// }
+// .bottom a{
+//     text-decoration: none;
+//     color: #000;
+// }
+// .signup_link{
+// font-weight: bold;
+//     a{
+//         color: #FF6782;
+//     }
+// }
+// .header_container_login{
+//     margin: 50px 80px 0 80px  ;
+//     background-color: #fff ;
+//     .header_top_container_login{
+//         box-sizing: border-box;
+//         display: flex;
+//         flex-direction: row;
+//         width: 100%;
+//         justify-content: space-between;
+//         padding: 0 0 15px 0;
+//         .signup_button_loginpage{
+//             background: #ff6782 0% 0% no-repeat padding-box;
+//             font-family: "Gilroy";
+//             font-weight: bold;
+//             padding: 10px 22px;
+           
+//             margin: 0px 30px;
+//             cursor: pointer;
+//             color: #fff;
+//           }
+//     }
+// }
+
+
+// @media only screen and (max-width: 360px) {
+//     .login_form_container{
+//         padding: 30px;
+//     }
+//     .form{
+//         width: 100%;
+//         margin: auto;
+//     }
+//   }
+// @media only screen and (max-width: 576px) {
+//     .login_form_container{
+//         padding: 40px;
+//     }
+//     .form{
+//         width: 100%;
+//         margin: auto;
+//     }
+//   }
+// @media only screen and (max-width: 600px) {
+//     .form{
+//         width: 100%;
+//         margin: auto;
+//     }
+//   }
+//   @media only screen and (min-width: 600px) {
+//     .form{
+//         width: 100%;
+//         margin: auto;
+//     }
+//   }
+  
+//   @media only screen and (min-width: 768px) {
+//     .form{
+//         width: 80%;
+//         margin: auto;
+//     }
+//   }
+  
+//   @media only screen and (min-width: 992px) {
+//     .form{
+//         width: 60%;
+//         margin: auto;
+//     }
+//   }
+//   @media only screen and (min-width: 1201px) {
+//     .form{
+//         width: 50%;
+//         margin: auto;
+//     }
+//   }

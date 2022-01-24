@@ -1,0 +1,314 @@
+.container-fluid {
+    padding: 5px 30px;
+  }
+  .profile_heading {
+    display: flex;
+    align-items: center;
+  
+    padding: 15px 10px;
+  
+    h2 {
+      display: inline-block;
+    }
+  }
+  .profile_sidebar_container {
+    background-color: #f8f8f8;
+    border-radius: 50px;
+    padding: 35px;
+    .profile_sidebar_button {
+      background: #ffffff 0% 0% no-repeat padding-box;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .subscription_sidebar_button {
+      background: #ffffff 0% 0% no-repeat padding-box;
+      font-weight: bold;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .active_button {
+      background-color: #f8f8f8;
+  
+      color: #ff6782;
+    }
+  }
+  
+  .image_update_section {
+    .change_remove_container {
+      text-align: center;
+      margin-left: 15px;
+      display: flex;
+      margin-left: 15px;
+      flex-direction: column;
+      justify-content: center;
+      .change_btn {
+        cursor: pointer;
+        font-weight: bold;
+        color: #fff;
+        padding: 8px 20px;
+        background: #ff6782 0% 0% no-repeat padding-box;
+      }
+      .remove_btn {
+        cursor: pointer;
+        font-weight: bold;
+        color: #fff;
+        padding: 8px 20px;
+        background: #ff6782 0% 0% no-repeat padding-box;
+      }
+      .active {
+        color: #000;
+        background: #fff;
+      }
+    }
+  }
+  .profile_update_container {
+    background-color: #f8f8f8;
+    padding: 40px 40px 10px 40px;
+    border-radius: 50px;
+    .profile_update_section {
+    }
+  }
+  .container {
+    background-color: #fff;
+    font-size: 1rem;
+    font-family: "Gilroy";
+  }
+  .form-group {
+    margin-bottom: 0.8rem;
+    font-weight: bold;
+    font-family: "Gilroy";
+  }
+  .input-group1 {
+    display: inline-block;
+    width: 100%;
+  
+    .radio_image {
+      cursor: pointer;
+      border-radius: 50%;
+      border: 2px solid #fff;
+    }
+    .input_label {
+      font-weight: lighter;
+      color: #8d8d8d;
+      margin-bottom: 0.1rem;
+    }
+  }
+  .authinput {
+    width: 100%;
+    background: #f0f0f0;
+    border-radius: 0.75rem;
+    border: none;
+    font-size: 0.8rem;
+    padding: 20px;
+  }
+  .authinput:focus {
+    outline: none;
+    box-shadow: none;
+  }
+  ::placeholder {
+    font-weight: 600;
+  }
+  .errors {
+    font-size: 12px;
+  }
+  .button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    .btn {
+      box-shadow: none;
+    }
+  }
+  .button .next_arrow {
+    position: absolute;
+    right: 20px;
+    color: #fff;
+    font-size: 20px;
+  }
+  .button .submit {
+    width: 100%;
+    align-items: center;
+    padding: 10px 20px;
+    background: #ff6782 0% 0% no-repeat padding-box;
+  
+    color: #fff;
+    align-items: center;
+    // margin-bottom: 16px;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: "Gilroy";
+    text-align: left;
+  }
+  .input_bg {
+    background-color: #ddd;
+  }
+  .preview_cropped_container {
+    z-index: 9;
+    width: 220px;
+    position: absolute;
+  
+    border: bottom;
+    left: 14%;
+    padding: 10px;
+    background: #f8eff0;
+  }
+  .image_cropper_container {
+    z-index: 9;
+    width: 275px;
+    position: absolute;
+  
+    border: bottom;
+    left: 14%;
+    padding: 10px;
+    background: #f8eff0;
+  }
+  .dialog_box_button_container {
+    display: flex;
+    flex-direction: row;
+    .change_btn {
+      cursor: pointer;
+      font-weight: bold;
+      color: #fff;
+      padding: 8px 20px;
+      background: #ff6782 0% 0% no-repeat padding-box;
+    }
+    .remove_btn {
+      cursor: pointer;
+      font-weight: bold;
+      color: #fff;
+      padding: 8px 20px;
+      background: #ff6782 0% 0% no-repeat padding-box;
+    }
+  }
+  .image_top_icon{
+    position: absolute;
+    left: 105px;
+  }
+  @media (max-width: 360px) {
+    .profile_sidebar_container {
+      display: flex;
+      padding: 0;
+      background: #000;
+      justify-content: space-evenly;
+      border-radius: 16px;
+   font-size: 12px;
+   .active_button {
+     font-size: 12px;
+     background-color: #000;
+     }
+     .profile_sidebar_button{
+       font-size: 12px;
+     }
+    }
+    .profile_sidebar_container div {
+      border-radius: 9px !important;
+      font-size: 12px;
+  
+    }
+    .image_cropper_container{
+      width: 253px ;
+      left: 0 ;
+    }
+  }
+  @media (max-width: 576px) {
+    .profile_sidebar_container {
+      display: flex;
+      padding: 0;
+      background: #000;
+      justify-content: space-evenly;
+      border-radius: 16px;
+      .active_button {
+        font-size: 12px;
+        background-color: #000;
+        }
+        .profile_sidebar_button{
+          font-size: 12px;
+        }
+    }
+    .profile_sidebar_container div {
+      border-radius: 9px !important;
+      font-size: 12px !important;
+  
+    }
+    .image_cropper_container{
+      width: 253px;
+  left: 0;
+    }
+  }
+  
+  
+  @media only screen and (max-width: 576px) {
+    html,
+    body {
+      font-size: 16px;
+      font-family: 'Gilroy';
+    }
+    .profile_sidebar_container {
+      display: flex;
+      padding: 0;
+      background: #000;
+      justify-content: space-evenly;
+      border-radius: 16px;
+  
+      .active_button {
+        font-size: 12px;
+        }
+        .profile_sidebar_button{
+          font-size: 12px;
+        }
+    }
+    .profile_sidebar_container div {
+      border-radius: 9px !important;
+      font-size: 12px !important;
+  
+    }
+    .image_cropper_container{
+      width: 253px;
+  left: 0;
+    }
+  }
+  @media only screen and (min-width: 600px) {
+    html,
+    body {
+      font-family: 'Gilroy';
+      font-size: 16px;
+    }
+    .profile_sidebar_container div {
+      border-radius: 9px !important;
+      font-size: 12px !important;
+      padding: 0 ;
+    
+    }
+  }
+  
+  @media only screen and (min-width: 768px) {
+    html,
+    body {
+      font-family: 'Gilroy';
+      font-size: 16px;
+    }
+    .profile_sidebar_container div {
+      border-radius: 9px !important;
+      font-size: 16px !important;
+     
+    
+    }
+  }
+  
+  @media only screen and (min-width: 992px) {
+    html,
+    body {
+      font-family: 'Gilroy';
+      font-size: 16px;
+    }
+    .profile_sidebar_container div {
+      border-radius: 9px !important;
+      font-size: 16px !important;
+     
+    
+    }
+  }

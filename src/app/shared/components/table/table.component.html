@@ -1,0 +1,27 @@
+<div class="flex flex-col h-[66vh]">
+    <div class="flex flex-col space-y-3 p-1">
+        <div class="hidden sm:flex flex-row font-bold opacity-40 p-3 space-x-2 fixed sm:static">
+            <div class="{{ classes[i] }} " *ngFor="let item of tableHeadings; let i = index">
+                {{ item }}
+            </div>
+            <div class="w-1/12 text-center">Actions</div>
+        </div>
+    </div>
+    <div class="flex flex-col space-y-3 overflow-auto p-1">
+        <div class="flex flex-col sm:flex-row relative font-bold rounded-xl shadow-slate-300 p-3 space-x-2 shadow-[0px_0px_5px_rgba(0,0,0,26)]"
+            *ngFor="let item of tableData">
+            <div class="{{ classes[i] }} " *ngFor="let key of keys; let i = index">
+                {{ item[key] }}
+            </div>
+             <div class="w-1/12 absolute sm:static right-4 top-7 break-words cursor-pointer text-center flex justify-center">
+                <img class="-rotate-90" (click)="onClickActionButton(item._id)" width="24px"  src="../../../../assets/Icons/Back.svg">
+            </div>
+        </div>
+        <div *ngIf="tableData.length === 0"
+            class="flex flex-col justify-center font-bold rounded-xl shadow-slate-300 p-3 space-x-2 shadow-[0px_0px_5px_rgba(0,0,0,26)]">
+            <div class="text-center text-2xl">
+                {{ emptyTableMessage || "No Data Found" }}
+            </div>
+        </div>
+    </div>
+</div>

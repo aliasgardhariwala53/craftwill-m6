@@ -1,0 +1,340 @@
+
+<div class="flex flex-col px-8 py-4 space-y-2">
+    <app-header-toolbar routerlink="/members" pagetitle="currentItem" ></app-header-toolbar>
+    
+    <div
+      class="flex flex-col w-full md:w-2/5 lg:w-1/5 space-x-4 p-3 items-center bg_grey rounded-3xl font-semibold"
+    >
+      <div class="w-full font-extrabold text-sm md:text-base">Choose whether you are creating</div>
+      <!-- <div class="flex w-full mt-1 justify-evenly ml-0">
+        <label class="cursor-pointer"
+          ><input type="radio" [(ngModel)]="memberType" value="person" />
+          Person</label
+        >
+        <label class="cursor-pointer"
+          ><input type="radio" [(ngModel)]="memberType" value="organisation" />
+          Organisation</label
+        >
+      </div> -->
+      <div class="flex w-full mt-1 justify-evenly ml-0 items-center">
+        <input
+        type="radio"
+        value="person"
+        [(ngModel)]="memberType"
+        id="test1"
+        class="mx-1 radioCustom"
+        />
+        <label class=" text-sm mx-1 mt-1" for="test1">person</label>
+        <input
+        type="radio"
+        id="test2"
+        value="organisation"
+        [(ngModel)]="memberType"
+        class="mx-1 radioCustom"
+        />
+        <label class=" text-sm mx-1 mt-1" for="test2">Organisation</label>
+    
+    </div>
+    </div>
+    <form
+    *ngIf="memberType==='person'"
+    method="POST"
+    [formGroup]="personForm"
+  >
+    <div class="grid bold grid-cols-1 sm:grid-cols-2 md:grid-cols-4  lg:grid-cols-5 gap-4 gap-y-0 mt-3">
+      <div class="form-group">
+        <div class="input-group1">
+          <label class="input_label text-sm ml-1">Full Name</label>
+          <input
+            type="text"
+            placeholder="Full Name as per ID"
+            formControlName="fullname"
+            class="authinput form-control"
+          />
+        </div>
+  
+        <div class="text-red-500 errors mx-2">
+          {{ formErrors.fullname }}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group1">
+          <label class="input_label text-sm ml-1">Relationship</label>
+          <input
+            type="text"
+            placeholder="Relationship"
+            formControlName="Relationship"
+            class="authinput form-control"
+          />
+        </div>
+  
+        <div class="text-red-500 errors mx-2">
+          {{ formErrors.Relationship }}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group1">
+          <label class="input_label text-sm ml-1">Date of Birth</label>
+          <input
+            type="date"
+            placeholder="Date of Birth"
+            formControlName="dob"
+            class="authinput form-control"
+          />
+        </div>
+  
+        <div class="text-red-500 errors mx-2">
+          {{ formErrors.dob }}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group1">
+          <label class="input_label text-sm ml-1">Gender</label>
+          <input
+            type="text"
+            placeholder="Gender"
+            formControlName="gender"
+            class="authinput form-control"
+          />
+        </div>
+  
+        <div class="text-red-500 errors mx-2">
+          {{ formErrors.gender }}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group1">
+          <label class="input_label text-sm ml-1">ID Country</label>
+          <input
+            type="text"
+            placeholder="ID Country"
+            formControlName="id_country"
+            class="authinput form-control"
+          />
+        </div>
+  
+        <div class="text-red-500 errors mx-2">
+          {{ formErrors.id_number }}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group1">
+          <label class="input_label text-sm ml-1">ID type</label>
+          <input
+            type="text"
+            placeholder="ID Type"
+   
+            style="cursor: not-allowed"
+            formControlName="id_type"
+            class="authinput form-control"
+          />
+        </div>
+  
+        <div class="text-red-500 errors mx-2">
+          {{ formErrors.id_type }}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group1">
+          <label class="input_label text-sm ml-1">NRIC Number</label>
+          <input
+            type="text"
+            placeholder="NRIC Number"
+            style="cursor: not-allowed"
+        
+            formControlName="id_number"
+            class="authinput form-control"
+          />
+        </div>
+  
+        <div class="text-red-500 errors mx-2">
+          {{ formErrors.id_number }}
+        </div>
+      </div>
+    </div>
+    <div class="font-black py-2 text-xl">
+        Address
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4  lg:grid-cols-5 gap-4 gap-y-0">
+      <div class="form-group">
+        <div class="input-group1">
+          <label class="input_label text-sm ml-1">Floor Number</label>
+          <input
+            type="text"
+            placeholder="floor Number"
+            formControlName="floorNumber"
+            class="authinput form-control"
+          />
+        </div>
+  
+        <div class="text-red-500 errors mx-2">
+          {{ formErrors.floorNumber }}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group1">
+          <label class="input_label text-sm ml-1">Unit Number</label>
+          <input
+            type="text"
+            placeholder="Unit Number"
+            formControlName="unitNumber"
+            class="authinput form-control"
+          />
+        </div>
+  
+        <div class="text-red-500 errors mx-2">
+          {{ formErrors.unitNumber }}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group1">
+          <label class="input_label text-sm ml-1">Postal Code</label>
+          <input
+            type="text"
+            placeholder="Postal Code"
+            formControlName="postalCode"
+            class="authinput form-control"
+          />
+        </div>
+        <div class="text-red-500 errors mx-2">
+          {{ formErrors.postalCode }}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group1">
+          <label class="input_label text-sm ml-1">Street Name</label>
+          <input
+            type="text"
+            placeholder="Street Name"
+            formControlName="streetName"
+            class="authinput form-control"
+          />
+        </div>
+  
+        <div class="text-red-500 errors mx-2">
+          {{ formErrors.streetName }}
+        </div>
+      </div>
+    </div>
+    <app-button (myMethod)="memberUpdate()" value="Create Member" id="submitButtonId"></app-button>
+    <div class="text-green-500">{{responseMessageperson}}</div>
+    </form>
+    <form *ngIf="memberType==='organisation'" method="POST"
+    [formGroup]="organisationForm">
+    <div class="grid bold grid-cols-1 sm:grid-cols-2 md:grid-cols-4  lg:grid-cols-5 gap-4 gap-y-0 mt-3">
+      <div class="form-group">
+        <div class="input-group1">
+          <label class="input_label text-sm ml-1">Name Of organisation</label>
+          <input
+            type="text"
+            placeholder="Name Of organisation"
+            formControlName="organisationName"
+            class="authinput form-control"
+          />
+        </div>
+  
+        <div class="text-red-500 errors mx-2">
+          {{ formErrors.organisationName }}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group1">
+          <label class="input_label text-sm ml-1">Registration number</label>
+          <input
+            type="text"
+            placeholder="registration number"
+            formControlName="registration_number"
+            class="authinput form-control"
+          />
+        </div>
+  
+        <div class="text-red-500 errors mx-2">
+          {{ formErrors.registration_number }}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group1">
+          <label class="input_label text-sm ml-1">Country</label>
+          <input
+            type="text"
+            placeholder="Country"
+            formControlName="id_country"
+            class="authinput form-control"
+          />
+        </div>
+  
+        <div class="text-red-500 errors mx-2">
+          {{ formErrors.id_country }}
+        </div>
+      </div>
+    </div>
+    <div class="font-black py-2 text-xl">
+      Address
+  </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4  lg:grid-cols-5 gap-4 gap-y-0">
+      <div class="form-group">
+        <div class="input-group1">
+          <label class="input_label text-sm ml-1">Floor Number</label>
+          <input
+            type="text"
+            placeholder="floor Number"
+            formControlName="floorNumber"
+            class="authinput form-control"
+          />
+        </div>
+  
+        <div class="text-red-500 errors mx-2">
+          {{ formErrors.floorNumber }}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group1">
+          <label class="input_label text-sm ml-1">Unit Number</label>
+          <input
+            type="text"
+            placeholder="Unit Number"
+            formControlName="unitNumber"
+            class="authinput form-control"
+          />
+        </div>
+  
+        <div class="text-red-500 errors mx-2">
+          {{ formErrors.unitNumber }}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group1">
+          <label class="input_label text-sm ml-1">Postal Code</label>
+          <input
+            type="text"
+            placeholder="Postal Code"
+            formControlName="postalCode"
+            class="authinput form-control"
+          />
+        </div>
+        <div class="text-red-500 errors mx-2">
+          {{ formErrors.postalCode }}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group1">
+          <label class="input_label text-sm ml-1">Street Name</label>
+          <input
+            type="text"
+            placeholder="Street Name"
+            formControlName="streetName"
+            class="authinput form-control"
+          />
+        </div>
+  
+        <div class="text-red-500 errors mx-2">
+          {{ formErrors.streetName }}
+        </div>
+      </div>
+    </div>
+  
+    <app-button (myMethod)="organisationUpdate()" value="Create Organisation" id="submitButtonId"></app-button>
+    <div class="text-green-500 mt-2 text-2xl">{{responseMessageOrganisation}}</div>
+  </form>
+  </div>
+  

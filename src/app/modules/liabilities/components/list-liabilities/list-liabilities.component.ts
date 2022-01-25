@@ -36,19 +36,24 @@ liabilitiesData=[];
       
     //   this.liabilitiesData.push(...result.data.users)
    
-    // });
-    forkJoin([this._userServ.getSecuredLoan(),this._userServ.getUnSecuredLoan(),this._userServ.getPrivateDebt()]).subscribe((result)=>{
-      // console.log(...result);
-      let newData = []
-     result.forEach((item)=>{
+    // // });
+    // forkJoin([this._userServ.getSecuredLoan(),this._userServ.getUnSecuredLoan(),this._userServ.getPrivateDebt()]).subscribe((result)=>{
+    //   // console.log(...result);
+    //   let newData = []
+    //  result.forEach((item)=>{
        
-       item.data.users.forEach(element => {
-         newData.push(element)
-       });
-      })
-      console.log(...newData);
-    this.liabilitiesData.push(...newData);
-    })
+    //    item.data.users.forEach(element => {
+    //      newData.push(element)
+    //    });
+    //   })
+    //   console.log(...newData);
+    // this.liabilitiesData.push(...newData);
+    // })
+
+     this._userServ.getAllLiabilities().subscribe((result) => {
+       console.log(...result.data.users);
+       this.liabilitiesData.push(...result.data.users)
+    });
   }
 
 }

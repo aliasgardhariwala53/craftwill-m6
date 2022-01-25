@@ -108,7 +108,7 @@
   >
     <ul class="navbar-nav mr-auto align-items-center space-x-2">
       <li
-        class="nav-item flex"
+        class="nav-item flex items-center"
         [routerLink]="['/home']"
         [routerLinkActive]="['active']"
       >
@@ -118,7 +118,7 @@
         >
       </li>
       <li
-        class="nav-item flex"
+        class="nav-item flex items-center"
         [routerLink]="['/members']"
         [routerLinkActive]="['active']"
       >
@@ -128,7 +128,7 @@
           >Member</a
         >
       </li>
-      <li class="nav-item flex" [routerLink]="['/assets']">
+      <li class="nav-item flex items-center" [routerLink]="['/assets']">
         <img
           class="w-[18px]"
           [routerLinkActive]="['active']"
@@ -137,18 +137,18 @@
 
         <a class="nav-link" [routerLinkActive]="['active']">Assets</a>
       </li>
-      <li class="nav-item flex">
+      <li class="nav-item flex items-center">
         <img class="w-[18px]" src="../../../../assets/Icons/Mask Group 2.svg" />
 
         <a class="nav-link" href="#">Liabilities</a>
       </li>
-      <li class="nav-item flex">
+      <li class="nav-item flex items-center">
         <img class="w-[18px]" src="../../../../assets/Icons/Mask Group 5.svg" />
 
         <a class="nav-link" href="#">Trust</a>
       </li>
       <div class="lg:hidden block text-red font-extrabold">Settings</div>
-      <li class="nav-item flex sm:hidden">
+      <li class="nav-item flex items-center sm:hidden">
         <img
           class="w-[18px]"
           src="../../../../assets/Icons/Profile Header.svg"
@@ -156,7 +156,7 @@
 
         <a class="nav-link" [routerLink]="['/home/profile']">Profile</a>
       </li>
-      <li class="nav-item flex sm:hidden">
+      <li class="nav-item flex items-center sm:hidden">
         <img
           class="w-[18px]"
           src="../../../../assets/Icons/subscription header.svg"
@@ -164,7 +164,7 @@
 
         <a class="nav-link" [routerLink]="['/home/profile']">Subscription</a>
       </li>
-      <li class="nav-item flex sm:hidden">
+      <li class="nav-item flex items-center sm:hidden">
         <img
           class="w-[18px]"
           src="../../../../assets/Icons/subscription header.svg"
@@ -179,12 +179,15 @@
 </nav>
  -->
 
-
-
-<div class="flex flex-col px-16  header_container ">
-  <div class="flex flex-row justify-between w-full  items-center border-b-2 border-b-gray-100 py-3">
+<div class="flex flex-col px-16 header_container">
+  <div
+    class="flex flex-row justify-between w-full items-center border-b-2 border-b-gray-100 py-3"
+  >
     <div class="lg:flex absolute text-center w-full lg:w-auto left-0 lg:static">
-      <a class="navbar-brand" [routerLink]="['/home']" routerLinkActive="router-link-active" 
+      <a
+        class="navbar-brand"
+        [routerLink]="['/home']"
+        routerLinkActive="router-link-active"
         ><img
           src="../../../../assets/Image/Logo/Craftwills..png"
           width="140px"
@@ -192,11 +195,10 @@
       /></a>
     </div>
     <div class="w-5/12 hidden lg:block">
-      <form class=" sm:w-2/3 m-auto ">
+      <form class="sm:w-2/3 m-auto">
         <input
-          class="bg-[#f1f1f1] w-full rounded-2xl py-1 px-3 outline-none "
+          class="bg-[#f1f1f1] w-full rounded-2xl py-1 px-3 outline-none"
           type="search"
-          
           placeholder="Search"
           aria-label="Search"
         />
@@ -204,65 +206,91 @@
     </div>
     <div class="flex flex-row space-x-1 items-center">
       <div class="hidden lg:block mx-1">
-        <img  class="w-[30px] h-[30px]" src="../../../../assets/Icons/Notify.svg" />
+        <img
+          class="w-[30px] h-[30px]"
+          src="../../../../assets/Icons/Notify.svg"
+        />
       </div>
-      <div class="hidden lg:block header_username mx-1 font-bold">{{ username }}</div>
+      <div class="hidden lg:block header_username mx-1 font-bold">
+        {{ username }}
+      </div>
       <div class="header_profile_image z-10">
         <img
           src="../../../../assets/Icons/DP.svg"
           alt="Avatar"
           style="width: 30px; height: 30px"
-          
         />
       </div>
-      <div class="hidden sm:block dropdown">
-        <button
-          class="dropdown-toggle"
-          type="button"
-          id="dropdownMenuButton"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
+      <div class="hidden sm:block">
+        <app-dropdown #dropdown >
+          <div
+            button
+            (click)="dropdown.open = !dropdown.open"
+            (clickOutside)="dropdown.open = false"
+          >
+      
           <i class="fa fa-chevron-down text-[14px]" aria-hidden="true"></i>
-        </button>
-        <div class="dropdown-menu px-1  flex-col w-fit z-20 bg-white p-1 hidden" aria-labelledby="dropdownMenuButton">
-          <a
-            class="dropdown-item"
-            [routerLink]="['/home/profile']"
-            routerLinkActive="router-link-active"
-            ><img
-              class="w-[18px] h-[18px]"
-              src="../../../../assets/Icons/Profile Header.svg"
-            />
-            Profile</a
-          >
-          <a class="dropdown-item" href="#"
-            ><img
-              class="w-[18px] h-[18px]"
-              src="../../../../assets/Icons/subscription header.svg"
-            />
-            Subscription</a
-          >
-          <a class="dropdown-item" href="#"
-            ><img
-              class="w-[18px] h-[18px]"
-              src="../../../../assets/Icons/subscription header.svg"
-            />
-            Subscription History</a
-          >
-          <a
-            (click)="logout()"
-            class="dropdown-item"
-            [routerLink]="['/']"
-            routerLinkActive="router-link-active"
-            ><img
-              class="w-[18px] h-[18px]"
-              src="../../../../assets/Icons/Logot Header.svg"
-            />
-            Logout</a
-          >
-        </div>
+          </div>
+          <div options class="w-max p-2 bg-white rounded-2xl shadow-lg ">
+  
+            <div
+              class="hover:bg-[#ff6782] flex flex-row rounded-xl py-1 px-1 items-center hover:text-[#fff] hover:no-underline cursor-pointer space-x-1"
+              [routerLink]="['/home/profile']"
+              [routerLinkActive]="['active']"
+            >
+              <div class="w-[1/6]">
+                <img
+                  class="w-[18px] h-[26px] mx-1"
+                  src="../../../../assets/Icons/Profile Header.svg"
+                />
+              </div>
+              <div class="font-bold w-[5/6]">Profile</div>
+            </div>
+            <div
+              class="hover:bg-[#ff6782] flex flex-row rounded-xl py-1 px-2 items-center hover:text-[#fff] hover:no-underline cursor-pointer"
+              [routerLink]="['/home/profile']"
+              [routerLinkActive]="['active']"
+            >
+            <div class="w-[1/6]">
+                <img
+                  class="w-[18px] h-[26px] mx-1"
+                  src="../../../../assets/Icons/subscription header.svg"
+                />
+              </div>
+              <div class="font-bold w-[5/6]">Subscription </div>
+            </div>
+            <div
+              class="hover:bg-[#ff6782] flex flex-row rounded-xl py-1 px-2 items-center hover:text-[#fff] hover:no-underline cursor-pointer"
+              [routerLink]="['/home/profile']"
+              [routerLinkActive]="['active']"
+            >
+              <div class="">
+                <img
+                  class="w-[18px] h-[26px] mx-1"
+                  src="../../../../assets/Icons/subscription header.svg"
+                />
+              </div>
+              <div class="font-bold">Subscription History</div>
+            </div>
+            <div
+              class="hover:bg-[#ff6782] flex flex-row rounded-xl py-1 px-2 items-center hover:text-[#fff] hover:no-underline cursor-pointer"
+              [routerLink]="['/']"
+              (click)="logout()"
+            >
+              <div>
+                <img
+                  class="w-[18px] h-[26px] mx-1"
+                  src="../../../../assets/Icons/Logot Header.svg"
+                />
+              </div>
+              <div class="font-bold">Logout</div>
+            </div>
+   
+          </div>
+        </app-dropdown>
+      </div>
+      <div>
+        <img src="../../../../assets/Icons/Assets Distribution.svg" alt="" />
       </div>
     </div>
     <div class="lg:hidden flex flex-row z-10">
@@ -286,104 +314,424 @@
       </button>
     </div>
   </div>
-  <div class="flex flex-row  collapse lg:flex-row bg-white  font-bold my-3 top-12 absolute sm:static z-10 left-0 w-full justify-between"
-  id="navbarSupportedContent">
-  <div class="flex flex-row items-center">
-  <ul class="align-items-center space-x-4 m-0 space-y-4 lg:space-y-0 text-center lg:flex lg:flex-row">
-    <li
-      class="nav-item flex"
-      [routerLink]="['/home']"
-      [routerLinkActive]="['active']"
-    >
-      <img class="w-[18px]" src="../../../../assets/Icons/Mask Group 3.svg" />
-      <a class="hover:text-[#FF6782] hover:no-underline mx-1 font-bold" [routerLinkActive]="['active']"
-        >Home </a
+  <div
+    class="flex flex-row collapse lg:flex-row bg-white font-bold my-3 top-12 absolute sm:static z-10 left-0 w-full justify-between"
+  >
+    <div class="flex flex-row items-center my-3">
+      <ul
+        class="items-center space-x-4 m-0 space-y-4 lg:space-y-0 text-center lg:flex lg:flex-row h-[100%]"
       >
-    </li>
-    <li
-      class="nav-item flex"
-      [routerLink]="['/members']"
-      [routerLinkActive]="['active']"
-    >
-      <img class="w-[18px]" src="../../../../assets/Icons/Mask Group 4.svg" />
+        <li
+          class="nav-item flex items-center"
+          [routerLink]="['/home']"
+          [routerLinkActive]="['active']"
+        >
+          <div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              width="18"
+              height="18"
+              viewBox="0 0 26 26"
+            >
+              <defs>
+                <clipPath id="clip-path">
+                  <rect
+                    id="Rectangle_42"
+                    data-name="Rectangle 42"
+                    width="26"
+                    height="26"
+                    rx="5"
+                    transform="translate(634 511)"
+                  />
+                </clipPath>
+              </defs>
+              <g
+                id="Mask_Group_3"
+                data-name="Mask Group 3"
+                transform="translate(-634 -511)"
+                clip-path="url(#clip-path)"
+              >
+                <g
+                  id="Layer_2"
+                  data-name="Layer 2"
+                  transform="translate(633.999 511.005)"
+                >
+                  <g id="Layer_1" data-name="Layer 1">
+                    <path
+                      id="Path_4197"
+                      data-name="Path 4197"
+                      d="M26,13.578a5.642,5.642,0,0,1-.262.569,2.326,2.326,0,0,1-2.015,1.212c-.142.005-.285,0-.466,0v.318c0,2.552.009,5.1-.01,7.651a2.771,2.771,0,0,1-2.669,2.654c-1.423.014-2.847.007-4.271,0a.768.768,0,0,1-.78-.844c0-1.957-.022-3.915.01-5.87a1.352,1.352,0,0,0-1.446-1.453c-.72.025-1.441.02-2.161,0a1.337,1.337,0,0,0-1.41,1.41c.029,1.948.011,3.9.01,5.846a.8.8,0,0,1-.919.912H5.7a2.785,2.785,0,0,1-2.9-2.894c-.008-2.466,0-4.931,0-7.4v-.3a8.055,8.055,0,0,1-.877-.084A2.266,2.266,0,0,1,.127,13.7,2.314,2.314,0,0,1,.65,11.336c.073-.082.153-.159.231-.236Q5.888,6.094,10.891,1.086A3.8,3.8,0,0,1,12.42,0h1.221a3.74,3.74,0,0,1,1.478,1.034q4.862,4.878,9.74,9.741A3.98,3.98,0,0,1,26,12.358ZM17.062,24.461h3.252a1.3,1.3,0,0,0,1.417-1.423V14.675a.773.773,0,0,1,.837-.84c.364,0,.729,0,1.093,0a.854.854,0,0,0,.828-.661.991.991,0,0,0-.4-1Q18.943,7.035,13.8,1.893a.918.918,0,0,0-1.538-.006L3.078,11.072c-.431.431-.868.858-1.291,1.3a.8.8,0,0,0-.174.938.832.832,0,0,0,.8.527c.331.007.664,0,.992,0,.642,0,.926.286.926.931v8.289a1.3,1.3,0,0,0,1.4,1.409h3c.081,0,.161-.009.261-.015V24.1c.005-1.745-.014-3.491.023-5.236a2.68,2.68,0,0,1,2.345-2.521,20.3,20.3,0,0,1,3.121-.03,2.743,2.743,0,0,1,2.575,2.9c.007,1.644,0,3.288,0,4.932Z"
+                    />
+                  </g>
+                </g>
+              </g>
+            </svg>
+          </div>
+          <a
+            class="hover:text-[#FF6782] hover:no-underline mx-1 font-bold"
+            routerLinkActive="active"
+            >Home
+          </a>
+        </li>
+        <li
+          class="nav-item flex items-center"
+          [routerLink]="['/members']"
+          [routerLinkActive]="['active']"
+        >
+          <div class="h-full">
+            <svg
+              [routerLinkActive]="['active']"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              width="18"
+              height="18"
+              viewBox="0 0 26 26"
+            >
+              <defs>
+                <clipPath id="clip-path2">
+                  <rect
+                    id="Rectangle_422"
+                    data-name="Rectangle 42"
+                    width="26"
+                    height="26"
+                    rx="5"
+                    transform="translate(634 652)"
+                  />
+                </clipPath>
+              </defs>
+              <g
+                id="Mask_Group_4"
+                data-name="Mask Group 4"
+                transform="translate(-634 -652)"
+                clip-path="url(#clip-path2)"
+              >
+                <g
+                  id="Layer_2"
+                  data-name="Layer 2"
+                  transform="translate(634.015 652)"
+                >
+                  <g id="Layer_1" data-name="Layer 1">
+                    <path
+                      id="Path_4198"
+                      data-name="Path 4198"
+                      d="M6.552,13.492A8.277,8.277,0,0,1,18.024,1.718,8.089,8.089,0,0,1,21.2,7.338a8.115,8.115,0,0,1-1.761,6.117c.791.6,1.613,1.143,2.331,1.8A12.494,12.494,0,0,1,25.8,22.685a17.8,17.8,0,0,1,.173,2.035A1.171,1.171,0,0,1,24.84,26,1.217,1.217,0,0,1,23.6,24.806a18.374,18.374,0,0,0-.177-1.9,10.337,10.337,0,0,0-4.819-7.1c-.3-.187-.615-.333-.914-.518a.34.34,0,0,0-.4.021,8.1,8.1,0,0,1-8.625-.007.318.318,0,0,0-.349-.018,10.42,10.42,0,0,0-5.767,7.56,14.947,14.947,0,0,0-.18,1.9,1.235,1.235,0,0,1-.887,1.2A1.17,1.17,0,0,1,0,24.8a12.457,12.457,0,0,1,.967-4.954,12.76,12.76,0,0,1,5.372-6.2c.055-.033.111-.066.166-.1C6.52,13.539,6.528,13.521,6.552,13.492Zm6.426.676a5.894,5.894,0,1,0-4.173-1.736,5.9,5.9,0,0,0,4.173,1.736Z"
+                    />
+                  </g>
+                </g>
+              </g>
+            </svg>
+          </div>
+          <a
+            class="hover:text-[#FF6782] hover:no-underline mx-1"
+            [routerLinkActive]="['active']"
+            >Member</a
+          >
+        </li>
+        <li class="nav-item flex items-center" [routerLink]="['/assets']">
+          <div class="h-full">
+            <svg
+              [routerLinkActive]="['active']"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              width="18"
+              height="18"
+              viewBox="0 0 26 26"
+            >
+              <defs>
+                <clipPath id="clip-path3">
+                  <rect
+                    id="Rectangle_42"
+                    data-name="Rectangle 42"
+                    width="26"
+                    height="26"
+                    rx="5"
+                    transform="translate(634 724)"
+                    fill="#ff6782"
+                  />
+                </clipPath>
+              </defs>
+              <g
+                id="Mask_Group_1"
+                data-name="Mask Group 1"
+                transform="translate(-634 -724)"
+                clip-path="url(#clip-path3)"
+              >
+                <g
+                  id="Layer_2"
+                  data-name="Layer 2"
+                  transform="translate(634.019 724)"
+                >
+                  <g id="Layer_1" data-name="Layer 1">
+                    <path
+                      id="Path_4191"
+                      data-name="Path 4191"
+                      d="M13.082.063c.338,0,.676-.008,1.013,0a1.052,1.052,0,1,1-.028,2.1,13.06,13.06,0,0,0-3.65.327,10.46,10.46,0,0,0-7.96,8.171,10.789,10.789,0,1,0,21.151,4.249,11.029,11.029,0,0,0-.026-3.89,1.078,1.078,0,0,1,.889-1.288,1.1,1.1,0,0,1,1.282.987,12.6,12.6,0,0,1-1.125,8.008,12.567,12.567,0,0,1-9.49,7.081A12.964,12.964,0,0,1,10.466.306C11.322.136,12.2.1,13.073,0Z"
+                    />
+                    <path
+                      id="Path_4192"
+                      data-name="Path 4192"
+                      d="M11.9,18.373a10.884,10.884,0,0,1-1.34-.475A3.126,3.126,0,0,1,8.67,15.191a1.074,1.074,0,0,1,2.145-.136.944.944,0,0,0,.565.821,3.593,3.593,0,0,0,3.19,0c.758-.381.734-.914.067-1.395a3.394,3.394,0,0,0-1.742-.431,8.8,8.8,0,0,1-2.008-.361A3.684,3.684,0,0,1,9.52,12.8a2.763,2.763,0,0,1,.361-4.292A4.106,4.106,0,0,1,11.9,7.7V6.569a1.082,1.082,0,1,1,2.161-.015V7.688A4.109,4.109,0,0,1,16.07,8.5a2.943,2.943,0,0,1,1.23,2.264,1.078,1.078,0,0,1-2.151.134.979.979,0,0,0-.647-.873,4,4,0,0,0-3.022-.014.881.881,0,0,0-.644.794.845.845,0,0,0,.66.812c.524.143,1.075.191,1.613.283a19.311,19.311,0,0,1,1.978.361,3.1,3.1,0,0,1,1.591,1.146,2.877,2.877,0,0,1-1.094,4.407,7.536,7.536,0,0,1-1.269.434c-.175.051-.271.1-.257.309.019.3.008.607,0,.911a1.083,1.083,0,1,1-2.157,0C11.9,19.094,11.9,18.722,11.9,18.373Z"
+                    />
+                    <path
+                      id="Path_4193"
+                      data-name="Path 4193"
+                      d="M19.512,3.867c.306-.317.574-.6.85-.88q1.272-1.281,2.554-2.56a1.109,1.109,0,0,1,1.64-.115,1.12,1.12,0,0,1-.11,1.666L21.311,5.1c-.084.084-.161.173-.292.312h1.608a1.086,1.086,0,1,1,0,2.165h-4.15A1.077,1.077,0,0,1,17.31,6.429V2.209a1.079,1.079,0,1,1,2.157,0c0,.517,0,1.035.008,1.552a.787.787,0,0,0,.037.106Z"
+                    />
+                  </g>
+                </g>
+              </g>
+            </svg>
+          </div>
 
-      <a class="hover:text-[#FF6782] hover:no-underline mx-1 " [routerLinkActive]="['active']"
-        >Member</a
+          <a
+            class="hover:text-[#FF6782] hover:no-underline mx-1"
+            [routerLinkActive]="['active']"
+            >Assets</a
+          >
+        </li>
+        <li class="nav-item flex items-center">
+          <div class="h-full">
+            <svg
+              [routerLinkActive]="['active']"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              width="18"
+              height="18"
+              viewBox="0 0 26 26"
+            >
+              <defs>
+                <clipPath id="clip-path4">
+                  <rect
+                    id="Rectangle_42"
+                    data-name="Rectangle 42"
+                    width="26"
+                    height="26"
+                    transform="translate(634 589)"
+                  />
+                </clipPath>
+              </defs>
+              <g
+                id="Mask_Group_2"
+                data-name="Mask Group 2"
+                transform="translate(-634 -589)"
+                clip-path="url(#clip-path4)"
+              >
+                <g
+                  id="Layer_2"
+                  data-name="Layer 2"
+                  transform="translate(634.019 589)"
+                >
+                  <g id="Layer_1" data-name="Layer 1">
+                    <path
+                      id="Path_4194"
+                      data-name="Path 4194"
+                      d="M13.082.063c.338,0,.676-.008,1.013,0a1.052,1.052,0,1,1-.028,2.1,13.06,13.06,0,0,0-3.65.327,10.46,10.46,0,0,0-7.96,8.171,10.789,10.789,0,1,0,21.151,4.249,11.029,11.029,0,0,0-.026-3.89,1.078,1.078,0,0,1,.889-1.288,1.1,1.1,0,0,1,1.282.987,12.6,12.6,0,0,1-1.125,8.008,12.567,12.567,0,0,1-9.49,7.081A12.964,12.964,0,0,1,10.466.306C11.322.136,12.2.1,13.073,0Z"
+                    />
+                    <path
+                      id="Path_4195"
+                      data-name="Path 4195"
+                      d="M11.9,18.373a10.884,10.884,0,0,1-1.34-.475A3.126,3.126,0,0,1,8.67,15.191a1.074,1.074,0,0,1,2.145-.136.944.944,0,0,0,.565.821,3.593,3.593,0,0,0,3.19,0c.758-.381.734-.914.067-1.395a3.394,3.394,0,0,0-1.742-.431,8.8,8.8,0,0,1-2.008-.361A3.684,3.684,0,0,1,9.52,12.8a2.763,2.763,0,0,1,.361-4.292A4.106,4.106,0,0,1,11.9,7.7V6.569a1.082,1.082,0,1,1,2.161-.015V7.688A4.109,4.109,0,0,1,16.07,8.5a2.943,2.943,0,0,1,1.23,2.264,1.078,1.078,0,0,1-2.151.134.979.979,0,0,0-.647-.873,4,4,0,0,0-3.022-.014.881.881,0,0,0-.644.794.845.845,0,0,0,.66.812c.524.143,1.075.191,1.613.283a19.311,19.311,0,0,1,1.978.361,3.1,3.1,0,0,1,1.591,1.146,2.877,2.877,0,0,1-1.094,4.407,7.536,7.536,0,0,1-1.269.434c-.175.051-.271.1-.257.309.019.3.008.607,0,.911a1.083,1.083,0,1,1-2.157,0C11.9,19.094,11.9,18.722,11.9,18.373Z"
+                    />
+                    <path
+                      id="Path_4196"
+                      data-name="Path 4196"
+                      d="M22.676,3.712c-.306.317-.574.6-.85.879q-1.272,1.281-2.554,2.559a1.1,1.1,0,1,1-1.53-1.55l3.136-3.123c.084-.084.162-.173.292-.312H19.562A1.08,1.08,0,0,1,18.4,1.084,1.079,1.079,0,0,1,19.562,0h4.15A1.077,1.077,0,0,1,24.878,1.15V5.37a1.079,1.079,0,1,1-2.157,0c0-.517,0-1.035-.008-1.552a.787.787,0,0,0-.037-.106Z"
+                    />
+                  </g>
+                </g>
+              </g>
+            </svg>
+          </div>
+
+          <a
+            class="hover:text-[#FF6782] hover:no-underline mx-1"
+            [routerLink]="['/liabilities']"
+            [routerLinkActive]="['active']"
+            >Liabilities</a
+          >
+        </li>
+
+        <li class="nav-item flex items-center">
+          <div class="h-full">
+            <svg
+              routerLinkActive="active"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              width="18"
+              height="18"
+              viewBox="0 0 26 26"
+            >
+              <defs>
+                <clipPath id="clip-path5">
+                  <rect
+                    id="Rectangle_425"
+                    data-name="Rectangle 425"
+                    width="26"
+                    height="26"
+                    rx="5"
+                    transform="translate(634 773)"
+                  />
+                </clipPath>
+              </defs>
+              <g
+                id="Mask_Group_55"
+                data-name="Mask Group 5"
+                transform="translate(-634 -773)"
+                clip-path="url(#clip-path5)"
+              >
+                <g
+                  id="Layer_2"
+                  data-name="Layer 2"
+                  transform="translate(634 773.043)"
+                >
+                  <g id="Layer_1" data-name="Layer 1">
+                    <path
+                      id="Path_4199"
+                      data-name="Path 4199"
+                      d="M3.706,25.912a5.762,5.762,0,0,1-.949-.391,2.27,2.27,0,0,1-1.126-2.008c-.011-3.248,0-6.494,0-9.744a.812.812,0,1,1,1.623,0v9.515c0,.7.3,1.008,1,1.008H8.125V15.468A2.424,2.424,0,0,1,10.67,12.92h4.7a2.42,2.42,0,0,1,2.5,2.513v8.842c.1,0,.181.012.262.012h3.655a.845.845,0,0,0,.958-.949q0-6.8,0-13.6a.449.449,0,0,0-.184-.383Q18.1,5.644,13.636,1.924a.844.844,0,0,0-1.288.008q-5.4,4.5-10.8,8.992a1.616,1.616,0,0,1-.65.354c-.435.092-.694-.2-.9-.542v-.457a3.264,3.264,0,0,1,.4-.51Q5.88,5.19,11.372.624A2.431,2.431,0,0,1,14.617.618q2.48,2.058,4.95,4.123c.1.083.2.163.334.271V3.657a.814.814,0,1,1,1.623-.01c0,.837-.006,1.675.007,2.509a.511.511,0,0,0,.155.339c.444.391.9.763,1.359,1.142.881.736,1.772,1.467,2.648,2.212A.8.8,0,0,1,25.8,11a.818.818,0,0,1-1.157.094l-.28-.212V23.46a2.419,2.419,0,0,1-1.5,2.266c-.186.075-.383.123-.575.183Zm12.531-1.633c0-.062.009-.095.009-.128V15.424a.826.826,0,0,0-.894-.881q-2.321,0-4.643,0a.846.846,0,0,0-.961.967v8.769Z"
+                    />
+                    <path
+                      id="Path_4200"
+                      data-name="Path 4200"
+                      d="M12.18,20.226a.814.814,0,1,1,.814-.794A.8.8,0,0,1,12.18,20.226Z"
+                    />
+                  </g>
+                </g>
+              </g>
+            </svg>
+          </div>
+
+          <a
+            class="hover:text-[#FF6782] hover:no-underline mx-1"
+            [routerLink]="['/trust']"
+            [routerLinkActive]="['active']"
+            >Trust</a
+          >
+        </li>
+        <div class="lg:hidden block text-red font-extrabold">Settings</div>
+        <li class="nav-item flex items-center sm:hidden">
+          <img
+            class="w-[18px]"
+            src="../../../../assets/Icons/Profile Header.svg"
+          />
+
+          <a
+            class="hover:text-[#FF6782] hover:no-underline mx-1"
+            [routerLink]="['/home/profile']"
+            >Profile</a
+          >
+          
+        </li>
+        <li class="nav-item flex items-center sm:hidden">
+          <img
+            class="w-[18px]"
+            src="../../../../assets/Icons/subscription header.svg"
+          />
+
+          <a
+            class="hover:text-[#FF6782] hover:no-underline mx-1"
+            [routerLink]="['/home/profile']"
+            >Subscription</a
+          >
+        </li>
+        <li class="nav-item flex items-center sm:hidden">
+          <img
+            class="w-[18px]"
+            src="../../../../assets/Icons/subscription header.svg"
+          />
+
+          <a
+            class="hover:text-[#FF6782] hover:no-underline mx-1"
+            [routerLink]="['/home/profile']"
+            >Subscription History</a
+          >
+        </li>
+      </ul>
+
+    </div>
+    <div class="flex flex-row space-x-5 items-center">
+      <div
+        *ngIf="router.url === '/home'"
+        (click)="latestWill()"
+        class="flex flex-row rounded-xl items-center py-1 cursor-pointer border-2 border-[#E0E0E0]"
+        [routerLink]="['/will/createWill']"
+        routerLinkActive="router-link-active"
       >
-    </li>
-    <li class="nav-item flex" [routerLink]="['/assets']">
-      <img
-        class="w-[18px]"
-        [routerLinkActive]="['active']"
-        src="../../../../assets/Icons/Mask Group 1.svg"
-      />
-
-      <a class="hover:text-[#FF6782] hover:no-underline mx-1" [routerLinkActive]="['active']">Assets</a>
-    </li>
-    <li class="nav-item flex">
-      <img class="w-[18px]" src="../../../../assets/Icons/Mask Group 2.svg" />
-
-      <a class="hover:text-[#FF6782] hover:no-underline mx-1" [routerLink]="['/liabilities']" [routerLinkActive]="['active']"  >Liabilities</a>
-    </li>
-    <li class="nav-item flex">
-      <img class="w-[18px]" src="../../../../assets/Icons/Mask Group 5.svg" />
-
-      <a class="hover:text-[#FF6782] hover:no-underline mx-1" [routerLink]="['/trust']" [routerLinkActive]="['active']">Trust</a>
-    </li>
-    <div class="lg:hidden block text-red font-extrabold">Settings</div>
-    <li class="nav-item flex sm:hidden">
-      <img
-        class="w-[18px]"
-        src="../../../../assets/Icons/Profile Header.svg"
-      />
-
-      <a class="hover:text-[#FF6782] hover:no-underline mx-1" [routerLink]="['/home/profile']">Profile</a>
-    </li>
-    <li class="nav-item flex sm:hidden">
-      <img
-        class="w-[18px]"
-        src="../../../../assets/Icons/subscription header.svg"
-      />
-
-      <a class="hover:text-[#FF6782] hover:no-underline mx-1" [routerLink]="['/home/profile']">Subscription</a>
-    </li>
-    <li class="nav-item flex sm:hidden">
-      <img
-        class="w-[18px]"
-        src="../../../../assets/Icons/subscription header.svg"
-      />
-
-      <a class="hover:text-[#FF6782] hover:no-underline mx-1" [routerLink]="['/home/profile']"
-        >Subscription History</a
-      >
-    </li>
-  </ul>
-
-</div>
-    <div>
-      <div> </div>
-      <div *ngIf="router.url === '/home'" class="flex flex-row bg-red rounded-2xl px-7 py-2 items-center cursor-pointer" [routerLink]="['/will/createWill']" routerLinkActive="router-link-active" >
-        <div class="mx-1">
-          <img src="../../../../assets/Icons/Assets Distribution.svg">
-        </div>
-        <div class="text-sm mx-1" >My Will</div>
-      </div>
-
-
-      <div *ngIf="router.url === '/will/createWill'" (click)="latestWill()" class="flex flex-row  rounded-2xl px-2 py-2 items-center cursor-pointer border-2 border-[#E0E0E0]" [routerLink]="['/will/createWill']" routerLinkActive="router-link-active" >
-        <div class="mx-3">
-          <img class="w-[22px] h-[22px]" src="../../../../assets/Icons/Assets Distribution.svg">
+        <div class="mx-2">
+          <img
+            class="w-[22px] h-[22px]"
+            src="../../../../assets/Icons/Assets Distribution.svg"
+          />
         </div>
         <div>
-          <div class="text-sm " >latest Will</div>
-          <div class="text-sm " >11-22-2022 | 8:00 pm</div>
-
+          <div class="text-xs">latest Will</div>
+          <div class="text-xs">11-22-2022 | 8:00 pm</div>
         </div>
-        <div class="mx-3 -rotate-90">
-          <img class="w-[22px] h-[22px]" src="../../../../assets/Icons/Back.svg">
+        <div class="mx-2 -rotate-90">
+          <img
+            class="w-[22px] h-[22px]"
+            src="../../../../assets/Icons/Back.svg"
+          />
         </div>
       </div>
 
+      <div
+        *ngIf="router.url === '/home'"
+        class="border-r-2 border-[#E0E0E0] h-[80%]"
+      ></div>
+
+      <div
+        *ngIf="router.url === '/home'"
+        class="flex flex-row bg-red rounded-xl py-1 px-4 items-center cursor-pointer"
+        [routerLink]="['/will/createWill']"
+        routerLinkActive="router-link-active"
+      >
+        <div class="mr-1">
+          <img src="../../../../assets/Icons/Assets Distribution.svg" />
+        </div>
+        <div class="text-sm mx-1">My Will</div>
+      </div>
+
+      <div
+        *ngIf="router.url === '/will/createWill'"
+        class="flex flex-row rounded-xl items-center py-1 cursor-pointer"
+        [routerLink]="['/will/pastWills']"
+        routerLinkActive="router-link-active"
+      >
+        <div class="mx-2">
+          <img
+            class="w-[22px] h-[22px]"
+            src="../../../../assets/Icons/Assets Distribution.svg"
+          />
+        </div>
+        <div class="text-sm mx-1">Past Versions</div>
+      </div>
+
+      <div
+        *ngIf="router.url === '/will/createWill'"
+        (click)="latestWill()"
+        class="flex flex-row rounded-xl items-center py-1 cursor-pointer border-2 border-[#E0E0E0]"
+        [routerLink]="['/will/createWill']"
+        routerLinkActive="router-link-active"
+      >
+        <div class="mx-2">
+          <img
+            class="w-[22px] h-[22px]"
+            src="../../../../assets/Icons/Assets Distribution.svg"
+          />
+        </div>
+        <div>
+          <div class="text-xs">latest Will</div>
+          <div class="text-xs">11-22-2022 | 8:00 pm</div>
+        </div>
+        <div class="mx-2 -rotate-90">
+          <img
+            class="w-[22px] h-[22px]"
+            src="../../../../assets/Icons/Back.svg"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </div>

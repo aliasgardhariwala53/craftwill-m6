@@ -13,7 +13,7 @@
             <div class="{{ classes[i] }} " *ngFor="let key of keys; let i = index">
                 {{ item[key] }}
             </div>
-             <div class="w-1/12 absolute sm:static right-4 top-7 break-words cursor-pointer text-center flex justify-center">
+             <div class="w-1/12 absolute sm:static right-4 break-words cursor-pointer text-center flex justify-center">
                 <img class="-rotate-90" (click)="onClickActionButton(item._id)" width="24px"  src="../../../../assets/Icons/Back.svg">
             </div>
         </div>

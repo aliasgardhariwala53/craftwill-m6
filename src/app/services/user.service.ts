@@ -92,6 +92,9 @@ export class UserService {
   getPrivateDebt(){
     return this._httpServe.get(environment.serverUrl + "liabilities/getDeptDetails");
   }
+  getAllLiabilities(){
+    return this._httpServe.get(environment.serverUrl + "liabilities");
+  }
   getTrust(){
     return this._httpServe.get(environment.serverUrl + "trust/getTrustDetails");
   }

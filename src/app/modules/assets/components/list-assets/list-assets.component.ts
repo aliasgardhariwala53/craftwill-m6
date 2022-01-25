@@ -11,13 +11,14 @@ export class ListAssetsComponent implements OnInit {
   
 
 assetsData=[];
+
   tableHeadings = [
     'Name of the Assets',
     'Unique Number',
     'Country',
     'OwnerShip',
   ];
-  tableKeys = ['fullname', 'Relationship', 'gender', 'id_type', 'id_number'];
+  tableKeys = ['Type','fullname', 'country', 'specifyOwnershipType', 'id_type', 'id_number'];
   tableData = [
   ];
    classes=[
@@ -34,11 +35,14 @@ assetsData=[];
   }
   ngOnInit(): void {
     this._userServ.getAssetsDetails().subscribe((result) => {
-      console.log(result);
+      let allAssetsData=[];
+      result.forEach(element => {
+        allAssetsData.push(...element);
+      });
+      console.log(...allAssetsData);
       
-      // this.assetsData = result.data.map((item) => {
-      //   return item;
-      // });
+      this.assetsData.push(...allAssetsData);
+
     });
   }
 

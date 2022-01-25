@@ -10,6 +10,7 @@ import { SelectBoxComponent } from './components/select-box/select-box.component
 import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { FormComponent } from './components/form/form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ClickOutsideModule } from 'ng-click-outside';
 
 
 
@@ -29,7 +30,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     RouterModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ClickOutsideModule
   ],
   exports:[
     HeaderToolbarComponent,

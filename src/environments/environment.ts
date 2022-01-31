@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  serverUrl : "https://crafttttttwilllls.herokuapp.com/"
+  serverUrl : "https://craftwillllls.herokuapp.com/"
 };
 
 /*

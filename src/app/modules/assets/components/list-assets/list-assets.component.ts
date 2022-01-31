@@ -24,8 +24,8 @@ assetsData=[];
    classes=[
     "w-10/12 m-0 sm:w-7/12 break-words capitalize ",
     "w-10/12 m-0 sm:w-[12%] break-words capitalize text",
-    "w-1/12 break-words hidden sm:block ",
-    "w-1/12 break-words hidden sm:block ",
+    "w-1/12 break-words hidden md:flex ",
+    "w-1/12 break-words hidden md:flex ",
 
     ]
   constructor(private _userServ:UserService) { }

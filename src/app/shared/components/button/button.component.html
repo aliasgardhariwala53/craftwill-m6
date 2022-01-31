@@ -3,20 +3,10 @@
 
   <input
   type="submit"
-    class="{{backgroundColor}} {{padding}} {{ arrow ? 'text-left' : 'text-center' }} {{borderRadius}} {{color}} font-bold w-[100%] cursor-pointer"
+    class="{{backgroundColor}} {{padding}} {{ arrow ? 'text-left' : 'text-center' }} {{margin}} {{borderRadius}} {{color}} font-bold w-[100%] cursor-pointer"
     [id]="id"
     (click)="onClick()"
     [value]="value"
     />
     <i *ngIf="arrow" class="fa fa-long-arrow-right next_arrow flex items-center absolute text-white right-5 text-xl h-[100%] cursor-pointer"></i>
   </div>
-
-    <!-- <div class="mt-2 ">
-    <input
-    type="submit"
-    class="my-2 bg-[#ED7184] px-0 py-3 text-center rounded-2xl text-white font-bold w-full sm:w-4/12 md:w-2/12"
-    [id]="id"
-   (click)="onClick()"
-    [value]="value"
-  />
-  </div> -->

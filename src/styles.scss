@@ -20,7 +20,7 @@
   }
   
   @font-face {
-    font-family: 'Gilroy';
+    font-family: 'GilroyBold';
     font-style: normal;
     font-weight: bolder;
     src: local('Gilroy'), url('./assets/fonts/Gilroy/gilroy-bold.ttf') format('truetype');
@@ -96,9 +96,9 @@
 }
 .authinput {
   width: 100%;
-  background: rgba(247, 247, 247, 1);
+  background: rgb(247, 247, 247);
   border-radius: 22px;
-  border: none;
+ 
   font-size: 0.8rem;
   padding: 20px;
   

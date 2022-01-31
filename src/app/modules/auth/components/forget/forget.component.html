@@ -1,4 +1,4 @@
-<div class="flex flex-row justify-between px-16 pt-10 pb-5 items-center">
+<div class="hidden sm:flex flex-row justify-between px-16 pt-10 pb-5 items-center">
   <div class="">
     <img
       src="../../../../assets/Image/Logo/Craftwills..png"
@@ -21,12 +21,12 @@
       class="cursor-pointer"
     />
   </div>
-  <div class="flex w-full justify-center mt-40 sm:mt-20">
-    <div class="w-full sm:w-2/3 md:w-7/12 lg:w-1/3 mx-4 sm:mx-5">
-      <div class="text-2xl sm:text-3xl font-bold sm:text-center">
+  <div class="flex w-full justify-center mt-5 sm:mt-20">
+    <div class="w-full sm:w-2/3 md:w-7/12 lg:w-1/3 mx-6">
+      <div class="text-2xl sm:text-3xl font-medium sm:font-bold sm:text-center">
         Forget Password?
       </div>
-      <div class="sm:text-center text-[#979797] my-4">
+      <div class="text-sm sm:text-base sm:text-center mt-3 mb-6  ">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore.
       </div>
@@ -35,13 +35,13 @@
       </div>
       <div class="message text-center text-red-500 mb-2">{{ error }}</div>
       <form method="POST" [formGroup]="forgotForm">
-        <div class="form-group md:w-2/3 justify-center mx-auto">
+        <div class=" md:w-2/3 justify-center mx-auto my-4">
           <div class="input-group1">
             <input
               type="text"
               placeholder="E-mail address"
               formControlName="email"
-              class="authinput form-control"
+              class="sm:bg-[#f7f7f7] w-[100%] px-4 py-2  form-control rounded-[5px] sm:rounded-[10px] border-2 border-[#ddd] sm:border-none focus:outline-black sm:focus:outline-none"
             />
           </div>
 
@@ -57,8 +57,16 @@
           id="submitButtonId"
           [arrow]="true"
           padding="px-5 py-2"
+          backgroundColor="bg-[#000] sm:bg-[#FF6782]"
+          borderRadius="rounded-[5px] sm:rounded-[10px]"
         ></app-button>
         </div>
+        <div class="font-bold md:w-2/3 justify-center mx-auto sm:hidden my-3">
+          <span class="mr-1 ">Don’t have an account</span>
+          <a class="text-[#FF6782] hover:text-[#FF6782] underline" routerLink="/signup"
+              >Sign Up</a
+          >
+          </div>
       </form>
     </div>
   </div>

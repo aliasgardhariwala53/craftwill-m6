@@ -1,5 +1,5 @@
 
-<div class="flex flex-col px-8 py-4 space-y-2">
+<div class="flex flex-col px-16 py-4 space-y-2">
   <app-header-toolbar routerlink="/assets/createAssets" pagetitle="Business" ></app-header-toolbar>
 
   <form
@@ -80,8 +80,10 @@
     {{ formErrors.specifyOwnershipType }}
   </div>
 </div>
+<div class=" sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
 
-<app-button (myMethod)="addBusiness()" value="Add Business" id="submitButtonId"></app-button>
+  <app-button (myMethod)="addBusiness()" value="Add Business" id="submitButtonId"></app-button>
+</div>
   <div class="text-green-500">{{responseMessage}}</div>
   </form>
 

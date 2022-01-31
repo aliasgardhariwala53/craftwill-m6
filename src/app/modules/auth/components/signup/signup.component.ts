@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { passwordValidation, valueChanges } from 'src/app/helper/formerror.helper';
-import { AuthservicesService } from '../../../services/authservices.service';
+import { AuthservicesService } from 'src/app/services/authservices.service';
 
 @Component({
   selector: 'app-signup',
@@ -53,7 +53,7 @@ export class SignupComponent implements OnInit {
       floorNumber: ['', Validators.required],
       unitNumber: ['', Validators.required],
       streetName: ['', Validators.required],
-      postalCode: ['', Validators.required],
+      postalCode: ['', [Validators.required,, Validators.pattern("^[0-9]*$")]],
     });
 
     this.userRegistration.valueChanges.subscribe(() => {
@@ -128,7 +128,7 @@ export class SignupComponent implements OnInit {
     },
     postalCode: {
       required: 'postalCode is Required',
-      // pattern: 'Please Enter valid numeric value',
+      pattern: 'Please Enter valid numeric value',
     },
  
   };

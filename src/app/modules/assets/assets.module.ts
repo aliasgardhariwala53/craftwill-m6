@@ -18,6 +18,7 @@ import { SafeDepositBoxComponent } from './components/safe-deposit-box/safe-depo
 import { SuccessPageAssetsComponent } from './components/success-page-assets/success-page-assets.component';
 import { BankAccountUserComponent } from './components/bank-account-user/bank-account-user.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ClickOutsideModule } from 'ng-click-outside';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { HttpClientModule } from '@angular/common/http';
     PersonalPossessionComponent,
     SafeDepositBoxComponent,
     SuccessPageAssetsComponent,
+   
   ],
   imports: [
     CommonModule,
@@ -44,6 +46,7 @@ import { HttpClientModule } from '@angular/common/http';
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
+    ClickOutsideModule
   ]
 })
 export class AssetsModule { }

@@ -6,8 +6,7 @@ import { valueChanges } from 'src/app/helper/formerror.helper';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 import { Router } from '@angular/router';
-
-import { AuthservicesService } from '../../../services/authservices.service';
+import { AuthservicesService } from 'src/app/services/authservices.service';
 
 @Component({
   selector: 'app-login',

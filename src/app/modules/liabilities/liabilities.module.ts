@@ -13,6 +13,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HeaderToolbarComponent } from 'src/app/shared/components/header-toolbar/header-toolbar.component';
+import { ClickOutsideModule } from 'ng-click-outside';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { HeaderToolbarComponent } from 'src/app/shared/components/header-toolbar
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
+    ClickOutsideModule
     
   ]
 })

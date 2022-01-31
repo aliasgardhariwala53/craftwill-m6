@@ -26,12 +26,12 @@ export class ListmembersComponent implements OnInit {
   tableData = [
   ];
    classes=[
-    "w-10/12 m-0 sm:w-6/12 break-words capitalize ",
+    "w-10/12 m-0 sm:w-5/12 md: break-words capitalize ",
     "w-10/12 m-0 sm:w-1/12 break-words capitalize text",
-    "w-1/12 break-words hidden sm:block ",
-    "w-1/12 break-words hidden sm:block ",
-    "w-1/12 break-words hidden sm:block ",
-    "w-1/12 break-words hidden sm:block ",
+    "w-1/12 break-words hidden md:flex ",
+    "w-1/12 break-words hidden md:flex ",
+    "w-1/12 break-words hidden md:flex ",
+    "w-1/12 break-words hidden md:flex ",
     
     ]
     

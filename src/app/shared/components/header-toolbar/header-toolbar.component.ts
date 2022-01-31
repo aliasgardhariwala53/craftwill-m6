@@ -13,6 +13,8 @@ export class HeaderToolbarComponent implements OnInit {
   @Input() showpagetitle:boolean;
   @Input() showSearchbar:boolean;
   @Input() showbackbutton:boolean;
+  @Input() headerMenuIcon:boolean=false;
+  @Input() notificatioIcon:boolean=false;
   constructor(private route:Router) { }
 
   ngOnInit(): void {

@@ -1,185 +1,5 @@
-<!-- <nav class="navbar navbar-expand-lg navbar-light header_container">
-  <div class="header_top_container">
-    <div class="logo_container">
-      <a class="navbar-brand" href="#"
-        ><img
-          src="../../../../assets/Image/Logo/Craftwills..png"
-          width="140px"
-          height="30px"
-      /></a>
-    </div>
-    <div class="d-none d-lg-block">
-      <form class="form-inline my-lg-0 header_search sm:w-2/6">
-        <input
-          class=""
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-        />
-      </form>
-    </div>
-    <div class="header_profile_container space-x-2">
-      <div class="d-none d-lg-block">
-        <img src="../../../../assets/Icons/Notify.svg" />
-      </div>
-      <div class="d-none d-lg-block header_username">{{ username }}</div>
-      <div class="header_profile_image">
-        <img
-          src="../../../../assets/Icons/DP.svg"
-          alt="Avatar"
-          style="width: 38px; height: 38px"
-        />
-      </div>
-      <div class="d-none d-lg-block dropdown">
-        <button
-          class="dropdown-toggle"
-          type="button"
-          id="dropdownMenuButton"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
-          <i class="fa fa-chevron-down" aria-hidden="true"></i>
-        </button>
-        <div class="dropdown-menu px-1" aria-labelledby="dropdownMenuButton">
-          <a
-            class="dropdown-item"
-            [routerLink]="['/home/profile']"
-            routerLinkActive="router-link-active"
-            ><img
-              class="w-[18px] h-[18px]"
-              src="../../../../assets/Icons/Profile Header.svg"
-            />
-            Profile</a
-          >
-          <a class="dropdown-item" href="#"
-            ><img
-              class="w-[18px] h-[18px]"
-              src="../../../../assets/Icons/subscription header.svg"
-            />
-            Subscription</a
-          >
-          <a class="dropdown-item" href="#"
-            ><img
-              class="w-[18px] h-[18px]"
-              src="../../../../assets/Icons/subscription header.svg"
-            />
-            Subscription History</a
-          >
-          <a
-            (click)="logout()"
-            class="dropdown-item"
-            [routerLink]="['/']"
-            routerLinkActive="router-link-active"
-            ><img
-              class="w-[18px] h-[18px]"
-              src="../../../../assets/Icons/Logot Header.svg"
-            />
-            Logout</a
-          >
-        </div>
-      </div>
-    </div>
-    <div class="d-block d-lg-none d-flex flex-row">
-      <img
-        class="d-block d-lg-none w-[38px] h-[38px]"
-        src="../../../../assets/Icons/Notify.svg"
-      />
-      <button
-        class="navbar-toggler ml-2 p-0 border-0"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <img
-          class="w-[38px] h-[38px]"
-          src="../../../../assets/Icons/Group 3654.svg"
-        />
-      </button>
-    </div>
-  </div>
 
-  <div
-    class="collapse navbar-collapse w-100 menu_container bg-white top-16 absolute sm:static z-10"
-    id="navbarSupportedContent"
-  >
-    <ul class="navbar-nav mr-auto align-items-center space-x-2">
-      <li
-        class="nav-item flex items-center"
-        [routerLink]="['/home']"
-        [routerLinkActive]="['active']"
-      >
-        <img class="w-[18px]" src="../../../../assets/Icons/Mask Group 3.svg" />
-        <a class="nav-link font-bold" [routerLinkActive]="['active']"
-          >Home <span class="sr-only">(current)</span></a
-        >
-      </li>
-      <li
-        class="nav-item flex items-center"
-        [routerLink]="['/members']"
-        [routerLinkActive]="['active']"
-      >
-        <img class="w-[18px]" src="../../../../assets/Icons/Mask Group 4.svg" />
-
-        <a class="nav-link text-inherit" [routerLinkActive]="['active']"
-          >Member</a
-        >
-      </li>
-      <li class="nav-item flex items-center" [routerLink]="['/assets']">
-        <img
-          class="w-[18px]"
-          [routerLinkActive]="['active']"
-          src="../../../../assets/Icons/Mask Group 1.svg"
-        />
-
-        <a class="nav-link" [routerLinkActive]="['active']">Assets</a>
-      </li>
-      <li class="nav-item flex items-center">
-        <img class="w-[18px]" src="../../../../assets/Icons/Mask Group 2.svg" />
-
-        <a class="nav-link" href="#">Liabilities</a>
-      </li>
-      <li class="nav-item flex items-center">
-        <img class="w-[18px]" src="../../../../assets/Icons/Mask Group 5.svg" />
-
-        <a class="nav-link" href="#">Trust</a>
-      </li>
-      <div class="lg:hidden block text-red font-extrabold">Settings</div>
-      <li class="nav-item flex items-center sm:hidden">
-        <img
-          class="w-[18px]"
-          src="../../../../assets/Icons/Profile Header.svg"
-        />
-
-        <a class="nav-link" [routerLink]="['/home/profile']">Profile</a>
-      </li>
-      <li class="nav-item flex items-center sm:hidden">
-        <img
-          class="w-[18px]"
-          src="../../../../assets/Icons/subscription header.svg"
-        />
-
-        <a class="nav-link" [routerLink]="['/home/profile']">Subscription</a>
-      </li>
-      <li class="nav-item flex items-center sm:hidden">
-        <img
-          class="w-[18px]"
-          src="../../../../assets/Icons/subscription header.svg"
-        />
-
-        <a class="nav-link" [routerLink]="['/home/profile']"
-          >Subscription History</a
-        >
-      </li>
-    </ul>
-  </div>
-</nav>
- -->
-
-<div class="flex flex-col px-16 header_container">
+<div class="flex flex-col px-16 header_container" [ngClass]="{'hidden md:flex': router.url!=='/home'}">
   <div
     class="flex flex-row justify-between w-full items-center border-b-2 border-b-gray-100 py-3"
   >
@@ -225,6 +45,7 @@
         <app-dropdown #dropdown >
           <div
             button
+            class="cursor-pointer"
             (click)="dropdown.open = !dropdown.open"
             (clickOutside)="dropdown.open = false"
           >
@@ -294,35 +115,25 @@
       </div>
     </div>
     <div class="lg:hidden flex flex-row z-10">
-      <img
+      <div class=""><img
         class="lg:hidden w-[38px] h-[38px]"
         src="../../../../assets/Icons/Notify.svg"
-      />
-      <button
-        class="navbar-toggler ml-2 p-0 border-0"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <img
-          class="w-[38px] h-[38px]"
-          src="../../../../assets/Icons/Group 3654.svg"
-        />
-      </button>
+      /></div>
+      <div class=""><img
+        class="w-[38px] h-[38px]"
+        src="../../../../assets/Icons/Group 3654.svg"
+      /></div>
     </div>
   </div>
   <div
-    class="flex flex-row collapse lg:flex-row bg-white font-bold my-3 top-12 absolute sm:static z-10 left-0 w-full justify-between"
+    class="blur-lg:flex hidden  flex-row collapse lg:flex-row bg-white font-bold my-3 top-12 absolute sm:static z-10 left-0 w-full justify-between"
   >
     <div class="flex flex-row items-center my-3">
       <ul
         class="items-center space-x-4 m-0 space-y-4 lg:space-y-0 text-center lg:flex lg:flex-row h-[100%]"
       >
         <li
-          class="nav-item flex items-center"
+          class="nav-item cursor-pointer flex items-center hover:fill-[#FF6782] hover:text-[#FF6782]"
           [routerLink]="['/home']"
           [routerLinkActive]="['active']"
         >
@@ -369,13 +180,13 @@
             </svg>
           </div>
           <a
-            class="hover:text-[#FF6782] hover:no-underline mx-1 font-bold"
+            class="hover:no-underline mx-1 font-bold"
             routerLinkActive="active"
             >Home
           </a>
         </li>
         <li
-          class="nav-item flex items-center"
+          class="nav-item cursor-pointer flex items-center hover:fill-[#FF6782] hover:text-[#FF6782]"
           [routerLink]="['/members']"
           [routerLinkActive]="['active']"
         >
@@ -423,12 +234,12 @@
             </svg>
           </div>
           <a
-            class="hover:text-[#FF6782] hover:no-underline mx-1"
+            class="hover:no-underline mx-1"
             [routerLinkActive]="['active']"
             >Member</a
           >
         </li>
-        <li class="nav-item flex items-center" [routerLink]="['/assets']">
+        <li class="nav-item cursor-pointer flex items-center hover:fill-[#FF6782] hover:text-[#FF6782]" [routerLink]="['/assets']">
           <div class="h-full">
             <svg
               [routerLinkActive]="['active']"
@@ -485,12 +296,12 @@
           </div>
 
           <a
-            class="hover:text-[#FF6782] hover:no-underline mx-1"
+            class="hover:no-underline mx-1"
             [routerLinkActive]="['active']"
             >Assets</a
           >
         </li>
-        <li class="nav-item flex items-center">
+        <li class="nav-item cursor-pointer flex items-center hover:fill-[#FF6782] hover:text-[#FF6782]" [routerLink]="['/liabilities']">
           <div class="h-full">
             <svg
               [routerLinkActive]="['active']"
@@ -545,14 +356,14 @@
           </div>
 
           <a
-            class="hover:text-[#FF6782] hover:no-underline mx-1"
-            [routerLink]="['/liabilities']"
+            class="hover:no-underline mx-1"
+            
             [routerLinkActive]="['active']"
             >Liabilities</a
           >
         </li>
 
-        <li class="nav-item flex items-center">
+        <li class="nav-item cursor-pointer flex items-center hover:fill-[#FF6782] hover:text-[#FF6782]" [routerLink]="['/trust']">
           <div class="h-full">
             <svg
               routerLinkActive="active"
@@ -603,46 +414,46 @@
           </div>
 
           <a
-            class="hover:text-[#FF6782] hover:no-underline mx-1"
-            [routerLink]="['/trust']"
+            class=" hover:no-underline mx-1"
+            
             [routerLinkActive]="['active']"
             >Trust</a
           >
         </li>
         <div class="lg:hidden block text-red font-extrabold">Settings</div>
-        <li class="nav-item flex items-center sm:hidden">
+        <li class="nav-item cursor-pointer flex items-center hover:fill-[#FF6782] hover:text-[#FF6782] sm:hidden">
           <img
             class="w-[18px]"
             src="../../../../assets/Icons/Profile Header.svg"
           />
 
           <a
-            class="hover:text-[#FF6782] hover:no-underline mx-1"
+            class="hover:no-underline mx-1"
             [routerLink]="['/home/profile']"
             >Profile</a
           >
           
         </li>
-        <li class="nav-item flex items-center sm:hidden">
+        <li class="nav-item cursor-pointer flex items-center hover:fill-[#FF6782] hover:text-[#FF6782] sm:hidden">
           <img
             class="w-[18px]"
             src="../../../../assets/Icons/subscription header.svg"
           />
 
           <a
-            class="hover:text-[#FF6782] hover:no-underline mx-1"
+            class="hover:no-underline mx-1"
             [routerLink]="['/home/profile']"
             >Subscription</a
           >
         </li>
-        <li class="nav-item flex items-center sm:hidden">
+        <li class="nav-item cursor-pointer flex items-center hover:fill-[#FF6782] hover:text-[#FF6782] sm:hidden">
           <img
             class="w-[18px]"
             src="../../../../assets/Icons/subscription header.svg"
           />
 
           <a
-            class="hover:text-[#FF6782] hover:no-underline mx-1"
+            class="hover:no-underline mx-1"
             [routerLink]="['/home/profile']"
             >Subscription History</a
           >
@@ -650,7 +461,7 @@
       </ul>
 
     </div>
-    <div class="flex flex-row space-x-5 items-center">
+    <div class="sm:flex flex-row space-x-5 items-center   ">
       <div
         *ngIf="router.url === '/home'"
         (click)="latestWill()"

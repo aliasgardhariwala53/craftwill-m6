@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { passwordValidation, valueChanges } from 'src/app/helper/formerror.helper';
-import { AuthservicesService } from '../../../services/authservices.service';
+import { AuthservicesService } from 'src/app/services/authservices.service';
 
 @Component({
   selector: 'app-reset',

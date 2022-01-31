@@ -18,8 +18,8 @@ export class ListTrustComponent implements OnInit {
   ];
    classes=[
     "w-10/12 m-0 sm:w-8/12 break-words capitalize ",
-    "w-10/12 m-0 sm:w-[11%] break-words capitalize text hidden sm:block ",
-    "w-[10%] break-words hidden sm:block ",
+    "w-10/12 m-0 sm:w-[11%] break-words capitalize text hidden sm:flex ",
+    "w-[10%] break-words hidden sm:flex ",
 
   
     ]

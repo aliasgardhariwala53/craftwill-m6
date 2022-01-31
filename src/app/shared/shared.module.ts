@@ -11,6 +11,8 @@ import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { FormComponent } from './components/form/form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ClickOutsideModule } from 'ng-click-outside';
+import { HeaderMenuComponent } from './components/header-menu/header-menu.component';
+import { ModalComponent } from './components/modal/modal.component';
 
 
 
@@ -24,7 +26,9 @@ import { ClickOutsideModule } from 'ng-click-outside';
     HeaderComponent,
     SelectBoxComponent,
     DropdownComponent,
-    FormComponent
+    FormComponent,
+    HeaderMenuComponent,
+    ModalComponent
   ],
   imports: [
     CommonModule,
@@ -41,7 +45,9 @@ import { ClickOutsideModule } from 'ng-click-outside';
     HeaderComponent,
     SelectBoxComponent,
     DropdownComponent,
-    FormComponent
+    FormComponent,
+    HeaderMenuComponent,
+    ModalComponent
   ]
 })
 export class SharedModule { }

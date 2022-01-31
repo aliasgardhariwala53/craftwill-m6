@@ -8,6 +8,7 @@ import { TokenInterceptor } from './helper/token.interceptor';
 import { AuthGuard } from './guards/auth.guard';
 import { HeaderToolbarComponent } from './shared/components/header-toolbar/header-toolbar.component';
 import { SharedModule } from './shared/shared.module';
+import { AuthComponent } from './modules/auth/auth.component';
 
 
 @NgModule({

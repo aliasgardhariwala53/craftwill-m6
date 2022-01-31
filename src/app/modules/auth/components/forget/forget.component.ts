@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { valueChanges } from 'src/app/helper/formerror.helper';
-import { AuthservicesService } from '../../../services/authservices.service';
+import { AuthservicesService } from 'src/app/services/authservices.service';
 
 @Component({
   selector: 'app-forget',

@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthComponent } from './auth.component';
-import { ForgetComponent } from './pages/forget/forget.component';
-import { LoginComponent } from './pages/login/login.component';
-import { ResetComponent } from './pages/reset/reset.component';
-import { SignupComponent } from './pages/signup/signup.component';
+import { ForgetComponent } from './components/forget/forget.component';
+import { LoginComponent } from './components/login/login.component';
+import { ResetComponent } from './components/reset/reset.component';
+import { SignupComponent } from './components/signup/signup.component';
 
 const routes: Routes = [
   {

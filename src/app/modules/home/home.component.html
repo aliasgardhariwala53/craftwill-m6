@@ -1,4 +1,13 @@
 
-<app-header></app-header>
+
+<app-modal  [modalBody]='modalBody' [showModal]=true>
+    
+    <ng-template  #modalBody>
+        <div class="sm:w-4/5 md:w-2/5">
+
+            <app-header-menu></app-header-menu>
+        </div>
+    </ng-template>
+</app-modal>
 <router-outlet></router-outlet>
 

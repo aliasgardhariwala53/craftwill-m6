@@ -8,6 +8,7 @@ import { ListmembersComponent } from './components/listMembers/listmembers.compo
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ClickOutsideModule } from 'ng-click-outside';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
+    ClickOutsideModule
   ]
 })
 export class MembersModule { }

@@ -13,12 +13,21 @@ export class TableComponent implements OnInit {
   @Input() actionTemplate;
   @Input() class=[];
   @Input() keys = [];
+  @Input() avtarType='name';
   @Input() emptyTableMessage = '';
   @Output() actionButton = new EventEmitter();
   constructor() { }
 
   onClickActionButton(ItemId){
     this.actionButton.emit(ItemId);
+  }
+  getShortName(fullName) { 
+    if (fullName) {
+      return fullName.split(' ').map(n => n[0]).join('').toUpperCase();
+    } else {
+      return "AA"
+    }
+   
   }
   ngOnInit(): void {
     console.log(this.classes);

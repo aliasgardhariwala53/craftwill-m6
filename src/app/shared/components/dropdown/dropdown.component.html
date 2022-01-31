@@ -2,7 +2,7 @@
     <ng-content select='[button]'></ng-content>
     <div
       [ngClass]="open ? '' : 'hidden'"
-      class="bg-white absolute z-10 ltr:left-0 rtl:right-0 mt-2 w-44 right-4 rounded-xl dropdown-shadow focus:outline-none">
+      class="bg-white absolute z-10  mt-2 {{width}} -right-4 rounded-xl dropdown-shadow focus:outline-none">
       <ng-content select='[options]'></ng-content>
     </div>
   </span>

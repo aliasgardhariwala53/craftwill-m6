@@ -1,24 +1,53 @@
 
-<div class="flex flex-col px-16 mt-16 sm:mt-5 pt-3 sm:pt-4 pb-4 h-[80vh] sm:h-[80vh] top-40 ">
-<div class="flex flex-row items-center w-full bg-white ">
-    <div class="hidden sm:block w-1/12 font-extrabold text-xl">Members</div>
-    <div class="w-3/12 hidden sm:flex items-center dropdown cursor-pointer font-semibold" aria-expanded="false" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" ><img class="inline-block mr-2" src="../../../../assets/Icons/Filter.svg">Sort by members
-         <i class="fa fa-chevron-down font-[8px] ml-1" aria-hidden="true"></i>
-        <div class="dropdown-menu px-1" aria-labelledby="dropdownMenuButton">
-          <a class="dropdown-item" > person</a>
-          <a class="dropdown-item"> Organisation</a>
-        </div>
-      </div>
-    <div class="w-full left-0 px-16 sm:px-0 sm:w-5/12 flex items-center fixed sm:static top-20"><input type="search" class="w-96 authinput form-control" placeholder="search"><img aria-expanded="false" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"  class="sm:hidden inline-block ml-4 rounded-xl p-2 bg-[#f0f0f0]" src="../../../../assets/Icons/Filter.svg">
-    </div>
-    <div class="w-1/12 items-center hidden sm:flex"><img class="ml-auto" src='../../../../assets/Icons/Search.svg'></div>
-    <div class="w-12/12 sm:w-2/12 justify-end hidden sm:flex text-base text-center">
-    
-        <app-button  value="Create New Member" routelink="/members/createmembers" ></app-button>
-    </div>
+<div class="flex flex-col mx-16 my-8 md:hidden" >
+
+  <app-header-toolbar routerlink="/home" pagetitle="Members" [headerMenuIcon]=true></app-header-toolbar>
+  <app-button  value="Tutorial" routelink="/home" class="md:hidden" backgroundColor="bg-[#000]" margin="my-1"></app-button>
 </div>
 
 
+<div class="flex flex-col px-16 mt-16 md:mt-5 pt-0 md:pt-4 pb-4 h-[75vh] md:h-[80vh] top-40 ">
+<div class="flex flex-row items-center w-full bg-white ">
+    <div class="hidden md:block w-1/12 font-extrabold text-xl">Members</div>
+      <div class="w-3/12 hidden md:flex items-center dropdown cursor-pointer font-semibold "  ><img class="inline-block md:mr-2 " src="../../../../assets/Icons/Filter.svg">Sort by Members
+        <app-dropdown #dropdown class="ml-1">
+          <div
+            button
+            class="cursor-pointer"
+            (click)="dropdown.open = !dropdown.open"
+            (clickOutside)="dropdown.open = false"
+          >
+      
+          <i class="fa fa-chevron-down text-[14px]" aria-hidden="true"></i>
+          </div>
+          <div options class="w-full p-2 bg-white rounded-2xl shadow-lg ml-auto">
+  
+  
+          <div
+              class="hover:bg-[#ff6782] flex flex-row rounded-xl py-1 px-2 items-center hover:text-[#fff] hover:no-underline cursor-pointer">
+              <div class="font-bold">Person</div>
+            </div>
+          <div
+              class="hover:bg-[#ff6782] flex flex-row rounded-xl py-1 px-2 items-center hover:text-[#fff] hover:no-underline cursor-pointer">
+              <div class="font-bold">Organisaion</div>
+            </div>
+  
+        
+  
+   
+          </div>
+        </app-dropdown>
+      </div>
+    <div class="w-full left-0 px-16 md:px-0 md:w-2/12 flex items-center fixed md:static top-36"><input type="search" class="md:hidden w-[96%] px-4 py-3 bg-[#f7f7f7] form-control  rounded-[10px]  form-control " placeholder="search"><img aria-expanded="false" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"  class="md:hidden inline-block ml-4 rounded-xl p-4 bg-[#f7f7f7]" src="../../../../assets/Icons/Filter.svg">
+    </div>
+
+    
+    <div class="w-4/12 items-center hidden md:flex"><img class="ml-auto h-[38px] w-[38px]" src='../../../../../assets/Icons/Group 4361.svg'></div>
+    <div class="w-12/12 md:w-2/12 justify-end hidden md:flex text-base text-center">
+      <app-button  value="Create New Member" routelink="/members/createmembers" ></app-button>
+    </div>
+</div>
+
 <app-table [tableHeadings]='tableHeadings' (actionButton)="onClickAction($event)" [tableData]='personData' [keys]='tableKeys' [classes]="classes" emptyTableMessage="No members Found" ></app-table>
-<app-button  value="Create New Member" routelink="/members/createmembers" class="sm:hidden"></app-button>
+<app-button  value="Create New Member" routelink="/members/createmembers" class="md:hidden" margin="my-1"></app-button>
 </div>

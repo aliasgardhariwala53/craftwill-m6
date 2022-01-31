@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './auth/pages/login/login.component';
+
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
     path : "",
-    loadChildren : ()=>import("./auth/auth.module").then(m1=>m1.AuthModule)
+    loadChildren : ()=>import("./modules/auth/auth.module").then(m1=>m1.AuthModule)
   },
   {
     path : "members",

@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SuccesPageTrustComponent } from './components/succes-page-trust/succes-page-trust.component';
+import { ClickOutsideModule } from 'ng-click-outside';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { SuccesPageTrustComponent } from './components/succes-page-trust/succes-
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
+    ClickOutsideModule
   ]
 })
 export class TrustModule { }

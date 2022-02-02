@@ -5,14 +5,14 @@
       <app-header-toolbar routerlink="/home" pagetitle="Profile" ></app-header-toolbar>
     </div>
     <div class="flex flex-col sm:flex-row w-full">
-    <div class="w-full sm:w-1/5 mb-2 profile_sidebar_container mx-4">
+    <div class="w-full pt-10 px-5 sm:w-1/5 mb-2 bg-[#f8f8f8] mx-4 items-center justify-center rounded-[50px] space-y-4">
       <div
-        class="row py-2 px-3 mx-1 my-2 my-sm-4 justify-content-center profile_sidebar_button active_button bg-black"
+        class=" font-[GilroyBold] text-[#ff6782] py-2 px-3 mx-1 my-2 my-sm-4 justify-center text-center  active_button "
       >
         profile Information
       </div>
       <div
-        class="row py-2 px-3 my-2 mx-1 my-sm-4 justify-content-center subscription_sidebar_button :text-2xl"
+        class="font-[GilroyBold] py-4 px-4 m-auto w-[80%] justify-center text-center bg-white rounded-2xl"
       >
         Subscription
       </div>
@@ -20,8 +20,8 @@
 
     <div class="w-full sm:w-4/5  profile_update_container mx-4">
       <div class="row image_update_section">
-        <div class="col-6 text-left font-weight-bold">Personal Information</div>
-        <div class="col-6 text-right d-flex justify-content-end">
+        <div class="col-6 text-left font-[GilroyBold]">Personal Information</div>
+        <div class="flex text-right  justify-end">
           <span
             (click)="changeStatus()"
             *ngIf="inputState"
@@ -36,7 +36,7 @@
           <span
             *ngIf="!inputState"
             (click)="profileUpdate()"
-            class="round-buttons bg-blue text-light cursor-pointer d-flex align-items-center"
+            class="round-buttons bg-blue text-light cursor-pointer flex align-items-center"
           >
             <label class="m-0" style="cursor: pointer" for="submitButtonId"
               ><img
@@ -53,7 +53,7 @@
             <i class="fa fa-times-circle fa-2x" style="color: #ff6782"></i>
           </span>
         </div>
-        <div class="col-12 d-flex flex-row mt-3">
+        <div class="col-12 flex flex-row mt-3 relative">
           <label for="imageInput" class="image_top_icon">
             <img width="25px" for="imageInput" src="../../../../assets/Icons/Edit 2.svg" />
           </label>
@@ -368,8 +368,8 @@
         />
       </form>
       <div class="row image_update_section mt-3">
-        <div class="col-6 text-left font-weight-bold">Reset Password</div>
-        <div class="col-6 text-right d-flex justify-content-end">
+        <div class="col-6 text-left font-[GilroyBold]">Reset Password</div>
+        <div class="col-6 text-right flex justify-content-end">
           <span
             (click)="togglePassword()"
             *ngIf="disablePassword"
@@ -384,7 +384,7 @@
           <span
             *ngIf="!disablePassword"
             (click)="passwordUpdate()"
-            class="round-buttons bg-blue text-light cursor-pointer d-flex align-items-center"
+            class="round-buttons bg-blue text-light cursor-pointer flex align-items-center"
           >
             <label class="m-0" style="cursor: pointer" for="submitPassword"
               ><img

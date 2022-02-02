@@ -16,7 +16,7 @@ export class HeaderToolbarComponent implements OnInit {
   @Input() headerMenuIcon:boolean=false;
   @Input() notificatioIcon:boolean=false;
   constructor(private route:Router) { }
-
+  toggleModal:boolean;
   ngOnInit(): void {
     console.log(this.routerlink);
     

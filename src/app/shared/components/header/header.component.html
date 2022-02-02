@@ -1,23 +1,30 @@
 
-<div class="flex flex-col px-16 header_container" [ngClass]="{'hidden md:flex': router.url!=='/home'}">
+<app-modal  [modalBody]='modalBody' [showModal]="toggleModal">
+    
+  <ng-template  #modalBody>
+          <app-header-menu [hideModal]="toggleModal" (closeModal)='toggleModal=false'></app-header-menu>
+
+  </ng-template>
+</app-modal>
+
+<div class="flex flex-col px-8 header_container" [ngClass]="{'hidden md:flex': router.url!=='/home'}">
   <div
-    class="flex flex-row justify-between w-full items-center border-b-2 border-b-gray-100 py-3"
+    class="flex flex-row justify-between w-full items-center lg:border-b-2 border-b-gray-100 py-3"
   >
-    <div class="lg:flex absolute text-center w-full lg:w-auto left-0 lg:static">
+    <div class="lg:flex absolute  text-center w-full lg:w-auto left-0 lg:static">
       <a
         class="navbar-brand"
         [routerLink]="['/home']"
         routerLinkActive="router-link-active"
-        ><img
-          src="../../../../assets/Image/Logo/Craftwills..png"
-          width="140px"
-          height="30px"
-      /></a>
+      >
+    <div class="font-[GilroyBold] text-2xl">
+Craft<span class="text-red font-[GilroyBold]">Wills.</span>
+    </div></a>
     </div>
     <div class="w-5/12 hidden lg:block">
       <form class="sm:w-2/3 m-auto">
         <input
-          class="bg-[#f1f1f1] w-full rounded-2xl py-1 px-3 outline-none"
+          class="bg-[#f1f1f1] w-full rounded-2xl py-2 px-3 outline-none"
           type="search"
           placeholder="Search"
           aria-label="Search"
@@ -34,14 +41,14 @@
       <div class="hidden lg:block header_username mx-1 font-bold">
         {{ username }}
       </div>
-      <div class="header_profile_image z-10">
+      <div class="header_profile_image z-10" >
         <img
           src="../../../../assets/Icons/DP.svg"
           alt="Avatar"
           style="width: 30px; height: 30px"
         />
       </div>
-      <div class="hidden sm:block">
+      <div class="hidden lg:block">
         <app-dropdown #dropdown >
           <div
             button
@@ -50,7 +57,7 @@
             (clickOutside)="dropdown.open = false"
           >
       
-          <i class="fa fa-chevron-down text-[14px]" aria-hidden="true"></i>
+          <i class="fa fa-chevron-down text-[13px]" aria-hidden="true"></i>
           </div>
           <div options class="w-max p-2 bg-white rounded-2xl shadow-lg ">
   
@@ -110,17 +117,17 @@
           </div>
         </app-dropdown>
       </div>
-      <div>
+      <div class="hidden lg:block "(click)="toggleModal=true">
         <img src="../../../../assets/Icons/Assets Distribution.svg" alt="" />
       </div>
     </div>
-    <div class="lg:hidden flex flex-row z-10">
+    <div class="lg:hidden flex flex-row z-10 space-x-1">
       <div class=""><img
-        class="lg:hidden w-[38px] h-[38px]"
+        class="lg:hidden w-[32px] h-[32px]"
         src="../../../../assets/Icons/Notify.svg"
       /></div>
-      <div class=""><img
-        class="w-[38px] h-[38px]"
+      <div class="" (click)="toggleModal=true" ><img
+        class="w-[32px] h-[32px]"
         src="../../../../assets/Icons/Group 3654.svg"
       /></div>
     </div>
@@ -469,7 +476,7 @@
         [routerLink]="['/will/createWill']"
         routerLinkActive="router-link-active"
       >
-        <div class="mx-2">
+        <div class="mx-2" >
           <img
             class="w-[22px] h-[22px]"
             src="../../../../assets/Icons/Assets Distribution.svg"
@@ -479,7 +486,7 @@
           <div class="text-xs">latest Will</div>
           <div class="text-xs">11-22-2022 | 8:00 pm</div>
         </div>
-        <div class="mx-2 -rotate-90">
+        <div class="mx-2 -rotate-90" >
           <img
             class="w-[22px] h-[22px]"
             src="../../../../assets/Icons/Back.svg"

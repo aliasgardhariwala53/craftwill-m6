@@ -1,13 +1,13 @@
 <div class="flex flex-col p-4 relative">
-  <div class="justify-between p-4 flex flex-row">
-    <div class="sm:hidden "><img src="../../../../assets/Icons/Back.svg" /></div>
+  <div class="justify-between px-4 pb-4 flex flex-row">
+    <div class="sm:hidden " (click)="onClickBackButton()"><img src="../../../../assets/Icons/Back.svg" /></div>
     <div class="sm:hidden font-['GilroyBold'] text-2xl">CraftWills</div>
     <div class="sm:hidden">
       <img src="../../../../assets/Icons/Notify.svg" />
     </div>
 
     <div class="hidden sm:flex font-['GilroyBold'] text-2xl">Menu</div>
-    <div class="hidden sm:flex rotate-180">
+    <div class="hidden sm:flex rotate-180" (click)="onClickBackButton()">
       <img src="../../../../assets/Icons/Back.svg" />
     </div>
   </div>
@@ -85,7 +85,7 @@
           </div>
         </div>
       </div>
-      <div class="sm:w-[90%] left-0 right-0 m-auto sm:absolute bottom-[-200px]  bg-white z-10">
+      <div class="sm:w-[90%] left-0 right-0 m-auto sm:absolute bottom-[-300px] pb-[20px]  bg-white z-10">
         <div class="font-['GilroyBold'] my-2">Creation</div>
         <div
           class="border-dashed border-2 border-[#ff6782] flex flex-col sm:flex-row rounded-2xl p-3  sm:space-y-2 flex-wrap"
@@ -177,7 +177,7 @@
         </div>
       </div>
       <div class="">
-        <div class="sm:w-2/5 md:w-1/5">
+        <div class="sm:w-2/5 md:w-2/5">
           <app-button
             value="How it works"
             routelink="/home"

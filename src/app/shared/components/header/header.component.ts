@@ -9,6 +9,7 @@ import { HeaderService } from '../../../services/header.service';
 })
 export class HeaderComponent implements OnInit {
 username : string ="helloo";
+toggleModal : boolean =false;
   constructor(public router:Router,public _headerServ:HeaderService) {
     this._headerServ.username.subscribe((name)=>{
       this.username=name;

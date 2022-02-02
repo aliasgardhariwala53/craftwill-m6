@@ -15,7 +15,7 @@
             
                 <div class="{{classes[i]}} flex md:items-center text-ellipsis" [ngClass]="{'absolute top-[32px] left-[65px] md:static text-md md:text-base text-[#8c8c8c] md:text-[#000]': i===1}" *ngFor="let key of keys; let i = index">
                     <div *ngIf="avtarType==='name' && i=== 0" class=" rounded-full  bg-blue-300 w-[40px] h-[40px] font-extrabold  text-center flex items-center justify-center mr-5">{{ getShortName(item.fullname) || "AA"}}</div>
-                    {{ item[key] }}
+                    {{ item[key] || key }}
                 </div>
                  <div class="w-1/12 absolute top-0 bottom-0 md:static right-4 break-words cursor-pointer text-center flex justify-center">
                     <img class="-rotate-90" (click)="onClickActionButton(item._id)" width="24px"  src="../../../../assets/Icons/Back.svg">

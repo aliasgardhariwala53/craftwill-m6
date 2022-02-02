@@ -48,6 +48,6 @@
     </div>
 </div>
 
-<app-table [tableHeadings]='tableHeadings' (actionButton)="onClickAction($event)" [tableData]='personData' [keys]='tableKeys' [classes]="classes" emptyTableMessage="No members Found" ></app-table>
+<app-table [tableHeadings]='tableHeadings' (actionButton)="onClickAction($event)" [tableData]='MemberData' [keys]='tableKeys' [classes]="classes" emptyTableMessage="No members Found" ></app-table>
 <app-button  value="Create New Member" routelink="/members/createmembers" class="md:hidden" margin="my-1"></app-button>
 </div>

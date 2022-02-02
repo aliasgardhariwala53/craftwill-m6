@@ -139,7 +139,10 @@ memberUpdate(){
     
     return;
   }
-  this._userServ.createMembersperson(this.personForm.value).subscribe((result) => {
+  const membersASPerson = {country:this.personForm.value.id_country,memberAsPerson:{...this.personForm.value}};
+
+  
+  this._userServ.createMembers(membersASPerson).subscribe((result) => {
     console.log(result);
     this.responseMessageperson=result.message;
   });
@@ -157,7 +160,8 @@ organisationUpdate(){
     
     return;
   }
-  this._userServ.createMemberOrganisation(this.organisationForm.value).subscribe((result) => {
+  const membersAsOrganisation = {country:this.organisationForm.value.id_country,memberAsOrganisation:{...this.organisationForm.value}};
+  this._userServ.createMembers(membersAsOrganisation).subscribe((result) => {
     console.log(result);
     this.responseMessageOrganisation=result.message;
   });

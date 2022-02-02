@@ -10,8 +10,9 @@ import { UserService } from '../../../../services/user.service';
 
 export class ListmembersComponent implements OnInit {
   memberType:string="person";
-  personData = [];
+  MemberData = [];
   organisationData = [];
+  
   constructor(public route: Router, private _userServ: UserService) {}
 
   tableHeadings = [
@@ -22,7 +23,8 @@ export class ListmembersComponent implements OnInit {
     'ID number',
     'Birth date',
   ];
-  tableKeys = ['fullname', 'Relationship', 'gender', 'id_type', 'id_number','dob'];
+  nameType='fullname' || 'organisationName'
+  tableKeys = [this.nameType, 'Relationship', 'gender', 'id_type', 'id_number','dob'];
   tableData = [
   ];
    classes=[
@@ -40,17 +42,16 @@ export class ListmembersComponent implements OnInit {
       
     }
   ngOnInit(): void {
-    this._userServ.getPerson().subscribe((result) => {
-      console.log(result.message);
-      
-      this.personData = result.data.map((item) => {
-        return item;
-      });
-    });
-    this._userServ.getOrganisation().subscribe((result) => {
+    this._userServ.getMembers().subscribe((result) => {
       console.log(result.data);
-      this.organisationData.push(...result.data)
-      console.log(this.organisationData);
+      
+      this.MemberData = result.data.map((item) => {
+        console.log(item.memberAsPerson);
+        // this.MemberData.push(...item.memberAsOrganisation);
+        return item.memberAsPerson || item.memberAsOrganisation;
+      });
+     
     });
+
   }
 }

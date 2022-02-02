@@ -16,39 +16,14 @@ export class UserService {
       obj
     );
   }
-  createMembersperson(obj){
-    return this._httpServe.post(environment.serverUrl + "addMember",obj);
+  createMembers(obj){
+    return this._httpServe.post(environment.serverUrl + "createMember",obj);
   }
-  createMemberOrganisation(obj){
-    return this._httpServe.post(environment.serverUrl + "addMemberOrganisation",obj);
+  
+  addAssets(obj){
+    return this._httpServe.post(environment.serverUrl + "storeAssets",obj);
   }
-  addBankAccount(obj){
-    return this._httpServe.post(environment.serverUrl + "bankAccount",obj);
-  }
-  addInvestmentAccont(obj){
-    return this._httpServe.post(environment.serverUrl + "storeInvestmentAccount",obj);
-  }
-  addInsurance(obj){
-    return this._httpServe.post(environment.serverUrl + "storepolicy",obj);
-  }
-  addBusiness(obj){
-    return this._httpServe.post(environment.serverUrl + "storeBusiness",obj);
-  }
-  addRealEstate(obj){
-    return this._httpServe.post(environment.serverUrl + "storeEstate",obj);
-  }
-  addMoterVehicle(obj){
-    return this._httpServe.post(environment.serverUrl + "storeVehicle",obj);
-  }
-  addIntellectualProperty(obj){
-    return this._httpServe.post(environment.serverUrl + "storeProperty",obj);
-  }
-  addpersonalPossession(obj){
-    return this._httpServe.post(environment.serverUrl + "storePossession",obj);
-  }
-  addsafeDepositbox(obj){
-    return this._httpServe.post(environment.serverUrl + "storeDeposit",obj);
-  }
+
   addSecuredLoanLiability(obj){
     return this._httpServe.post(environment.serverUrl + "liabilities/storeLoan",obj);
   }
@@ -74,14 +49,14 @@ export class UserService {
   getUserImage(){
     return this._httpServe.get(environment.serverUrl + "users/getProfilepic");
   }
-  getPerson(){
-    return this._httpServe.get(environment.serverUrl + "getMember");
+  getMembers(){
+    return this._httpServe.get(environment.serverUrl + "getMembers");
   }
   getOrganisation(){
     return this._httpServe.get(environment.serverUrl + "getMemberOrganisation");
   }
-  getAssetsDetails(){
-    return this._httpServe.get(environment.serverUrl + "asset/getAssets");
+  getAssets(){
+    return this._httpServe.get(environment.serverUrl + "getAssets");
   }
   getSecuredLoan(){
     return this._httpServe.get(environment.serverUrl + "liabilities/getLoanDetails");

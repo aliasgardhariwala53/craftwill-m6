@@ -72,7 +72,12 @@ export class MoterVehicleComponent implements OnInit {
        
        return;
      }
-     this._userServ.addMoterVehicle(this.vehicleForm.value).subscribe((result) => {
+     const VehicletData = {
+      country: this.vehicleForm.value.country,
+      specifyOwnershipType: this.vehicleForm.value.specifyOwnershipType,
+      investmentAccount: this.vehicleForm.value,
+    };
+     this._userServ.addAssets(VehicletData).subscribe((result) => {
        console.log(result);
        if (result.sucess) {
         this._route.navigate(['/assets/assetsuccess'])

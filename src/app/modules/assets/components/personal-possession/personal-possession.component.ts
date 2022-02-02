@@ -72,7 +72,12 @@ export class PersonalPossessionComponent implements OnInit {
        
        return;
      }
-     this._userServ.addpersonalPossession(this.personalPossessionForm.value).subscribe((result) => {
+     const possessionData = {
+      country: this.personalPossessionForm.value.country,
+      specifyOwnershipType: this.personalPossessionForm.value.specifyOwnershipType,
+      investmentAccount: this.personalPossessionForm.value,
+    };
+     this._userServ.addAssets(possessionData).subscribe((result) => {
        console.log(result);
        if (result.sucess) {
      this._route.navigate(['/assets/assetsuccess'])

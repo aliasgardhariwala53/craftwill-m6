@@ -115,7 +115,7 @@ addSecuredLoan(){
 }
   ngOnInit(): void {
     this.createForm()
-    this._userServ.getAssetsDetails().subscribe((result) => {
+    this._userServ.getAssets().subscribe((result) => {
       console.log(...result.data.users);
       this.assetsData=[...result.data.users]
 

@@ -100,7 +100,7 @@ addPrivateDebt(){
 }
   ngOnInit(): void {
     this.createForm()
-    this._userServ.getPerson().subscribe((result) => {
+    this._userServ.getMembers().subscribe((result) => {
       console.log(...result.data);
       this.memberData.push(...result.data)
       console.log(this.memberData);

@@ -72,7 +72,12 @@ export class SafeDepositBoxComponent implements OnInit {
        
        return;
      }
-     this._userServ.addsafeDepositbox(this.safeDepositboxForm.value).subscribe((result) => {
+     const safeDepositData = {
+      country: this.safeDepositboxForm.value.country,
+      specifyOwnershipType: this.safeDepositboxForm.value.specifyOwnershipType,
+      investmentAccount: this.safeDepositboxForm.value,
+    };
+     this._userServ.addAssets(safeDepositData).subscribe((result) => {
        console.log(result);
        if (result.sucess) {
         this._route.navigate(['/assets/assetsuccess'])

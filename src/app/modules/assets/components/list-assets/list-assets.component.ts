@@ -18,7 +18,10 @@ assetsData=[];
     'Country',
     'OwnerShip',
   ];
-  tableKeys = ['Type','fullname', 'country', 'specifyOwnershipType', 'id_type', 'id_number'];
+  allAssetsinOne=[];
+
+  tableKeys = ['nameofAssets', 'uniqueNumber', 'country','ownerShip'];
+
   tableData = [
   ];
    classes=[
@@ -34,15 +37,18 @@ assetsData=[];
     
   }
   ngOnInit(): void {
-    this._userServ.getAssetsDetails().subscribe((result) => {
-      let allAssetsData=[];
-      result.forEach(element => {
-        allAssetsData.push(...element);
-      });
-      console.log(...allAssetsData);
-      
-      this.assetsData.push(...allAssetsData);
+    this._userServ.getAssets().subscribe((result) => {
+     
 
+      this.assetsData=result.data.map((items,i)=>{
+        
+        this.allAssetsinOne.push(...[{nameofAssets:Object.keys(items)[0],uniqueNumber:Object.values(Object.values(items)[0])[1],country:items.country,ownerShip:items.specifyOwnershipType}]);
+
+
+        console.log(Object.values(Object.values(items)[0])[1]);
+        console.log(this.allAssetsinOne);
+        return items;
+      })
     });
   }
 

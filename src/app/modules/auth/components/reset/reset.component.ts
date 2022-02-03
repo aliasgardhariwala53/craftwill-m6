@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { passwordValidation, valueChanges } from 'src/app/helper/formerror.helper';
 import { AuthservicesService } from 'src/app/services/authservices.service';
+import { ToastrService } from 'src/app/shared/services/toastr.service';
 
 @Component({
   selector: 'app-reset',
@@ -18,7 +19,7 @@ export class ResetComponent implements OnInit {
   message : string;
 
   constructor(private _authServ :AuthservicesService, private _fb :FormBuilder, private _actRoute :ActivatedRoute,
-    private _router :Router) { }
+    private _router :Router,private toastr: ToastrService) { }
 
 
   createForm(){
@@ -67,12 +68,7 @@ export class ResetComponent implements OnInit {
       "newPassword" : this.resetForm.value.password
     }).subscribe((result)=>{
       console.log(result);
-      if(result.sucess == true){
-        this._router.navigate(["/"])
-      }
-      else{
-        this.message = "Something went wrong";
-      }
+      this.toastr.message(result.message,result.success);
     })
   }
 

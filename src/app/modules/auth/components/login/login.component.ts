@@ -7,6 +7,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 import { Router } from '@angular/router';
 import { AuthservicesService } from 'src/app/services/authservices.service';
+import { ToastrService } from 'src/app/shared/services/toastr.service';
 
 @Component({
   selector: 'app-login',
@@ -47,7 +48,7 @@ export class LoginComponent implements OnInit {
     }
   };
 
-  constructor(private _fb : FormBuilder, private _authService : AuthservicesService, private _router : Router) { }
+  constructor(private _fb : FormBuilder, private _authService : AuthservicesService, private _router : Router,private toastr: ToastrService) { }
 
   submit(){
     if (this.userLogin.invalid) {
@@ -61,32 +62,13 @@ export class LoginComponent implements OnInit {
 
     this._authService.login(this.userLogin.value).subscribe((result)=>{
       console.log(result)
+      this.toastr.message(result.message,result.success);
         if(result.sucess == true)
         {
           localStorage.setItem("user", result.token)
         
           this._router.navigate(["/home"])
-      }else if(result.status == 401){
-        this.message = result.message
-    }else if(result.status == 404){
-      this.message = result.message
-    }else if(result.status == 403){
-      this.message = result.message
-    }
-    else{
-      this.message = "Something went wrong"
-    }
-  },(err)=>{
-    
-    if(err.status == 401){
-        this.message = err.message
-    }else if(err.status == 404){
-      console.log("yes");
-      this.message = err.message
-    }
-    else{
-      this.message = "Something went wrong"
-    }
+      }
   })
 }
 

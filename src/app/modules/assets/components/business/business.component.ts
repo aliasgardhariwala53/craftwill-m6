@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { valueChanges } from 'src/app/helper/formerror.helper';
 import { UserService } from 'src/app/services/user.service';
+import { ToastrService } from 'src/app/shared/services/toastr.service';
 
 @Component({
   selector: 'app-business',
@@ -15,7 +16,8 @@ export class BusinessComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private _userServ: UserService,
-    private _route: Router
+    private _route: Router,
+    private toastr: ToastrService
   ) {}
   createForm() {
     this.businessForm = this._fb.group({
@@ -77,10 +79,11 @@ export class BusinessComponent implements OnInit {
     };
     this._userServ.addAssets(businessData).subscribe((result) => {
       console.log(result);
+      this.toastr.message(result.message,result.success);
       if (result.sucess) {
         this._route.navigate(['/assets/assetsuccess']);
       }
-      this.responseMessage = result.message;
+    
     });
   }
   ngOnInit(): void {

@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { valueChanges } from 'src/app/helper/formerror.helper';
 import { UserService } from 'src/app/services/user.service';
+import { ToastrService } from 'src/app/shared/services/toastr.service';
 @Component({
   selector: 'app-unsecured-loan',
   templateUrl: './unsecured-loan.component.html',
@@ -13,7 +14,7 @@ export class UnsecuredLoanComponent implements OnInit {
 
   UnSecuredLoan:FormGroup
   responseMessage:string
-  constructor(private _fb:FormBuilder,private _userServ:UserService,private _route:Router) { }
+  constructor(private _fb:FormBuilder,private _userServ:UserService,private _route:Router,private toastr: ToastrService) { }
 
   createForm(){
  this.UnSecuredLoan= this._fb.group({
@@ -87,7 +88,7 @@ addUnSecuredLoan(){
     if (result.sucess) {
       this._route.navigate(['/liabilities/liabilitiesSuccess'])
         }
-    this.responseMessage=result.message;
+        this.toastr.message(result.message,result.success);
   });
 
  

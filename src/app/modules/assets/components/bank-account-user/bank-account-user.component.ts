@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { valueChanges } from 'src/app/helper/formerror.helper';
 import { UserService } from 'src/app/services/user.service';
+import { ToastrService } from 'src/app/shared/services/toastr.service';
 
 @Component({
   selector: 'app-bank-account-user',
@@ -17,6 +18,7 @@ export class BankAccountUserComponent implements OnInit {
     private _fb: FormBuilder,
     private _userServ: UserService,
     private _route: Router
+    ,private toastr: ToastrService
   ) {}
 
   createForm() {
@@ -85,10 +87,11 @@ export class BankAccountUserComponent implements OnInit {
     };
     this._userServ.addAssets(bankAccountData).subscribe((result) => {
       console.log(result);
+      this.toastr.message(result.message,result.success);
       if (result.sucess) {
         this._route.navigate(['/assets/assetsuccess']);
       }
-      this.responseMessage = result.message;
+      
     });
   }
   ngOnInit(): void {

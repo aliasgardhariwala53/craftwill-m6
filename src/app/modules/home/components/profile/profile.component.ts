@@ -9,6 +9,7 @@ import {
 import { HeaderService } from 'src/app/services/header.service';
 import { UserService } from 'src/app/services/user.service';
 import { environment } from 'src/environments/environment';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',

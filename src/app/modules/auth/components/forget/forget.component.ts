@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { valueChanges } from 'src/app/helper/formerror.helper';
 import { AuthservicesService } from 'src/app/services/authservices.service';
+import { ToastrService } from 'src/app/shared/services/toastr.service';
 
 @Component({
   selector: 'app-forget',
@@ -12,7 +13,7 @@ import { AuthservicesService } from 'src/app/services/authservices.service';
 
 export class ForgetComponent implements OnInit {
 
-  constructor(private _authServ :AuthservicesService, private _fb :FormBuilder) { }
+  constructor(private _authServ :AuthservicesService, private _fb :FormBuilder,private toastr: ToastrService) { }
 
   forgotForm :FormGroup;
   message : string;
@@ -49,9 +50,7 @@ export class ForgetComponent implements OnInit {
     console.log(this.forgotForm.value);
     this._authServ.forgotPassword(this.forgotForm.value).subscribe((result)=>{
       console.log(result);
-      if(result.sucess == true){
-        this.message = result.message
-      }
+      this.toastr.message(result.message,result.success);
     })
   }
 

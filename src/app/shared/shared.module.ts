@@ -17,6 +17,7 @@ import { ModalComponent } from './components/modal/modal.component';
 
 
 
+
 @NgModule({
   declarations: [
     HeaderToolbarComponent,
@@ -28,7 +29,7 @@ import { ModalComponent } from './components/modal/modal.component';
     DropdownComponent,
     FormComponent,
     HeaderMenuComponent,
-    ModalComponent
+    ModalComponent,
   ],
   imports: [
     CommonModule,
@@ -47,7 +48,7 @@ import { ModalComponent } from './components/modal/modal.component';
     DropdownComponent,
     FormComponent,
     HeaderMenuComponent,
-    ModalComponent
+    ModalComponent,
   ]
 })
 export class SharedModule { }

@@ -2,8 +2,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { valueChanges } from 'src/app/helper/formerror.helper';
+import { ToastrService } from 'src/app/shared/services/toastr.service';
 import { UserService } from '../../../../services/user.service';
-import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'app-create-members',
   templateUrl: './create-members.component.html',
@@ -144,8 +145,7 @@ memberUpdate(){
   
   this._userServ.createMembers(membersASPerson).subscribe((result) => {
     console.log(result);
-    this.toastr.success(result.message);
-    
+    this.toastr.message(result.message,result.success);
   });
  
 }
@@ -164,7 +164,7 @@ organisationUpdate(){
   const membersAsOrganisation = {country:this.organisationForm.value.id_country,memberAsOrganisation:{...this.organisationForm.value}};
   this._userServ.createMembers(membersAsOrganisation).subscribe((result) => {
     console.log(result);
-    this.toastr.success(result.message);
+    this.toastr.message(result.message,result.success);
     // this.responseMessageOrganisation=result.message;
   });
  

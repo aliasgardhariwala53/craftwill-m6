@@ -3,6 +3,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { passwordValidation, valueChanges } from 'src/app/helper/formerror.helper';
 import { AuthservicesService } from 'src/app/services/authservices.service';
+import { ToastrService } from 'src/app/shared/services/toastr.service';
 
 @Component({
   selector: 'app-signup',
@@ -19,7 +20,8 @@ export class SignupComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private _authService: AuthservicesService,
-    private _router: Router
+    private _router: Router,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -152,20 +154,13 @@ export class SignupComponent implements OnInit {
     this._authService.signup(obj).subscribe(
       (result) => {
         console.log(result);
+        this.toastr.message(result.message,result.success);
         if (result.sucess == true) {
-          this.message = 'SignUp Successfull';
+        
           this._router.navigate(['/']);
         }
       },
-      (err) => {
-        if (err) {
-          if (err.error == 400) {
-            this.message = 'Email already exists';
-          } else {
-            this.message = 'Something went wrong';
-          }
-        }
-      }
+     
     );
   }
 

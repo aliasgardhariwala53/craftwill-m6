@@ -74,8 +74,12 @@ export class InsurancePolicyComponent implements OnInit {
        
        return;
      }
-     
-     this._userServ.addAssets(this.insuranceForm.value).subscribe((result) => {
+     const insurancePolicytData = {
+      country: this.insuranceForm.value.country,
+      specifyOwnershipType: this.insuranceForm.value.specifyOwnershipType,
+      insurancePolicy: this.insuranceForm.value,
+    };
+     this._userServ.addAssets(insurancePolicytData).subscribe((result) => {
        console.log(result);
        if (result.sucess) {
         this._route.navigate(['/assets/assetsuccess'])

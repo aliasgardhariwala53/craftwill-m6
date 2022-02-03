@@ -13,7 +13,9 @@ import { ToastrService } from 'src/app/shared/services/toastr.service';
 export class PrivateDebtComponent implements OnInit {
 
 memberData=[];
-key=['fullname','organisationName','Relationship'];
+
+nameType='fullname' || 'organisationName'
+key = [this.nameType, 'Relationship', ];
 classes=["font-bold","font-bold","text-sm"];
 
   PrivateDebtForm:FormGroup
@@ -103,18 +105,15 @@ addPrivateDebt(){
   ngOnInit(): void {
     this.createForm()
     this._userServ.getMembers().subscribe((result) => {
-      console.log(...result.data);
-      this.memberData.push(...result.data)
-      console.log(this.memberData);
-     
+
+      this.memberData = result.data.map((item) => {
+        console.log(item.memberAsPerson);
+        // this.MemberData.push(...item.memberAsOrganisation);
+        return item.memberAsPerson || item.memberAsOrganisation;
+      });
 
     });
-    this._userServ.getOrganisation().subscribe((result) => {
-      console.log(...result.data);
-      this.memberData.push(...result.data)
-      console.log(this.memberData);
 
-    });
   }
 
 }

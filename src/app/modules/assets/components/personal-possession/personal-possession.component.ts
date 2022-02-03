@@ -76,7 +76,7 @@ export class PersonalPossessionComponent implements OnInit {
      const possessionData = {
       country: this.personalPossessionForm.value.country,
       specifyOwnershipType: this.personalPossessionForm.value.specifyOwnershipType,
-      investmentAccount: this.personalPossessionForm.value,
+      personalPossession: this.personalPossessionForm.value,
     };
      this._userServ.addAssets(possessionData).subscribe((result) => {
        console.log(result);

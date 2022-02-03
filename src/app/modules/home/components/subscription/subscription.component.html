@@ -1,0 +1,31 @@
+<div class="flex flex-col justify-content-around mx-6 sm:mx-4">
+    <div class=" ">
+      <app-header-toolbar routerlink="/home" pagetitle="Profile" [headerMenuIcon]=true></app-header-toolbar>
+    </div>
+  
+  
+    
+    <div class="flex flex-col sm:flex-row w-full ">
+      <div class="w-full flex flex-row sm:block px-2 sm:px-8 py-2 sm:py-8 sm:w-1/5  bg-[#000] sm:bg-[#f8f8f8] sm:mx-4 items-center sm:items-start justify-center rounded-2xl sm:rounded-[50px] sm:space-y-4">
+        <div
+          class="font-[GilroyBold] cursor-pointer py-4 px-4 m-auto w-[80%] justify-center text-center bg-white rounded-2xl text-xs sm:text-base"
+          [routerLink]="['/home/profile']" 
+          routerLinkActive="active_button">
+          profile Information
+        </div>
+        <div
+          class="font-[GilroyBold] cursor-pointer py-4 px-4 m-auto w-[80%] justify-center text-center bg-white rounded-2xl  text-xs sm:text-base"
+          [routerLink]="['/home/subscription']" 
+          routerLinkActive="active_button">
+          Subscription
+        </div>
+      </div>
+  
+      <div
+        class="w-full sm:w-4/5   sm:bg-[#f8f8f8] sm:mx-4 sm:px-10 mt-6 sm:mt-0 sm:pt-6 pb-2 items-center justify-center sm:rounded-[50px] overflow-auto h-[80vh] sm:h-[75vh] ">
+  
+  
+
+      </div>
+    </div>
+  </div>

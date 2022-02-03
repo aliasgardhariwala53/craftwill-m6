@@ -8,12 +8,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { SubscriptionComponent } from './components/subscription/subscription.component';
 
 
 @NgModule({
   declarations: [
     HomeComponent,
-    ProfileComponent
+    ProfileComponent,
+    SubscriptionComponent
   ],
   imports: [
     CommonModule,

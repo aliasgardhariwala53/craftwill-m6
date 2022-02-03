@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { valueChanges } from 'src/app/helper/formerror.helper';
 import { UserService } from '../../../../services/user.service';
-
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-create-members',
   templateUrl: './create-members.component.html',
@@ -17,7 +17,7 @@ export class CreateMembersComponent implements OnInit {
   responseMessageperson:string="";
   responseMessageOrganisation:string="";
   currentItem:string="Create Member";
-  constructor(private _fb:FormBuilder,private _userServ:UserService) { }
+  constructor(private _fb:FormBuilder,private _userServ:UserService,private toastr: ToastrService) { }
 
 
   createForm() {
@@ -144,7 +144,8 @@ memberUpdate(){
   
   this._userServ.createMembers(membersASPerson).subscribe((result) => {
     console.log(result);
-    this.responseMessageperson=result.message;
+    this.toastr.success(result.message);
+    
   });
  
 }
@@ -163,7 +164,8 @@ organisationUpdate(){
   const membersAsOrganisation = {country:this.organisationForm.value.id_country,memberAsOrganisation:{...this.organisationForm.value}};
   this._userServ.createMembers(membersAsOrganisation).subscribe((result) => {
     console.log(result);
-    this.responseMessageOrganisation=result.message;
+    this.toastr.success(result.message);
+    // this.responseMessageOrganisation=result.message;
   });
  
 }

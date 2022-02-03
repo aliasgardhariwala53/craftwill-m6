@@ -1,0 +1,10 @@
+.active_button{
+    background-color:#f8f8f8;
+    color: #ff6782;
+  }
+  @media (max-width: 646px) {
+    .active_button{
+      background-color:#000;
+      color: #ff6782;
+    }
+  }

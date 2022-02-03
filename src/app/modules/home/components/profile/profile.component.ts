@@ -8,7 +8,7 @@ import {
 } from 'src/app/helper/formerror.helper';
 import { HeaderService } from 'src/app/services/header.service';
 import { UserService } from 'src/app/services/user.service';
-
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -177,7 +177,9 @@ export class ProfileComponent implements OnInit {
     // click remove button
   remove() {
     this._userServ.imageUpload(null).subscribe((result) => {
-      this.imageSrc = `https://crafttttttwilllls.herokuapp.com${result.data.profileImage}`;
+      console.log(result);
+      
+      this.imageSrc = `${environment.serverUrl}${result.data.profileImage}`;
       this.showRemoveButton=false;
     });
   }
@@ -228,6 +230,9 @@ export class ProfileComponent implements OnInit {
     });
     this._headerServ.username.next(this.userInfo.value.fullName);
   }
+  logout(){
+    localStorage.removeItem("user")
+  }
   passwordUpdate() {
     if (this.passwordForm.invalid) {
       this.passwordForm.markAllAsTouched();
@@ -256,7 +261,7 @@ export class ProfileComponent implements OnInit {
     this._userServ.getUserImage().subscribe((img) => {
       this.userImage = img.profileImage;
       console.log(img.profileImage);
-      this.imageSrc = `https://crafttttttwilllls.herokuapp.com${this.userImage}`;
+      this.imageSrc = `${environment.serverUrl}${this.userImage}`;
       if (img.profileImage==='/uploads/defaultimage.png') {
         this.showRemoveButton=true;
       }

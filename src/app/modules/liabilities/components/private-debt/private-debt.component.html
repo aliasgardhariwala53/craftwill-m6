@@ -1,5 +1,7 @@
-<div class="flex flex-col px-8 py-4 space-y-2">
-  <app-header-toolbar routerlink="/liabilities/createLiabilities" pagetitle="Private Debt"></app-header-toolbar>
+<div class="flex flex-col px-8 py-4 space-y-2  overflow-auto h-[100vh]">
+
+    <app-header-toolbar routerlink="/liabilities/createLiabilities" pagetitle="Private Debt" [headerMenuIcon]=true></app-header-toolbar>
+    <app-button  value="Tutorial" routelink="/home" class="md:hidden" backgroundColor="bg-[#000]" margin="my-1"></app-button>
 
   <form method="POST" [formGroup]="PrivateDebtForm">
     <div class="grid bold grid-cols-1 sm:grid-cols-2 md:grid-cols-4  lg:grid-cols-5 gap-4 gap-y-0 mt-3">
@@ -32,7 +34,7 @@
         <div class="input-group1">
           <label class="input_label text-sm ml-1">Description</label>
           <textarea type="text" placeholder="Description" formControlName="description"
-            class="authinput form-control"></textarea>
+            class="authinput form-control min-h-[100px]"></textarea>
         </div>
 
         <div class="text-red-500 errors mx-2">

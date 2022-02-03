@@ -43,10 +43,7 @@ assetsData=[];
       this.assetsData=result.data.map((items,i)=>{
         
         this.allAssetsinOne.push(...[{nameofAssets:Object.keys(items)[0],uniqueNumber:Object.values(Object.values(items)[0])[1],country:items.country,ownerShip:items.specifyOwnershipType}]);
-
-
-        console.log(Object.values(Object.values(items)[0])[1]);
-        console.log(this.allAssetsinOne);
+        
         return items;
       })
     });

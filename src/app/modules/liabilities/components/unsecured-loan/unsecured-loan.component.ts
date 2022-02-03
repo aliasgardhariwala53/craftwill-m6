@@ -82,8 +82,11 @@ addUnSecuredLoan(){
     return;
   }
   console.log(this.UnSecuredLoan.value);
-  
-  this._userServ.addUnSecuredLoanLiability(this.UnSecuredLoan.value).subscribe((result) => {
+  const unSecuredLoanData = {
+
+    unsecuredLoan: this.UnSecuredLoan.value,
+  };
+  this._userServ.addLiabilities(unSecuredLoanData).subscribe((result) => {
     console.log(result);
     if (result.sucess) {
       this._route.navigate(['/liabilities/liabilitiesSuccess'])

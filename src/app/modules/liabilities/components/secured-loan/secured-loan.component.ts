@@ -12,7 +12,8 @@ import { ToastrService } from 'src/app/shared/services/toastr.service';
 export class SecuredLoanComponent implements OnInit {
 assetsId=[];
 assetsData=[];
-key=['fullname','organisationName','Relationship'];
+
+key = ['nameofAssets', 'uniqueNumber'];
 classes=["font-bold","font-bold","text-sm"];
   SecuredLoan:FormGroup
   responseMessage:string
@@ -48,7 +49,7 @@ formErrors = {
 
 
 };
-
+allAssetsinOne=[];
 formErrorMessages = {
   loanName: {
     required: 'loanName is Required',
@@ -103,8 +104,10 @@ addSecuredLoan(){
     return;
   }
   console.log(this.SecuredLoan.value);
-  
-  this._userServ.addSecuredLoanLiability(this.SecuredLoan.value).subscribe((result) => {
+  const securedLoanData = {
+    securedLoan: this.SecuredLoan.value,
+  };
+  this._userServ.addLiabilities(securedLoanData).subscribe((result) => {
     console.log(result);
     if (result.sucess) {
       this._route.navigate(['/liabilities/liabilitiesSuccess'])
@@ -117,9 +120,14 @@ addSecuredLoan(){
   ngOnInit(): void {
     this.createForm()
     this._userServ.getAssets().subscribe((result) => {
-      console.log(...result.data.users);
-      this.assetsData=[...result.data.users]
+     
 
+      this.assetsData=result.data.map((items,i)=>{
+        
+        this.allAssetsinOne.push(...[{nameofAssets:Object.keys(items)[0],uniqueNumber:Object.values(Object.values(items)[0])[1],country:items.country,ownerShip:items.specifyOwnershipType}]);
+        
+        return items;
+      })
     });
   }
 

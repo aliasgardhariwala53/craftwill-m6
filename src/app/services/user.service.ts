@@ -24,15 +24,10 @@ export class UserService {
     return this._httpServe.post(environment.serverUrl + "storeAssets",obj);
   }
 
-  addSecuredLoanLiability(obj){
-    return this._httpServe.post(environment.serverUrl + "liabilities/storeLoan",obj);
+  addLiabilities(obj){
+    return this._httpServe.post(environment.serverUrl + "storeLiabilities",obj);
   }
-  addUnSecuredLoanLiability(obj){
-    return this._httpServe.post(environment.serverUrl + "liabilities/storeUnsecureLoan",obj);
-  }
-  addprivateDebtLiability(obj){
-    return this._httpServe.post(environment.serverUrl + "liabilities/storeDept",obj);
-  }
+
   addTrust(obj){
     return this._httpServe.post(environment.serverUrl + "trust/storeTrust",obj);
   }

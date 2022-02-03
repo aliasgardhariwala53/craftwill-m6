@@ -1,6 +1,8 @@
 
-<div class="flex flex-col px-8 py-4 space-y-2">
-  <app-header-toolbar routerlink="/liabilities/createLiabilities" pagetitle="Secured Loan" ></app-header-toolbar>
+<div class="flex flex-col px-8 py-4 space-y-2 overflow-auto h-[100vh]">
+  <app-header-toolbar routerlink="/liabilities/createLiabilities" pagetitle="Secured Loan" [headerMenuIcon]=true></app-header-toolbar>
+
+  <app-button  value="Tutorial" routelink="/home" class="md:hidden" backgroundColor="bg-[#000]" margin="my-1"></app-button>
 
   <form
   method="POST"
@@ -94,7 +96,7 @@
             type="text"
             placeholder="Description"
             formControlName="description"
-            class="authinput form-control"
+            class="authinput form-control min-h-[100px]"
           ></textarea>
         </div>
   
@@ -129,7 +131,7 @@
           {{ formErrors.addAssets }}
         </div>
     </div> -->
-    <app-select-box [key]="key" [listItem]="assetsData" [classes]="classes" (onSelectId)="selectAssets($event)" avtarType="image" imageUrl="../../../../../assets/Icons/Bank Account.svg" addItemTitle="Add Assets"> </app-select-box> 
+    <app-select-box [key]="key" [listItem]="allAssetsinOne" [classes]="classes" (onSelectId)="selectAssets($event)" avtarType="image" imageUrl="../../../../../assets/Icons/Bank Account.svg" addItemTitle="Add Assets"> </app-select-box> 
     <!-- <app-select-box [key]="key" [listItem]="assetsData" [classes]="classes" (onSelectId)="selectAssets($event)"> </app-select-box> -->
     </div>      
 </div>

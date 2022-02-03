@@ -92,7 +92,10 @@ addPrivateDebt(){
     
     return;
   }
-  this._userServ.addprivateDebtLiability(this.PrivateDebtForm.value).subscribe((result) => {
+  const privateDebtData = {
+    privateDept: this.PrivateDebtForm.value,
+  };
+  this._userServ.addLiabilities(privateDebtData).subscribe((result) => {
     console.log(result);
     if (result.sucess) {
       this._route.navigate(['/liabilities/liabilitiesSuccess'])

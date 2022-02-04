@@ -63,11 +63,10 @@ export class LoginComponent implements OnInit {
     this._authService.login(this.userLogin.value).subscribe((result)=>{
       console.log(result)
       this.toastr.message(result.message,result.success);
-        if(result.sucess == true)
+        if(result.success === true)
         {
-          localStorage.setItem("user", result.token)
-        
           this._router.navigate(["/home"])
+          localStorage.setItem("user", result.token)
       }
   })
 }

@@ -9,6 +9,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ListLiabilitiesComponent implements OnInit {
 liabilitiesData=[];
+allLiabilities=[];
   constructor(private _userServ:UserService) { }
   tableHeadings = [
     'Name of the Liabilities',
@@ -17,7 +18,8 @@ liabilitiesData=[];
     'Current Outstanding Amount',
 
   ];
-  tableKeys = ['loanName', 'loanProvider', 'current_Outstanding_Amount','loanProvider'];
+  tableKeys = ['loanName', 'loanProvider','loanNumber', 'current_Outstanding_Amount'];
+
   tableData = [
   ];
   classes=[
@@ -51,8 +53,16 @@ liabilitiesData=[];
     // })
 
      this._userServ.getAllLiabilities().subscribe((result) => {
-       console.log(...result.data.users);
-       this.liabilitiesData.push(...result.data.users)
+       console.log(result);
+      //  this.liabilitiesData.push(...result.data.users)
+       this.liabilitiesData=result.data.map((items,i)=>{
+        
+        this.allLiabilities.push(...[{loanName:Object.keys(items)[0],loanProvider:Object.values(Object.values(items)[0])[1],loanNumber:items.country,current_Outstanding_Amount:items.specifyOwnershipType}]);
+        
+        return items;
+      })
+
+       
     });
   }
 

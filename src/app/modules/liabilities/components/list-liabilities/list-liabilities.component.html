@@ -58,7 +58,7 @@
 
 
 
-<app-table [tableHeadings]='tableHeadings' (actionButton)="onClickAction($event)" [tableData]='liabilitiesData' [keys]='tableKeys' [classes]="classes" emptyTableMessage="No Liabilities Found"></app-table>
+<app-table [tableHeadings]='tableHeadings' (actionButton)="onClickAction($event)" [tableData]='allLiabilities' [keys]='tableKeys' [classes]="classes" emptyTableMessage="No Liabilities Found"></app-table>
 <div class="absolute md:hidden left-0 right-0 bottom-1 w-[87%] m-auto bg-white ">
 
   <app-button  value="Create New Liabilities" routelink="/liabilities/createLiabilities" class="md:hidden"></app-button>

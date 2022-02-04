@@ -77,6 +77,7 @@ export class IntellectualPropertyComponent implements OnInit {
       country: this.IntellectualPropertyForm.value.country,
       specifyOwnershipType: this.IntellectualPropertyForm.value.specifyOwnershipType,
       intellectualProperty: this.IntellectualPropertyForm.value,
+      type:'intellectualProperty'
     };
      this._userServ.addAssets(intellectualData).subscribe((result) => {
        console.log(result);

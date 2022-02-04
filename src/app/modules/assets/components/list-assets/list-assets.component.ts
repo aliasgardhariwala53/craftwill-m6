@@ -19,6 +19,7 @@ assetsData=[];
     'OwnerShip',
   ];
   allAssetsinOne=[];
+  allAssetsData=[];
 
   tableKeys = ['nameofAssets', 'uniqueNumber', 'country','ownerShip'];
 
@@ -31,21 +32,91 @@ assetsData=[];
     "w-1/12 break-words hidden md:flex ",
 
     ]
+  name: string;
+  sortType: string;
   constructor(private _userServ:UserService) { }
   onClickAction(value){
     console.log(value);
     
   }
+  getName(item){
+   
+    let data={
+      name:'',
+      uniqueNumber:'',
+    }
+    switch (item.type) {
+      case 'business':
+        data.uniqueNumber=item.business.UEN_no || '---';
+        data.name='Business';
+        return data;
+        break;
+      case 'intellectualProperty':
+        data.uniqueNumber=item.intellectualProperty.ip_No || '';
+        data.name='Intellectual Property';
+        return data;
+        break;
+      case 'insurancePolicy':
+        data.uniqueNumber=item.insurancePolicy.policyNumber  || '---';
+        data.name='Insurance Policy';
+        return data;
+        break;
+      case 'bankAccount':
+        data.uniqueNumber=item.bankAccount.accountNumber  || '---';
+        data.name='Bank Account'
+        return data;
+        break;
+      case 'safeDepositBox':
+        data.uniqueNumber=item.safeDepositBox.safe_No  || '---';
+        data.name='Safe Deposit Box'
+        return data;
+        break;
+      case 'realEstate':
+        data.uniqueNumber=item.realEstate.accountNumber  || '---';
+        data.name='Real Estate'
+        return data;
+        break;
+      case 'personalPossession':
+        data.uniqueNumber=item.personalPossession.id_No  || '---';
+        data.name='Personal Possession' 
+        return data;
+        break;
+      case 'investmentAccount':
+        data.uniqueNumber=item.investmentAccount.accountNo  || '---';
+        data.name='Investment Account'
+        return data;
+        break;
+      case 'motorVehicle':
+        data.uniqueNumber=item.motorVehicle.plateNo  || '---';
+        data.name='Motor Vehicle'
+        return data;
+        break;
+      default:
+ return data;
+      }
+  }
+
+  onSorting(value){
+this.sortType=value;
+if (value==='All') {
+  
+  this.allAssetsinOne=this.allAssetsData;
+}
+ else {
+  
+  this.allAssetsinOne=this.allAssetsData.filter((item)=>item.type===value);
+}
+  }
+
   ngOnInit(): void {
     this._userServ.getAssets().subscribe((result) => {
-     
-
-      this.assetsData=result.data.map((items,i)=>{
-        
-        this.allAssetsinOne.push(...[{nameofAssets:Object.keys(items)[0],uniqueNumber:Object.values(Object.values(items)[0])[1],country:items.country,ownerShip:items.specifyOwnershipType}]);
-        
-        return items;
+      
+      this.allAssetsData=result.data.map((items,i)=>{
+       return {nameofAssets:this.getName(items)?.name,uniqueNumber:this.getName(items)?.uniqueNumber,country:items.country,ownerShip:items.specifyOwnershipType,type:items.type}
+   
       })
+      this.allAssetsinOne=[...this.allAssetsData];
+      
     });
   }
 

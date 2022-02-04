@@ -69,6 +69,7 @@ export class RealEstateComponent implements OnInit {
       country: this.realEstateForm.value.country,
       specifyOwnershipType: this.realEstateForm.value.specifyOwnershipType,
       realEstate: this.realEstateForm.value,
+      type:'realEstate'
     };
      this._userServ.addAssets(realEstateData).subscribe((result) => {
        console.log(result);

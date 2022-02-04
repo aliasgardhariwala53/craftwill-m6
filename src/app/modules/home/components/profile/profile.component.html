@@ -280,8 +280,8 @@
         <div class="grid bold grid-cols-1 sm:grid-cols-2 md:grid-cols-4   sm:gap-x-8 sm:gap-y-2  ">
           <div class="w-full">
             <div class="input-group1">
-              <label class="input_label text-sm sm:text-base font-[GilroySemi]">Current password</label>
-              <input type="text" placeholder="Current Password" [ngClass]="{ input_bg_address: disablePassword }"
+              <label class="input_label text-sm sm:text-base font-[GilroySemi]"> password</label>
+              <input type="text" placeholder="{{disablePassword ?'*******************************':'Current Password'}}" [ngClass]="{ input_bg_address: disablePassword }"
                 [attr.disabled]="disablePassword ? '' : null" [ngStyle]="{
                   cursor: disablePassword ? 'not-allowed' : 'default'
                 }" formControlName="password"

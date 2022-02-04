@@ -8,6 +8,7 @@ import {
 } from 'src/app/helper/formerror.helper';
 import { HeaderService } from 'src/app/services/header.service';
 import { UserService } from 'src/app/services/user.service';
+import { ToastrService } from 'src/app/shared/services/toastr.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -136,7 +137,8 @@ export class ProfileComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private _userServ: UserService,
-    private _headerServ: HeaderService
+    private _headerServ: HeaderService,
+    private toastr:ToastrService
   ) {}
 
   DataURIToBlob(dataURI: string) {
@@ -179,7 +181,7 @@ export class ProfileComponent implements OnInit {
   remove() {
     this._userServ.imageUpload(null).subscribe((result) => {
       console.log(result);
-      
+      this.toastr.message(result.success?"Image Removed SuccessFully":"Image Remove Error",result.success);
       this.imageSrc = `${environment.serverUrl}${result.data.profileImage}`;
       this.showRemoveButton=false;
     });
@@ -207,7 +209,8 @@ export class ProfileComponent implements OnInit {
     
     this._userServ.imageUpload(form).subscribe((result) => {
       console.log(result);
-      if (result.sucess === true) {
+      this.toastr.message(result.message,result.success);
+      if (result.success === true) {
         this.imageSrc = this.croppedImage;
         this.showImageUpload = false;
         this.showCropped = false;
@@ -228,6 +231,7 @@ export class ProfileComponent implements OnInit {
     }
     this._userServ.updateProfile(this.userInfo.value).subscribe((result) => {
       console.log(result);
+      this.toastr.message(result.message,result.success);
     });
     this._headerServ.username.next(this.userInfo.value.fullName);
   }

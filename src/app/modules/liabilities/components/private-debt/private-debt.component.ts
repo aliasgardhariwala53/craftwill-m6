@@ -27,7 +27,7 @@ classes=["font-bold","font-bold","text-sm"];
   dept_Name  : ["",[Validators.required]],
   current_Outstanding_Amount   : ["",[Validators.required]],
   description   : ["",[Validators.required]],
-  addMembers   : [[],[Validators.required]],
+  memberId : [[],[Validators.required]],
  })
  this.PrivateDebtForm.valueChanges.subscribe(() => {
   this.formErrors = valueChanges(
@@ -42,7 +42,7 @@ formErrors = {
   dept_Name: "",
   current_Outstanding_Amount: "",
   description: "",
-  addMembers: "",
+  memberId: "",
 
 
 };
@@ -57,7 +57,7 @@ formErrorMessages = {
   description: {
     required: 'Description is Required',
   },
-  addMembers: {
+  memberId: {
     required: 'Please Select Members',
   },
   
@@ -65,17 +65,17 @@ formErrorMessages = {
 
 selectMember(value){
 
-let addMembers : Array<any> = this.PrivateDebtForm.value.addMembers;
-if (addMembers.includes(value)) {
-  addMembers.splice(addMembers.indexOf(value),1);
+let memberId : Array<any> = this.PrivateDebtForm.value.memberId;
+if (memberId.includes(value)) {
+  memberId.splice(memberId.indexOf(value),1);
 }else{
-  addMembers.push(value);
+  memberId.push(value);
 }
 
 this.PrivateDebtForm.patchValue({
-  addMembers: addMembers
+  memberId: memberId
 })
-console.log(this.PrivateDebtForm.value.addMembers);
+console.log(this.PrivateDebtForm.value.memberId);
   
 }
 addPrivateDebt(){
@@ -110,9 +110,8 @@ addPrivateDebt(){
     this._userServ.getMembers().subscribe((result) => {
 
       this.memberData = result.data.map((item) => {
-        console.log(item.memberAsPerson);
-        // this.MemberData.push(...item.memberAsOrganisation);
-        return item.memberAsPerson || item.memberAsOrganisation;
+        console.log(item);
+        return {...item.memberAsPerson,_id:item._id} || {...item.memberAsOrganisation,_id:item._id};
       });
 
     });

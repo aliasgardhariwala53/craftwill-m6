@@ -76,6 +76,7 @@ export class InvestmentAccountComponent implements OnInit {
       country: this.InvestmentAccountUser.value.country,
       specifyOwnershipType: this.InvestmentAccountUser.value.specifyOwnershipType,
       investmentAccount: this.InvestmentAccountUser.value,
+      type:'investmentAccount'
     };
      this._userServ.addAssets(InvestmentData).subscribe((result) => {
        console.log(result);

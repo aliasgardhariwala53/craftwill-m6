@@ -78,6 +78,7 @@ export class InsurancePolicyComponent implements OnInit {
       country: this.insuranceForm.value.country,
       specifyOwnershipType: this.insuranceForm.value.specifyOwnershipType,
       insurancePolicy: this.insuranceForm.value,
+      type:'insurancePolicy'
     };
      this._userServ.addAssets(insurancePolicytData).subscribe((result) => {
        console.log(result);

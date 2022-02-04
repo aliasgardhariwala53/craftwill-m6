@@ -49,17 +49,17 @@ formErrors = {
 formErrorMessages = {
 
   loanProvider: {
-    required: 'loanProvider is Required',
+    required: 'Loan Provider is Required',
   },
   loan_Number: {
-    required: 'loan_Number is Required',
+    required: 'Loan Number is Required',
   },
   loan_Id_Number: {
-    required: 'loan_Id_Number is Required',
+    required: 'Loan Id Number is Required',
     pattern: 'Only numeric values allowed',
   },
   current_Outstanding_Amount: {
-    required: 'current_Outstanding Amount is Required',
+    required: 'Current Outstanding Amount is Required',
   },
   description: {
     required: 'Description is Required',

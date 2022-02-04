@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-liabilities',
@@ -6,9 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./create-liabilities.component.scss']
 })
 export class CreateLiabilitiesComponent implements OnInit {
-
-  constructor() { }
-
+routeLink:string="";
+  constructor(private routeTo:Router) { }
+  selectHandler(value){
+  this.routeLink=value;
+  // console.log(value);
+  
+  }
+  call(){
+    this.routeTo.navigate([`/liabilities/${this.routeLink}`]);
+    
+  }
   ngOnInit(): void {
   }
 

@@ -84,6 +84,7 @@ export class BankAccountUserComponent implements OnInit {
     const bankAccountData = {
       country: this.BankAccountUser.value.country,
       bankAccount: this.BankAccountUser.value,
+      type:'bankAccount'
     };
     this._userServ.addAssets(bankAccountData).subscribe((result) => {
       console.log(result);

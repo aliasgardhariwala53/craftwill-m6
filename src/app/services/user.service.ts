@@ -63,7 +63,7 @@ export class UserService {
     return this._httpServe.get(environment.serverUrl + "liabilities/getDeptDetails");
   }
   getAllLiabilities(){
-    return this._httpServe.get(environment.serverUrl + "liabilities");
+    return this._httpServe.get(environment.serverUrl + "getLiabilities");
   }
   getTrust(){
     return this._httpServe.get(environment.serverUrl + "trust/getTrustDetails");

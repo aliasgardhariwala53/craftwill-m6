@@ -75,7 +75,8 @@ export class BusinessComponent implements OnInit {
     const businessData = {
       country: this.businessForm.value.country,
       specifyOwnershipType: this.businessForm.value.specifyOwnershipType,
-      businessName: this.businessForm.value,
+      business: this.businessForm.value,
+      type:'business'
     };
     this._userServ.addAssets(businessData).subscribe((result) => {
       console.log(result);

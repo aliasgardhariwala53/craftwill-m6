@@ -77,6 +77,7 @@ export class MoterVehicleComponent implements OnInit {
       country: this.vehicleForm.value.country,
       specifyOwnershipType: this.vehicleForm.value.specifyOwnershipType,
       motorVehicle: this.vehicleForm.value,
+      type:'motorVehicle'
     };
      this._userServ.addAssets(VehicletData).subscribe((result) => {
        console.log(result);

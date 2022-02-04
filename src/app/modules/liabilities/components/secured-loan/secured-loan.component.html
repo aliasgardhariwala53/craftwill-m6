@@ -1,5 +1,5 @@
 
-<div class="flex flex-col px-8 py-4 space-y-2 overflow-auto h-[100vh]">
+<div class="flex flex-col px-8 py-4 space-y-2 overflow-auto h-[100vh] md:h-[90vh] lg:h-[80vh]">
   <app-header-toolbar routerlink="/liabilities/createLiabilities" pagetitle="Secured Loan" [headerMenuIcon]=true></app-header-toolbar>
 
   <app-button  value="Tutorial" routelink="/home" class="md:hidden" backgroundColor="bg-[#000]" margin="my-1"></app-button>
@@ -88,7 +88,7 @@
   </div>
 
 
-<div class="w-1/2">
+<div class="md:w-1/2">
     <div class="form-group">
         <div class="input-group1">
           <label class="input_label text-sm ml-1">Description</label>
@@ -107,7 +107,7 @@
 </div>
 <div class="w-full">
     <div class="font-extrabold">Select or Add the Asset Pledged as Collateral for this Loan.</div>
-    <div class="rounded-xl bg_grey flex flex-col p-4" >
+    <div class="rounded-xl bg_grey flex flex-col p-4 overflow-auto sm:overflow-hidden h-[100vh] sm:h-auto" >
     <div>Select and add assets</div>
     <!-- <div class="grid bold grid-cols-1 sm:grid-cols-2 md:grid-cols-4  lg:grid-cols-6 gap-4 ">
         <div class="bg-[#fff]  flex flex-col rounded-2xl  p-3 shadow-[0_0px_10px_rgba(0,0,0,0.1)] space-y-2 cursor-pointer  visited:bg-gray-700" *ngFor='let asset of assetsData' (click)="selectAssets(asset._id)" >
@@ -132,11 +132,10 @@
         </div>
     </div> -->
     <app-select-box [key]="key" [listItem]="allAssetsinOne" [classes]="classes" (onSelectId)="selectAssets($event)" avtarType="image" imageUrl="../../../../../assets/Icons/Bank Account.svg" addItemTitle="Add Assets"> </app-select-box> 
-    <!-- <app-select-box [key]="key" [listItem]="assetsData" [classes]="classes" (onSelectId)="selectAssets($event)"> </app-select-box> -->
     </div>      
 </div>
 <div class=" sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
-    <app-button (myMethod)="addSecuredLoan()" value="Add Liability" id="submitButtonId" [arrow]="true"></app-button>
+    <app-button (myMethod)="addSecuredLoan()" value="Add Liability" id="submitButtonId" padding="px-4 py-6 " borderRadius="rounded-2xl" [arrow]="true"></app-button>
 </div>
   <div class="text-green-500">{{responseMessage}}</div>
   </form>

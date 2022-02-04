@@ -49,10 +49,10 @@ formErrors = {
 
 formErrorMessages = {
   dept_Name: {
-    required: 'dept Name is Required',
+    required: 'Dept Name is Required',
   },
   current_Outstanding_Amount: {
-    required: 'current Outstanding Amount is Required',
+    required: 'Current Outstanding Amount is Required',
   },
   description: {
     required: 'Description is Required',

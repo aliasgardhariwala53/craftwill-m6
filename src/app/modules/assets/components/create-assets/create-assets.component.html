@@ -1,11 +1,15 @@
 
 <div class="flex flex-col px-8 py-4 spae-y-2">
-  <app-header-toolbar routerlink="/assets" [pagetitle]="Titile"></app-header-toolbar>
+
+    <app-header-toolbar class="hidden md:block" routerlink="/assets" pagetitle="Assets" [headerMenuIcon]=true></app-header-toolbar>
+    <app-header-toolbar class=" md:hidden" routerlink="/assets" pagetitle="Choose Asset Category" [headerMenuIcon]=true></app-header-toolbar>
+    <app-button  value="Tutorial" routelink="/home" class="md:hidden" backgroundColor="bg-[#000]" margin="my-1"></app-button>
+
   <div class="w-full flex flex-row justify-center ">
-      <div class="w-3/3 sm:w-2/3 md:w-1/3 lg:w-4/12 flex flex-col drop_shadow rounded-2xl p-3 space-y-2">
-  <div class="font-extrabold text-xl m-1">Choose Asset Category</div>
+      <div class="w-full sm:w-2/3 md:w-1/3 lg:w-4/12 flex flex-col drop_shadow_container md:shadow-none rounded-2xl p-3 space-y-2">
+  <div class="font-extrabold text-xl m-1 hidden md:flex ">Choose Asset Category</div>
   <div
-  class="grid grid-cols-3 items-center justify-center "
+  class="grid grid-cols-2 md:grid-cols-3 items-center justify-center overflow-auto h-[75vh]"
 >
   <div class="drop_shadow rounded-2xl flex-row justify-center px-2 py-3 m-2 cursor-pointer " [routerLink]="['/assets/addBank']" routerLinkActive="router-link-active" >
     <div class="flex justify-center max-h-10">
@@ -77,9 +81,11 @@
   </div>
 
 </div>
-  <div class="m-1 bg-[#ED7184] px-0 py-3 text-center rounded-2xl text-white font-bold w-2/3" >Continue</div>
-
-      </div>
+  <div class="m-1 bg-[#ED7184] px-0 py-3 text-center rounded-2xl text-white font-bold w-2/3  hidden sm:block" >Continue</div>
+ </div>
    
+  </div>
+  <div class="absolute md:hidden left-0 right-0 bottom-1 w-[87%] m-auto bg-white ">
+    <app-button  value="Continue" id="submitButtonId"></app-button>
   </div>
 </div>

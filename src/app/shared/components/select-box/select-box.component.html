@@ -1,5 +1,5 @@
 <div class="grid bold grid-cols-1 sm:grid-cols-2 md:grid-cols-4  lg:grid-cols-6 gap-4 ">
-    <div class="bg-[#fff]  flex flex-col rounded-2xl  p-3 shadow-[0_0px_10px_rgba(0,0,0,0.1)] space-y-2 cursor-pointer  visited:bg-gray-700" *ngFor='let item of listItem' (click)="onSelectItem(item._id)" >
+    <div class="bg-[#fff]  flex flex-row items-center sm:items-start md:flex-col rounded-2xl  p-3 shadow-[0_0px_10px_rgba(0,0,0,0.1)] space-y-2 space-x-2 md:space-x-0 cursor-pointer  visited:bg-gray-700 relative" *ngFor='let item of listItem' (click)="onSelectItem(item._id)" >
      
         <div *ngIf="avtarType==='name'" class="rounded-full bg-blue-300 font-extrabold w-[40px] p-2 text-center">{{ getShortName(item.fullname) || "AA"}}</div>
         <div *ngIf="avtarType==='image'"><img src="{{imageUrl}}"></div>
@@ -8,9 +8,9 @@
                 <div class="{{ classes[i] }}" *ngFor='let key of key; let i =index'>{{item[key]}}</div>
                 
             </div>
-            <div><img class="-rotate-90" src="../../../../../assets/Icons/Back.svg"></div>
         </div>
-
+        
+        <div class="absolute right-5 md:bottom-5"><img class="-rotate-90" src="../../../../../assets/Icons/Back.svg"></div>
     </div>
     <div class="bg-[#fff]  flex flex-col rounded-xl border-dashed border-2 border-[#ff6782] py-10  justify-center items-center text-red" (click)="onAddItem()">
         {{addItemTitle}}

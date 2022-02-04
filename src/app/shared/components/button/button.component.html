@@ -1,9 +1,10 @@
 <div class="flex flex-row relative ">
 
-
+  
+  <i *ngIf="plus" class="fas fa-plus-circle next_arrow flex items-center absolute text-white right-5 text-xl h-[100%] cursor-pointer"></i>
   <input
   type="submit"
-    class="{{backgroundColor}} {{padding}} {{ arrow ? 'text-left' : 'text-center' }} {{margin}} {{borderRadius}} {{color}} {{border}} font-bold w-[100%] cursor-pointer"
+    class="{{backgroundColor}} {{text}} {{padding}} {{ arrow ? 'text-left' : 'text-center' }} {{margin}} {{borderRadius}} {{color}} {{border}} font-[GilroyBold] w-[100%] cursor-pointer"
     [id]="id"
     (click)="onClick()"
     [value]="value"

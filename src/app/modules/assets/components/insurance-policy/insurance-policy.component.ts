@@ -44,19 +44,19 @@ export class InsurancePolicyComponent implements OnInit {
    
    formErrorMessages = {
     policyName : {
-       required: 'policyName  is Required',
+       required: 'Policy Name  is Required',
      },
      policyNumber : {
-       required: 'policyNumber  is Required',
+       required: 'Policy Number  is Required',
        
        pattern: 'Only numeric values allowed',
      },
      country: {
-       required: 'country is Required',
+       required: 'Country is Required',
      },
    
      specifyOwnershipType: {
-       required: 'specifyOwnershipType is Required',
+       required: 'Ownership is Required',
      },
      
    };

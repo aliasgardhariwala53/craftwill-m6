@@ -43,19 +43,19 @@ export class BusinessComponent implements OnInit {
 
   formErrorMessages = {
     businessName: {
-      required: 'businessName  is Required',
+      required: 'Business Name  is Required',
     },
     UEN_no: {
-      required: 'UEN_no  is Required',
+      required: 'UEN No. is Required',
 
       pattern: 'Only numeric values allowed',
     },
     country: {
-      required: 'country is Required',
+      required: 'Country is Required',
     },
 
     specifyOwnershipType: {
-      required: 'specifyOwnershipType is Required',
+      required: 'Ownership is Required',
     },
   };
   addBusiness() {

@@ -322,6 +322,9 @@
 .input_bg_address {
   background-color: #ddd;
 }
+.input_not_edit {
+  background-color: #ddd;
+}
 @media (max-width: 646px) {
   .active_button{
     background-color:#000;
@@ -333,9 +336,15 @@
     padding-top: 0;
 
   }
+  .input_not_edit {
+    background-color: #fff;
+    padding-left: 2px;
+    padding-top: 0;
+
+  }
   .input_bg_address {
     background-color: #FFEAEE;
-    padding-left: 0;
+    padding-left: 2px;
     padding-top: 0;
 
   }

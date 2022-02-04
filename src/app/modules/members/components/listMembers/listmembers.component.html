@@ -42,12 +42,18 @@
     </div>
 
     
-    <div class="w-4/12 items-center hidden md:flex"><img class="ml-auto h-[38px] w-[38px]" src='../../../../../assets/Icons/Group 4361.svg'></div>
-    <div class="w-12/12 md:w-2/12 justify-end hidden md:flex text-base text-center">
+    <div class="hidden md:w-4/12 justify-end  md:flex text-base text-center">
+      <app-button border="border-2 border-black" padding="px-10 py-3" backgroundColor="bg-[#fff]" borderRadius="rounded-xl" color="text-[#000]" value="Tutorial"  routelink="/home"></app-button>
+    </div>
+    <div class="w-4/12 md:ml-8 md:mr-8 sm:w-fit items-center hidden md:flex"><img class="ml-auto h-[38px] w-[38px]" src='../../../../../assets/Icons/Group 4361.svg'></div>
+    <div class="w-12/12 md:w-fit justify-end hidden md:flex text-base text-center">
       <app-button  value="Create New Member" routelink="/members/createmembers" ></app-button>
     </div>
 </div>
 
 <app-table [tableHeadings]='tableHeadings' (actionButton)="onClickAction($event)" [tableData]='MemberData' [keys]='tableKeys' [classes]="classes" emptyTableMessage="No members Found" ></app-table>
-<app-button  value="Create New Member" routelink="/members/createmembers" class="md:hidden" margin="my-1"></app-button>
+<div class="absolute md:hidden left-0 right-0 bottom-1 w-[87%] m-auto bg-white ">
+
+  <app-button  value="Create New Member" routelink="/members/createmembers" class="md:hidden" margin="my-1"></app-button>
+</div>
 </div>

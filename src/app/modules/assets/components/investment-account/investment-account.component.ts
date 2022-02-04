@@ -42,19 +42,19 @@ export class InvestmentAccountComponent implements OnInit {
    
    formErrorMessages = {
     accountName : {
-       required: 'account Name  is Required',
+       required: 'Account Name  is Required',
      },
      accountNo : {
-       required: 'accountNo  is Required',
+       required: 'Account No  is Required',
        
        pattern: 'Only numeric values allowed',
      },
      country: {
-       required: 'country is Required',
+       required: 'Country is Required',
      },
    
      specifyOwnershipType: {
-       required: 'specifyOwnershipType is Required',
+       required: 'Ownership is Required',
      },
      
    };

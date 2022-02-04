@@ -51,11 +51,11 @@ export class PersonalPossessionComponent implements OnInit {
        pattern: 'Only numeric values allowed',
      },
      country: {
-       required: 'country is Required',
+       required: 'Country is Required',
      },
    
      specifyOwnershipType: {
-       required: 'specifyOwnershipType is Required',
+       required: 'Ownership is Required',
      },
      
    };

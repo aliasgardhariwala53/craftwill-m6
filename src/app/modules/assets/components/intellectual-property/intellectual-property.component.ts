@@ -44,18 +44,18 @@ export class IntellectualPropertyComponent implements OnInit {
    
    formErrorMessages = {
     ip_Name: {
-       required: 'ip_Name  is Required',
+       required: 'Ip Name  is Required',
      },
      ip_No: {
      
        pattern: 'Only numeric values allowed',
      },
      country: {
-       required: 'country is Required',
+       required: 'Country is Required',
      },
    
      SpecifyOwnershipType: {
-       required: 'SpecifyOwnershipType is Required',
+       required: 'Ownership is Required',
      },
      
    };

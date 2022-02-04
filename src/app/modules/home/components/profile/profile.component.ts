@@ -93,13 +93,13 @@ export class ProfileComponent implements OnInit {
       required: 'Id Type is Required',
     },
     id_number: {
-      required: 'id Number is Required',
+      required: 'Id Number is Required',
     },
     gender: {
       required: 'Gender is Required',
     },
     fullName: {
-      required: 'fullName is Required',
+      required: 'FullName is Required',
     },
     email: {
       required: 'Email is Required',
@@ -110,16 +110,16 @@ export class ProfileComponent implements OnInit {
       minlength: 'Minimum length of password must be 6',
     },
     floorNumber: {
-      required: 'floorNumber is Required',
+      required: 'Floor Number is Required',
     },
     unitNumber: {
-      required: 'unitNumber is Required',
+      required: 'Unit Number is Required',
     },
     streetName: {
-      required: 'streetName is Required',
+      required: 'Street Name is Required',
     },
     postalCode: {
-      required: 'postalCode is Required',
+      required: 'Postal Code is Required',
       // pattern: 'Please Enter valid numeric value',
     },
     newPassword: {

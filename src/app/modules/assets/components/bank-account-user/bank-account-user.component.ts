@@ -50,21 +50,21 @@ export class BankAccountUserComponent implements OnInit {
 
   formErrorMessages = {
     bankname: {
-      required: 'bankname is Required',
+      required: 'Bank Name is Required',
     },
     accountNumber: {
-      required: 'accountNumber is Required',
+      required: 'Account Number is Required',
 
       pattern: 'Only numeric values allowed',
     },
     country: {
-      required: 'country is Required',
+      required: 'Country is Required',
     },
     estimateValue: {
-      required: 'estimateValue is Required',
+      required: 'Estimate Value is Required',
     },
     specifyOwnershipType: {
-      required: 'specifyOwnershipType is Required',
+      required: 'Ownership is Required',
     },
   };
   addBankAccount() {

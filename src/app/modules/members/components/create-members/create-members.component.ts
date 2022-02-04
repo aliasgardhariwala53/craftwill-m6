@@ -84,29 +84,29 @@ export class CreateMembersComponent implements OnInit {
       required: 'Id Type is Required',
     },
     id_number: {
-      required: 'id Number is Required',
+      required: 'Id Number is Required',
     },
     gender: {
       required: 'Gender is Required',
     },
     fullname: {
-      required: 'fullname is Required',
+      required: 'Fullname is Required',
     },
     dob: {
       required: 'Date of birth is Required',
     },
 
     floorNumber: {
-      required: 'floorNumber is Required',
+      required: 'Floor Number is Required',
     },
     unitNumber: {
-      required: 'unitNumber is Required',
+      required: 'Unit Number is Required',
     },
     streetName: {
-      required: 'streetName is Required',
+      required: 'Street Name is Required',
     },
     postalCode: {
-      required: 'postalCode is Required',
+      required: 'Postal Code is Required',
       pattern: 'Please Enter valid numeric value',
     },
     Relationship: {
@@ -114,11 +114,11 @@ export class CreateMembersComponent implements OnInit {
       // pattern: 'Please Enter valid numeric value',
     },
     id_country: {
-      required: 'country is Required',
+      required: 'Country is Required',
       // pattern: 'Please Enter valid numeric value',
     },
     registration_number: {
-      required: 'registration is Required',
+      required: 'Registration Number is Required',
       pattern: 'Please Enter valid registration number',
     },
     organisationName: {

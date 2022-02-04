@@ -116,20 +116,20 @@ export class SignupComponent implements OnInit {
       minlength: 'Minimum length of password must be 6',
     },
     confirmPassword: {
-      required: 'confirmPassword is Required',
+      required: 'confirm Password is Required',
       matching: 'Password not matched'
     },
     floorNumber: {
-      required: 'floorNumber is Required',
+      required: 'Floor Number is Required',
     },
     unitNumber: {
-      required: 'unitNumber is Required',
+      required: 'Unit Number is Required',
     },
     streetName: {
-      required: 'streetName is Required',
+      required: 'Street Name is Required',
     },
     postalCode: {
-      required: 'postalCode is Required',
+      required: 'Postal Code is Required',
       pattern: 'Please Enter valid numeric value',
     },
  

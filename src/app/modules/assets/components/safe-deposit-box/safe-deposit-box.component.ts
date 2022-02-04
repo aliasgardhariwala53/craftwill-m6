@@ -44,18 +44,18 @@ export class SafeDepositBoxComponent implements OnInit {
    
    formErrorMessages = {
     safe_Box_Location: {
-       required: 'safe Box Location  is Required',
+       required: 'Safe Box Location  is Required',
      },
      safe_No: {
      
        pattern: 'Only numeric values allowed',
      },
      country: {
-       required: 'country is Required',
+       required: 'Country is Required',
      },
    
      specifyOwnershipType: {
-       required: 'specifyOwnershipType is Required',
+       required: 'Ownership is Required',
      },
      
    };

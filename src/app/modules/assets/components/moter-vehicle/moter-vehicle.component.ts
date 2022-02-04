@@ -43,19 +43,19 @@ export class MoterVehicleComponent implements OnInit {
    
    formErrorMessages = {
     CarModel: {
-       required: 'CarModel  is Required',
+       required: 'Vehicle Model is Required',
      },
      plateNo: {
-       required: 'plateNo  is Required',
+       required: 'Plate No  is Required',
        
        pattern: 'Only numeric values allowed',
      },
      country: {
-       required: 'country is Required',
+       required: 'Country is Required',
      },
    
      SpecifyOwnershipType: {
-       required: 'SpecifyOwnershipType is Required',
+       required: 'Ownership is Required',
      },
      
    };

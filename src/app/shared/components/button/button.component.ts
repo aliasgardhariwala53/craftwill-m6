@@ -16,6 +16,7 @@ export class ButtonComponent implements OnInit {
   @Input() borderRadius:string='rounded-[10px]';
   @Input() backgroundColor:string='bg-[#FF6782]';
   @Input() color:string='text-white';
+  @Input() border:string='';
   @Output() myMethod= new EventEmitter();
   constructor(private route:Router) { }
 

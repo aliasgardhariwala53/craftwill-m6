@@ -83,6 +83,7 @@ addUnSecuredLoan(){
   }
   console.log(this.UnSecuredLoan.value);
   const unSecuredLoanData = {
+    current_Outstanding_Amount:this.UnSecuredLoan.value.current_Outstanding_Amount,
     unsecuredLoan: this.UnSecuredLoan.value,
     type:'unsecuredLoan'
   };

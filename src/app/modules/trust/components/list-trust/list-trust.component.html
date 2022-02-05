@@ -56,7 +56,7 @@
 <app-table [tableHeadings]='tableHeadings' (actionButton)="onClickAction($event)"  [tableData]='trustData' [keys]='tableKeys' [classes]="classes" emptyTableMessage="No Trust Data Found"></app-table>
 <div class="absolute md:hidden left-0 right-0 bottom-1 w-[87%] m-auto bg-white ">
 
-  <app-button  value="Create New Trust" routelink="/trust/createTrust" class="sm:hidden"></app-button>
+  <app-button [plus]="true" value="Create New Trust" routelink="/trust/createInfo" class="sm:hidden"></app-button>
 </div>
     </div>
     

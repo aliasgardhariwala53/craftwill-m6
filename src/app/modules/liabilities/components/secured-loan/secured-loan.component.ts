@@ -107,6 +107,8 @@ export class SecuredLoanComponent implements OnInit {
       return;
     }
     const securedLoanData = {
+    current_Outstanding_Amount:this.SecuredLoan.value.current_Outstanding_Amount,
+      
       securedLoan: this.SecuredLoan.value,
       type:'securedLoan'
       

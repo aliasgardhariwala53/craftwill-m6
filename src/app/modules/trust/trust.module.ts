@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SuccesPageTrustComponent } from './components/succes-page-trust/succes-page-trust.component';
 import { ClickOutsideModule } from 'ng-click-outside';
+import { CreateInfoTrustComponent } from './components/create-info-trust/create-info-trust.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ClickOutsideModule } from 'ng-click-outside';
     TrustComponent,
     ListTrustComponent,
     CreateTrustComponent,
-    SuccesPageTrustComponent
+    SuccesPageTrustComponent,
+    CreateInfoTrustComponent
   ],
   imports: [
     CommonModule,

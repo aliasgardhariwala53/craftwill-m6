@@ -54,6 +54,6 @@
 <app-table [tableHeadings]='tableHeadings' (actionButton)="onClickAction($event)" [tableData]='MemberData' [keys]='tableKeys' [classes]="classes" emptyTableMessage="No members Found" ></app-table>
 <div class="absolute md:hidden left-0 right-0 bottom-1 w-[87%] m-auto bg-white ">
 
-  <app-button  value="Create New Member" routelink="/members/createmembers" class="md:hidden" margin="my-1"></app-button>
+  <app-button [plus]="true"  value="Create New Member" routelink="/members/createmembers" class="md:hidden" margin="my-1"></app-button>
 </div>
 </div>

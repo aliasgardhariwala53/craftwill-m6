@@ -93,6 +93,7 @@ addPrivateDebt(){
     return;
   }
   const privateDebtData = {
+    current_Outstanding_Amount:this.PrivateDebtForm.value.current_Outstanding_Amount,
     privateDept: this.PrivateDebtForm.value,
     type:'privateDept'
   };

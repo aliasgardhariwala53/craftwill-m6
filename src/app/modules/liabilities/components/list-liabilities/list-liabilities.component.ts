@@ -50,21 +50,25 @@ export class ListLiabilitiesComponent implements OnInit {
    
     let data={
       loanName:'',
-      uniqueNumber:'',
+      loanProvider:'',
+      loan_Id_Number:''
     }
     switch (item.type) {
       case 'privateDept':
-        data.uniqueNumber=item.privateDept.dept_Name || '---';
+        data.loanProvider=item.privateDept.dept_Name || '---';
+        data.loan_Id_Number=item.privateDept.loan_Id_Number || '---';
         data.loanName='Private Dept';
         return data;
         break;
       case 'securedLoan':
-        data.uniqueNumber=item.securedLoan.loanProvider || '';
+        data.loanProvider=item.securedLoan.loanProvider || '';
+        data.loan_Id_Number=item.securedLoan.loan_Id_Number || '';
         data.loanName='Secured Loan';
         return data;
         break;
       case 'unsecuredLoan':
-        data.uniqueNumber=item.unsecuredLoan.loanProvider  || '---';
+        data.loanProvider=item.unsecuredLoan.loanProvider  || '---';
+        data.loan_Id_Number=item.unsecuredLoan.loan_Id_Number  || '---';
         data.loanName='Unsecured Loan';
         return data;
         break;
@@ -82,9 +86,9 @@ export class ListLiabilitiesComponent implements OnInit {
       this.LiabilitiesData = result.data.map((items, i) => {
         return {
           loanName: this.getName(items)?.loanName,
-          loanProvider: this.getName(items)?.loanName,
-          loanNumber: items.country,
-          ownerShip: items.current_Outstanding_Amount,
+          loanProvider: this.getName(items)?.loanProvider,
+          loanNumber: this.getName(items)?.loanProvider,
+          current_Outstanding_Amount: items.current_Outstanding_Amount,
           type: items.type,
         };
       });

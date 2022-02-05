@@ -12,6 +12,7 @@ export class ListmembersComponent implements OnInit {
   memberType:string="person";
   MemberData = [];
   organisationData = [];
+  allMemberData = [];
   
   constructor(public route: Router, private _userServ: UserService) {}
 
@@ -41,6 +42,29 @@ export class ListmembersComponent implements OnInit {
       console.log(value);
       
     }
+    getName(item){
+   
+      let data={
+        name:'',
+        uniqueNumber:'',
+      }
+      switch (item.type) {
+        case 'memberAsPerson':
+          data.uniqueNumber=item.business.UEN_no || '---';
+          data.name='Member Person';
+          return data;
+          break;
+        case 'memberAsOrganisation':
+          data.uniqueNumber=item.intellectualProperty.ip_No || '';
+          data.name='member As Organisation';
+          return data;
+          break;
+ 
+          break;
+        default:
+   return data;
+        }
+    }
   ngOnInit(): void {
     this._userServ.getMembers().subscribe((result) => {
       console.log(result.data);
@@ -50,6 +74,13 @@ export class ListmembersComponent implements OnInit {
         // this.MemberData.push(...item.memberAsOrganisation);
         return item.memberAsPerson || item.memberAsOrganisation;
       });
+
+
+      this.MemberData=result.data.map((items,i)=>{
+        return {fullname:this.getName(items)?.name,Relationship:this.getName(items)?.uniqueNumber,gender:items.country,ownerShip:items.specifyOwnershipType,type:items.type}
+    
+       })
+       this.allMemberData=[...this.MemberData];
      
     });
 

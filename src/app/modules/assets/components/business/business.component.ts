@@ -81,7 +81,7 @@ export class BusinessComponent implements OnInit {
     this._userServ.addAssets(businessData).subscribe((result) => {
       console.log(result);
       this.toastr.message(result.message,result.success);
-      if (result.sucess) {
+      if (result.success) {
         this._route.navigate(['/assets/assetsuccess']);
       }
     

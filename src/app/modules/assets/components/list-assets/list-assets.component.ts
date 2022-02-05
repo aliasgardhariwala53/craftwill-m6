@@ -97,7 +97,7 @@ assetsData=[];
   }
 
   onSorting(value){
-this.sortType=value;
+
 if (value==='All') {
   
   this.allAssetsinOne=this.allAssetsData;

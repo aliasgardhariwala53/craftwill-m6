@@ -83,12 +83,12 @@ addUnSecuredLoan(){
   }
   console.log(this.UnSecuredLoan.value);
   const unSecuredLoanData = {
-
     unsecuredLoan: this.UnSecuredLoan.value,
+    type:'unsecuredLoan'
   };
   this._userServ.addLiabilities(unSecuredLoanData).subscribe((result) => {
     console.log(result);
-    if (result.sucess) {
+    if (result.success) {
       this._route.navigate(['/liabilities/liabilitiesSuccess'])
         }
         this.toastr.message(result.message,result.success);

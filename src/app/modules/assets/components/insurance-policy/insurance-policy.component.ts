@@ -82,7 +82,7 @@ export class InsurancePolicyComponent implements OnInit {
     };
      this._userServ.addAssets(insurancePolicytData).subscribe((result) => {
        console.log(result);
-       if (result.sucess) {
+       if (result.success) {
         this._route.navigate(['/assets/assetsuccess'])
           }
           this.toastr.message(result.message,result.success);

@@ -70,7 +70,7 @@ addTrustForm(){
   
   this._userServ.addTrust(this.TrustForm.value).subscribe((result) => {
     console.log(result);
-    if (result.sucess) {
+    if (result.success) {
       this._route.navigate(['/trust/createTrust'])
         }
         this.toastr.message(result.message,result.success);

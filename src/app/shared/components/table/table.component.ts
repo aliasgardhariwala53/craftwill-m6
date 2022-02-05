@@ -22,6 +22,8 @@ export class TableComponent implements OnInit {
     this.actionButton.emit(ItemId);
   }
   getShortName(fullName) { 
+    console.log(fullName);
+    
     if (fullName) {
       return fullName.split(' ').map(n => n[0]).join('').toUpperCase();
     } else {

@@ -155,7 +155,7 @@ export class SignupComponent implements OnInit {
       (result) => {
         console.log(result);
         this.toastr.message(result.message,result.success);
-        if (result.sucess == true) {
+        if (result.success == true) {
         
           this._router.navigate(['/']);
         }

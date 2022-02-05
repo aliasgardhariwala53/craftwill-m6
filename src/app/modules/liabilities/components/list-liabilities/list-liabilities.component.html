@@ -24,17 +24,21 @@
           <div options class="w-full p-2 bg-white rounded-2xl shadow-lg ml-auto">
   
  
-          <div
+          <div (click)="onSorting('securedLoan')"
               class="hover:bg-[#ff6782] flex flex-row rounded-xl py-1 px-2 items-center hover:text-[#fff] hover:no-underline cursor-pointer">
               <div class="font-bold">Secure Loan</div>
             </div>
-          <div
+          <div (click)="onSorting('unsecuredLoan')"
               class="hover:bg-[#ff6782] flex flex-row rounded-xl py-1 px-2 items-center hover:text-[#fff] hover:no-underline cursor-pointer">
               <div class="font-bold">Unsecure Loan</div>
             </div>
-          <div
+          <div (click)="onSorting('privateDept')"
               class="hover:bg-[#ff6782] flex flex-row rounded-xl py-1 px-2 items-center hover:text-[#fff] hover:no-underline cursor-pointer">
               <div class="font-bold">Private Dept</div>
+            </div>
+          <div (click)="onSorting('All')"
+              class="hover:bg-[#ff6782] flex flex-row rounded-xl py-1 px-2 items-center hover:text-[#fff] hover:no-underline cursor-pointer">
+              <div class="font-bold">All</div>
             </div>
         
 

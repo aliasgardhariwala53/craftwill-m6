@@ -89,7 +89,7 @@ export class BankAccountUserComponent implements OnInit {
     this._userServ.addAssets(bankAccountData).subscribe((result) => {
       console.log(result);
       this.toastr.message(result.message,result.success);
-      if (result.sucess) {
+      if (result.success) {
         this._route.navigate(['/assets/assetsuccess']);
       }
       

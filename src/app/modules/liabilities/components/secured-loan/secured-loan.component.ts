@@ -108,11 +108,13 @@ export class SecuredLoanComponent implements OnInit {
     }
     const securedLoanData = {
       securedLoan: this.SecuredLoan.value,
+      type:'securedLoan'
+      
     };
     console.log(securedLoanData);
     this._userServ.addLiabilities(securedLoanData).subscribe((result) => {
       console.log(result);
-      if (result.sucess) {
+      if (result.success) {
         this._route.navigate(['/liabilities/liabilitiesSuccess']);
       }
       this.toastr.message(result.message, result.success);

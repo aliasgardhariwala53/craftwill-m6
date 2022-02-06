@@ -7,8 +7,15 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./list-trust.component.scss']
 })
 export class ListTrustComponent implements OnInit {
+  trustType = [
+    'Type 1',
+     'Type 2', 
+    ];
+ 
+    toggleModal: boolean;
   trustData=[];
   alltrustData=[];
+  trustFilterData=[];
   tableHeadings = [
     'Name of the Trust',
     'OwnerShip Type',
@@ -27,6 +34,19 @@ export class ListTrustComponent implements OnInit {
   onClickAction(value){
     console.log(value);
     
+  }
+  onFilterHandler(value) {
+    console.log('helllooo', value);
+    this._userServ.filterTrust(value).subscribe((result) => {
+      console.log(result);
+      this.trustFilterData = result.map((items, i) => {
+        return {
+          trustName: items.trustName,
+          ownerShipType:'sole'
+        };
+      });
+      this.alltrustData = [...this.trustFilterData];
+    });
   }
   ngOnInit(): void {
     this._userServ.getTrust().subscribe((result) => {

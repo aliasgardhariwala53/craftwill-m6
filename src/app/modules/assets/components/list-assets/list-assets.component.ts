@@ -34,8 +34,8 @@ export class ListAssetsComponent implements OnInit {
   title: string = 'Filter Assets';
   lastDate: string;
   assetsType = [
-    'Bank account',
-     'Investment account', 
+    'Bank Account',
+     'Investment Account', 
      'Insurance Policy',
      'Business',
      'Real Estate',

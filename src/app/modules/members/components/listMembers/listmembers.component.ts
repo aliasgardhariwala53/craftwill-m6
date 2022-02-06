@@ -12,6 +12,7 @@ export class ListmembersComponent implements OnInit {
   MemberData = [];
   organisationData = [];
   allMemberData = [];
+  memberFilterData = [];
   memberType = [
     'Person',
      'Organisation', 
@@ -54,6 +55,17 @@ export class ListmembersComponent implements OnInit {
     console.log('helllooo', value);
     this._userServ.filterMembers(value).subscribe((result) => {
       console.log(result);
+      this.memberFilterData = result.map((items, i) => {
+        return {
+          fullname: this.getName(items).fullname,
+          Relationship: this.getName(items).Relationship,
+          gender: this.getName(items).gender,
+          id_number: this.getName(items).id_number,
+          id_type: this.getName(items).id_type,
+          type: items.type,
+        };
+      });
+      this.allMemberData = [...this.memberFilterData];
     });
   }
   onSorting(value) {

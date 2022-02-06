@@ -9,8 +9,12 @@
 
 <div class="flex flex-col px-8 mt-16 md:mt-5 pt-0 md:pt-4 pb-4 h-[75vh] md:h-[80vh] top-40 ">
 <div class="flex flex-row items-center w-full  ">
-    <div class="hidden md:block w-1/12 font-extrabold text-xl">Liabilities</div>
-      <div class="w-3/12 hidden md:flex items-center dropdown cursor-pointer font-semibold "  ><img   (click)="toggleModal=true" class="inline-block md:mr-2 " src="../../../../assets/Icons/Filter.svg">
+    <div class="hidden md:block w-1/12 font-extrabold text-xl ml-3">Liabilities</div>
+      <div class="w-3/12 hidden md:flex items-center dropdown cursor-pointer font-semibold "  >
+        
+        <svg (click)="toggleModal=true" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 -rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+        </svg>
         <app-dropdown #dropdown class="ml-1">
           <div
             button
@@ -46,14 +50,24 @@
           </div>
         </app-dropdown>
       </div>
-    <div class="w-full left-0 px-8 md:px-0 md:w-2/12 flex items-center fixed md:static top-36"><input type="search" class="md:hidden w-[96%] px-4 py-3 bg-[#f7f7f7] form-control  rounded-[10px]  form-control " placeholder="search"><img aria-expanded="false" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"  class="md:hidden inline-block ml-4 rounded-xl p-4 bg-[#f7f7f7]" src="../../../../assets/Icons/Filter.svg">
-    </div>
+    <div class="w-full left-0 px-8 md:px-0 md:w-2/12 flex items-center fixed md:static top-36 space-x-2">
+      <input type="search" class="sm:hidden w-[96%] px-4 py-3 bg-[#f7f7f7] form-control  rounded-[10px]  form-control " placeholder="search" [formControl]="searchForm" >
+      
+            <div class="bg-[#f7f7f7] px-4 py-3 rounded-[10px] md:hidden cursor-pointer">
 
+        <svg (click)="toggleModal=true" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 -rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+        </svg>
+
+      </div>
+    </div>
+    
+ 
     
     <div class="hidden md:w-4/12 justify-end  md:flex text-base text-center">
       <app-button border="border-2 border-black" padding="px-10 py-2" backgroundColor="bg-[#fff]" borderRadius="rounded-xl" color="text-[#000]" value="Tutorial"  routelink="/home"></app-button>
     </div>
-    <div class="w-4/12 md:ml-8 md:mr-8 sm:w-fit items-center hidden md:flex"><img class="ml-auto h-[38px] w-[38px]" src='../../../../../assets/Icons/Group 4361.svg'></div>
+    <div (click)="onChangehandler($event)" class="w-4/12 md:ml-8 md:mr-8 sm:w-fit items-center hidden md:flex"><img class="ml-auto h-[38px] w-[38px]" src='../../../../../assets/Icons/Group 4361.svg'></div>
     <div class="w-12/12 md:w-fit justify-end hidden md:flex text-base text-center">
       <app-button  value="Create New Liabilities" routelink="/liabilities/createLiabilities"></app-button>
     </div>
@@ -78,7 +92,7 @@
     <app-filter
             title='Filter Liabilities'
             [type]="liabilitiesType"
-            
+            [typeFilter]="true"
             (formData)="onFilterHandler($event)"
             (onClose)='toggleModal=false'
             >

@@ -41,6 +41,9 @@ export class UserService {
   filterMembers(obj){
     return this._httpServe.post(environment.serverUrl + "filterMembers",obj);
   }
+  filterTrust(obj){
+    return this._httpServe.post(environment.serverUrl + "trust/filterTrust",obj);
+  }
 
 
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { passwordValidation, valueChanges } from 'src/app/helper/formerror.helper';
 import { AuthservicesService } from 'src/app/services/authservices.service';
@@ -16,7 +16,10 @@ export class SignupComponent implements OnInit {
   accountDetails: FormGroup;
   addressDetails: FormGroup;
   message: string;
-
+  options: any[] = [{_id: '1', status: 'waiting'},
+  {_id: '2', status: 'open'},
+  {_id: '3', status: 'in_progress'},
+  {_id: '4', status: 'close'}];
   constructor(
     private _fb: FormBuilder,
     private _authService: AuthservicesService,
@@ -29,7 +32,8 @@ export class SignupComponent implements OnInit {
   }
   createForm() {
     this.userRegistration = this._fb.group({
-      id_type: ['', Validators.required],
+      id_type: new FormControl(null, Validators.required),
+     
       id_number: ['', Validators.required],
       fullName: ['', Validators.required],
     });

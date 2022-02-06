@@ -10,6 +10,7 @@ import { ResetComponent } from './components/reset/reset.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthservicesService } from 'src/app/services/authservices.service';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { AuthservicesService } from 'src/app/services/authservices.service';
     AuthRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    SharedModule
+    SharedModule,
+    NgSelectModule,
   ],
   providers: [AuthservicesService],
 })

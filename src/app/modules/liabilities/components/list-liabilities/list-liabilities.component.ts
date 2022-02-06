@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { forkJoin } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
 
@@ -8,9 +9,20 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./list-liabilities.component.scss'],
 })
 export class ListLiabilitiesComponent implements OnInit {
-  liabilitiesData = [];
-  allLiabilities = [];
+  searchForm = new FormControl(null);
+
   LiabilitiesData = [];
+  allLiabilities = [
+    {
+      loanName: 'ali asgar',
+      loanProvider:'loanProvider',
+      loanNumber: 'loanProvider',
+      current_Outstanding_Amount: 'current_Outstanding_Amount',
+      type: 'type',
+    }
+  ];
+  LiabilitiesFilterData = [];
+  LiabilitiesSearchData = [];
   toggleModal: boolean;
   ownershipFilter=['Sole','joint'];
   countryFilter=['in','en'];
@@ -43,10 +55,34 @@ export class ListLiabilitiesComponent implements OnInit {
   onClickAction(value) {
     console.log(value);
   }
+  onChangehandler(value){
+  console.log(value);
+  console.log(this.searchForm.value,);
+  this.LiabilitiesSearchData=this.allLiabilities.map((items)=>{
+  
+  if (items.loanName.includes(this.searchForm.value)) {
+    return items;
+  }else{
+    return null;
+  }
+  return [];
+})
+this.allLiabilities = [...this.LiabilitiesSearchData];
+  }
   onFilterHandler(value) {
     console.log('helllooo', value);
     this._userServ.filterLiabilities(value).subscribe((result) => {
       console.log(result);
+      this.LiabilitiesFilterData = result.map((items, i) => {
+        return {
+          loanName: this.getName(items)?.loanName,
+          loanProvider: this.getName(items)?.loanProvider,
+          loanNumber: this.getName(items)?.loanProvider,
+          current_Outstanding_Amount: items.current_Outstanding_Amount,
+          type: items.type,
+        };
+      });
+      this.allLiabilities = [...this.LiabilitiesFilterData];
     });
   }
   onSorting(value){

@@ -21,7 +21,7 @@ export class FilterComponent implements OnInit {
   @Output() onClose= new EventEmitter();
 
   
-  startDate = new FormControl('', [Validators.required]);
+  startDate = new FormControl(null, [Validators.required]);
   endDate = new FormControl(moment().format('YYYY-MM-DD'), [Validators.required]);
   typeForm = new FormControl(null);
   countryForm = new FormControl(null);
@@ -43,9 +43,10 @@ export class FilterComponent implements OnInit {
     this.onClose.emit();
   }
   emitFormData(): void {
+ 
     const data = {
       isoDate: this.startDate.value,
-      type: this.typeForm.value,
+      type: this.typeForm.value&&(this.typeForm.value.charAt(0).toLowerCase() + this.typeForm.value.slice(1)).replace(/\s+/g, '')||'',
       country: this.countryForm.value,
       specifyOwnershipType: this.specifyOwnershipTypeForm.value
     };

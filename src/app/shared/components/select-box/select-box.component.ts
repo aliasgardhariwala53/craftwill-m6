@@ -14,21 +14,30 @@ export class SelectBoxComponent implements OnInit {
 @Input() classes;
 @Input() addItemTitle;
 @Input() avtarType='name';
-@Input() routerLink='name';
+@Input() addItemRoute='name';
 @Input() imageUrl='../../../../assets/Icons/DP.svg';
 @Output() onSelectId=new EventEmitter;
 @Output() onAddNewItem=new EventEmitter;
 
-
-
+selectedItem: Array<any>=[];
 constructor(private _route:Router) { }
 onSelectItem(value){
   this.onSelectId.emit(value);
-
+  if (this.selectedItem.includes(value)) {
+    this.selectedItem.splice(this.selectedItem.indexOf(value), 1);
+ 
+    return false;
+  } else {
+    this.selectedItem.push(value);
+  
+    return true;
+  }
+  
 }
 onAddItem(){
-  this._route.navigate([this.routerLink]);
+  this._route.navigate([this.addItemRoute]);
 }
+
 getShortName(fullName) { 
   if (fullName) {
     return fullName.split(' ').map(n => n[0]).join('').toUpperCase();

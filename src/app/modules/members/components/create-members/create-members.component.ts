@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { valueChanges } from 'src/app/helper/formerror.helper';
@@ -8,43 +7,50 @@ import { UserService } from '../../../../services/user.service';
 @Component({
   selector: 'app-create-members',
   templateUrl: './create-members.component.html',
-  styleUrls: ['./create-members.component.scss','../../../../app.component.scss']
+  styleUrls: [
+    './create-members.component.scss',
+    '../../../../app.component.scss',
+  ],
 })
 export class CreateMembersComponent implements OnInit {
-
-  memberType:string='person'
-  personForm:FormGroup
-  organisationForm:FormGroup
-  responseMessageperson:string="";
-  responseMessageOrganisation:string="";
-  currentItem:string="Create Member";
-  constructor(private _fb:FormBuilder,private _userServ:UserService,private toastr: ToastrService) { }
-
+  memberType: string = 'person';
+  personForm: FormGroup;
+  organisationForm: FormGroup;
+  responseMessageperson: string = '';
+  responseMessageOrganisation: string = '';
+  currentItem: string = 'Create Member';
+  constructor(
+    private _fb: FormBuilder,
+    private _userServ: UserService,
+    private toastr: ToastrService
+  ) {}
 
   createForm() {
     this.personForm = this._fb.group({
-      fullname: ["",[Validators.required]],
-      id_type: ["",Validators.required],
-      id_number: ["",Validators.required],
-      gender: ["",Validators.required],
-      floorNumber: ["",Validators.required],
-      unitNumber: ["",Validators.required],
-      streetName: ["",Validators.required],
-      postalCode: ["",[Validators.required, Validators.pattern("^[0-9]*$")]],
-      id_country: ["",Validators.required],
-      dob: ["",Validators.required],
-      Relationship: ["",Validators.required],
+      fullname: ['', [Validators.required]],
+      id_type: ['', Validators.required],
+      id_number: ['', Validators.required],
+      gender: ['', Validators.required],
+      floorNumber: ['', Validators.required],
+      unitNumber: ['', Validators.required],
+      streetName: ['', Validators.required],
+      postalCode: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+      id_country: ['', Validators.required],
+      dob: ['', Validators.required],
+      Relationship: ['', Validators.required],
     });
     this.organisationForm = this._fb.group({
-      organisationName: ["",[Validators.required]],
-      registration_number: ["",[Validators.required, Validators.pattern("^[0-9]*$")]],
-      id_country: ["",Validators.required],
-     
-      floorNumber: ["",Validators.required],
-      unitNumber: ["",Validators.required],
-      streetName: ["",Validators.required],
-      postalCode: ["",[Validators.required, Validators.pattern("^[0-9]*$")]],
+      organisationName: ['', [Validators.required]],
+      registration_number: [
+        '',
+        [Validators.required, Validators.pattern('^[0-9]*$')],
+      ],
+      id_country: ['', Validators.required],
 
+      floorNumber: ['', Validators.required],
+      unitNumber: ['', Validators.required],
+      streetName: ['', Validators.required],
+      postalCode: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
     });
     this.personForm.valueChanges.subscribe(() => {
       this.formErrors = valueChanges(
@@ -60,23 +66,21 @@ export class CreateMembersComponent implements OnInit {
         this.formErrorMessages
       );
     });
-
   }
   formErrors = {
-    id_type: "",
-    id_number: "",
-    gender: "",
-    fullname: "",
-    floorNumber: "",
-    unitNumber: "",
-    streetName: "",
-    postalCode: "",
-    Relationship: "",
-    dob: "",
-    id_country: "",
-    registration_number: "",
-    organisationName: "",
-
+    id_type: '',
+    id_number: '',
+    gender: '',
+    fullname: '',
+    floorNumber: '',
+    unitNumber: '',
+    streetName: '',
+    postalCode: '',
+    Relationship: '',
+    dob: '',
+    id_country: '',
+    registration_number: '',
+    organisationName: '',
   };
 
   formErrorMessages = {
@@ -126,52 +130,54 @@ export class CreateMembersComponent implements OnInit {
       // pattern: 'Please Enter valid numeric value',
     },
   };
-memberUpdate(){
-  console.log(this.personForm);
-  
-  if (this.personForm.invalid) {
-    this.personForm.markAllAsTouched();
-    this.formErrors = valueChanges(
-      this.personForm,
-      { ...this.formErrors },
-      this.formErrorMessages
-    );
-    console.log("invalid");
-    
-    return;
-  }
-  const membersASPerson = {country:this.personForm.value.id_country,memberAsPerson:{...this.personForm.value}};
+  memberUpdate() {
+    console.log(this.personForm);
 
-  
-  this._userServ.createMembers(membersASPerson).subscribe((result) => {
-    console.log(result);
-    this.toastr.message(result.message,result.success);
-  });
- 
-}
-organisationUpdate(){
-  
-  if (this.organisationForm.invalid) {
-    this.organisationForm.markAllAsTouched();
-    this.formErrors = valueChanges(
-      this.organisationForm,
-      { ...this.formErrors },
-      this.formErrorMessages
-    );
-    
-    return;
-  }
-  const membersAsOrganisation = {country:this.organisationForm.value.id_country,memberAsOrganisation:{...this.organisationForm.value}};
-  this._userServ.createMembers(membersAsOrganisation).subscribe((result) => {
-    console.log(result);
-    this.toastr.message(result.message,result.success);
-    // this.responseMessageOrganisation=result.message;
-  });
- 
-}
-ngOnInit(): void {
-  this.createForm();
+    if (this.personForm.invalid) {
+      this.personForm.markAllAsTouched();
+      this.formErrors = valueChanges(
+        this.personForm,
+        { ...this.formErrors },
+        this.formErrorMessages
+      );
+      console.log('invalid');
 
- 
-}
+      return;
+    }
+    const membersASPerson = {
+      country: this.personForm.value.id_country,
+      memberAsPerson: { ...this.personForm.value },
+      type:'membersASPerson',
+    };
+
+    this._userServ.createMembers(membersASPerson).subscribe((result) => {
+      console.log(result);
+      this.toastr.message(result.message, result.success);
+    });
+  }
+  organisationUpdate() {
+    if (this.organisationForm.invalid) {
+      this.organisationForm.markAllAsTouched();
+      this.formErrors = valueChanges(
+        this.organisationForm,
+        { ...this.formErrors },
+        this.formErrorMessages
+      );
+
+      return;
+    }
+    const membersAsOrganisation = {
+      country: this.organisationForm.value.id_country,
+      memberAsOrganisation: { ...this.organisationForm.value },
+      type:'membersAsOrganisation',
+    };
+    this._userServ.createMembers(membersAsOrganisation).subscribe((result) => {
+      console.log(result);
+      this.toastr.message(result.message, result.success);
+      // this.responseMessageOrganisation=result.message;
+    });
+  }
+  ngOnInit(): void {
+    this.createForm();
+  }
 }

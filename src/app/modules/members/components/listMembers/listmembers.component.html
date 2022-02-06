@@ -9,7 +9,7 @@
 <div class="flex flex-col px-8 mt-16 md:mt-5 pt-0 md:pt-4 pb-4 h-[100vh] md:h-[80vh] top-40 ">
 <div class="flex flex-row items-center w-full  ">
     <div class="hidden md:block w-1/12 font-extrabold text-xl">Members</div>
-      <div class="w-3/12 hidden md:flex items-center dropdown cursor-pointer font-semibold "  ><img class="inline-block md:mr-2 " src="../../../../assets/Icons/Filter.svg">Sort by Members
+      <div class="w-3/12 hidden md:flex items-center dropdown cursor-pointer font-semibold "  ><img (click)="toggleModal=true" class="inline-block md:mr-2 " src="../../../../assets/Icons/Filter.svg">
         <app-dropdown #dropdown class="ml-1">
           <div
             button
@@ -17,19 +17,23 @@
             (click)="dropdown.open = !dropdown.open"
             (clickOutside)="dropdown.open = false"
           >
-      
+          Sort by Members
           <i class="fa fa-chevron-down text-[14px]" aria-hidden="true"></i>
           </div>
           <div options class="w-full p-2 bg-white rounded-2xl shadow-lg ml-auto">
   
   
-          <div
+          <div  (click)="onSorting('memberAsPerson')"
               class="hover:bg-[#ff6782] flex flex-row rounded-xl py-1 px-2 items-center hover:text-[#fff] hover:no-underline cursor-pointer">
               <div class="font-bold">Person</div>
             </div>
-          <div
+          <div  (click)="onSorting('memberAsOrganisation')"
               class="hover:bg-[#ff6782] flex flex-row rounded-xl py-1 px-2 items-center hover:text-[#fff] hover:no-underline cursor-pointer">
               <div class="font-bold">Organisaion</div>
+            </div>
+          <div  (click)="onSorting('All')"
+              class="hover:bg-[#ff6782] flex flex-row rounded-xl py-1 px-2 items-center hover:text-[#fff] hover:no-underline cursor-pointer">
+              <div class="font-bold">All</div>
             </div>
   
         
@@ -51,9 +55,27 @@
     </div>
 </div>
 
-<app-table [tableHeadings]='tableHeadings' (actionButton)="onClickAction($event)" [tableData]='MemberData' [keys]='tableKeys' [classes]="classes" emptyTableMessage="No members Found" ></app-table>
+<app-table [tableHeadings]='tableHeadings' (actionButton)="onClickAction($event)" [tableData]='allMemberData' [keys]='tableKeys' [classes]="classes" emptyTableMessage="No members Found" ></app-table>
 <div class="absolute md:hidden left-0 right-0 bottom-1 w-[87%] m-auto bg-white ">
 
   <app-button [plus]="true"  value="Create New Member" routelink="/members/createmembers" class="md:hidden" margin="my-1"></app-button>
 </div>
 </div>
+
+
+<app-modal-filter  [modalBody]='modalBody' [showModal]="toggleModal">
+    
+  <ng-template  #modalBody>
+<!-- <app-filter (onFilter)="onFilterHandler()" (onClose)='toggleModal=false'></app-filter> -->
+<app-filter
+        title='title'
+        [type]="memberType"
+        [country]="countryFilter"
+        [typeFilter]="true"
+        [countryFilter]="true"
+        (formData)="onFilterHandler($event)"
+        (onClose)='toggleModal=false'
+        >
+    </app-filter>
+  </ng-template>
+</app-modal-filter>

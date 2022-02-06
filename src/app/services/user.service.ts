@@ -31,6 +31,16 @@ export class UserService {
   addTrust(obj){
     return this._httpServe.post(environment.serverUrl + "trust/storeTrust",obj);
   }
+  
+  filterAssets(obj){
+    return this._httpServe.post(environment.serverUrl + "filterAssets",obj);
+  }
+  filterLiabilities(obj){
+    return this._httpServe.post(environment.serverUrl + "filterLiabilities",obj);
+  }
+  filterMembers(obj){
+    return this._httpServe.post(environment.serverUrl + "filterMembers",obj);
+  }
 
 
 

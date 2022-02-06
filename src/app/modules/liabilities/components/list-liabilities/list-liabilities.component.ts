@@ -11,6 +11,14 @@ export class ListLiabilitiesComponent implements OnInit {
   liabilitiesData = [];
   allLiabilities = [];
   LiabilitiesData = [];
+  toggleModal: boolean;
+  ownershipFilter=['Sole','joint'];
+  countryFilter=['in','en'];
+  liabilitiesType = [
+    'Secured Loan',
+    'Unsecured Loan',
+    'Private Dept',
+ ];
   constructor(private _userServ: UserService) {}
   tableHeadings = [
     'Name of the Liabilities',
@@ -35,6 +43,12 @@ export class ListLiabilitiesComponent implements OnInit {
   onClickAction(value) {
     console.log(value);
   }
+  onFilterHandler(value) {
+    console.log('helllooo', value);
+    this._userServ.filterLiabilities(value).subscribe((result) => {
+      console.log(result);
+    });
+  }
   onSorting(value){
 
     if (value==='All') {
@@ -46,6 +60,7 @@ export class ListLiabilitiesComponent implements OnInit {
       this.allLiabilities=this.LiabilitiesData.filter((item)=>item.type===value);
     }
       }
+    
   getName(item){
    
     let data={

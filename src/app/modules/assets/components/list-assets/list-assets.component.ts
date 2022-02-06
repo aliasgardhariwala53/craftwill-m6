@@ -4,13 +4,12 @@ import { UserService } from 'src/app/services/user.service';
 @Component({
   selector: 'app-list-assets',
   templateUrl: './list-assets.component.html',
-  styleUrls: ['./list-assets.component.scss']
+  styleUrls: ['./list-assets.component.scss'],
 })
 export class ListAssetsComponent implements OnInit {
-  
-  
-
-assetsData=[];
+  toggleModal: boolean;
+  assetsData = [];
+  assetsFilterData = [];
 
   tableHeadings = [
     'Name of the Assets',
@@ -18,106 +17,135 @@ assetsData=[];
     'Country',
     'OwnerShip',
   ];
-  allAssetsinOne=[];
-  allAssetsData=[];
+  allAssetsinOne = [];
+  allAssetsData = [];
 
-  tableKeys = ['nameofAssets', 'uniqueNumber', 'country','ownerShip'];
+  tableKeys = ['nameofAssets', 'uniqueNumber', 'country', 'ownerShip'];
 
-  tableData = [
+  tableData = [];
+  classes = [
+    'w-10/12 m-0 sm:w-7/12 break-words capitalize ',
+    'w-10/12 m-0 sm:w-[12%] break-words capitalize text',
+    'w-1/12 break-words hidden md:flex ',
+    'w-1/12 break-words hidden md:flex ',
   ];
-   classes=[
-    "w-10/12 m-0 sm:w-7/12 break-words capitalize ",
-    "w-10/12 m-0 sm:w-[12%] break-words capitalize text",
-    "w-1/12 break-words hidden md:flex ",
-    "w-1/12 break-words hidden md:flex ",
-
-    ]
   name: string;
   sortType: string;
-  constructor(private _userServ:UserService) { }
-  onClickAction(value){
-    console.log(value);
-    
+  title: string = 'Filter Assets';
+  lastDate: string;
+  assetsType = [
+    'Bank account',
+     'Investment account', 
+     'Insurance Policy',
+     'Business',
+     'Real Estate',
+      'Motor Vehicle',
+      'Intellectual Property',
+      'Personal Possession',
+      'Safe Deposit Box',
+    ];
+    ownershipFilter=['Sole','joint'];
+    countryFilter=['in','en'];
+  constructor(private _userServ: UserService) {}
+
+  onFilterHandler(value) {
+    console.log('helllooo', value);
+    this._userServ.filterAssets(value).subscribe((result) => {
+      console.log(result);
+      this.assetsFilterData = result.map((items, i) => {
+        return {
+          nameofAssets: this.getName(items)?.name,
+          uniqueNumber: this.getName(items)?.uniqueNumber,
+          country: items.country,
+          ownerShip: items.specifyOwnershipType,
+          type: items.type,
+        };
+      });
+      this.allAssetsinOne = [...this.assetsFilterData];
+    });
   }
-  getName(item){
-   
-    let data={
-      name:'',
-      uniqueNumber:'',
-    }
+
+  onClickAction(value) {
+    console.log(value);
+  }
+  getName(item) {
+    let data = {
+      name: '',
+      uniqueNumber: '',
+    };
     switch (item.type) {
       case 'business':
-        data.uniqueNumber=item.business.UEN_no || '---';
-        data.name='Business';
+        data.uniqueNumber = item.business.UEN_no || '---';
+        data.name = 'Business';
         return data;
         break;
       case 'intellectualProperty':
-        data.uniqueNumber=item.intellectualProperty.ip_No || '';
-        data.name='Intellectual Property';
+        data.uniqueNumber = item.intellectualProperty.ip_No || '';
+        data.name = 'Intellectual Property';
         return data;
         break;
       case 'insurancePolicy':
-        data.uniqueNumber=item.insurancePolicy.policyNumber  || '---';
-        data.name='Insurance Policy';
+        data.uniqueNumber = item.insurancePolicy.policyNumber || '---';
+        data.name = 'Insurance Policy';
         return data;
         break;
       case 'bankAccount':
-        data.uniqueNumber=item.bankAccount.accountNumber  || '---';
-        data.name='Bank Account'
+        data.uniqueNumber = item.bankAccount.accountNumber || '---';
+        data.name = 'Bank Account';
         return data;
         break;
       case 'safeDepositBox':
-        data.uniqueNumber=item.safeDepositBox.safe_No  || '---';
-        data.name='Safe Deposit Box'
+        data.uniqueNumber = item.safeDepositBox.safe_No || '---';
+        data.name = 'Safe Deposit Box';
         return data;
         break;
       case 'realEstate':
-        data.uniqueNumber=item.realEstate.accountNumber  || '---';
-        data.name='Real Estate'
+        data.uniqueNumber = item.realEstate.accountNumber || '---';
+        data.name = 'Real Estate';
         return data;
         break;
       case 'personalPossession':
-        data.uniqueNumber=item.personalPossession.id_No  || '---';
-        data.name='Personal Possession' 
+        data.uniqueNumber = item.personalPossession.id_No || '---';
+        data.name = 'Personal Possession';
         return data;
         break;
       case 'investmentAccount':
-        data.uniqueNumber=item.investmentAccount.accountNo  || '---';
-        data.name='Investment Account'
+        data.uniqueNumber = item.investmentAccount.accountNo || '---';
+        data.name = 'Investment Account';
         return data;
         break;
       case 'motorVehicle':
-        data.uniqueNumber=item.motorVehicle.plateNo  || '---';
-        data.name='Motor Vehicle'
+        data.uniqueNumber = item.motorVehicle.plateNo || '---';
+        data.name = 'Motor Vehicle';
         return data;
         break;
       default:
- return data;
-      }
+        return data;
+    }
   }
 
-  onSorting(value){
-
-if (value==='All') {
-  
-  this.allAssetsinOne=this.allAssetsData;
-}
- else {
-  
-  this.allAssetsinOne=this.allAssetsData.filter((item)=>item.type===value);
-}
+  onSorting(value) {
+    if (value === 'All') {
+      this.allAssetsinOne = this.allAssetsData;
+    } else {
+      this.allAssetsinOne = this.allAssetsData.filter(
+        (item) => item.type === value
+      );
+    }
   }
 
   ngOnInit(): void {
     this._userServ.getAssets().subscribe((result) => {
-      
-      this.allAssetsData=result.data.map((items,i)=>{
-       return {nameofAssets:this.getName(items)?.name,uniqueNumber:this.getName(items)?.uniqueNumber,country:items.country,ownerShip:items.specifyOwnershipType,type:items.type}
-   
-      })
-      this.allAssetsinOne=[...this.allAssetsData];
-      
+      this.allAssetsData = result.data.map((items, i) => {
+        return {
+          nameofAssets: this.getName(items)?.name,
+          uniqueNumber: this.getName(items)?.uniqueNumber,
+          country: items.country,
+          ownerShip: items.specifyOwnershipType,
+          type: items.type,
+        };
+      });
+      this.allAssetsinOne = [...this.allAssetsData];
     });
   }
-
 }

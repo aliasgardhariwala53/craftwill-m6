@@ -5,15 +5,19 @@ import { UserService } from '../../../../services/user.service';
 @Component({
   selector: 'app-listmembers',
   templateUrl: './listmembers.component.html',
-  styleUrls: ['./listmembers.component.scss','../../../../app.component.scss'],
+  styleUrls: ['./listmembers.component.scss', '../../../../app.component.scss'],
 })
-
 export class ListmembersComponent implements OnInit {
-  memberType:string="person";
+  toggleModal: boolean;
   MemberData = [];
   organisationData = [];
   allMemberData = [];
-  
+  memberType = [
+    'Person',
+     'Organisation', 
+    ];
+    ownershipFilter=['Sole','joint'];
+    countryFilter=['in','en'];
   constructor(public route: Router, private _userServ: UserService) {}
 
   tableHeadings = [
@@ -24,65 +28,92 @@ export class ListmembersComponent implements OnInit {
     'ID number',
     'Birth date',
   ];
-  nameType='fullname' || 'organisationName'
-  tableKeys = [this.nameType, 'Relationship', 'gender', 'id_type', 'id_number','dob'];
-  tableData = [
+  nameType = 'fullname' || 'organisationName';
+  tableKeys = [
+    'fullname',
+    'Relationship',
+    'gender',
+    'id_type',
+    'id_number',
+    'dob',
   ];
-   classes=[
-    "w-10/12 m-0 sm:w-5/12 md: break-words capitalize ",
-    "w-10/12 m-0 sm:w-1/12 break-words capitalize text",
-    "w-1/12 break-words hidden md:flex ",
-    "w-1/12 break-words hidden md:flex ",
-    "w-1/12 break-words hidden md:flex ",
-    "w-1/12 break-words hidden md:flex ",
-    
-    ]
-    
-    onClickAction(value){
-      console.log(value);
-      
+  tableData = [];
+  classes = [
+    'w-10/12 m-0 sm:w-5/12 md: break-words capitalize ',
+    'w-10/12 m-0 sm:w-1/12 break-words capitalize text',
+    'w-1/12 break-words hidden md:flex ',
+    'w-1/12 break-words hidden md:flex ',
+    'w-1/12 break-words hidden md:flex ',
+    'w-1/12 break-words hidden md:flex ',
+  ];
+
+  onClickAction(value) {
+    console.log(value);
+  }
+  onFilterHandler(value) {
+    console.log('helllooo', value);
+    this._userServ.filterMembers(value).subscribe((result) => {
+      console.log(result);
+    });
+  }
+  onSorting(value) {
+    if (value === 'All') {
+      this.allMemberData = this.MemberData;
+    } else {
+      this.allMemberData = this.MemberData.filter(
+        (item) => item.type === value
+      );
     }
-    getName(item){
-   
-      let data={
-        name:'',
-        uniqueNumber:'',
-      }
-      switch (item.type) {
-        case 'memberAsPerson':
-          data.uniqueNumber=item.business.UEN_no || '---';
-          data.name='Member Person';
-          return data;
-          break;
-        case 'memberAsOrganisation':
-          data.uniqueNumber=item.intellectualProperty.ip_No || '';
-          data.name='member As Organisation';
-          return data;
-          break;
- 
-          break;
-        default:
-   return data;
-        }
+  }
+  getName(item) {
+    let data = {
+      fullname: '',
+      Relationship: '',
+      gender: '',
+      id_type:'',
+      id_number:'',
+    };
+    switch (item.type) {
+      case 'memberAsPerson':
+        data.fullname = item.memberAsPerson.fullname || '';
+        data.Relationship = item.memberAsPerson.Relationship || '---';
+        data.gender = item.memberAsPerson.gender || '';
+        data.id_type = item.memberAsPerson.id_type || '';
+        data.id_number = item.memberAsPerson.id_number || '';
+        return data;
+        break;
+      case 'memberAsOrganisation':
+        data.Relationship =  '---';
+        data.fullname = item.memberAsOrganisation.organisationName || '';
+        data.gender = item.memberAsOrganisation.gender || '';
+        data.id_type = item.memberAsOrganisation.gender || '';
+        data.id_number = item.memberAsOrganisation.gender || '';
+        return data;
+        break;
+
+    
+      default:
+        return data;
     }
+  }
   ngOnInit(): void {
     this._userServ.getMembers().subscribe((result) => {
-      console.log(result.data);
-      
-      this.MemberData = result.data.map((item) => {
-        console.log(item.memberAsPerson);
-        // this.MemberData.push(...item.memberAsOrganisation);
-        return item.memberAsPerson || item.memberAsOrganisation;
-      });
+      // console.log(result.data);
 
-
-      this.MemberData=result.data.map((items,i)=>{
-        return {fullname:this.getName(items)?.name,Relationship:this.getName(items)?.uniqueNumber,gender:items.country,ownerShip:items.specifyOwnershipType,type:items.type}
+      this.MemberData = result.data.map((items, i) => {
+        console.log(items);
     
-       })
-       this.allMemberData=[...this.MemberData];
-     
+        return {
+          fullname: this.getName(items).fullname,
+          Relationship: this.getName(items).Relationship,
+          gender: this.getName(items).gender,
+          id_number: this.getName(items).id_number,
+          id_type: this.getName(items).id_type,
+          type: items.type,
+        };
+      });
+      this.allMemberData = [...this.MemberData];
+      // console.log(this.allMemberData);
     });
-
   }
 }

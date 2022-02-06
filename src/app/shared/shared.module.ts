@@ -13,6 +13,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { HeaderMenuComponent } from './components/header-menu/header-menu.component';
 import { ModalComponent } from './components/modal/modal.component';
+import { ModalFilterComponent } from './components/modal-filter/modal-filter.component';
+import { FilterComponent } from './components/filter/filter.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 
@@ -30,13 +33,16 @@ import { ModalComponent } from './components/modal/modal.component';
     FormComponent,
     HeaderMenuComponent,
     ModalComponent,
+    ModalFilterComponent,
+    FilterComponent,
   ],
   imports: [
     CommonModule,
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    ClickOutsideModule
+    ClickOutsideModule,
+    NgSelectModule,
   ],
   exports:[
     HeaderToolbarComponent,
@@ -49,6 +55,8 @@ import { ModalComponent } from './components/modal/modal.component';
     FormComponent,
     HeaderMenuComponent,
     ModalComponent,
+    ModalFilterComponent,
+    FilterComponent
   ]
 })
 export class SharedModule { }

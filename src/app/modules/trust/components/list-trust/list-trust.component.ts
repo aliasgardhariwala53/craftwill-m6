@@ -8,18 +8,18 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ListTrustComponent implements OnInit {
   trustData=[];
+  alltrustData=[];
   tableHeadings = [
     'Name of the Trust',
-    'Type Of Trust',
     'OwnerShip Type',
   ];
-  tableKeys = ['trustName', 'Relationship', 'gender'];
+  tableKeys = ['trustName', 'ownerShipType'];
   tableData = [
   ];
    classes=[
-    "w-10/12 m-0 sm:w-8/12 break-words capitalize ",
-    "w-10/12 m-0 sm:w-[11%] break-words capitalize text hidden sm:flex ",
-    "w-[10%] break-words hidden sm:flex ",
+    "w-10/12 m-0 sm:w-10/12 break-words capitalize ",
+    "w-10/12 m-0 sm:w-[11%] break-words capitalize text  ",
+
 
   
     ]
@@ -32,6 +32,15 @@ export class ListTrustComponent implements OnInit {
     this._userServ.getTrust().subscribe((result) => {
       console.log(...result.data.users);   
       this.trustData.push(...result.data.users);
+
+
+      this.trustData = result.data.map((items, i) => {
+        return {
+          trustName: items.trustName,
+          ownerShipType:'sole'
+        };
+      });
+      this.alltrustData = [...this.trustData];
     });
   }
 

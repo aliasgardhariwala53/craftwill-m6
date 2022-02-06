@@ -11,7 +11,7 @@ import { SharedModule } from './shared/shared.module';
 import { AuthComponent } from './modules/auth/auth.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
-
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -23,6 +23,7 @@ import { ToastrModule } from 'ngx-toastr';
     HttpClientModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
+    NgSelectModule,
   ],
   providers: [
     {

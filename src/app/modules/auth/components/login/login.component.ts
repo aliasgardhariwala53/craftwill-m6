@@ -8,6 +8,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthservicesService } from 'src/app/services/authservices.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-login',
@@ -48,9 +49,10 @@ export class LoginComponent implements OnInit {
     }
   };
 
-  constructor(private _fb : FormBuilder, private _authService : AuthservicesService, private _router : Router,private toastr: ToastrService) { }
+  constructor(private _fb : FormBuilder, private _authService : AuthservicesService, private _router : Router,private toastr: ToastrService,private spinner:NgxUiLoaderService) { }
 
   submit(){
+    this.spinner.start();
     if (this.userLogin.invalid) {
       console.log("hello");
       
@@ -62,6 +64,7 @@ export class LoginComponent implements OnInit {
 
     this._authService.login(this.userLogin.value).subscribe((result)=>{
       console.log(result)
+      this.spinner.stop();
       this.toastr.message(result.message,result.success);
         if(result.success === true)
         {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -12,6 +13,7 @@ export class ListTrustComponent implements OnInit {
   trustType = ['Type 1', 'Type 2'];
 
   showSearch: boolean=false;
+  toggleModalTutorial: boolean=false;
   toggleModal: boolean;
   trustData = [];
   alltrustData = [];
@@ -24,7 +26,7 @@ export class ListTrustComponent implements OnInit {
     'w-10/12 m-0 sm:w-10/12 break-words capitalize ',
     'w-10/12 m-0 sm:w-[11%] break-words capitalize text  ',
   ];
-  constructor(private _userServ: UserService) {}
+  constructor(private _userServ: UserService,private spinner:NgxUiLoaderService) {}
   onClickAction(value) {
     console.log(value);
   }
@@ -40,24 +42,25 @@ export class ListTrustComponent implements OnInit {
     });
   }
   onFilterHandler(value) {
+    this.spinner.start();
     console.log('helllooo', value);
     this._userServ.filterTrust(value).subscribe((result) => {
-      console.log(result);
-      this.trustFilterData = result.map((items, i) => {
+      this.spinner.stop();
+      console.log('sdasdasdadas', result);
+      this.alltrustData = result.map((items, i) => {
         return {
           trustName: items.trustName,
           ownerShipType: 'sole',
         };
       });
-      this.alltrustData = [...this.trustFilterData];
     });
   }
   ngOnInit(): void {
+    this.spinner.start();
     this._userServ.getTrust().subscribe((result) => {
-      console.log(...result.data.users);
-      this.trustData.push(...result.data.users);
+      this.spinner.stop();
 
-      this.trustData = result.data.map((items, i) => {
+      this.trustData = result.data.users.map((items, i) => {
         return {
           trustName: items.trustName,
           ownerShipType: 'sole',

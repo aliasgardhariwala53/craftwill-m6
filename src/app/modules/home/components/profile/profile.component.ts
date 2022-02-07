@@ -2,6 +2,7 @@
 import { Component, createPlatform, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import {
   passwordValidation,
   valueChanges,
@@ -138,7 +139,8 @@ export class ProfileComponent implements OnInit {
     private _fb: FormBuilder,
     private _userServ: UserService,
     private _headerServ: HeaderService,
-    private toastr:ToastrService
+    private toastr:ToastrService,
+    private spinner:NgxUiLoaderService,
   ) {}
 
   DataURIToBlob(dataURI: string) {
@@ -179,8 +181,9 @@ export class ProfileComponent implements OnInit {
   }
     // click remove button
   remove() {
+    this.spinner.start();
     this._userServ.imageUpload(null).subscribe((result) => {
-      console.log(result);
+      this.spinner.stop();
       this.toastr.message(result.success?"Image Removed SuccessFully":"Image Remove Error",result.success);
       this.imageSrc = `${environment.serverUrl}${result.data.profileImage}`;
       this.showRemoveButton=false;
@@ -201,6 +204,7 @@ export class ProfileComponent implements OnInit {
   }
   //on click save
   uploadImage() {
+    this.spinner.start();
     let form = new FormData();
     const profilePic = this.DataURIToBlob(this.croppedImage);
     form.append('attachments', profilePic);
@@ -208,7 +212,7 @@ export class ProfileComponent implements OnInit {
     console.log(form);
     
     this._userServ.imageUpload(form).subscribe((result) => {
-      console.log(result);
+      this.spinner.stop();
       this.toastr.message(result.message,result.success);
       if (result.success === true) {
         this.imageSrc = this.croppedImage;
@@ -220,6 +224,7 @@ export class ProfileComponent implements OnInit {
   }
 
   profileUpdate() {
+    this.spinner.start();
     if (this.userInfo.invalid) {
       this.userInfo.markAllAsTouched();
       this.formErrors = valueChanges(
@@ -230,7 +235,7 @@ export class ProfileComponent implements OnInit {
       return;
     }
     this._userServ.updateProfile(this.userInfo.value).subscribe((result) => {
-      console.log(result);
+      this.spinner.stop();
       this.toastr.message(result.message,result.success);
     });
     this._headerServ.username.next(this.userInfo.value.fullName);
@@ -239,6 +244,7 @@ export class ProfileComponent implements OnInit {
     localStorage.removeItem("user")
   }
   passwordUpdate() {
+    this.spinner.start();
     if (this.passwordForm.invalid) {
       this.passwordForm.markAllAsTouched();
       this.formErrors = valueChanges(
@@ -251,19 +257,21 @@ export class ProfileComponent implements OnInit {
     this._userServ
       .updatePassword(this.passwordForm.value)
       .subscribe((result) => {
-        console.log(result);
+        this.spinner.stop();
       });
   }
   ngOnInit(): void {
     this.createForm();
+    this.spinner.start();
     this._userServ.getProfile().subscribe((result) => {
-      console.log(result.data);
+      this.spinner.stop();
       this.userInfo.setValue({ ...result.data });
       this._headerServ.username.next(result.data.fullName);
       console.log(this.userInfo.value);
     });
 
     this._userServ.getUserImage().subscribe((img) => {
+      this.spinner.stop();
       this.userImage = img.profileImage;
       console.log(img.profileImage);
       this.imageSrc = `${environment.serverUrl}${this.userImage}`;

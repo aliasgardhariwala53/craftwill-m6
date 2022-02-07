@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { passwordValidation, valueChanges } from 'src/app/helper/formerror.helper';
 import { AuthservicesService } from 'src/app/services/authservices.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
@@ -19,7 +20,7 @@ export class ResetComponent implements OnInit {
   message : string;
 
   constructor(private _authServ :AuthservicesService, private _fb :FormBuilder, private _actRoute :ActivatedRoute,
-    private _router :Router,private toastr: ToastrService) { }
+    private _router :Router,private toastr: ToastrService ,private spinner:NgxUiLoaderService) { }
 
 
   createForm(){
@@ -55,6 +56,7 @@ export class ResetComponent implements OnInit {
   };
 
   resetPassword(){
+    this.spinner.start();
     console.log(this.resetForm.value);
     if (this.resetForm.invalid) {
       this.resetForm.markAllAsTouched();
@@ -67,7 +69,7 @@ export class ResetComponent implements OnInit {
       "_id" : this.resetForm.value._id,
       "newPassword" : this.resetForm.value.password
     }).subscribe((result)=>{
-      console.log(result);
+      this.spinner.stop();
       this.toastr.message(result.message,result.success);
     })
   }

@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { valueChanges } from 'src/app/helper/formerror.helper';
 import { UserService } from 'src/app/services/user.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
@@ -16,7 +17,7 @@ export class InsurancePolicyComponent implements OnInit {
 
   insuranceForm:FormGroup
   responseMessage:string
-  constructor(private _fb:FormBuilder,private _userServ:UserService,private _route:Router,private toastr: ToastrService) { }
+  constructor(private _fb:FormBuilder,private _userServ:UserService,private spinner:NgxUiLoaderService,private _route:Router,private toastr: ToastrService) { }
   createForm(){
     this.insuranceForm= this._fb.group({
      policyName: ["",[Validators.required]],
@@ -61,6 +62,7 @@ export class InsurancePolicyComponent implements OnInit {
      
    };
    addinsurance(){
+    this.spinner.start();
      console.log(this.insuranceForm);
      
      if (this.insuranceForm.invalid) {
@@ -81,7 +83,7 @@ export class InsurancePolicyComponent implements OnInit {
       type:'insurancePolicy'
     };
      this._userServ.addAssets(insurancePolicytData).subscribe((result) => {
-       console.log(result);
+       this.spinner.stop();
        if (result.success) {
         this._route.navigate(['/assets/assetsuccess'])
           }

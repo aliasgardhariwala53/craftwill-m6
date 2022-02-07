@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { valueChanges } from 'src/app/helper/formerror.helper';
 import { UserService } from 'src/app/services/user.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
@@ -15,7 +16,7 @@ export class MoterVehicleComponent implements OnInit {
 
   vehicleForm:FormGroup
   responseMessage:string
-  constructor(private _fb:FormBuilder,private _userServ:UserService,private _route:Router,private toastr: ToastrService) { }  
+  constructor(private _fb:FormBuilder,private _userServ:UserService,private spinner:NgxUiLoaderService,private _route:Router,private toastr: ToastrService) { }  
   createForm(){
     this.vehicleForm= this._fb.group({
       CarModel: ["",[Validators.required]],
@@ -60,6 +61,7 @@ export class MoterVehicleComponent implements OnInit {
      
    };
    addVehicle(){
+    this.spinner.start();
      console.log(this.vehicleForm);
      
      if (this.vehicleForm.invalid) {
@@ -80,7 +82,7 @@ export class MoterVehicleComponent implements OnInit {
       type:'motorVehicle'
     };
      this._userServ.addAssets(VehicletData).subscribe((result) => {
-       console.log(result);
+       this.spinner.stop();
        if (result.success) {
         this._route.navigate(['/assets/assetsuccess'])
           }

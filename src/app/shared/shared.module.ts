@@ -16,6 +16,7 @@ import { ModalComponent } from './components/modal/modal.component';
 import { ModalFilterComponent } from './components/modal-filter/modal-filter.component';
 import { FilterComponent } from './components/filter/filter.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { TutorialComponent } from './components/tutorial/tutorial.component';
 
 
 
@@ -35,6 +36,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ModalComponent,
     ModalFilterComponent,
     FilterComponent,
+    TutorialComponent,
   ],
   imports: [
     CommonModule,
@@ -56,7 +58,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     HeaderMenuComponent,
     ModalComponent,
     ModalFilterComponent,
-    FilterComponent
+    FilterComponent,
+    TutorialComponent
   ]
 })
 export class SharedModule { }

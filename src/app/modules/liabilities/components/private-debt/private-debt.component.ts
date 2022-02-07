@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { valueChanges } from 'src/app/helper/formerror.helper';
 import { UserService } from 'src/app/services/user.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
@@ -20,7 +21,7 @@ classes=["font-bold","font-bold","text-sm"];
 
   PrivateDebtForm:FormGroup
   responseMessage:string
-  constructor(private _fb:FormBuilder,private _userServ:UserService,private _route:Router,private toastr: ToastrService) { }
+  constructor(private _fb:FormBuilder,private _userServ:UserService,private spinner:NgxUiLoaderService,private _route:Router,private toastr: ToastrService) { }
 
   createForm(){
  this.PrivateDebtForm= this._fb.group({
@@ -79,6 +80,7 @@ console.log(this.PrivateDebtForm.value.memberId);
   
 }
 addPrivateDebt(){
+  this.spinner.start();
   console.log(this.PrivateDebtForm);
   
   if (this.PrivateDebtForm.invalid) {
@@ -98,7 +100,7 @@ addPrivateDebt(){
     type:'privateDept'
   };
   this._userServ.addLiabilities(privateDebtData).subscribe((result) => {
-    console.log(result);
+    this.spinner.stop();
     if (result.success) {
       this._route.navigate(['/liabilities/liabilitiesSuccess'])
         }
@@ -108,9 +110,10 @@ addPrivateDebt(){
  
 }
   ngOnInit(): void {
+    this.spinner.start();
     this.createForm()
     this._userServ.getMembers().subscribe((result) => {
-
+      this.spinner.stop();
       this.memberData = result.data.map((item) => {
         console.log(item);
         return {...item.memberAsPerson,_id:item._id} || {...item.memberAsOrganisation,_id:item._id};

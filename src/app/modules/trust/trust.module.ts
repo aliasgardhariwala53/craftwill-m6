@@ -11,6 +11,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { SuccesPageTrustComponent } from './components/succes-page-trust/succes-page-trust.component';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { CreateInfoTrustComponent } from './components/create-info-trust/create-info-trust.component';
+import { NgxUiLoaderModule } from 'ngx-ui-loader';
 
 
 @NgModule({
@@ -28,7 +29,7 @@ import { CreateInfoTrustComponent } from './components/create-info-trust/create-
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    ClickOutsideModule
+    ClickOutsideModule,
   ]
 })
 export class TrustModule { }

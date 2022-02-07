@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
-
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 @Component({
   selector: 'app-list-assets',
   templateUrl: './list-assets.component.html',
@@ -10,6 +10,7 @@ import { UserService } from 'src/app/services/user.service';
 export class ListAssetsComponent implements OnInit {
   searchForm = new FormControl('');
   toggleModal: boolean;
+  toggleModalTutorial: boolean=false;
   assetsData = [];
   assetsFilterData = [];
   assetsSearchData = [];
@@ -49,7 +50,7 @@ export class ListAssetsComponent implements OnInit {
   ];
   ownershipFilter = ['Sole', 'joint'];
   countryFilter = ['india'];
-  constructor(private _userServ: UserService) {}
+  constructor(private _userServ: UserService,private spinner: NgxUiLoaderService) {}
   onChangehandler() {
     console.log(this.searchForm.value);
     if (!this.searchForm.value || this.searchForm.value===null ) {
@@ -63,9 +64,10 @@ export class ListAssetsComponent implements OnInit {
     console.log( this.allAssetsinOne);
   }
   onFilterHandler(value) {
+    this.spinner.start();
     console.log('helllooo', value);
     this._userServ.filterAssets(value).subscribe((result) => {
-      console.log(result);
+      this.spinner.stop();
       this.assetsFilterData = result.map((items, i) => {
         return {
           nameofAssets: this.getName(items)?.name,
@@ -149,7 +151,10 @@ export class ListAssetsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.spinner.start();
+
     this._userServ.getAssets().subscribe((result) => {
+      this.spinner.stop();
       this.allAssetsData = result.data.map((items, i) => {
         return {
           nameofAssets: this.getName(items)?.name,

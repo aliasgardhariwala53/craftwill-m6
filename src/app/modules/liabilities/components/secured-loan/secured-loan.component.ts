@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { valueChanges } from 'src/app/helper/formerror.helper';
 import { UserService } from 'src/app/services/user.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
@@ -21,7 +22,8 @@ export class SecuredLoanComponent implements OnInit {
     private _fb: FormBuilder,
     private _userServ: UserService,
     private _route: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private spinner:NgxUiLoaderService,
   ) {}
 
   createForm() {
@@ -93,6 +95,7 @@ export class SecuredLoanComponent implements OnInit {
     console.log(this.SecuredLoan.value.assetId);
   }
   addSecuredLoan() {
+    this.spinner.start();
     console.log(this.SecuredLoan);
 
     if (this.SecuredLoan.invalid) {
@@ -115,7 +118,7 @@ export class SecuredLoanComponent implements OnInit {
     };
     console.log(securedLoanData);
     this._userServ.addLiabilities(securedLoanData).subscribe((result) => {
-      console.log(result);
+      this.spinner.stop();
       if (result.success) {
         this._route.navigate(['/liabilities/liabilitiesSuccess']);
       }
@@ -123,8 +126,10 @@ export class SecuredLoanComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+    this.spinner.start();
     this.createForm();
     this._userServ.getAssets().subscribe((result) => {
+      this.spinner.stop();
       this.assetsData = result.data.map((items, i) => {
         this.allAssetsinOne.push(
           ...[

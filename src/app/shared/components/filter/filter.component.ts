@@ -9,15 +9,14 @@ import * as moment from 'moment'
 export class FilterComponent implements OnInit {
   @Input() title;
   @Input() lastDate:boolean;
-  @Output() formData = new EventEmitter();
-
+  
   @Input() typeFilter = false;
   @Input() countryFilter = false;
   @Input() ownershipFilter = false;
   @Input() type = [];
   @Input() country = [];
   @Input() ownershipType = [];
-
+  @Output() formData = new EventEmitter();
   @Output() onClose= new EventEmitter();
 
   

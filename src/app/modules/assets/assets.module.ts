@@ -19,6 +19,7 @@ import { SuccessPageAssetsComponent } from './components/success-page-assets/suc
 import { BankAccountUserComponent } from './components/bank-account-user/bank-account-user.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ClickOutsideModule } from 'ng-click-outside';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import { ClickOutsideModule } from 'ng-click-outside';
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    ClickOutsideModule
+    ClickOutsideModule,
+    NgxSpinnerModule,
   ]
 })
 export class AssetsModule { }

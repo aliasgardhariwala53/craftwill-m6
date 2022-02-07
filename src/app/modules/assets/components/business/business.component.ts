@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { valueChanges } from 'src/app/helper/formerror.helper';
 import { UserService } from 'src/app/services/user.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
@@ -17,7 +18,8 @@ export class BusinessComponent implements OnInit {
     private _fb: FormBuilder,
     private _userServ: UserService,
     private _route: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private spinner:NgxUiLoaderService,
   ) {}
   createForm() {
     this.businessForm = this._fb.group({
@@ -59,6 +61,7 @@ export class BusinessComponent implements OnInit {
     },
   };
   addBusiness() {
+    this.spinner.start();
     console.log(this.businessForm);
 
     if (this.businessForm.invalid) {
@@ -79,7 +82,7 @@ export class BusinessComponent implements OnInit {
       type:'business'
     };
     this._userServ.addAssets(businessData).subscribe((result) => {
-      console.log(result);
+      this.spinner.stop();
       this.toastr.message(result.message,result.success);
       if (result.success) {
         this._route.navigate(['/assets/assetsuccess']);

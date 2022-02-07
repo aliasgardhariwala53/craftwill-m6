@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { UserService } from '../../../../services/user.service';
 
 @Component({
@@ -11,6 +12,7 @@ import { UserService } from '../../../../services/user.service';
 export class ListmembersComponent implements OnInit {
   searchForm = new FormControl(null);
   toggleModal: boolean;
+  toggleModalTutorial: boolean=false;
   showSearch: boolean=false;
 
   MemberData = [];
@@ -21,7 +23,7 @@ export class ListmembersComponent implements OnInit {
   memberType = ['Person', 'Organisation'];
   ownershipFilter = ['Sole', 'joint'];
   countryFilter = ['india'];
-  constructor(public route: Router, private _userServ: UserService) {}
+  constructor(public route: Router, private _userServ: UserService,private spinner:NgxUiLoaderService) {}
 
   tableHeadings = [
     'Name of the member',
@@ -65,9 +67,10 @@ export class ListmembersComponent implements OnInit {
     });
   }
   onFilterHandler(value) {
+    this.spinner.start();
     console.log('helllooo', value);
     this._userServ.filterMembers(value).subscribe((result) => {
-      console.log(result);
+      this.spinner.stop();
       this.memberFilterData = result.map((items, i) => {
         return {
           fullname: this.getName(items).fullname,
@@ -121,9 +124,10 @@ export class ListmembersComponent implements OnInit {
     }
   }
   ngOnInit(): void {
+    this.spinner.start();
     this._userServ.getMembers().subscribe((result) => {
       // console.log(result.data);
-
+      this.spinner.stop();
       this.MemberData = result.data.map((items, i) => {
         console.log(items);
 

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { forkJoin } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
 
@@ -11,6 +12,7 @@ import { UserService } from 'src/app/services/user.service';
 export class ListLiabilitiesComponent implements OnInit {
   searchForm = new FormControl(null);
   showSearch:boolean=false;
+  toggleModalTutorial:boolean=false;
   LiabilitiesData = [];
   allLiabilities = [
 
@@ -21,7 +23,7 @@ export class ListLiabilitiesComponent implements OnInit {
   ownershipFilter = ['Sole', 'joint'];
   countryFilter = ['india'];
   liabilitiesType = ['Secured Loan', 'Unsecured Loan', 'Private Dept'];
-  constructor(private _userServ: UserService) {}
+  constructor(private _userServ: UserService,private spinner:NgxUiLoaderService) {}
   tableHeadings = [
     'Name of the Liabilities',
     'Loan Provider',
@@ -57,9 +59,10 @@ export class ListLiabilitiesComponent implements OnInit {
     
   }
   onFilterHandler(value) {
+    this.spinner.start();
     console.log('helllooo', value);
     this._userServ.filterLiabilities(value).subscribe((result) => {
-      console.log(result);
+      this.spinner.stop();
       this.LiabilitiesFilterData = result.map((items, i) => {
         return {
           loanName: this.getName(items)?.loanName,
@@ -113,7 +116,9 @@ export class ListLiabilitiesComponent implements OnInit {
     }
   }
   ngOnInit(): void {
+    this.spinner.start();
     this._userServ.getAllLiabilities().subscribe((result) => {
+      this.spinner.stop();
       this.LiabilitiesData = result.data.map((items, i) => {
         return {
           loanName: this.getName(items)?.loanName,

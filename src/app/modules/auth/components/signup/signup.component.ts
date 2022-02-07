@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { passwordValidation, valueChanges } from 'src/app/helper/formerror.helper';
 import { AuthservicesService } from 'src/app/services/authservices.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
@@ -24,7 +25,8 @@ export class SignupComponent implements OnInit {
     private _fb: FormBuilder,
     private _authService: AuthservicesService,
     private _router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private spinner:NgxUiLoaderService,
   ) {}
 
   ngOnInit(): void {
@@ -139,6 +141,7 @@ export class SignupComponent implements OnInit {
  
   };
   submit() {
+    this.spinner.start();
     console.log('Helloo');
 
   let obj={
@@ -157,7 +160,7 @@ export class SignupComponent implements OnInit {
 
     this._authService.signup(obj).subscribe(
       (result) => {
-        console.log(result);
+        this.spinner.stop();
         this.toastr.message(result.message,result.success);
         if (result.success == true) {
         

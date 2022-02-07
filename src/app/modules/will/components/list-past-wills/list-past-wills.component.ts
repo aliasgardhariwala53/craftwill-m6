@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { UserService } from 'src/app/services/user.service';
 export class ListPastWillsComponent implements OnInit {
 
   pastWillData=[];
-  constructor(private _userServ:UserService) { }
+  constructor(private _userServ:UserService,private spinner:NgxUiLoaderService) { }
   tableHeadings = [
     'File Version',
     'Date & Time',

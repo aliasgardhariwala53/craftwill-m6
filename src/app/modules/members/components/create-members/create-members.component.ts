@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { valueChanges } from 'src/app/helper/formerror.helper';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
 import { UserService } from '../../../../services/user.service';
@@ -22,7 +23,8 @@ export class CreateMembersComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private _userServ: UserService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private spinner:NgxUiLoaderService,
   ) {}
 
   createForm() {
@@ -172,7 +174,7 @@ export class CreateMembersComponent implements OnInit {
       type:'memberAsOrganisation',
     };
     this._userServ.createMembers(membersAsOrganisation).subscribe((result) => {
-      console.log(result);
+      this.spinner.stop();
       this.toastr.message(result.message, result.success);
       // this.responseMessageOrganisation=result.message;
     });

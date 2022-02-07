@@ -10,27 +10,17 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ListLiabilitiesComponent implements OnInit {
   searchForm = new FormControl(null);
-
+  showSearch:boolean=false;
   LiabilitiesData = [];
   allLiabilities = [
-    {
-      loanName: 'ali asgar',
-      loanProvider:'loanProvider',
-      loanNumber: 'loanProvider',
-      current_Outstanding_Amount: 'current_Outstanding_Amount',
-      type: 'type',
-    }
+
   ];
   LiabilitiesFilterData = [];
   LiabilitiesSearchData = [];
   toggleModal: boolean;
-  ownershipFilter=['Sole','joint'];
-  countryFilter=['in','en'];
-  liabilitiesType = [
-    'Secured Loan',
-    'Unsecured Loan',
-    'Private Dept',
- ];
+  ownershipFilter = ['Sole', 'joint'];
+  countryFilter = ['india'];
+  liabilitiesType = ['Secured Loan', 'Unsecured Loan', 'Private Dept'];
   constructor(private _userServ: UserService) {}
   tableHeadings = [
     'Name of the Liabilities',
@@ -55,19 +45,16 @@ export class ListLiabilitiesComponent implements OnInit {
   onClickAction(value) {
     console.log(value);
   }
-  onChangehandler(value){
-  console.log(value);
-  console.log(this.searchForm.value,);
-  this.LiabilitiesSearchData=this.allLiabilities.map((items)=>{
-  
-  if (items.loanName.includes(this.searchForm.value)) {
-    return items;
-  }else{
-    return null;
-  }
-  return [];
-})
-this.allLiabilities = [...this.LiabilitiesSearchData];
+  onChangehandler() {
+    if (!this.searchForm.value) {
+      console.log(this.searchForm.value);
+      this.allLiabilities = [...this.LiabilitiesData];
+    }
+    this.allLiabilities = this.LiabilitiesData.filter((items) => {
+      return items.loanName.toLowerCase().includes(this.searchForm.value.toLowerCase());
+    });
+   
+    
   }
   onFilterHandler(value) {
     console.log('helllooo', value);
@@ -85,55 +72,48 @@ this.allLiabilities = [...this.LiabilitiesSearchData];
       this.allLiabilities = [...this.LiabilitiesFilterData];
     });
   }
-  onSorting(value){
+  onSorting(value) {
+    if (value === 'All') {
+      this.allLiabilities = this.LiabilitiesData;
+    } else {
+      this.allLiabilities = this.LiabilitiesData.filter(
+        (item) => item.type === value
+      );
+    }
+  }
 
-    if (value==='All') {
-      
-      this.allLiabilities=this.LiabilitiesData;
-    }
-     else {
-      
-      this.allLiabilities=this.LiabilitiesData.filter((item)=>item.type===value);
-    }
-      }
-    
-  getName(item){
-   
-    let data={
-      loanName:'',
-      loanProvider:'',
-      loan_Id_Number:''
-    }
+  getName(item) {
+    let data = {
+      loanName: '',
+      loanProvider: '',
+      loan_Id_Number: '',
+    };
     switch (item.type) {
       case 'privateDept':
-        data.loanProvider=item.privateDept.dept_Name || '---';
-        data.loan_Id_Number=item.privateDept.loan_Id_Number || '---';
-        data.loanName='Private Dept';
+        data.loanProvider = item.privateDept.dept_Name || '---';
+        data.loan_Id_Number = item.privateDept.loan_Id_Number || '---';
+        data.loanName = 'Private Dept';
         return data;
         break;
       case 'securedLoan':
-        data.loanProvider=item.securedLoan.loanProvider || '';
-        data.loan_Id_Number=item.securedLoan.loan_Id_Number || '';
-        data.loanName='Secured Loan';
+        data.loanProvider = item.securedLoan.loanProvider || '';
+        data.loan_Id_Number = item.securedLoan.loan_Id_Number || '';
+        data.loanName = 'Secured Loan';
         return data;
         break;
       case 'unsecuredLoan':
-        data.loanProvider=item.unsecuredLoan.loanProvider  || '---';
-        data.loan_Id_Number=item.unsecuredLoan.loan_Id_Number  || '---';
-        data.loanName='Unsecured Loan';
+        data.loanProvider = item.unsecuredLoan.loanProvider || '---';
+        data.loan_Id_Number = item.unsecuredLoan.loan_Id_Number || '---';
+        data.loanName = 'Unsecured Loan';
         return data;
         break;
-     
+
       default:
- return data;
-      }
+        return data;
+    }
   }
   ngOnInit(): void {
-
-
     this._userServ.getAllLiabilities().subscribe((result) => {
-
-
       this.LiabilitiesData = result.data.map((items, i) => {
         return {
           loanName: this.getName(items)?.loanName,
@@ -144,8 +124,6 @@ this.allLiabilities = [...this.LiabilitiesSearchData];
         };
       });
       this.allLiabilities = [...this.LiabilitiesData];
-
-   
     });
   }
 }

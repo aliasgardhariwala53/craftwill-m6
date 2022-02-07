@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -7,10 +8,12 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./list-assets.component.scss'],
 })
 export class ListAssetsComponent implements OnInit {
+  searchForm = new FormControl('');
   toggleModal: boolean;
   assetsData = [];
   assetsFilterData = [];
-
+  assetsSearchData = [];
+  showSearch:boolean=false;
   tableHeadings = [
     'Name of the Assets',
     'Unique Number',
@@ -35,19 +38,30 @@ export class ListAssetsComponent implements OnInit {
   lastDate: string;
   assetsType = [
     'Bank Account',
-     'Investment Account', 
-     'Insurance Policy',
-     'Business',
-     'Real Estate',
-      'Motor Vehicle',
-      'Intellectual Property',
-      'Personal Possession',
-      'Safe Deposit Box',
-    ];
-    ownershipFilter=['Sole','joint'];
-    countryFilter=['in','en'];
+    'Investment Account',
+    'Insurance Policy',
+    'Business',
+    'Real Estate',
+    'Motor Vehicle',
+    'Intellectual Property',
+    'Personal Possession',
+    'Safe Deposit Box',
+  ];
+  ownershipFilter = ['Sole', 'joint'];
+  countryFilter = ['india'];
   constructor(private _userServ: UserService) {}
-
+  onChangehandler() {
+    console.log(this.searchForm.value);
+    if (!this.searchForm.value || this.searchForm.value===null ) {
+      this.allAssetsinOne = [...this.allAssetsData];
+    }
+    this.allAssetsinOne = this.allAssetsData.filter((items) => {
+      console.log(items.nameofAssets);
+      return items.nameofAssets.toLowerCase().includes(this.searchForm.value.toLowerCase());
+      
+    });
+    console.log( this.allAssetsinOne);
+  }
   onFilterHandler(value) {
     console.log('helllooo', value);
     this._userServ.filterAssets(value).subscribe((result) => {

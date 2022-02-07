@@ -147,11 +147,11 @@ export class CreateMembersComponent implements OnInit {
     const membersASPerson = {
       country: this.personForm.value.id_country,
       memberAsPerson: { ...this.personForm.value },
-      type:'membersASPerson',
+      type:'memberAsPerson',
     };
 
     this._userServ.createMembers(membersASPerson).subscribe((result) => {
-      console.log(result);
+      console.log('result');
       this.toastr.message(result.message, result.success);
     });
   }
@@ -169,7 +169,7 @@ export class CreateMembersComponent implements OnInit {
     const membersAsOrganisation = {
       country: this.organisationForm.value.id_country,
       memberAsOrganisation: { ...this.organisationForm.value },
-      type:'membersAsOrganisation',
+      type:'memberAsOrganisation',
     };
     this._userServ.createMembers(membersAsOrganisation).subscribe((result) => {
       console.log(result);

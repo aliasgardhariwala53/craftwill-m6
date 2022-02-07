@@ -42,13 +42,19 @@ export class FilterComponent implements OnInit {
     this.formData.emit(data);
     this.onClose.emit();
   }
+  lowerCaseConverter(str){
+    if (!str) {
+      return null;
+    }
+    return (str.charAt(0).toLowerCase() + str.slice(1)).replace(/\s+/g, '')||'';
+  }
   emitFormData(): void {
  
     const data = {
       isoDate: this.startDate.value,
-      type: this.typeForm.value&&(this.typeForm.value.charAt(0).toLowerCase() + this.typeForm.value.slice(1)).replace(/\s+/g, '')||'',
-      country: this.countryForm.value,
-      specifyOwnershipType: this.specifyOwnershipTypeForm.value
+      type: this.lowerCaseConverter(this.typeForm.value),
+      country: this.lowerCaseConverter(this.countryForm.value),
+      specifyOwnershipType: this.lowerCaseConverter(this.specifyOwnershipTypeForm.value),
     };
  
     this.formData.emit(data);

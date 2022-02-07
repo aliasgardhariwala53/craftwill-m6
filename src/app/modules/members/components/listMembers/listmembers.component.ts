@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../../../../services/user.service';
 
@@ -8,17 +9,18 @@ import { UserService } from '../../../../services/user.service';
   styleUrls: ['./listmembers.component.scss', '../../../../app.component.scss'],
 })
 export class ListmembersComponent implements OnInit {
+  searchForm = new FormControl(null);
   toggleModal: boolean;
+  showSearch: boolean=false;
+
   MemberData = [];
   organisationData = [];
   allMemberData = [];
   memberFilterData = [];
-  memberType = [
-    'Person',
-     'Organisation', 
-    ];
-    ownershipFilter=['Sole','joint'];
-    countryFilter=['in','en'];
+  memberSearchData = [];
+  memberType = ['Person', 'Organisation'];
+  ownershipFilter = ['Sole', 'joint'];
+  countryFilter = ['india'];
   constructor(public route: Router, private _userServ: UserService) {}
 
   tableHeadings = [
@@ -51,6 +53,17 @@ export class ListmembersComponent implements OnInit {
   onClickAction(value) {
     console.log(value);
   }
+  onChangehandler() {
+    console.log(this.searchForm.value);
+    if (!this.searchForm.value) {
+      this.allMemberData = [...this.MemberData];
+    }
+    this.allMemberData = this.allMemberData.filter((items) => {
+      return items.fullname
+        .toLowerCase()
+        .includes(this.searchForm.value.toLowerCase());
+    });
+  }
   onFilterHandler(value) {
     console.log('helllooo', value);
     this._userServ.filterMembers(value).subscribe((result) => {
@@ -82,8 +95,8 @@ export class ListmembersComponent implements OnInit {
       fullname: '',
       Relationship: '',
       gender: '',
-      id_type:'',
-      id_number:'',
+      id_type: '',
+      id_number: '',
     };
     switch (item.type) {
       case 'memberAsPerson':
@@ -94,8 +107,8 @@ export class ListmembersComponent implements OnInit {
         data.id_number = item.memberAsPerson.id_number || '';
         return data;
         break;
-      case 'memberAsOrganisation':
-        data.Relationship =  '---';
+      case 'membersAsOrganisation':
+        data.Relationship = '---';
         data.fullname = item.memberAsOrganisation.organisationName || '';
         data.gender = item.memberAsOrganisation.gender || '';
         data.id_type = item.memberAsOrganisation.gender || '';
@@ -103,7 +116,6 @@ export class ListmembersComponent implements OnInit {
         return data;
         break;
 
-    
       default:
         return data;
     }
@@ -114,7 +126,7 @@ export class ListmembersComponent implements OnInit {
 
       this.MemberData = result.data.map((items, i) => {
         console.log(items);
-    
+
         return {
           fullname: this.getName(items).fullname,
           Relationship: this.getName(items).Relationship,

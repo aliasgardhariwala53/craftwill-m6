@@ -22,7 +22,7 @@
     </div>
 
     <div
-      class="w-full sm:w-4/5   sm:bg-[#f8f8f8] sm:mx-4 sm:px-10 mt-6 sm:mt-0 sm:pt-6 pb-2 items-center justify-center sm:rounded-[50px] overflow-auto h-[80vh] sm:h-[75vh] ">
+      class="w-full sm:w-4/5   sm:bg-[#f8f8f8] sm:mx-4 sm:px-10 mt-6 sm:mt-0 sm:pt-6 pb-2 items-center justify-center sm:rounded-[50px] overflow-auto h-[80vh] sm:h-[71vh] ">
       <div class="flex flex-col">
         <div class="flex flex-row justify-between">
           <div class="w-1/2 text-left font-[GilroyBold] text-base sm:text-2xl">
@@ -280,12 +280,25 @@
         <div class="grid bold grid-cols-1 sm:grid-cols-2 md:grid-cols-4   sm:gap-x-8 sm:gap-y-2  ">
           <div class="w-full">
             <div class="input-group1">
-              <label class="input_label text-sm sm:text-base font-[GilroySemi]"> password</label>
-              <input type="text" placeholder="{{disablePassword ?'*******************************':'Current Password'}}" [ngClass]="{ input_bg_address: disablePassword }"
-                [attr.disabled]="disablePassword ? '' : null" [ngStyle]="{
-                  cursor: disablePassword ? 'not-allowed' : 'default'
-                }" formControlName="password"
-                class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#ffbcc9] sm:bg-[#F0F0F0] w-[100%] px-2 sm:px-4 py-2  form-control rounded-[14px]  focus:outline-none" />
+              <label class="input_label text-sm sm:text-base font-[GilroySemi]"> Password</label>
+              <div class="flex flex-row relative">
+                <input  #x type="password" placeholder="{{'Current Password'}}" [ngClass]="{ input_bg_address: disablePassword }"
+                
+                  [attr.disabled]="disablePassword ? '' : null" [ngStyle]="{
+                    cursor: disablePassword ? 'not-allowed' : 'default'
+                  }" formControlName="password"
+                  class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#ffbcc9] sm:bg-[#F0F0F0] w-[100%] px-2 sm:px-4 py-2  form-control rounded-[14px]  focus:outline-none" />
+                  <div *ngIf="passwordForm.value.password !=='' && !disablePassword " class="absolute right-2 top-[25%] text-[#8d8d8d]" (click)="x.type=x.type=='password'?'text':'password'">
+                    <svg *ngIf="x.type==='text'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                    <svg  *ngIf="x.type==='password'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                    </svg>
+
+                  </div>
+              </div>
             </div>
             <div class="text-red-500 errors mx-2">
               {{ formErrors.password }}
@@ -294,13 +307,27 @@
           <div *ngIf="!disablePassword" class="">
             <div class="input-group1">
               <label class="input_label text-sm sm:text-base font-[GilroySemi]">New Password</label>
-              <input type="text" placeholder="New Password" [ngClass]="{ input_bg_address: disablePassword }"
+            
+              <div class="flex flex-row relative">
+                <input #y type="password" placeholder="New Password" [ngClass]="{ input_bg_address: disablePassword }"
                 [attr.disabled]="disablePassword ? '' : null" [ngStyle]="{
                   cursor: disablePassword ? 'not-allowed' : 'default'
                 }" formControlName="newPassword"
                 class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#ffbcc9] sm:bg-[#F0F0F0] w-[100%] px-2 sm:px-4 py-2  form-control rounded-[14px]  focus:outline-none" />
-            </div>
+                <div *ngIf="passwordForm.value.password !==''" class="absolute right-2 top-[25%] text-[#8d8d8d]" (click)="y.type=y.type=='password'?'text':'password'">
+                  <svg *ngIf="y.type==='text'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                  <svg  *ngIf="y.type==='password'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                  </svg>
 
+                </div>
+  
+              </div>
+
+            </div>
             <div class="text-red-500 errors mx-2">
               {{ formErrors.newPassword }}
             </div>
@@ -308,11 +335,24 @@
           <div *ngIf="!disablePassword" class="">
             <div class="input-group1">
               <label class="input_label text-sm sm:text-base font-[GilroySemi]">Confirm password</label>
-              <input type="text" placeholder="Confirm password" [ngClass]="{ input_bg_address: disablePassword }"
+              <div class="flex flex-row relative">
+              <input #z type="password" placeholder="Confirm password" [ngClass]="{ input_bg_address: disablePassword }"
                 [attr.disabled]="disablePassword ? '' : null" [ngStyle]="{
                   cursor: disablePassword ? 'not-allowed' : 'default'
                 }" formControlName="confirmPassword"
                 class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#ffbcc9] sm:bg-[#F0F0F0] w-[100%] px-2 sm:px-4 py-2  form-control rounded-[14px]  focus:outline-none" />
+
+                <div *ngIf="passwordForm.value.password !==''" class="absolute right-2 top-[25%] text-[#8d8d8d]" (click)="z.type=z.type=='password'?'text':'password'">
+                  <svg *ngIf="z.type==='text'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                  <svg  *ngIf="z.type==='password'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                  </svg>
+
+                </div>
+                </div>
             </div>
 
             <div class="text-red-500 errors mx-2">

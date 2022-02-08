@@ -39,3 +39,22 @@ export class passwordValidation {
     }
   }
 };
+export class passwordValidationNotMatch {
+  static Notmatch(controlName: string, checkControlName: string): ValidatorFn {
+    return (controls: AbstractControl) => {
+      const control = controls.get(controlName);
+      const checkControl = controls.get(checkControlName);
+
+      if (checkControl.errors && !checkControl.errors['Notmatching']) {
+        return null;
+      }
+
+      if (control.value === checkControl.value) {
+        controls.get(checkControlName).setErrors({ Notmatching: true });
+        return { Notmatching: true };
+      } else {
+        return null;
+      }
+    }
+  }
+};

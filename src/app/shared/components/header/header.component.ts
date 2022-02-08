@@ -9,6 +9,7 @@ import { HeaderService } from '../../../services/header.service';
 })
 export class HeaderComponent implements OnInit {
 username : string ="helloo";
+imageSrc: string = '';
 toggleModal : boolean =false;
   constructor(public router:Router,public _headerServ:HeaderService) {
     this._headerServ.username.subscribe((name)=>{
@@ -24,6 +25,9 @@ console.log('latest Will');
 
   }
   ngOnInit(): void {
+    this._headerServ.image.subscribe((image)=>{
+     this.imageSrc=image;
+    })
   }
 
 }

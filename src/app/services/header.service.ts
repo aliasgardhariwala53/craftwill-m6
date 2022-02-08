@@ -8,4 +8,5 @@ export class HeaderService {
 
   constructor() { }
   username=new BehaviorSubject("UserName");
+  image=new BehaviorSubject('');
 }

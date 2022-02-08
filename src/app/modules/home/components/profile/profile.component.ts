@@ -5,6 +5,7 @@ import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import {
   passwordValidation,
+  passwordValidationNotMatch,
   valueChanges,
 } from 'src/app/helper/formerror.helper';
 import { HeaderService } from 'src/app/services/header.service';
@@ -18,7 +19,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./profile.component.scss','../../../../app.component.scss']
 })
 export class ProfileComponent implements OnInit {
-
+  profileData;
   userInfo: FormGroup;
   passwordForm: FormGroup;
   inputState = true;
@@ -48,13 +49,15 @@ export class ProfileComponent implements OnInit {
     });
     this.passwordForm = this._fb.group(
       {
-        password: ['', [Validators.required, Validators.minLength(6)]],
+        password: ['0000000000000000', [Validators.required, Validators.minLength(6)]],
         newPassword: ['', [Validators.required, Validators.minLength(6)]],
         confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
       },
       {
         validators: [
           passwordValidation.match('newPassword', 'confirmPassword'),
+          // !passwordValidation.match('password', 'newPassword'),
+          passwordValidationNotMatch.Notmatch('password', 'newPassword'),
         ],
       }
     );
@@ -127,6 +130,7 @@ export class ProfileComponent implements OnInit {
     newPassword: {
       required: 'New Password is Required',
       minlength: 'Minimum length must be 6',
+      Notmatching: 'Current Password and New password should Not be same',
     },
     confirmPassword: {
       required: 'Confirm Password is Required',
@@ -174,9 +178,13 @@ export class ProfileComponent implements OnInit {
     // show message
   }
   changeStatus() {
+    if (this.inputState===false) {
+      this.userInfo.setValue({ ...this.profileData });
+    }
     this.inputState = !this.inputState;
   }
   togglePassword() {
+    this.passwordForm.reset();
     this.disablePassword = !this.disablePassword;
   }
     // click remove button
@@ -186,6 +194,7 @@ export class ProfileComponent implements OnInit {
       this.spinner.stop();
       this.toastr.message(result.success?"Image Removed SuccessFully":"Image Remove Error",result.success);
       this.imageSrc = `${environment.serverUrl}${result.data.profileImage}`;
+      this._headerServ.image.next(`${environment.serverUrl}${result.data.profileImage}`);
       this.showRemoveButton=false;
     });
   }
@@ -215,6 +224,7 @@ export class ProfileComponent implements OnInit {
       this.spinner.stop();
       this.toastr.message(result.message,result.success);
       if (result.success === true) {
+        this._headerServ.image.next(this.croppedImage);
         this.imageSrc = this.croppedImage;
         this.showImageUpload = false;
         this.showCropped = false;
@@ -224,7 +234,7 @@ export class ProfileComponent implements OnInit {
   }
 
   profileUpdate() {
-    this.spinner.start();
+   
     if (this.userInfo.invalid) {
       this.userInfo.markAllAsTouched();
       this.formErrors = valueChanges(
@@ -234,7 +244,43 @@ export class ProfileComponent implements OnInit {
       );
       return;
     }
+    this.spinner.start();
     this._userServ.updateProfile(this.userInfo.value).subscribe((result) => {
+      console.log(result);
+      this.profileData =  (({ id_type,
+      id_number,
+      gender,
+      fullName,
+      email,
+      floorNumber,
+      unitNumber,
+      streetName,
+      postalCode,
+      Citizenship,
+      id_country,
+      dob }) => ({
+        id_type,
+      id_number,
+      gender,
+      fullName,
+      email,
+      floorNumber,
+      unitNumber,
+      streetName,
+      postalCode,
+      Citizenship,
+      id_country,
+      dob
+      }))(result.data);
+     
+      
+
+
+      // this.userInfo.setValue({ ...result.data });
+      if (result.success) {
+        this.inputState=true;
+        this.spinner.stop();
+      }
       this.spinner.stop();
       this.toastr.message(result.message,result.success);
     });
@@ -244,7 +290,7 @@ export class ProfileComponent implements OnInit {
     localStorage.removeItem("user")
   }
   passwordUpdate() {
-    this.spinner.start();
+  
     if (this.passwordForm.invalid) {
       this.passwordForm.markAllAsTouched();
       this.formErrors = valueChanges(
@@ -254,10 +300,21 @@ export class ProfileComponent implements OnInit {
       );
       return;
     }
+    this.spinner.start();
     this._userServ
       .updatePassword(this.passwordForm.value)
       .subscribe((result) => {
+        if (result.success) {
+          this.passwordForm.reset();
+          this.disablePassword=true;
+        }
         this.spinner.stop();
+        this.toastr.message(result.message,result.success);
+      },(err)=>{
+        this.spinner.stop();
+        this.toastr.message(err.text,false);
+        console.log(err);
+        
       });
   }
   ngOnInit(): void {
@@ -265,6 +322,7 @@ export class ProfileComponent implements OnInit {
     this.spinner.start();
     this._userServ.getProfile().subscribe((result) => {
       this.spinner.stop();
+      this.profileData=result.data;
       this.userInfo.setValue({ ...result.data });
       this._headerServ.username.next(result.data.fullName);
       console.log(this.userInfo.value);
@@ -274,6 +332,7 @@ export class ProfileComponent implements OnInit {
       this.spinner.stop();
       this.userImage = img.profileImage;
       console.log(img.profileImage);
+      this._headerServ.image.next(`${environment.serverUrl}${this.userImage}`);
       this.imageSrc = `${environment.serverUrl}${this.userImage}`;
       if (img.profileImage==='/uploads/defaultimage.png') {
         this.showRemoveButton=true;

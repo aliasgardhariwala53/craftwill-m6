@@ -5,7 +5,7 @@ export interface Countries {
     name: string
     number: string
 }
-export var countries: Countries [] = [
+export var countriesData: Countries [] = [
     { code: "AF", code3: "AFG", name: "Afghanistan", number: "004" },
     { code: "AL", code3: "ALB", name: "Albania", number: "008" },
     { code: "DZ", code3: "DZA", name: "Algeria", number: "012" },
@@ -256,3 +256,6 @@ export var countries: Countries [] = [
     { code: "ZW", code3: "ZWE", name: "Zimbabwe", number: "716" },
     { code: "AX", code3: "ALA", name: "Åland Islands", number: "248" }
 ];
+export const countries=countriesData.map((item)=>{
+    return item.name;
+  })

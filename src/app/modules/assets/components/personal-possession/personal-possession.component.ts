@@ -7,6 +7,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { valueChanges } from 'src/app/helper/formerror.helper';
 import { UserService } from 'src/app/services/user.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
+import { countries } from 'src/app/shared/utils/countries-store';
 
 @Component({
   selector: 'app-personal-possession',
@@ -18,11 +19,12 @@ export class PersonalPossessionComponent implements OnInit {
   personalPossessionForm:FormGroup
   responseMessage:string
   constructor(private _fb:FormBuilder,private _userServ:UserService,private spinner:NgxUiLoaderService,private _route:Router,private toastr: ToastrService) { }
+  public countries:any = countries
   createForm(){
     this.personalPossessionForm= this._fb.group({
       Name: ["",[Validators.required]],
       id_No : ["",[ Validators.pattern("^[0-9]*$")]],
-     country: ["",[Validators.required]],
+     country: [, [Validators.required]],
      specifyOwnershipType: ["",[Validators.required]],
     })
     this.personalPossessionForm.valueChanges.subscribe(() => {

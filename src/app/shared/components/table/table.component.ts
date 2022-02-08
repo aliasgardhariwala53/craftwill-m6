@@ -16,13 +16,13 @@ export class TableComponent implements OnInit {
   @Input() keys = [];
   @Input() avtarType='name';
   @Input() emptyTableMessage = '';
-  @Input() actionRoute = 'trust/createTrust';
+  @Input() actionRoute = '';
   @Output() actionButton = new EventEmitter();
   constructor(private _route:Router) { }
 
   onClickActionButton(ItemId){
     this.actionButton.emit(ItemId);
-    // this._route.navigate([`${this.actionRoute}/${ItemId}`])
+    this._route.navigate([`${this.actionRoute}/${ItemId}`])
   }
   getShortName(fullName) { 
     console.log(fullName);

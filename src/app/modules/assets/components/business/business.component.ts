@@ -5,6 +5,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { valueChanges } from 'src/app/helper/formerror.helper';
 import { UserService } from 'src/app/services/user.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
+import { countries } from 'src/app/shared/utils/countries-store';
 
 @Component({
   selector: 'app-business',
@@ -21,11 +22,12 @@ export class BusinessComponent implements OnInit {
     private toastr: ToastrService,
     private spinner:NgxUiLoaderService,
   ) {}
+  public countries:any = countries
   createForm() {
     this.businessForm = this._fb.group({
       businessName: ['', [Validators.required]],
       UEN_no: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
-      country: ['', [Validators.required]],
+      country: [, [Validators.required]],
       specifyOwnershipType: ['', [Validators.required]],
     });
     this.businessForm.valueChanges.subscribe(() => {

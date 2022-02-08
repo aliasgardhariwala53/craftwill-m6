@@ -105,7 +105,8 @@ addTrustForm(){
           _id: items._id,
         };
       });
-      console.log(this.trustData);
+      console.log(...this.trustData);
+      this.TrustForm.setValue({trustName:this.trustData[0].trustName,description:this.trustData[0].ownerShipType,_id:this.trustData[0]._id})
       this.TrustForm.value.trustName=this.trustData[0].trustName;
       
     });

@@ -41,12 +41,13 @@
     <div class="form-group">
       <div class="input-group1">
         <label class="input_label text-sm ml-1">Country</label>
-        <input
-          type="text"
-          placeholder="country"
-          formControlName="country"
-          class="authinput form-control"
-        />
+      <ng-select
+        class="custom-selector members w-full"
+        placeholder="Select Country"
+        [items]="countries"
+        formControlName="country"
+        ></ng-select>
+  
       </div>
 
       <div class="text-red-500 errors mx-2">

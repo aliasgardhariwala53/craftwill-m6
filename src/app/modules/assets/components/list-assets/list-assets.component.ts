@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { countries } from 'src/app/shared/utils/countries-store';
 @Component({
   selector: 'app-list-assets',
   templateUrl: './list-assets.component.html',
@@ -51,6 +52,7 @@ export class ListAssetsComponent implements OnInit {
   ownershipFilter = ['Sole', 'joint'];
   countryFilter = ['india'];
   constructor(private _userServ: UserService,private spinner: NgxUiLoaderService) {}
+  public countries:any = countries
   onChangehandler() {
     console.log(this.searchForm.value);
     if (!this.searchForm.value || this.searchForm.value===null ) {

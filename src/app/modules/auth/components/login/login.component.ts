@@ -73,6 +73,15 @@ export class LoginComponent implements OnInit {
           this._router.navigate(["/home"])
           localStorage.setItem("user", result.token)
       }
+  },(err)=>{
+  if (err.error.text==="email not found in the database.") {
+      this.spinner.stop();
+      this.toastr.message("Email Not Found",false);
+    }
+  if (err.error.text==="Invalid password") {
+      this.spinner.stop();
+      this.toastr.message("Invalid password",false);
+    }
   })
 }
 

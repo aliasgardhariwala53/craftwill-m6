@@ -5,6 +5,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { valueChanges } from 'src/app/helper/formerror.helper';
 import { UserService } from 'src/app/services/user.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
+import { countries } from 'src/app/shared/utils/countries-store';
 
 @Component({
   selector: 'app-bank-account-user',
@@ -15,6 +16,7 @@ export class BankAccountUserComponent implements OnInit {
   Titile: string = 'BankAccount';
   BankAccountUser: FormGroup;
   responseMessage: string;
+  
   constructor(
     private _fb: FormBuilder,
     private _userServ: UserService,
@@ -22,6 +24,7 @@ export class BankAccountUserComponent implements OnInit {
     ,private toastr: ToastrService,
     private spinner:NgxUiLoaderService,
   ) {}
+  public countries:any = countries
 
   createForm() {
     this.BankAccountUser = this._fb.group({
@@ -30,7 +33,7 @@ export class BankAccountUserComponent implements OnInit {
         '',
         [Validators.required, Validators.pattern('^[0-9]*$')],
       ],
-      country: ['', [Validators.required]],
+      country: [, [Validators.required]],
       estimateValue: ['', [Validators.required]],
       specifyOwnershipType: ['', [Validators.required]],
     });
@@ -103,5 +106,6 @@ export class BankAccountUserComponent implements OnInit {
   }
   ngOnInit(): void {
     this.createForm();
+
   }
 }

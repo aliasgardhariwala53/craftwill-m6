@@ -59,7 +59,7 @@
             
             <label class=" cursor-pointer font-[GilroyBold] my-1 w-[100px] rounded-2xl px-4 py-2 bg-red text-center"
               for="imageInput">Change</label>
-            <div class="cursor-pointer font-[GilroyBold]  my-1 w-[100px] rounded-2xl px-4 py-2 border-2   text-center"
+            <div *ngIf="showRemoveButton" class="cursor-pointer font-[GilroyBold]  my-1 w-[100px] rounded-2xl px-4 py-2 border-2   text-center"
               (click)="remove()">
               Remove
             </div>

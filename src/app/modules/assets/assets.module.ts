@@ -20,6 +20,7 @@ import { BankAccountUserComponent } from './components/bank-account-user/bank-ac
 import { HttpClientModule } from '@angular/common/http';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 @NgModule({
@@ -49,6 +50,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     HttpClientModule,
     ClickOutsideModule,
     NgxSpinnerModule,
+    NgSelectModule
   ]
 })
 export class AssetsModule { }

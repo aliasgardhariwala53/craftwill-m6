@@ -169,7 +169,9 @@ export class SignupComponent implements OnInit {
           this.addressDetails.reset();
           this.accountDetails.reset();
           this._router.navigate(['/']);
-        }else{
+        }
+        if(result.message==='User already exists'){
+          
           this.step=2;
           // this._router.navigate(['/signup']);
         }

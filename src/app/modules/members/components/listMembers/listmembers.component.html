@@ -72,7 +72,7 @@
     </div>
   </div>
 
-  <app-table [tableHeadings]='tableHeadings' (actionButton)="onClickAction($event)" [tableData]='allMemberData'
+  <app-table [tableHeadings]='tableHeadings' actionRoute="members/createmembers" (actionButton)="onClickAction($event)" [tableData]='allMemberData'
     [keys]='tableKeys' [classes]="classes" emptyTableMessage="No members Found"></app-table>
   <div class="absolute md:hidden left-0 right-0 bottom-1 w-[87%] m-auto bg-white ">
 

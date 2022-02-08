@@ -21,6 +21,7 @@ export class CreateMembersComponent implements OnInit {
   responseMessageperson: string = '';
   responseMessageOrganisation: string = '';
   currentItem: string = 'Create Member';
+  genderList= ['Male','Female','Other']
   constructor(
     private _fb: FormBuilder,
     private _userServ: UserService,
@@ -34,7 +35,7 @@ export class CreateMembersComponent implements OnInit {
       fullname: ['', [Validators.required]],
       id_type: ['', Validators.required],
       id_number: ['', Validators.required],
-      gender: ['', Validators.required],
+      gender: [, Validators.required],
       floorNumber: ['', Validators.required],
       unitNumber: ['', Validators.required],
       streetName: ['', Validators.required],
@@ -151,7 +152,7 @@ export class CreateMembersComponent implements OnInit {
     this.spinner.start();
     const membersASPerson = {
       country: this.personForm.value.id_country,
-      memberAsPerson: { ...this.personForm.value },
+      memberAsPerson: { ...this.personForm.value ,gender:this.personForm.value.gender.toLowerCase()},
       type:'memberAsPerson',
     };
 

@@ -315,7 +315,14 @@ font-weight: 400;
   font-weight: 400;
 }
 
-
+.ng-select{
+  outline: none;
+  border: none;
+  :focus{
+    outline: none;
+    border: none;
+  }
+}
 .custom .ng-select-container {
   background: #f7f7f7;
   outline: none;
@@ -347,10 +354,18 @@ border-radius: 10px;
 border: none;
 border-radius: 10px;
 }
+.members .ng-select-container {
+  background: #f0f0f0;
+  outline: none;
+border: none;
+border-radius: 10px;
+}
+
 .profile.ng-select.ng-select-opened>.ng-select-container {
   
   background: #ddd;
 }
+
 .profile.ng-select .ng-select-opened.ng-select-bottom>.ng-select-container {
   
   background: #ddd !important;
@@ -369,4 +384,22 @@ border-radius: 10px;
 .ng-select div, .ng-select input, .ng-select span{
   font-family: 'GilroySemi';
   font-weight: 400;
+}
+.members.ng-select .ng-select-opened.ng-select-bottom>.ng-select-container {
+  
+  background: #ddd !important;
+}
+.members.ng-select-container {
+  background: #f7f7f7;
+  outline: none;
+border: none;
+border-radius: 10px;
+}
+.members.ng-select.ng-select-opened>.ng-select-container {
+  
+  background: #f7f7f7;
+}
+.members.ng-select.ng-select-single .ng-select-container{
+  background: #f7f7f7;
+  height: 40px;
 }

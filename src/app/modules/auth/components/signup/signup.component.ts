@@ -169,6 +169,9 @@ export class SignupComponent implements OnInit {
           this.addressDetails.reset();
           this.accountDetails.reset();
           this._router.navigate(['/']);
+        }else{
+          this.step=2;
+          // this._router.navigate(['/signup']);
         }
       },
      

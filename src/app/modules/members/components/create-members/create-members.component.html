@@ -90,12 +90,20 @@
       <div class="form-group">
         <div class="input-group1">
           <label class="input_label text-sm ml-1">Gender</label>
-          <input
+          <!-- <input
             type="text"
             placeholder="Gender"
             formControlName="gender"
             class="authinput form-control"
-          />
+          /> -->
+          <ng-select
+          class="custom-selector members w-full"
+          placeholder="Gender"
+          [items]="genderList"
+          formControlName="gender"
+        
+          >
+        </ng-select>
         </div>
   
         <div class="text-red-500 errors mx-2">

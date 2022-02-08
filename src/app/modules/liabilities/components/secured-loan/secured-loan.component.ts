@@ -95,7 +95,7 @@ export class SecuredLoanComponent implements OnInit {
     console.log(this.SecuredLoan.value.assetId);
   }
   addSecuredLoan() {
-    this.spinner.start();
+
     console.log(this.SecuredLoan);
 
     if (this.SecuredLoan.invalid) {
@@ -109,6 +109,7 @@ export class SecuredLoanComponent implements OnInit {
       console.log('invalid');
       return;
     }
+    this.spinner.start();
     const securedLoanData = {
     current_Outstanding_Amount:this.SecuredLoan.value.current_Outstanding_Amount,
       
@@ -116,12 +117,15 @@ export class SecuredLoanComponent implements OnInit {
       type:'securedLoan'
       
     };
+    
     console.log(securedLoanData);
     this._userServ.addLiabilities(securedLoanData).subscribe((result) => {
       this.spinner.stop();
       if (result.success) {
+        this.SecuredLoan.reset();
         this._route.navigate(['/liabilities/liabilitiesSuccess']);
       }
+     
       this.toastr.message(result.message, result.success);
     });
   }

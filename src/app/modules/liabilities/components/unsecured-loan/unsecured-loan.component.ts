@@ -70,7 +70,6 @@ formErrorMessages = {
 };
 
 addUnSecuredLoan(){
-  this.spinner.start();
   console.log(this.UnSecuredLoan);
   
   if (this.UnSecuredLoan.invalid) {
@@ -83,6 +82,7 @@ addUnSecuredLoan(){
     console.log("invalid");
     return;
   }
+  this.spinner.start();
   console.log(this.UnSecuredLoan.value);
   const unSecuredLoanData = {
     current_Outstanding_Amount:this.UnSecuredLoan.value.current_Outstanding_Amount,
@@ -92,6 +92,7 @@ addUnSecuredLoan(){
   this._userServ.addLiabilities(unSecuredLoanData).subscribe((result) => {
     this.spinner.stop();
     if (result.success) {
+      this.UnSecuredLoan.reset();
       this._route.navigate(['/liabilities/liabilitiesSuccess'])
         }
         this.toastr.message(result.message,result.success);

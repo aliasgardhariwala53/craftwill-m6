@@ -56,13 +56,13 @@ export class ResetComponent implements OnInit {
   };
 
   resetPassword(){
-    this.spinner.start();
     console.log(this.resetForm.value);
     if (this.resetForm.invalid) {
       this.resetForm.markAllAsTouched();
       this.formErrors = valueChanges(this.resetForm, {...this.formErrors}, this.formErrorMessages);
       return;
     }
+    this.spinner.start();
     this.resetForm.value._id = this._actRoute.snapshot.params['id']
 
     this._authServ.resetPassword({
@@ -70,6 +70,10 @@ export class ResetComponent implements OnInit {
       "newPassword" : this.resetForm.value.password
     }).subscribe((result)=>{
       this.spinner.stop();
+      if (result.success) {
+        this.resetForm.reset();
+        this._router.navigate(["/login"]);
+      }
       this.toastr.message(result.message,result.success);
     })
   }

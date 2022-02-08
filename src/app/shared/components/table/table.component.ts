@@ -1,4 +1,5 @@
 import { Component, OnInit,Input, Output ,EventEmitter} from '@angular/core';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -15,11 +16,13 @@ export class TableComponent implements OnInit {
   @Input() keys = [];
   @Input() avtarType='name';
   @Input() emptyTableMessage = '';
+  @Input() actionRoute = 'trust/createTrust';
   @Output() actionButton = new EventEmitter();
-  constructor() { }
+  constructor(private _route:Router) { }
 
   onClickActionButton(ItemId){
     this.actionButton.emit(ItemId);
+    // this._route.navigate([`${this.actionRoute}/${ItemId}`])
   }
   getShortName(fullName) { 
     console.log(fullName);

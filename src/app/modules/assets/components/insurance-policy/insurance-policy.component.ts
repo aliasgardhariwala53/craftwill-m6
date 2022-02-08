@@ -62,7 +62,7 @@ export class InsurancePolicyComponent implements OnInit {
      
    };
    addinsurance(){
-    this.spinner.start();
+   
      console.log(this.insuranceForm);
      
      if (this.insuranceForm.invalid) {
@@ -76,6 +76,7 @@ export class InsurancePolicyComponent implements OnInit {
        
        return;
      }
+     this.spinner.start();
      const insurancePolicytData = {
       country: this.insuranceForm.value.country,
       specifyOwnershipType: this.insuranceForm.value.specifyOwnershipType,
@@ -85,6 +86,8 @@ export class InsurancePolicyComponent implements OnInit {
      this._userServ.addAssets(insurancePolicytData).subscribe((result) => {
        this.spinner.stop();
        if (result.success) {
+        this.insuranceForm.reset();
+
         this._route.navigate(['/assets/assetsuccess'])
           }
           this.toastr.message(result.message,result.success);

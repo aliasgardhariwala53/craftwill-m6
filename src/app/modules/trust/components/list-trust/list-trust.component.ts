@@ -35,7 +35,7 @@ export class ListTrustComponent implements OnInit {
     if (!this.searchForm.value) {
       this.alltrustData = [...this.trustData];
     }
-    this.alltrustData = this.alltrustData.filter((items) => {
+    this.alltrustData = this.trustData.filter((items) => {
       return items.trustName
         .toLowerCase()
         .includes(this.searchForm.value.toLowerCase());
@@ -64,6 +64,7 @@ export class ListTrustComponent implements OnInit {
         return {
           trustName: items.trustName,
           ownerShipType: 'sole',
+          _id: items._id,
         };
       });
       this.alltrustData = [...this.trustData];

@@ -126,6 +126,7 @@ export class ListLiabilitiesComponent implements OnInit {
           loanNumber: this.getName(items)?.loanProvider,
           current_Outstanding_Amount: items.current_Outstanding_Amount,
           type: items.type,
+          _id: items._id,
         };
       });
       this.allLiabilities = [...this.LiabilitiesData];

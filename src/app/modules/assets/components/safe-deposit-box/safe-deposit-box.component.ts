@@ -61,7 +61,7 @@ export class SafeDepositBoxComponent implements OnInit {
      
    };
    addDepositbox(){
-    this.spinner.start();
+   
      console.log(this.safeDepositboxForm);
      
      if (this.safeDepositboxForm.invalid) {
@@ -75,6 +75,7 @@ export class SafeDepositBoxComponent implements OnInit {
        
        return;
      }
+     this.spinner.start();
      const safeDepositData = {
       country: this.safeDepositboxForm.value.country,
       specifyOwnershipType: this.safeDepositboxForm.value.specifyOwnershipType,
@@ -84,6 +85,7 @@ export class SafeDepositBoxComponent implements OnInit {
      this._userServ.addAssets(safeDepositData).subscribe((result) => {
        this.spinner.stop();
        if (result.success) {
+        this.safeDepositboxForm.reset();
         this._route.navigate(['/assets/assetsuccess'])
           }
           this.toastr.message(result.message,result.success);

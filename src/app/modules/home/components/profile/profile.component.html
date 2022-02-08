@@ -11,7 +11,7 @@
         class="font-[GilroyBold] cursor-pointer py-4 px-4 m-auto w-[80%] justify-center text-center bg-white rounded-2xl text-xs sm:text-base"
         [routerLink]="['/home/profile']" 
         routerLinkActive="active_button">
-        profile Information
+        Profile Information
       </div>
       <div
         class="font-[GilroyBold] cursor-pointer py-4 px-4 m-auto w-[80%] justify-center text-center bg-white rounded-2xl  text-xs sm:text-base"
@@ -206,7 +206,7 @@
           <div class="w-full">
             <div class="input-group1">
               <label class="input_label text-sm sm:text-base font-[GilroySemi]">Floor Number</label>
-              <input type="text" placeholder="floor Number" [ngClass]="{ input_bg_address: inputState }"
+              <input type="text" placeholder="Floor Number" [ngClass]="{ input_bg_address: inputState }"
                 [attr.disabled]="inputState ? '' : null" [ngStyle]="{ cursor: inputState ? 'not-allowed' : 'default' }"
                 formControlName="floorNumber"
                 class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#ffbcc9] sm:bg-[#F0F0F0] w-[100%] px-2 sm:px-4 py-2  form-control rounded-[14px]  focus:outline-none" />

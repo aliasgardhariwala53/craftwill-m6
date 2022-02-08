@@ -14,8 +14,8 @@
         viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
           d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-      </svg>
-      <app-dropdown #dropdown class="ml-1">
+      </svg> Sort by Trust
+      <!-- <app-dropdown #dropdown class="ml-1">
         <div button class="cursor-pointer" (click)="dropdown.open = !dropdown.open"
           (clickOutside)="dropdown.open = false">
           Sort by Trust
@@ -37,7 +37,7 @@
 
 
         </div>
-      </app-dropdown>
+      </app-dropdown> -->
     </div>
     <div class="w-full left-0 px-8 md:px-0 md:w-4/12 flex items-center fixed md:static top-36 space-x-2">
       <input [ngClass]="{'md:hidden': !showSearch}" type="search" class="w-[96%] px-4 py-3 sm:py-2 bg-[#f7f7f7] form-control  rounded-[10px] md:rounded-3xl form-control outline-none" placeholder="search" [formControl]="searchForm" >
@@ -79,7 +79,7 @@
 
   <ng-template #modalBody>
 
-    <app-filter title='Filter Trust' [type]="trustType" [typeFilter]="true" (formData)="onFilterHandler($event)"
+    <app-filter title='Filter Trust' [type]="trustType" [typeFilter]="false" (formData)="onFilterHandler($event)"
       (onClose)='toggleModal=false'>
     </app-filter>
   </ng-template>

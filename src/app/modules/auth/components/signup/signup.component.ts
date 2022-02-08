@@ -105,13 +105,13 @@ export class SignupComponent implements OnInit {
       required: 'Id Type is Required',
     },
     id_number: {
-      required: 'id Number is Required',
+      required: 'Id Number is Required',
     },
     gender: {
       required: 'Gender is Required',
     },
     fullName: {
-      required: 'fullName is Required',
+      required: 'Full Name is Required',
     },
     email: {
       required: 'Email is Required',
@@ -122,7 +122,7 @@ export class SignupComponent implements OnInit {
       minlength: 'Minimum length of password must be 6',
     },
     confirmPassword: {
-      required: 'confirm Password is Required',
+      required: 'Confirm Password is Required',
       matching: 'Password not matched'
     },
     floorNumber: {
@@ -163,7 +163,9 @@ export class SignupComponent implements OnInit {
         this.spinner.stop();
         this.toastr.message(result.message,result.success);
         if (result.success == true) {
-        
+          this.userRegistration.reset();
+          this.addressDetails.reset();
+          this.accountDetails.reset();
           this._router.navigate(['/']);
         }
       },

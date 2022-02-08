@@ -80,7 +80,7 @@ console.log(this.PrivateDebtForm.value.memberId);
   
 }
 addPrivateDebt(){
-  this.spinner.start();
+ 
   console.log(this.PrivateDebtForm);
   
   if (this.PrivateDebtForm.invalid) {
@@ -94,6 +94,7 @@ addPrivateDebt(){
     
     return;
   }
+  this.spinner.start();
   const privateDebtData = {
     current_Outstanding_Amount:this.PrivateDebtForm.value.current_Outstanding_Amount,
     privateDept: this.PrivateDebtForm.value,
@@ -102,8 +103,10 @@ addPrivateDebt(){
   this._userServ.addLiabilities(privateDebtData).subscribe((result) => {
     this.spinner.stop();
     if (result.success) {
+      this.PrivateDebtForm.reset();
       this._route.navigate(['/liabilities/liabilitiesSuccess'])
         }
+      
         this.toastr.message(result.message,result.success);
 
   });

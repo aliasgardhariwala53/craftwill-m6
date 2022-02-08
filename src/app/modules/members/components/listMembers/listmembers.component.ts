@@ -60,7 +60,7 @@ export class ListmembersComponent implements OnInit {
     if (!this.searchForm.value) {
       this.allMemberData = [...this.MemberData];
     }
-    this.allMemberData = this.allMemberData.filter((items) => {
+    this.allMemberData = this.MemberData.filter((items) => {
       return items.fullname
         .toLowerCase()
         .includes(this.searchForm.value.toLowerCase());
@@ -100,6 +100,7 @@ export class ListmembersComponent implements OnInit {
       gender: '',
       id_type: '',
       id_number: '',
+      dob: '',
     };
     switch (item.type) {
       case 'memberAsPerson':
@@ -108,14 +109,16 @@ export class ListmembersComponent implements OnInit {
         data.gender = item.memberAsPerson.gender || '';
         data.id_type = item.memberAsPerson.id_type || '';
         data.id_number = item.memberAsPerson.id_number || '';
+        data.dob = item.memberAsPerson.dob || '';
         return data;
         break;
-      case 'membersAsOrganisation':
+      case 'memberAsOrganisation':
         data.Relationship = '---';
         data.fullname = item.memberAsOrganisation.organisationName || '';
-        data.gender = item.memberAsOrganisation.gender || '';
-        data.id_type = item.memberAsOrganisation.gender || '';
-        data.id_number = item.memberAsOrganisation.gender || '';
+        data.gender = item.memberAsOrganisation.gender || 'NA';
+        data.id_type = item.memberAsOrganisation.gender || 'NA';
+        data.id_number = item.memberAsOrganisation.registration_number || '';
+        data.dob = item.memberAsOrganisation.dob || 'NA';
         return data;
         break;
 
@@ -133,11 +136,13 @@ export class ListmembersComponent implements OnInit {
 
         return {
           fullname: this.getName(items).fullname,
-          Relationship: this.getName(items).Relationship,
+          Relationship:this.getName(items).Relationship,
           gender: this.getName(items).gender,
           id_number: this.getName(items).id_number,
           id_type: this.getName(items).id_type,
+          dob: this.getName(items).dob,
           type: items.type,
+          _id: items._id,
         };
       });
       this.allMemberData = [...this.MemberData];

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { valueChanges } from 'src/app/helper/formerror.helper';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
@@ -25,6 +26,7 @@ export class CreateMembersComponent implements OnInit {
     private _userServ: UserService,
     private toastr: ToastrService,
     private spinner:NgxUiLoaderService,
+    private _route:Router,
   ) {}
 
   createForm() {
@@ -134,7 +136,7 @@ export class CreateMembersComponent implements OnInit {
   };
   memberUpdate() {
     console.log(this.personForm);
-
+   
     if (this.personForm.invalid) {
       this.personForm.markAllAsTouched();
       this.formErrors = valueChanges(
@@ -146,6 +148,7 @@ export class CreateMembersComponent implements OnInit {
 
       return;
     }
+    this.spinner.start();
     const membersASPerson = {
       country: this.personForm.value.id_country,
       memberAsPerson: { ...this.personForm.value },
@@ -154,10 +157,16 @@ export class CreateMembersComponent implements OnInit {
 
     this._userServ.createMembers(membersASPerson).subscribe((result) => {
       console.log('result');
+      this.spinner.stop();
+      if (result.success) {
+        this.personForm.reset();
+        this._route.navigate(['/members'])
+      }
       this.toastr.message(result.message, result.success);
     });
   }
   organisationUpdate() {
+
     if (this.organisationForm.invalid) {
       this.organisationForm.markAllAsTouched();
       this.formErrors = valueChanges(
@@ -168,6 +177,7 @@ export class CreateMembersComponent implements OnInit {
 
       return;
     }
+    this.spinner.start();
     const membersAsOrganisation = {
       country: this.organisationForm.value.id_country,
       memberAsOrganisation: { ...this.organisationForm.value },
@@ -175,8 +185,14 @@ export class CreateMembersComponent implements OnInit {
     };
     this._userServ.createMembers(membersAsOrganisation).subscribe((result) => {
       this.spinner.stop();
+      if (result.success) {
+        this.organisationForm.reset();
+        this._route.navigate(['/members'])
+      }
       this.toastr.message(result.message, result.success);
       // this.responseMessageOrganisation=result.message;
+    },(err)=>{
+      
     });
   }
   ngOnInit(): void {

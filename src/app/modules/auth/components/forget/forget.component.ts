@@ -42,16 +42,19 @@ export class ForgetComponent implements OnInit {
   };
 
   forgotPassword(){
-    this.spinner.start();
     console.log(this.forgotForm.value);
     if (this.forgotForm.invalid) {
       this.forgotForm.markAllAsTouched();
       this.formErrors = valueChanges(this.forgotForm, {...this.formErrors}, this.formErrorMessages);
       return;
     }
+    this.spinner.start();
     console.log(this.forgotForm.value);
     this._authServ.forgotPassword(this.forgotForm.value).subscribe((result)=>{
       this.spinner.stop();
+      if (result.success) {
+        this.forgotForm.reset();
+      }
       this.toastr.message(result.message,result.success);
     })
   }

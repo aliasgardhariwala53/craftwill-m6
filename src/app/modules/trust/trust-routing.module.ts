@@ -18,6 +18,11 @@ const routes: Routes = [
         component:ListTrustComponent,
       },
       {
+        path:"createTrust/:id",
+        canActivate:[AuthGuard],
+         component:CreateTrustComponent,
+       },
+      {
         path:"createTrust",
         canActivate:[AuthGuard],
          component:CreateTrustComponent,

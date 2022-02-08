@@ -70,7 +70,7 @@ export class BankAccountUserComponent implements OnInit {
     },
   };
   addBankAccount() {
-    this.spinner.start();
+   
     console.log(this.BankAccountUser);
 
     if (this.BankAccountUser.invalid) {
@@ -84,6 +84,7 @@ export class BankAccountUserComponent implements OnInit {
 
       return;
     }
+    this.spinner.start();
     const bankAccountData = {
       country: this.BankAccountUser.value.country,
       bankAccount: this.BankAccountUser.value,
@@ -93,8 +94,10 @@ export class BankAccountUserComponent implements OnInit {
       this.spinner.stop();
       this.toastr.message(result.message,result.success);
       if (result.success) {
+        this.BankAccountUser.reset();
         this._route.navigate(['/assets/assetsuccess']);
       }
+
       
     });
   }

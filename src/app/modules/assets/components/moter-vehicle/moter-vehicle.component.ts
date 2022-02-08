@@ -61,7 +61,7 @@ export class MoterVehicleComponent implements OnInit {
      
    };
    addVehicle(){
-    this.spinner.start();
+   
      console.log(this.vehicleForm);
      
      if (this.vehicleForm.invalid) {
@@ -75,6 +75,7 @@ export class MoterVehicleComponent implements OnInit {
        
        return;
      }
+     this.spinner.start();
      const VehicletData = {
       country: this.vehicleForm.value.country,
       specifyOwnershipType: this.vehicleForm.value.specifyOwnershipType,
@@ -84,6 +85,7 @@ export class MoterVehicleComponent implements OnInit {
      this._userServ.addAssets(VehicletData).subscribe((result) => {
        this.spinner.stop();
        if (result.success) {
+        this.vehicleForm.reset();
         this._route.navigate(['/assets/assetsuccess'])
           }
           this.toastr.message(result.message,result.success);

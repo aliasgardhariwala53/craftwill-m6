@@ -61,7 +61,7 @@ export class IntellectualPropertyComponent implements OnInit {
      
    };
    addProperty(){
-    this.spinner.start();
+    
      console.log(this.IntellectualPropertyForm);
      
      if (this.IntellectualPropertyForm.invalid) {
@@ -75,6 +75,7 @@ export class IntellectualPropertyComponent implements OnInit {
        
        return;
      }
+     this.spinner.start();
      const intellectualData = {
       country: this.IntellectualPropertyForm.value.country,
       specifyOwnershipType: this.IntellectualPropertyForm.value.specifyOwnershipType,
@@ -84,6 +85,7 @@ export class IntellectualPropertyComponent implements OnInit {
      this._userServ.addAssets(intellectualData).subscribe((result) => {
        this.spinner.stop();
        if (result.success) {
+        this.IntellectualPropertyForm.reset();
         this._route.navigate(['/assets/assetsuccess'])
           }
           this.toastr.message(result.message,result.success);

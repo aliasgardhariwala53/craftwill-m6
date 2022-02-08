@@ -61,7 +61,7 @@ export class BusinessComponent implements OnInit {
     },
   };
   addBusiness() {
-    this.spinner.start();
+   
     console.log(this.businessForm);
 
     if (this.businessForm.invalid) {
@@ -75,6 +75,7 @@ export class BusinessComponent implements OnInit {
 
       return;
     }
+    this.spinner.start();
     const businessData = {
       country: this.businessForm.value.country,
       specifyOwnershipType: this.businessForm.value.specifyOwnershipType,
@@ -85,6 +86,7 @@ export class BusinessComponent implements OnInit {
       this.spinner.stop();
       this.toastr.message(result.message,result.success);
       if (result.success) {
+        this.businessForm.reset();
         this._route.navigate(['/assets/assetsuccess']);
       }
     

@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
   constructor(private _fb : FormBuilder, private _authService : AuthservicesService, private _router : Router,private toastr: ToastrService,private spinner:NgxUiLoaderService) { }
 
   submit(){
-    this.spinner.start();
+  
     if (this.userLogin.invalid) {
       console.log("hello");
       
@@ -60,6 +60,7 @@ export class LoginComponent implements OnInit {
       this.formErrors = valueChanges(this.userLogin, {...this.formErrors}, this.formErrorMessages);
       return;
     }
+    this.spinner.start();
     console.log(this.userLogin.value);
 
     this._authService.login(this.userLogin.value).subscribe((result)=>{
@@ -68,6 +69,7 @@ export class LoginComponent implements OnInit {
       this.toastr.message(result.message,result.success);
         if(result.success === true)
         {
+          this.userLogin.reset();
           this._router.navigate(["/home"])
           localStorage.setItem("user", result.token)
       }

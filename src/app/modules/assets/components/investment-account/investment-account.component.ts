@@ -60,7 +60,7 @@ export class InvestmentAccountComponent implements OnInit {
      
    };
    addinvestmentAccount(){
-    this.spinner.start();
+   
      console.log(this.InvestmentAccountUser);
      
      if (this.InvestmentAccountUser.invalid) {
@@ -74,6 +74,7 @@ export class InvestmentAccountComponent implements OnInit {
        
        return;
      }
+     this.spinner.start();
      const InvestmentData = {
       country: this.InvestmentAccountUser.value.country,
       specifyOwnershipType: this.InvestmentAccountUser.value.specifyOwnershipType,
@@ -83,6 +84,7 @@ export class InvestmentAccountComponent implements OnInit {
      this._userServ.addAssets(InvestmentData).subscribe((result) => {
        this.spinner.stop();
        if (result.success) {
+        this.InvestmentAccountUser.reset();
         this._route.navigate(['/assets/assetsuccess'])
           }
           this.toastr.message(result.message,result.success);

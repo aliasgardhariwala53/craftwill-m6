@@ -162,6 +162,7 @@ export class ListAssetsComponent implements OnInit {
           country: items.country,
           ownerShip: items.specifyOwnershipType,
           type: items.type,
+          _id: items._id,
         };
       });
       this.allAssetsinOne = [...this.allAssetsData];

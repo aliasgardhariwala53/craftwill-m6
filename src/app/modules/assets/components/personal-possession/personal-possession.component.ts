@@ -61,7 +61,7 @@ export class PersonalPossessionComponent implements OnInit {
      
    };
    addPossession(){
-    this.spinner.start();
+   
      console.log(this.personalPossessionForm);
      
      if (this.personalPossessionForm.invalid) {
@@ -75,6 +75,7 @@ export class PersonalPossessionComponent implements OnInit {
        
        return;
      }
+     this.spinner.start();
      const possessionData = {
       country: this.personalPossessionForm.value.country,
       specifyOwnershipType: this.personalPossessionForm.value.specifyOwnershipType,
@@ -84,6 +85,7 @@ export class PersonalPossessionComponent implements OnInit {
      this._userServ.addAssets(possessionData).subscribe((result) => {
        this.spinner.stop();
        if (result.success) {
+        this.personalPossessionForm.reset();
      this._route.navigate(['/assets/assetsuccess'])
        }
        this.toastr.message(result.message,result.success);

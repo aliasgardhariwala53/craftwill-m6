@@ -53,7 +53,7 @@ export class RealEstateComponent implements OnInit {
      
    };
    addRealEstatet(){
-    this.spinner.start();
+    
      console.log(this.realEstateForm);
      
      if (this.realEstateForm.invalid) {
@@ -67,15 +67,18 @@ export class RealEstateComponent implements OnInit {
        
        return;
      }
+     this.spinner.start();
      const realEstateData = {
       country: this.realEstateForm.value.country,
       specifyOwnershipType: this.realEstateForm.value.specifyOwnershipType,
       realEstate: this.realEstateForm.value,
       type:'realEstate'
     };
+    
      this._userServ.addAssets(realEstateData).subscribe((result) => {
        this.spinner.stop();
        if (result.success) {
+        this.realEstateForm.reset();
         this._route.navigate(['/assets/assetsuccess'])
           }
           this.toastr.message(result.message,result.success);

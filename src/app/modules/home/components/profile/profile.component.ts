@@ -11,6 +11,7 @@ import {
 import { HeaderService } from 'src/app/services/header.service';
 import { UserService } from 'src/app/services/user.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
+import { countries } from 'src/app/shared/utils/countries-store';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -19,6 +20,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./profile.component.scss','../../../../app.component.scss']
 })
 export class ProfileComponent implements OnInit {
+  public countries:any = countries
   profileData;
   userInfo: FormGroup;
   passwordForm: FormGroup;
@@ -31,7 +33,7 @@ export class ProfileComponent implements OnInit {
   imageSrc: string = '';
   showRemoveButton : boolean = true;
   userImage: string = 'uploads/1641650621550Capture.PNG';
-
+ genderList= ['Male','Female','Other']
   createForm() {
     this.userInfo = this._fb.group({
       fullName: [''],
@@ -245,7 +247,11 @@ export class ProfileComponent implements OnInit {
       return;
     }
     this.spinner.start();
-    this._userServ.updateProfile(this.userInfo.value).subscribe((result) => {
+    const profiledate={
+      ...this.userInfo.value,
+      gender:this.userInfo.value.gender.toLowerCase()
+    }
+    this._userServ.updateProfile(profiledate).subscribe((result) => {
       console.log(result);
       this.profileData =  (({ id_type,
       id_number,
@@ -261,7 +267,7 @@ export class ProfileComponent implements OnInit {
       dob }) => ({
         id_type,
       id_number,
-      gender,
+      gender:(result.data.gender.charAt(0).toUpperCase() + result.data.gender.slice(1)),
       fullName,
       email,
       floorNumber,
@@ -322,8 +328,8 @@ export class ProfileComponent implements OnInit {
     this.spinner.start();
     this._userServ.getProfile().subscribe((result) => {
       this.spinner.stop();
-      this.profileData=result.data;
-      this.userInfo.setValue({ ...result.data });
+      this.profileData={ ...result.data,gender:(result.data.gender.charAt(0).toUpperCase() + result.data.gender.slice(1)) }
+      this.userInfo.setValue({ ...result.data,gender:(result.data.gender.charAt(0).toUpperCase() + result.data.gender.slice(1)) });
       this._headerServ.username.next(result.data.fullName);
       console.log(this.userInfo.value);
     });

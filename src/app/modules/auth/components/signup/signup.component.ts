@@ -21,6 +21,8 @@ export class SignupComponent implements OnInit {
   {_id: '2', status: 'open'},
   {_id: '3', status: 'in_progress'},
   {_id: '4', status: 'close'}];
+
+  idList=['NRIC','Passport','FIN','Others']
   constructor(
     private _fb: FormBuilder,
     private _authService: AuthservicesService,

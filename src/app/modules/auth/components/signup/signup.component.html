@@ -58,12 +58,15 @@
     <form method="POST" [formGroup]="userRegistration">
       <div class="form-group md:w-2/3 justify-center mx-auto">
         <div class="input-group1">
-          <input
-            type="text"
-            placeholder="ID Type"
-            formControlName="id_type"
-            class="sm:bg-[#f7f7f7] w-[100%] px-4 py-2  form-control rounded-[5px] sm:rounded-[10px] border-2 border-[#ddd] sm:border-none focus:outline-black sm:focus:outline-none"
-          />
+
+          <ng-select
+          class="custom-selector custom w-full"
+          placeholder="{{ 'Select ID Type' }}"
+          [items]="idList"
+          formControlName="id_type"
+        
+          >
+        </ng-select>
         </div>
 
         <div class="text-red-500 errors mx-2">

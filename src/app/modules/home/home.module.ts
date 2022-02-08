@@ -9,7 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { SubscriptionComponent } from './components/subscription/subscription.component';
-
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -25,6 +25,7 @@ import { SubscriptionComponent } from './components/subscription/subscription.co
     FormsModule,
     HttpClientModule,
     ImageCropperModule,
+    NgSelectModule
   ]
 })
 export class HomeModule { }

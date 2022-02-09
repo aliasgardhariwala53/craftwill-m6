@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { valueChanges } from 'src/app/helper/formerror.helper';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
@@ -21,13 +21,15 @@ export class CreateMembersComponent implements OnInit {
   responseMessageperson: string = '';
   responseMessageOrganisation: string = '';
   currentItem: string = 'Create Member';
-  genderList= ['Male','Female','Other']
+  genderList= ['Male','Female','Other'];
+  id: string='';
   constructor(
     private _fb: FormBuilder,
     private _userServ: UserService,
     private toastr: ToastrService,
     private spinner:NgxUiLoaderService,
     private _route:Router,
+    private route:ActivatedRoute,
   ) {}
 
   createForm() {
@@ -197,6 +199,7 @@ export class CreateMembersComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+    
     this.createForm();
   }
 }

@@ -21,11 +21,7 @@ const routes: Routes = [
         canActivate:[AuthGuard],
          component:CreateMembersComponent,
        },
-      {
-        path:"createmembers/:id",
-        canActivate:[AuthGuard],
-         component:CreateMembersComponent,
-       },
+
       
        
     ]

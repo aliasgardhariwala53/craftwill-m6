@@ -80,9 +80,13 @@
     {{ formErrors.SpecifyOwnershipType }}
   </div>
 </div>
-<div class=" sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
+<div *ngIf="id =='' " class=" sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
 
   <app-button (myMethod)="addProperty()" value="Add Intellectual Property" id="submitButtonId"></app-button>
+</div>
+<div *ngIf="id !=='' " class=" sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
+
+  <app-button (myMethod)="onUpdateIntellectualProperty()" value="Update Intellectual Property" id="submitButtonId"></app-button>
 </div>
   <div class="text-green-500">{{responseMessage}}</div>
   </form>

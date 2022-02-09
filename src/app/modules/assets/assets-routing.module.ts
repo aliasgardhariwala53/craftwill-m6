@@ -78,52 +78,6 @@ const routes: Routes = [
          component:SafeDepositBoxComponent,
        },
        {
-        path:"addBank/:id",
-        canActivate:[AuthGuard],
-         component:BankAccountUserComponent,
-       },
- 
-       {
-        path:"investmentAccount/:id",
-        canActivate:[AuthGuard],
-         component:InvestmentAccountComponent,
-       },
-       {
-        path:"insurancePolicy/:id",
-        canActivate:[AuthGuard],
-         component:InsurancePolicyComponent,
-       },
-       {
-        path:"business/:id",
-        canActivate:[AuthGuard],
-         component:BusinessComponent,
-       },
-       {
-        path:"realEstate/:id",
-        canActivate:[AuthGuard],
-         component:RealEstateComponent,
-       },
-       {
-        path:"moterVehicle/:id",
-        canActivate:[AuthGuard],
-         component:MoterVehicleComponent,
-       },
-       {
-        path:"intellectualProperty/:id",
-        canActivate:[AuthGuard],
-         component:IntellectualPropertyComponent,
-       },
-       {
-        path:"personalPossession/:id",
-        canActivate:[AuthGuard],
-         component:PersonalPossessionComponent,
-       },
-       {
-        path:"safeDeposit/:id",
-        canActivate:[AuthGuard],
-         component:SafeDepositBoxComponent,
-       },
-       {
         path:"assetsuccess",
         canActivate:[AuthGuard],
          component:SuccessPageAssetsComponent,

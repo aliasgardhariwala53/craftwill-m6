@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { valueChanges } from 'src/app/helper/formerror.helper';
 import { UserService } from 'src/app/services/user.service';
@@ -15,12 +15,14 @@ import { countries } from 'src/app/shared/utils/countries-store';
 export class BusinessComponent implements OnInit {
   businessForm: FormGroup;
   responseMessage: string;
+  id: string='';
   constructor(
     private _fb: FormBuilder,
     private _userServ: UserService,
     private _route: Router,
     private toastr: ToastrService,
     private spinner:NgxUiLoaderService,
+    private route:ActivatedRoute,
   ) {}
   public countries:any = countries
   createForm() {
@@ -94,7 +96,55 @@ export class BusinessComponent implements OnInit {
     
     });
   }
+  onUpdateBusiness(){
+    this.spinner.start();
+    const businessData = {
+      country: this.businessForm.value.country,
+      specifyOwnershipType: this.businessForm.value.specifyOwnershipType,
+      business: this.businessForm.value,
+      type:'business'
+    };
+    this._userServ.updateAssets(businessData,this.id).subscribe((result) => {
+      this.spinner.stop();
+      if (result.success) {
+        this.businessForm.reset();
+        this._route.navigate(['/assets']);
+      }
+     
+      this.toastr.message(result.message, result.success);
+    });
+  }
+  getdata(id){
+    this._userServ.getAssets().subscribe((result) => {
+      this.spinner.stop();
+      console.log(result);
+      
+      const data=result.data.filter((item,i)=>{
+        if (item._id===id) {
+          const {business,country,specifyOwnershipType} = item;
+          this.businessForm.patchValue({
+            businessName: business.businessName,
+            UEN_no: business.UEN_no,
+            country: country,
+             specifyOwnershipType: specifyOwnershipType,
+          })     
+          return business;
+        }
+        return null;
+      })
+      console.log(data);
+      
+
+     
+    });
+  }
   ngOnInit(): void {
+    this.route.queryParams.subscribe(({id})=>{
+      if (id) {
+        this.id=id;
+        this.getdata(id);
+      }
+    })
     this.createForm();
   }
 }

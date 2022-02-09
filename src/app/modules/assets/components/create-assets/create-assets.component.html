@@ -1,5 +1,5 @@
 <div
-  class="flex flex-col px-8 py-4 spae-y-2 overflow-auto h-[100vh] md:h-[90vh] lg:h-[100%]"
+  class="flex flex-col px-8 py-4 spae-y-2 overflow-auto h-[100vh] md:h-[90vh] lg:h-[80vh]"
 >
   <app-header-toolbar
     class="hidden md:block"
@@ -32,20 +32,20 @@
         class="grid grid-cols-2 md:grid-cols-3 items-center justify-center overflow-auto h-full"
       >
         <div
-          class="drop_shadow rounded-2xl flex-row justify-center px-2 py-3 m-2 cursor-pointer"
+          class="drop_shadow rounded-2xl flex-row justify-center px-1 py-2 m-1 cursor-pointer"
           (click)="selectHandler('addBank')"
           [ngClass]="{ 'bg-[#FF6782] text-white': routepath === 'addBank' }"
         >
           <div class="flex justify-center max-h-10">
             <img
-              class="h-10 w-10"
+              class="h-7 w-7"
               src="../../../../../assets/Icons/Bank Account.svg"
             />
           </div>
           <div class="text-center mt-2 font-bold text-sm h-8">Bank account</div>
         </div>
         <div
-          class="drop_shadow rounded-2xl flex-row justify-center px-2 py-3 m-2 cursor-pointer"
+          class="drop_shadow rounded-2xl flex-row justify-center px-1 py-2 m-1 cursor-pointer"
           (click)="selectHandler('investmentAccount')"
           [ngClass]="{
             'bg-[#FF6782] text-white': routepath === 'investmentAccount'
@@ -53,7 +53,7 @@
         >
           <div class="flex justify-center max-h-10">
             <img
-              class="h-10 w-10"
+              class="h-7 w-7"
               src="../../../../../assets/Icons/Investment Account.svg"
             />
           </div>
@@ -62,7 +62,7 @@
           </div>
         </div>
         <div
-          class="drop_shadow rounded-2xl flex-row justify-center px-2 py-3 m-2 cursor-pointer"
+          class="drop_shadow rounded-2xl flex-row justify-center px-1 py-2 m-1 cursor-pointer"
           (click)="selectHandler('insurancePolicy')"
           [ngClass]="{
             'bg-[#FF6782] text-white': routepath === 'insurancePolicy'
@@ -70,7 +70,7 @@
         >
           <div class="flex justify-center max-h-10">
             <img
-              class="h-10 w-10"
+              class="h-7 w-7"
               src="../../../../../assets/Icons/Insurance Policy.svg"
             />
           </div>
@@ -79,33 +79,33 @@
           </div>
         </div>
         <div
-          class="drop_shadow rounded-2xl flex-row justify-center px-2 py-3 m-2 cursor-pointer"
+          class="drop_shadow rounded-2xl flex-row justify-center px-1 py-2 m-1 cursor-pointer"
           (click)="selectHandler('business')"
           [ngClass]="{ 'bg-[#FF6782] text-white': routepath === 'business' }"
         >
           <div class="flex justify-center max-h-10">
             <img
-              class="h-10 w-10"
+              class="h-7 w-7"
               src="../../../../../assets/Icons/Business.svg"
             />
           </div>
           <div class="text-center mt-2 font-bold text-sm h-8">Business</div>
         </div>
         <div
-          class="drop_shadow rounded-2xl flex-row justify-center px-2 py-3 m-2 cursor-pointer"
+          class="drop_shadow rounded-2xl flex-row justify-center px-1 py-2 m-1 cursor-pointer"
           (click)="selectHandler('realEstate')"
           [ngClass]="{ 'bg-[#FF6782] text-white': routepath === 'realEstate' }"
         >
           <div class="flex justify-center max-h-10">
             <img
-              class="h-10 w-10"
+              class="h-7 w-7"
               src="../../../../../assets/Icons/Real Estate.svg"
             />
           </div>
           <div class="text-center mt-2 font-bold text-sm h-8">Real Estate</div>
         </div>
         <div
-          class="drop_shadow rounded-2xl flex-row justify-center px-2 py-3 m-2 cursor-pointer"
+          class="drop_shadow rounded-2xl flex-row justify-center px-1 py-2 m-1 cursor-pointer"
           (click)="selectHandler('moterVehicle')"
           [ngClass]="{
             'bg-[#FF6782] text-white': routepath === 'moterVehicle'
@@ -113,7 +113,7 @@
         >
           <div class="flex justify-center max-h-10">
             <img
-              class="h-10 w-10"
+              class="h-7 w-7"
               src="../../../../../assets/Icons/Motor.svg"
             />
           </div>
@@ -122,7 +122,7 @@
           </div>
         </div>
         <div
-          class="drop_shadow rounded-2xl flex-row justify-center px-2 py-3 m-2 cursor-pointer"
+          class="drop_shadow rounded-2xl flex-row justify-center px-1 py-2 m-1 cursor-pointer"
           (click)="selectHandler('intellectualProperty')"
           [ngClass]="{
             'bg-[#FF6782] text-white': routepath === 'intellectualProperty'
@@ -130,7 +130,7 @@
         >
           <div class="flex justify-center max-h-10">
             <img
-              class="h-10 w-10"
+              class="h-7 w-7"
               src="../../../../../assets/Icons/Intellectual property.svg"
             />
           </div>
@@ -139,7 +139,7 @@
           </div>
         </div>
         <div
-          class="drop_shadow rounded-2xl flex-row justify-center px-2 py-3 m-2 cursor-pointer"
+          class="drop_shadow rounded-2xl flex-row justify-center px-1 py-2 m-1 cursor-pointer"
           (click)="selectHandler('personalPossession')"
           [ngClass]="{
             'bg-[#FF6782] text-white': routepath === 'personalPossession'
@@ -147,7 +147,7 @@
         >
           <div class="flex justify-center max-h-10">
             <img
-              class="h-10 w-10"
+              class="h-7 w-7"
               src="../../../../../assets/Icons/Personal Possession.svg"
             />
           </div>
@@ -156,13 +156,13 @@
           </div>
         </div>
         <div
-          class="drop_shadow rounded-2xl flex-row justify-center px-2 py-3 m-2 cursor-pointer"
+          class="drop_shadow rounded-2xl flex-row justify-center px-1 py-2 m-1 cursor-pointer"
           (click)="selectHandler('safeDeposit')"
           [ngClass]="{ 'bg-[#FF6782] text-white': routepath === 'safeDeposit' }"
         >
           <div class="flex justify-center max-h-10">
             <img
-              class="h-10 w-10"
+              class="h-7 w-7"
               src="../../../../../assets/Icons/Safe Deposite Box.svg"
             />
           </div>
@@ -171,11 +171,11 @@
           </div>
         </div>
         <div
-          class="drop_shadow rounded-2xl flex-row justify-center px-2 py-3 m-2 cursor-pointer"
+          class="drop_shadow rounded-2xl flex-row justify-center px-1 py-2 m-1 cursor-pointer"
         >
           <div class="flex justify-center max-h-10">
             <img
-              class="h-10 w-10"
+              class="h-7 w-7"
               src="../../../../../assets/Icons/Other Assets.svg"
             />
           </div>

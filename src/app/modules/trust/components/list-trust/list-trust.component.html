@@ -1,7 +1,7 @@
 <div class="flex flex-col mx-8 my-8 md:hidden">
 
   <app-header-toolbar routerlink="/home" pagetitle="Trust" [headerMenuIcon]=true></app-header-toolbar>
-  <app-button value="Tutorial" routelink="/home" class="md:hidden" backgroundColor="bg-[#000]" margin="my-1">
+  <app-button value="Tutorial" (click)="toggleModalTutorial=true" class="md:hidden" backgroundColor="bg-[#000]" margin="my-1">
   </app-button>
 </div>
 

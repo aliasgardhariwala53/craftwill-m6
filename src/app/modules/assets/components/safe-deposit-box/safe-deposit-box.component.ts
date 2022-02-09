@@ -112,7 +112,8 @@ export class SafeDepositBoxComponent implements OnInit {
         this.toastr.message(result.message, result.success);
       });
   }
-  getdata(id) {
+    getdata(id) {
+    this.spinner.start();
     this._userServ.getAssets().subscribe((result) => {
       this.spinner.stop();
       console.log(result);

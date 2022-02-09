@@ -19,7 +19,8 @@ export class SecuredLoanComponent implements OnInit {
   SecuredLoan: FormGroup;
   responseMessage: string;
   id: string='';
-  
+  selectedAssetsId;
+  toggleModalTutorial: boolean=false;
   constructor(
     private _fb: FormBuilder,
     private _userServ: UserService,
@@ -86,11 +87,12 @@ export class SecuredLoanComponent implements OnInit {
   };
   selectAssets(value) {
     let assetId: Array<any> = this.SecuredLoan.value.assetId;
-    if (assetId.includes(value)) {
+    if (assetId?.includes(value)) {
       assetId.splice(assetId.indexOf(value), 1);
     } else {
-      assetId.push(value);
+      assetId?.push(value);
     }
+    this.selectedAssetsId=assetId;
     this.SecuredLoan.patchValue({
       assetId: assetId,
     });
@@ -149,7 +151,8 @@ export class SecuredLoanComponent implements OnInit {
       this.toastr.message(result.message, result.success);
     });
   }
-  getdata(id){
+  getdata(id) {
+    this.spinner.start();
     this._userServ.getAllLiabilities().subscribe((result) => {
       this.spinner.stop();
       console.log(result);
@@ -164,8 +167,9 @@ export class SecuredLoanComponent implements OnInit {
             loan_Id_Number: securedLoan.loan_Id_Number,
             current_Outstanding_Amount: current_Outstanding_Amount,
             description: securedLoan.description,
-            assetId: securedLoan.assetId,
+            // assetId: securedLoan.assetId,
           })     
+          this.selectedAssetsId=securedLoan.addAssets;
           return securedLoan;
         }
         return null;

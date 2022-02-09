@@ -1,5 +1,5 @@
 <div class="grid bold grid-cols-1 sm:grid-cols-2 md:grid-cols-4  lg:grid-cols-6 gap-4 ">
-    <div [ngClass]="{'bg-[#ff6782] text-white': selectedItem.includes(item._id)}" class="  flex flex-row items-center sm:items-start md:flex-col rounded-2xl  p-3 shadow-[0_0px_10px_rgba(0,0,0,0.1)] space-y-2 space-x-2 md:space-x-0 cursor-pointer  visited:bg-gray-700 relative" *ngFor='let item of listItem' (click)="onSelectItem(item._id)" >
+    <div [ngClass]="{'bg-[#ff6782] text-white': selectedItems?.includes(item._id)}" class="  flex flex-row items-center sm:items-start md:flex-col rounded-2xl  p-3 shadow-[0_0px_10px_rgba(0,0,0,0.1)] space-y-2 space-x-2 md:space-x-0 cursor-pointer  visited:bg-gray-700 relative" *ngFor='let item of listItem' (click)="onSelectItem(item._id)" >
      
         <div *ngIf="avtarType==='name'" class="rounded-full bg-blue-300 font-extrabold w-[40px] p-2 text-center">{{ getShortName(item.fullname) || "AA"}}</div>
         <div *ngIf="avtarType==='image'"><img src="{{imageUrl}}"></div>
@@ -11,7 +11,7 @@
         </div>
         
         <div class="absolute right-5 md:bottom-5 ">
-            <div class="border-2 rounded-full border-[#ff6782] p-1" [ngClass]="{'border-white': selectedItem.includes(item._id)}">
+            <div class="border-2 rounded-full border-[#ff6782] p-1" [ngClass]="{'border-white': selectedItems?.includes(item._id)}">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 17l-4 4m0 0l-4-4m4 4V3" />
                   </svg>

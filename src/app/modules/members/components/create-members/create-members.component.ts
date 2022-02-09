@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { valueChanges } from 'src/app/helper/formerror.helper';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
+import { countries } from 'src/app/shared/utils/countries-store';
 import { UserService } from '../../../../services/user.service';
 
 @Component({
@@ -21,17 +22,17 @@ export class CreateMembersComponent implements OnInit {
   responseMessageperson: string = '';
   responseMessageOrganisation: string = '';
   currentItem: string = 'Create Member';
-  genderList= ['Male','Female','Other'];
-  id: string='';
+  genderList = ['Male', 'Female', 'Other'];
+  id: string = '';
   constructor(
     private _fb: FormBuilder,
     private _userServ: UserService,
     private toastr: ToastrService,
-    private spinner:NgxUiLoaderService,
-    private _route:Router,
-    private route:ActivatedRoute,
+    private spinner: NgxUiLoaderService,
+    private _route: Router,
+    private route: ActivatedRoute
   ) {}
-
+  public countries:any = countries
   createForm() {
     this.personForm = this._fb.group({
       fullname: ['', [Validators.required]],
@@ -42,7 +43,7 @@ export class CreateMembersComponent implements OnInit {
       unitNumber: ['', Validators.required],
       streetName: ['', Validators.required],
       postalCode: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
-      id_country: ['', Validators.required],
+      id_country: [, Validators.required],
       dob: ['', Validators.required],
       Relationship: ['', Validators.required],
     });
@@ -52,7 +53,7 @@ export class CreateMembersComponent implements OnInit {
         '',
         [Validators.required, Validators.pattern('^[0-9]*$')],
       ],
-      id_country: ['', Validators.required],
+      id_country: [, Validators.required],
 
       floorNumber: ['', Validators.required],
       unitNumber: ['', Validators.required],
@@ -139,7 +140,7 @@ export class CreateMembersComponent implements OnInit {
   };
   memberUpdate() {
     console.log(this.personForm);
-   
+
     if (this.personForm.invalid) {
       this.personForm.markAllAsTouched();
       this.formErrors = valueChanges(
@@ -154,8 +155,11 @@ export class CreateMembersComponent implements OnInit {
     this.spinner.start();
     const membersASPerson = {
       country: this.personForm.value.id_country,
-      memberAsPerson: { ...this.personForm.value ,gender:this.personForm.value.gender.toLowerCase()},
-      type:'memberAsPerson',
+      memberAsPerson: {
+        ...this.personForm.value,
+        gender: this.personForm.value.gender.toLowerCase(),
+      },
+      type: 'memberAsPerson',
     };
 
     this._userServ.createMembers(membersASPerson).subscribe((result) => {
@@ -163,13 +167,12 @@ export class CreateMembersComponent implements OnInit {
       this.spinner.stop();
       if (result.success) {
         this.personForm.reset();
-        this._route.navigate(['/members'])
+        this._route.navigate(['/members']);
       }
       this.toastr.message(result.message, result.success);
     });
   }
   organisationUpdate() {
-
     if (this.organisationForm.invalid) {
       this.organisationForm.markAllAsTouched();
       this.formErrors = valueChanges(
@@ -184,22 +187,94 @@ export class CreateMembersComponent implements OnInit {
     const membersAsOrganisation = {
       country: this.organisationForm.value.id_country,
       memberAsOrganisation: { ...this.organisationForm.value },
-      type:'memberAsOrganisation',
+      type: 'memberAsOrganisation',
     };
-    this._userServ.createMembers(membersAsOrganisation).subscribe((result) => {
+    this._userServ.createMembers(membersAsOrganisation).subscribe(
+      (result) => {
+        this.spinner.stop();
+        if (result.success) {
+          this.organisationForm.reset();
+          this._route.navigate(['/members']);
+        }
+        this.toastr.message(result.message, result.success);
+        // this.responseMessageOrganisation=result.message;
+      },
+      (err) => {}
+    );
+  }
+  onUpdateMembers() {
+    this.spinner.start();
+    const membersASPerson = {
+      country: this.personForm.value.id_country,
+      memberAsPerson: {
+        ...this.personForm.value,
+        gender: this.personForm.value.gender.toLowerCase(),
+      },
+      type: 'memberAsPerson',
+    };
+    this._userServ
+      .updateMembers(membersASPerson, this.id)
+      .subscribe((result) => {
+        this.spinner.stop();
+        if (result.success) {
+          this.personForm.reset();
+          this._route.navigate(['/members']);
+        }
+
+        this.toastr.message(result.message, result.success);
+      });
+  }
+    getdata(id) {
+    this.spinner.start();
+    this._userServ.getMembers().subscribe((result) => {
       this.spinner.stop();
-      if (result.success) {
-        this.organisationForm.reset();
-        this._route.navigate(['/members'])
-      }
-      this.toastr.message(result.message, result.success);
-      // this.responseMessageOrganisation=result.message;
-    },(err)=>{
-      
+      console.log(result);
+
+      const data = result.data.filter((item, i) => {
+        if (item._id === id) {
+          const {memberAsOrganisation, memberAsPerson,country, type } = item;
+          if (type === 'memberAsPerson') {
+            this.memberType='person'
+            this.personForm.patchValue({
+              id_type: memberAsPerson.id_type,
+              id_number:  memberAsPerson.id_number,
+              gender:  memberAsPerson.gender,
+              fullname:  memberAsPerson.fullname,
+              floorNumber:  memberAsPerson.floorNumber,
+              unitNumber:  memberAsPerson.unitNumber,
+              streetName:  memberAsPerson.streetName,
+              postalCode:  memberAsPerson.postalCode,
+              Relationship:  memberAsPerson.Relationship,
+              dob:  memberAsPerson.dob,
+              id_country: country,
+            });
+          }
+          if (type === 'memberAsOrganisation') {
+            this.memberType='organisation';
+            this.organisationForm.patchValue({
+              floorNumber: memberAsOrganisation.floorNumber,
+              unitNumber: memberAsOrganisation.unitNumber,
+              streetName: memberAsOrganisation.streetName,
+              postalCode: memberAsOrganisation.postalCode,
+              id_country: country,
+              registration_number: memberAsOrganisation.registration_number,
+              organisationName: memberAsOrganisation.organisationName,
+            });
+          }
+          return null;
+        }
+        return null;
+      });
+      console.log(data);
     });
   }
   ngOnInit(): void {
-    
+    this.route.queryParams.subscribe(({ id }) => {
+      if (id) {
+        this.id = id;
+        this.getdata(id);
+      }
+    });
     this.createForm();
   }
 }

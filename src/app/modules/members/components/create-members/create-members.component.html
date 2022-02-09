@@ -6,20 +6,13 @@
       class="flex flex-col w-full md:w-2/5 lg:w-1/5 space-x-4 p-3 items-center bg_grey rounded-3xl font-semibold"
     >
       <div class="w-full font-extrabold text-sm md:text-base">Choose whether you are creating</div>
-      <!-- <div class="flex w-full mt-1 justify-evenly ml-0">
-        <label class="cursor-pointer"
-          ><input type="radio" [(ngModel)]="memberType" value="person" />
-          Person</label
-        >
-        <label class="cursor-pointer"
-          ><input type="radio" [(ngModel)]="memberType" value="organisation" />
-          Organisation</label
-        >
-      </div> -->
+
       <div class="flex w-full mt-1 justify-evenly ml-0 items-center">
         <input
         type="radio"
         value="person"
+        [disabled]="memberType==='organisation' && id!==''"
+        [ngClass]="{'cursor-not-allowed': memberType==='organisation' && id!==''}"
         [(ngModel)]="memberType"
         id="test1"
         class="mx-1 radioCustom"
@@ -28,6 +21,8 @@
         <input
         type="radio"
         id="test2"
+        [ngClass]="{'cursor-not-allowed': memberType==='person' && id!==''}"
+        [disabled]="memberType==='person' && id!==''"
         value="organisation"
         [(ngModel)]="memberType"
         class="mx-1 radioCustom"
@@ -113,12 +108,13 @@
       <div class="form-group">
         <div class="input-group1">
           <label class="input_label text-sm ml-1">ID Country</label>
-          <input
-            type="text"
-            placeholder="ID Country"
-            formControlName="id_country"
-            class="authinput form-control"
-          />
+      
+          <ng-select
+          class="custom-selector members w-full"
+          placeholder="ID Country"
+          [items]="countries"
+          formControlName="id_country"
+          ></ng-select>
         </div>
   
         <div class="text-red-500 errors mx-2">
@@ -223,10 +219,11 @@
         </div>
       </div>
     </div>
-    <div class=" sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
-
-
+    <div  *ngIf="id =='' " class=" sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
       <app-button (myMethod)="memberUpdate()" value="Create Member" ></app-button>
+    </div>
+    <div *ngIf="id !=='' " class=" sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
+      <app-button (myMethod)="onUpdateMembers()" value="Update Member" ></app-button>
     </div>
     <div class="text-green-500">{{responseMessageperson}}</div>
     </form>
@@ -266,12 +263,13 @@
       <div class="form-group">
         <div class="input-group1">
           <label class="input_label text-sm ml-1">Country</label>
-          <input
-            type="text"
-            placeholder="Country"
-            formControlName="id_country"
-            class="authinput form-control"
-          />
+
+          <ng-select
+          class="custom-selector members w-full"
+          placeholder="ID Country"
+          [items]="countries"
+          formControlName="id_country"
+          ></ng-select>
         </div>
   
         <div class="text-red-500 errors mx-2">
@@ -343,8 +341,11 @@
         </div>
       </div>
     </div>
-    <div class=" sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
+    <div *ngIf="id =='' " class=" sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
     <app-button (myMethod)="organisationUpdate()" value="Create Organisation" id="submitButtonId"></app-button>
+    </div>
+    <div *ngIf="id !=='' " class=" sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
+    <app-button (myMethod)="onUpdateMembers()" value="Update Organisation" id="submitButtonId"></app-button>
     </div>
     <div class="text-green-500 mt-2 text-2xl">{{responseMessageOrganisation}}</div>
   </form>

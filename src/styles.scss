@@ -128,7 +128,8 @@ body{
   box-shadow: none;
 }
 ::placeholder {
-  font-weight: 600;
+  font-weight: 500;
+  font-family: 'GilroySemi';
 }
 .errors {
   font-size: 12px;
@@ -385,6 +386,12 @@ border-radius: 10px;
   background-color: #ddd;
   cursor:not-allowed;
 }
+@media only screen and (max-width: 640px) {
+  .profile.ng-select.ng-select-disabled>.ng-select-container{
+    background-color: #fff;
+    cursor:not-allowed;
+  }
+}
 .ng-select-disabled{
   
   cursor:not-allowed;
@@ -401,8 +408,9 @@ border-radius: 10px;
 //     background-color: #ddd;
 //   }
 .ng-select div, .ng-select input, .ng-select span{
-  font-family: 'GilroySemi';
+  font-family: 'GilroySemi' !important;
   font-weight: 400;
+  color: #000;
 }
 .members.ng-select .ng-select-opened.ng-select-bottom>.ng-select-container {
   

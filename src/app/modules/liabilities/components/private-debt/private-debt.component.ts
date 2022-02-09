@@ -12,13 +12,16 @@ import { ToastrService } from 'src/app/shared/services/toastr.service';
 })
 export class PrivateDebtComponent implements OnInit {
   memberData = [];
+  slectedList = [];
   id: string = '';
+  toggleModalTutorial: boolean=false;
   nameType = 'fullname' || 'organisationName';
   key = [this.nameType, 'Relationship'];
   classes = ['font-bold', 'font-bold', 'text-sm'];
 
   PrivateDebtForm: FormGroup;
   responseMessage: string;
+  
   constructor(
     private _fb: FormBuilder,
     private _userServ: UserService,
@@ -72,7 +75,7 @@ export class PrivateDebtComponent implements OnInit {
     } else {
       memberId.push(value);
     }
-
+    this.slectedList=memberId;
     this.PrivateDebtForm.patchValue({
       memberId: memberId,
     });
@@ -128,7 +131,8 @@ export class PrivateDebtComponent implements OnInit {
         this.toastr.message(result.message, result.success);
       });
   }
-  getdata(id) {
+    getdata(id) {
+    this.spinner.start();
     this._userServ.getAllLiabilities().subscribe((result) => {
       this.spinner.stop();
       console.log(result);
@@ -140,13 +144,23 @@ export class PrivateDebtComponent implements OnInit {
             dept_Name: privateDept.dept_Name,
             current_Outstanding_Amount: current_Outstanding_Amount,
             description:privateDept.description,
-            memberId: privateDept.memberId,
+            memberId: privateDept.lender,
           });
+          this.slectedList=[...privateDept.lender];
+          // this.memberData = result.data.map((item) => {
+          //   console.log(item);
+          //   return (
+          //     { ...item.memberAsPerson, _id: item.lender } || {
+          //       ...item.memberAsOrganisation,
+          //       _id: item.lender,
+          //     }
+          //   );
+          // });
           return privateDept;
         }
         return null;
       });
-      console.log(data);
+      console.log(this.slectedList);
     });
   }
   ngOnInit(): void {

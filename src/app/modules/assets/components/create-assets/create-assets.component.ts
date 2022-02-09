@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 export class CreateAssetsComponent implements OnInit {
   Titile:string='Assets';
   routepath:string="";
+  toggleModalTutorial: boolean=false;
   constructor(private routeTo:Router) { }
   selectHandler(value){
     this.routepath=value;

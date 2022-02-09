@@ -20,6 +20,7 @@ export class CreateTrustComponent implements OnInit {
   id: string = '';
   TrustForm: FormGroup;
   responseMessage: string;
+  toggleModalTutorial:boolean=false;
   constructor(
     private _fb: FormBuilder,
     private _userServ: UserService,
@@ -99,7 +100,8 @@ export class CreateTrustComponent implements OnInit {
       this.toastr.message(result.message, result.success);
     });
   }
-  getdata(id){
+  getdata(id) {
+    this.spinner.start();
     this._userServ.getTrust().subscribe((result) => {
       this.spinner.stop();
       console.log(result);

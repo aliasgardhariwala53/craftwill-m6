@@ -15,6 +15,7 @@
   ></app-header-toolbar>
   <app-button
     value="Tutorial"
+    (click)="toggleModalTutorial=true"
     routepath="/home"
     class="md:hidden"
     backgroundColor="bg-[#000]"
@@ -198,3 +199,10 @@
     <app-button (myMethod)="call()" value="Continue"></app-button>
   </div>
 </div>
+<app-modal-filter [modalBody]='modalBody2' [showModal]="toggleModalTutorial">
+
+  <ng-template #modalBody2>
+    <app-tutorial  (onClose)='toggleModalTutorial=false'>
+    </app-tutorial>
+  </ng-template>
+</app-modal-filter>

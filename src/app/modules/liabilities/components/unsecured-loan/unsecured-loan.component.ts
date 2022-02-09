@@ -14,6 +14,7 @@ export class UnsecuredLoanComponent implements OnInit {
   id: string = '';
   UnSecuredLoan: FormGroup;
   responseMessage: string;
+  toggleModalTutorial: boolean=false;
   constructor(
     private _fb: FormBuilder,
     private _userServ: UserService,
@@ -117,7 +118,8 @@ export class UnsecuredLoanComponent implements OnInit {
       this.toastr.message(result.message, result.success);
     });
   }
-  getdata(id){
+  getdata(id) {
+    this.spinner.start();
     this._userServ.getAllLiabilities().subscribe((result) => {
       this.spinner.stop();
       console.log(result);

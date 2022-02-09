@@ -278,7 +278,7 @@ export class ProfileComponent implements OnInit {
       id_country,
       dob
       }))(result.data);
-     
+     this.imageSrc = result.data.profileImage;
       
 
 

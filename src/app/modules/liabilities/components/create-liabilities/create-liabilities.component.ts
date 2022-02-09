@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 })
 export class CreateLiabilitiesComponent implements OnInit {
 routeLink:string="";
+toggleModalTutorial: boolean=false;
   constructor(private routeTo:Router) { }
   selectHandler(value){
   this.routeLink=value;

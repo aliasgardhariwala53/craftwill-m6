@@ -1,4 +1,4 @@
-<div class="flex flex-col justify-content-around mx-6 sm:mx-4">
+<div class="flex flex-col justify-content-around mx-6 sm:mx-4 relative">
   <div class="my-1">
     <app-header-toolbar routerlink="/home" pagetitle="Profile" [headerMenuIcon]=true></app-header-toolbar>
   </div>
@@ -45,22 +45,25 @@
           </div>
         </div>
       
-        <div class=" flex flex-row mt-6 relative sm:space-x-4">
-          <label for="imageInput" class="absolute left-16 sm:left-24">
-            <img width="25px" for="imageInput" src="../../../../assets/Icons/Edit 2.svg" />
-          </label>
-          <img [src]="imageSrc" style="width: 100px; height: 100px" class="rounded-full" />
+        <div class=" flex flex-row mt-6  space-x-4">
+          <div class="relative">
+            <label for="imageInput" class="absolute left-16 sm:left-20 w-7">
+              <img width="25px" for="imageInput" src="../../../../assets/Icons/Edit 2.svg" />
+            </label>
+            <img [src]="imageSrc" style="width: 100px; height: 100px" class="rounded-full" />
+            
+          </div>
 
           <form>
             <input type="file" (change)="fileChangeEvent($event)" id="imageInput" hidden />
           </form>
-          <div class="sm:flex flex-col hidden">
+          <div class="flex flex-col">
 
             
-            <label class=" cursor-pointer font-[GilroyBold] my-1 w-[100px] rounded-2xl px-4 py-2 bg-red text-center"
+            <label class="hidden sm:block cursor-pointer font-[GilroyBold] my-1 w-[100px] rounded-2xl px-4 py-2 bg-red text-center"
               for="imageInput">Change</label>
             <div *ngIf="showRemoveButton" class="cursor-pointer font-[GilroyBold]  my-1 w-[100px] rounded-2xl px-4 py-2 border-2   text-center"
-              (click)="remove()">
+            (click)="toggleModalTutorial=true">
               Remove
             </div>
           </div>
@@ -381,3 +384,15 @@
   </div>
 
 </div>
+<app-modal-filter [modalBody]='modalBody2' [showModal]="toggleModalTutorial">
+
+  <ng-template #modalBody2>
+    <div class="flex flex-col justify-center p-3">
+      <div class="font-['GilroyBold'] py-5 text-center">Do You Really Want to Remove Image?</div>
+      <div class="flex flex-row w-full justify-between p-2 space-x-4">
+        <div class="py-3 bg-red rounded-lg cursor-pointer w-1/2 items-center text-center font-['GilroySemi']" (click)="remove()">Yes</div>
+        <div class="py-3 bg-red rounded-lg cursor-pointer w-1/2 items-center text-center font-['GilroySemi']" (click)="toggleModalTutorial=false">No</div>
+      </div>
+    </div>
+  </ng-template>
+</app-modal-filter>

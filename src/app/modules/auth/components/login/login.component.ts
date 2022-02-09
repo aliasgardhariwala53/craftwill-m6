@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   createForm(){
     this.userLogin = this._fb.group({
       email : ["", [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]],
-      password : ["", [Validators.required, Validators.minLength(6)]]
+      password : ["", [Validators.required]]
     }
     )
 
@@ -45,7 +45,6 @@ export class LoginComponent implements OnInit {
     },
     password: {
       required: 'Password is Required',
-      minlength: 'Minimum length of password must be 6'
     }
   };
 

@@ -29,6 +29,7 @@ export class ProfileComponent implements OnInit {
   imageChangedEvent: any = '';
   showCropped: boolean = false;
   showImageUpload: boolean = false;
+  toggleModalTutorial: boolean = false;
   croppedImage: any = '';
   imageSrc: string = '';
   showRemoveButton : boolean = true;
@@ -191,6 +192,7 @@ export class ProfileComponent implements OnInit {
   }
     // click remove button
   remove() {
+    this.toggleModalTutorial=false
     this.spinner.start();
     this._userServ.imageUpload(null).subscribe((result) => {
       this.spinner.stop();
@@ -340,8 +342,10 @@ export class ProfileComponent implements OnInit {
       console.log(img.profileImage);
       this._headerServ.image.next(`${environment.serverUrl}${this.userImage}`);
       this.imageSrc = `${environment.serverUrl}${this.userImage}`;
-      if (img.profileImage==='/uploads/defaultimage.png') {
-        this.showRemoveButton=true;
+      console.log(img.profileImage);
+      
+      if (img.profileImage==='/uploads/male.png'|| '/uploads/female.png') {
+        this.showRemoveButton=false;
       }
     });
   }

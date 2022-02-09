@@ -17,6 +17,9 @@ export class CreateAssetsComponent implements OnInit {
     console.log(this.routepath);
     }
     call(){
+      if (this.routepath==="") {
+        return;
+      }
       this.routeTo.navigate([`/assets/${this.routepath}`]);
       
     }

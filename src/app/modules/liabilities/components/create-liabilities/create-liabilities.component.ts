@@ -15,6 +15,9 @@ routeLink:string="";
   
   }
   call(){
+    if (this.routeLink==="") {
+      return;
+    }
     this.routeTo.navigate([`/liabilities/${this.routeLink}`]);
     
   }

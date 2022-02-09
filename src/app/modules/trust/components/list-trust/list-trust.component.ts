@@ -65,6 +65,7 @@ export class ListTrustComponent implements OnInit {
           trustName: items.trustName,
           ownerShipType: 'sole',
           _id: items._id,
+          actionRoute:'trust/createTrust'
         };
       });
       this.alltrustData = [...this.trustData];

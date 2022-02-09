@@ -90,51 +90,61 @@ export class ListAssetsComponent implements OnInit {
     let data = {
       name: '',
       uniqueNumber: '',
+      actionRoute:'',
     };
     switch (item.type) {
       case 'business':
         data.uniqueNumber = item.business.UEN_no || '---';
         data.name = 'Business';
+        data.actionRoute = '/assets/business';
         return data;
         break;
       case 'intellectualProperty':
         data.uniqueNumber = item.intellectualProperty.ip_No || '';
         data.name = 'Intellectual Property';
+        data.actionRoute = '/assets/intellectualProperty';
         return data;
         break;
       case 'insurancePolicy':
         data.uniqueNumber = item.insurancePolicy.policyNumber || '---';
         data.name = 'Insurance Policy';
+        data.actionRoute = '/assets/insurancePolicy';
         return data;
         break;
       case 'bankAccount':
         data.uniqueNumber = item.bankAccount.accountNumber || '---';
         data.name = 'Bank Account';
+        data.actionRoute = '/assets/addBank';
         return data;
         break;
       case 'safeDepositBox':
         data.uniqueNumber = item.safeDepositBox.safe_No || '---';
         data.name = 'Safe Deposit Box';
+        data.actionRoute = '/assets/safeDeposit';
         return data;
         break;
       case 'realEstate':
         data.uniqueNumber = item.realEstate.accountNumber || '---';
         data.name = 'Real Estate';
+        data.actionRoute = '/assets/realEstate';
         return data;
         break;
       case 'personalPossession':
         data.uniqueNumber = item.personalPossession.id_No || '---';
         data.name = 'Personal Possession';
+        data.actionRoute = '/assets/personalPossession';
         return data;
         break;
       case 'investmentAccount':
         data.uniqueNumber = item.investmentAccount.accountNo || '---';
         data.name = 'Investment Account';
+        data.actionRoute = '/assets/investmentAccount';
         return data;
         break;
       case 'motorVehicle':
         data.uniqueNumber = item.motorVehicle.plateNo || '---';
         data.name = 'Motor Vehicle';
+        data.actionRoute = '/assets/moterVehicle';
         return data;
         break;
       default:
@@ -165,6 +175,7 @@ export class ListAssetsComponent implements OnInit {
           ownerShip: items.specifyOwnershipType,
           type: items.type,
           _id: items._id,
+          actionRoute: this.getName(items)?.actionRoute,
         };
       });
       this.allAssetsinOne = [...this.allAssetsData];

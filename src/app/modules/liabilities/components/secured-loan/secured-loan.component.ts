@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { valueChanges } from 'src/app/helper/formerror.helper';
 import { UserService } from 'src/app/services/user.service';
@@ -18,12 +18,15 @@ export class SecuredLoanComponent implements OnInit {
   classes = ['font-bold', 'font-bold', 'text-sm'];
   SecuredLoan: FormGroup;
   responseMessage: string;
+  id: string='';
+  
   constructor(
     private _fb: FormBuilder,
     private _userServ: UserService,
     private _route: Router,
     private toastr: ToastrService,
     private spinner:NgxUiLoaderService,
+    private route:ActivatedRoute,
   ) {}
 
   createForm() {
@@ -112,7 +115,6 @@ export class SecuredLoanComponent implements OnInit {
     this.spinner.start();
     const securedLoanData = {
     current_Outstanding_Amount:this.SecuredLoan.value.current_Outstanding_Amount,
-      
       securedLoan: this.SecuredLoan.value,
       type:'securedLoan'
       
@@ -129,8 +131,59 @@ export class SecuredLoanComponent implements OnInit {
       this.toastr.message(result.message, result.success);
     });
   }
+  onUpdateSecuredLoan(){
+    this.spinner.start();
+    const securedLoanData = {
+      current_Outstanding_Amount:this.SecuredLoan.value.current_Outstanding_Amount,
+        securedLoan: this.SecuredLoan.value,
+        type:'securedLoan'
+        
+      };
+    this._userServ.updateLiabilities(securedLoanData,this.id).subscribe((result) => {
+      this.spinner.stop();
+      if (result.success) {
+        this.SecuredLoan.reset();
+        this._route.navigate(['/liabilities']);
+      }
+     
+      this.toastr.message(result.message, result.success);
+    });
+  }
+  getdata(id){
+    this._userServ.getAllLiabilities().subscribe((result) => {
+      this.spinner.stop();
+      console.log(result);
+      
+      const data=result.data.filter((item,i)=>{
+        if (item._id===id) {
+          const {securedLoan,current_Outstanding_Amount} = item;
+          this.SecuredLoan.patchValue({
+            loanName: securedLoan.loanName,
+            loanProvider: securedLoan.loanProvider,
+            loan_Number: securedLoan.loan_Number,
+            loan_Id_Number: securedLoan.loan_Id_Number,
+            current_Outstanding_Amount: current_Outstanding_Amount,
+            description: securedLoan.description,
+            assetId: securedLoan.assetId,
+          })     
+          return securedLoan;
+        }
+        return null;
+      })
+      console.log(data);
+      
+
+     
+    });
+  }
   ngOnInit(): void {
     this.spinner.start();
+    this.route.queryParams.subscribe(({id})=>{
+      if (id) {
+        this.id=id;
+        this.getdata(id);
+      }
+    })
     this.createForm();
     this._userServ.getAssets().subscribe((result) => {
       this.spinner.stop();
@@ -150,5 +203,6 @@ export class SecuredLoanComponent implements OnInit {
         return items;
       });
     });
+
   }
 }

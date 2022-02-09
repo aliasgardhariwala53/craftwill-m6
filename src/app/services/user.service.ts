@@ -81,4 +81,17 @@ export class UserService {
   getTrust(){
     return this._httpServe.get(environment.serverUrl + "trust/getTrustDetails");
   }
+
+  updateLiabilities(obj,id){
+    return this._httpServe.update(`${environment.serverUrl}UpdateLiabilities/${id}`,obj);
+  }
+  updateAssets(obj,id){
+    return this._httpServe.update(`${environment.serverUrl}updateAssets/${id}`,obj);
+  }
+  updateMembers(obj,id){
+    return this._httpServe.update(`${environment.serverUrl}updateMember/${id}`,obj);
+  }
+  updateTrust(obj,id){
+    return this._httpServe.update(`${environment.serverUrl}trust/updateTrust/${id}`,obj);
+  }
 }

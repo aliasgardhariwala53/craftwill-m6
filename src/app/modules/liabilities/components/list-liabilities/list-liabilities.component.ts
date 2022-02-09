@@ -89,25 +89,30 @@ export class ListLiabilitiesComponent implements OnInit {
     let data = {
       loanName: '',
       loanProvider: '',
-      loan_Id_Number: '',
+      loan_Id_Number: 0,
+      actionRoute: '',
     };
     switch (item.type) {
       case 'privateDept':
         data.loanProvider = item.privateDept.dept_Name || '---';
         data.loan_Id_Number = item.privateDept.loan_Id_Number || '---';
         data.loanName = 'Private Dept';
+        data.actionRoute = 'liabilities/privateDebt';
+
         return data;
         break;
       case 'securedLoan':
         data.loanProvider = item.securedLoan.loanProvider || '';
         data.loan_Id_Number = item.securedLoan.loan_Id_Number || '';
         data.loanName = 'Secured Loan';
+        data.actionRoute = 'liabilities/securedLoan';
         return data;
         break;
       case 'unsecuredLoan':
         data.loanProvider = item.unsecuredLoan.loanProvider || '---';
         data.loan_Id_Number = item.unsecuredLoan.loan_Id_Number || '---';
         data.loanName = 'Unsecured Loan';
+        data.actionRoute = 'liabilities/unSecuredLoan';
         return data;
         break;
 
@@ -123,10 +128,11 @@ export class ListLiabilitiesComponent implements OnInit {
         return {
           loanName: this.getName(items)?.loanName,
           loanProvider: this.getName(items)?.loanProvider,
-          loanNumber: this.getName(items)?.loanProvider,
+          loanNumber: this.getName(items)?.loan_Id_Number,
           current_Outstanding_Amount: items.current_Outstanding_Amount,
           type: items.type,
           _id: items._id,
+          actionRoute: this.getName(items)?.actionRoute,
         };
       });
       this.allLiabilities = [...this.LiabilitiesData];

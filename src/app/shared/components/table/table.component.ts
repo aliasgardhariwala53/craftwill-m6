@@ -20,9 +20,9 @@ export class TableComponent implements OnInit {
   @Output() actionButton = new EventEmitter();
   constructor(private _route:Router) { }
 
-  onClickActionButton(ItemId){
-    this.actionButton.emit(ItemId);
-    this._route.navigate([`${this.actionRoute}/${ItemId}`])
+  onClickActionButton(Item){
+    this.actionButton.emit(Item._id);
+    this._route.navigate([`${Item.actionRoute}`], { queryParams:{id:Item._id}})
   }
   getShortName(fullName) { 
     console.log(fullName);

@@ -38,6 +38,7 @@ const routes: Routes = [
          canActivate:[AuthGuard],
          component:PrivateDebtComponent,
        },
+     
       {
         path:"liabilitiesSuccess",
          canActivate:[AuthGuard],

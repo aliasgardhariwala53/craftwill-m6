@@ -110,6 +110,7 @@ export class ListmembersComponent implements OnInit {
         data.id_type = item.memberAsPerson.id_type || '';
         data.id_number = item.memberAsPerson.id_number || '';
         data.dob = item.memberAsPerson.dob || '';
+        
         return data;
         break;
       case 'memberAsOrganisation':
@@ -143,6 +144,7 @@ export class ListmembersComponent implements OnInit {
           dob: this.getName(items).dob,
           type: items.type,
           _id: items._id,
+          actionRoute: 'members/createmembers',
         };
       });
       this.allMemberData = [...this.MemberData];

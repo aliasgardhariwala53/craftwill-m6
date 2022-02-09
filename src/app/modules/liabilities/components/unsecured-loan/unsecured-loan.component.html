@@ -91,8 +91,11 @@
         </div>
   </div>
 
-  <div class="w-1/1 sm:w-6/12 md:w-3/12 lg:w-2/12 my-4">
+  <div *ngIf="id =='' " class="w-1/1 sm:w-6/12 md:w-3/12 lg:w-2/12 my-4">
       <app-button (myMethod)="addUnSecuredLoan()" value="Add Liability" id="submitButtonId" [arrow]="true"></app-button>
+  </div>
+  <div *ngIf="id !=='' " class="w-1/1 sm:w-6/12 md:w-3/12 lg:w-2/12 my-4">
+      <app-button (myMethod)="addUnSecuredLoan()" value="Update Liability" id="submitButtonId" [arrow]="true"></app-button>
   </div>
     <div class="text-green-500">{{responseMessage}}</div>
     </form>

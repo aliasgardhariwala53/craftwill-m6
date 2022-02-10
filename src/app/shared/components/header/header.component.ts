@@ -44,7 +44,7 @@ export class HeaderComponent implements OnInit {
       this.spinner.stop();
       this.username = result.data.fullName;
       const setImageHandler = (result) => {
-        if ((result.data.gender === 'male' || 'other') && !result.data.profileImage) {
+        if ((result.data.gender === 'male' || result.data.gender === 'other') && !result.data.profileImage) {
           this.imageSrc = this.defaultMale;
         } else if (
           result.data.gender === 'female' &&
@@ -52,6 +52,7 @@ export class HeaderComponent implements OnInit {
         ) {
           this.imageSrc = this.defaultFemale;
         } else if (
+
           result.data.profileImage !== '' &&
           result.data.profileImage !== null
         ) {

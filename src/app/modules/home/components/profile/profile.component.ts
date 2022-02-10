@@ -200,7 +200,9 @@ export class ProfileComponent implements OnInit {
     this.disablePassword = !this.disablePassword;
   }
   setImageHandler(result) {
-    if ((result.data.gender === 'male' || 'other') && !result.data.profileImage) {
+    
+    if ((result.data.gender === 'male' || result.data.gender === 'other') && !result.data.profileImage) {
+      console.log(result.data.gender);
       this.imageSrc = this.defaultMale;
       this._headerServ.image.next(this.defaultMale);
       this.showRemoveButton = false;

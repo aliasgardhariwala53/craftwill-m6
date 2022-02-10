@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import {
+  errorHandlers,
   passwordValidation,
   passwordValidationNotMatch,
   valueChanges,
@@ -34,7 +35,9 @@ export class ProfileComponent implements OnInit {
   imageSrc: string = '';
   showRemoveButton : boolean = true;
   userImage: string = 'uploads/1641650621550Capture.PNG';
- genderList= ['Male','Female','Other']
+ genderList= ['Male','Female','Other'];
+ defaultMale="../../../../../assets/Image/male.png";
+ defaultFemale='../../../../../assets/Image/female.png';
   createForm() {
     this.userInfo = this._fb.group({
       fullName: [''],
@@ -49,6 +52,7 @@ export class ProfileComponent implements OnInit {
       id_country: [''],
       dob: [''],
       Citizenship: [''],
+      profileImage: [''],
     });
     this.passwordForm = this._fb.group(
       {
@@ -166,10 +170,17 @@ export class ProfileComponent implements OnInit {
   fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;
     this.showImageUpload = true;
+    if (event.target.value.length===0) {
+      this.showImageUpload = false;
+      
+    }
+    console.log(event.target.value);
+    
   }
   imageCropped(event: ImageCroppedEvent) {
-   
+ 
     this.croppedImage = event.base64;
+  
   }
   imageLoaded(image: LoadedImage) {
     // show cropper
@@ -190,6 +201,24 @@ export class ProfileComponent implements OnInit {
     this.passwordForm.reset();
     this.disablePassword = !this.disablePassword;
   }
+  setImageHandler(result){
+    
+    if (!result.data.profileImage) {
+      this.imageSrc=this.defaultMale;
+      this._headerServ.image.next(this.defaultMale);
+      this.showRemoveButton=false;
+    }else if (result.data.gender==='female' && !result.data.profileImage) {
+      this.imageSrc=this.defaultFemale;
+      this._headerServ.image.next(this.defaultFemale);
+      this.showRemoveButton=false;
+    }
+    else if(result.data.profileImage!=='' && result.data.profileImage!==null){
+      console.log(result);
+      this.imageSrc = `${environment.serverUrl}${result.data.profileImage}`;
+      this._headerServ.image.next(`${environment.serverUrl}${result.data.profileImage}`);
+      this.showRemoveButton=true;
+    }
+  }
     // click remove button
   remove() {
     this.toggleModalTutorial=false
@@ -197,11 +226,12 @@ export class ProfileComponent implements OnInit {
     this._userServ.imageUpload(null).subscribe((result) => {
       this.spinner.stop();
       this.toastr.message(result.success?"Image Removed SuccessFully":"Image Remove Error",result.success);
-      this.imageSrc = `${environment.serverUrl}${result.data.profileImage}`;
-      this._headerServ.image.next(`${environment.serverUrl}${result.data.profileImage}`);
+      this.setImageHandler(result);
       this.showRemoveButton=false;
+      
     });
   }
+
   // click preview button
   showcroppedImage() {
     this.showCropped = !this.showCropped;
@@ -210,6 +240,7 @@ export class ProfileComponent implements OnInit {
   onCancel(){
     this.showImageUpload = false;
     this.showCropped = false;
+    this.imageChangedEvent = null;
   }
    // click back button
   onBack() {
@@ -233,6 +264,7 @@ export class ProfileComponent implements OnInit {
         this.showImageUpload = false;
         this.showCropped = false;
         this.showRemoveButton=true;
+        this.imageChangedEvent = null;
       }
     });
   }
@@ -280,8 +312,7 @@ export class ProfileComponent implements OnInit {
       id_country,
       dob
       }))(result.data);
-     this.imageSrc = result.data.profileImage;
-      
+      this.setImageHandler(result);
 
 
       // this.userInfo.setValue({ ...result.data });
@@ -291,6 +322,8 @@ export class ProfileComponent implements OnInit {
       }
       this.spinner.stop();
       this.toastr.message(result.message,result.success);
+    },(err)=>{
+      errorHandlers.errorHandler(err);
     });
     this._headerServ.username.next(this.userInfo.value.fullName);
   }
@@ -333,20 +366,11 @@ export class ProfileComponent implements OnInit {
       this.profileData={ ...result.data,gender:(result.data.gender.charAt(0).toUpperCase() + result.data.gender.slice(1)) }
       this.userInfo.setValue({ ...result.data,gender:(result.data.gender.charAt(0).toUpperCase() + result.data.gender.slice(1)) });
       this._headerServ.username.next(result.data.fullName);
-      console.log(this.userInfo.value);
+      console.log(result);
+      this.setImageHandler(result);
+    },(err)=>{
+      errorHandlers.errorHandler(err);
     });
 
-    this._userServ.getUserImage().subscribe((img) => {
-      this.spinner.stop();
-      this.userImage = img.profileImage;
-      console.log(img.profileImage);
-      this._headerServ.image.next(`${environment.serverUrl}${this.userImage}`);
-      this.imageSrc = `${environment.serverUrl}${this.userImage}`;
-      console.log(img.profileImage);
-      
-      if (img.profileImage==='/uploads/male.png'|| '/uploads/female.png') {
-        this.showRemoveButton=false;
-      }
-    });
   }
 }

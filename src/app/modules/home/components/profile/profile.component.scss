@@ -311,7 +311,12 @@
     
 //     }
 //   }
-
+.img_cropper > div> img{
+  margin: auto;
+}
+.ngx-ic-source-image{
+  margin: auto;
+}
 .active_button{
   background-color:#f8f8f8;
   color: #ff6782;

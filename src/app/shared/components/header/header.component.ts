@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { UserService } from 'src/app/services/user.service';
 import { environment } from 'src/environments/environment.prod';
 import { HeaderService } from '../../../services/header.service';
@@ -7,40 +8,58 @@ import { HeaderService } from '../../../services/header.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-username : string ="helloo";
-imageSrc: string = '';
-toggleModal : boolean =false;
-  constructor(public router:Router,public _headerServ:HeaderService, private _userServ: UserService) {
-    this._headerServ.username.subscribe((name)=>{
-      this.username=name;
-    })
-   }
-   key=['willType','date']
-  logout(){
-    localStorage.removeItem("user")
+  username: string = 'helloo';
+  imageSrc: string = '';
+  defaultMale = '../../../../assets/Image/male.png';
+  defaultFemale = '../../../../assets/Image/female.png';
+  toggleModal: boolean = false;
+  constructor(
+    public router: Router,
+    public _headerServ: HeaderService,
+    private _userServ: UserService,
+    private spinner: NgxUiLoaderService
+  ) {
+    this._headerServ.username.subscribe((name) => {
+      this.username = name;
+    });
   }
-  latestWill(){
-console.log('latest Will');
+  key = ['willType', 'date'];
+  logout() {
+    localStorage.removeItem('user');
+  }
+  latestWill() {
+    console.log('latest Will');
+  }
 
-  }
   ngOnInit(): void {
-    this._headerServ.image.subscribe((image)=>{
-     this.imageSrc=image;
-    })
+    this.spinner.start();
+    this._headerServ.image.subscribe((image) => {
+      this.imageSrc = image;
+    });
     this._userServ.getProfile().subscribe((result) => {
-      this.username=result.data.fullName;
-     
+      this.spinner.stop();
+      this.username = result.data.fullName;
+      const setImageHandler = (result) => {
+        if (
+          !result.data.profileImage)
+         {
+          this.imageSrc = this.defaultMale;
+        } else if (
+          result.data.gender === 'female' &&
+          !result.data.profileImage
+        ) {
+          this.imageSrc = this.defaultFemale;
+        } else if (
+          result.data.profileImage !== '' &&
+          result.data.profileImage !== null
+        ) {
+          this.imageSrc = `${environment.serverUrl}${result.data.profileImage}`;
+        }
+      };
+      setImageHandler(result);
     });
-
-    this._userServ.getUserImage().subscribe((img) => {
-   
-      this.imageSrc = `${environment.serverUrl}${img.profileImage}`;
-
-    });
-
   }
-
 }

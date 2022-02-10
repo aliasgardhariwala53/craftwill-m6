@@ -47,17 +47,22 @@
       
         <div class=" flex flex-row mt-6  space-x-4">
           <div class="relative">
-            <label for="imageInput" class="absolute left-16 sm:left-20 w-7">
+            <label *ngIf="!showRemoveButton" for="imageInput" class="absolute left-16 sm:left-20 w-7 cursor-pointer">
               <img width="25px" for="imageInput" src="../../../../assets/Icons/Edit 2.svg" />
             </label>
-            <img [src]="imageSrc" style="width: 100px; height: 100px" class="rounded-full" />
+            <label *ngIf="showRemoveButton" class="absolute left-16 sm:left-20 w-7 text-[#ff6782] cursor-pointer">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" (click)="toggleModalTutorial=true" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+              </svg>
+            </label>
+            <img src="{{imageSrc}}" style="width: 100px; height: 100px" class="rounded-full" />
             
           </div>
 
           <form>
-            <input type="file" (change)="fileChangeEvent($event)" id="imageInput" hidden />
+            <input type="file" [disabled]="showImageUpload" (change)="fileChangeEvent($event)" id="imageInput" hidden />
           </form>
-          <div class="flex flex-col">
+          <div class="sm:flex flex-col hidden">
 
             
             <label class="hidden sm:block cursor-pointer font-[GilroyBold] my-1 w-[100px] rounded-2xl px-4 py-2 bg-red text-center"
@@ -67,28 +72,7 @@
               Remove
             </div>
           </div>
-          <div *ngIf="showImageUpload">
-            <div *ngIf="showCropped" class="absolute z-10 p-3 sm:w-64 border-b-2 bg-[#f8eff0] rounded-lg left-0 right-0 sm:left-24 m-auto">
-              <img [src]="croppedImage" style="width: 222px; height: 209px" class="rounded-full m-auto" />
-              <div class="flex flex-row justify-evenly pt-3 ">
-                <div class="cursor-pointer font-[GilroyBold] py-2 px-5 bg-[#ff6782] rounded-lg text-white text-center my-1" (click)="onBack()">Back</div>
-                <div class="cursor-pointer font-[GilroyBold] py-2 px-5 bg-[#ff6782] rounded-lg text-white text-center my-1" (click)="uploadImage()">Save</div>
-              </div>
-            </div>
-
-            <div *ngIf="!showCropped" class="absolute z-10 sm:w-64 border-b-2 bg-[#f8eff0] p-3 rounded-lg left-0 right-0 sm:left-24 m-auto">
-              <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="2 / 2"
-                format="png" [roundCropper]="true" [resizeToWidth]="256" (imageCropped)="imageCropped($event)"
-                (imageLoaded)="imageLoaded($event)" (cropperReady)="cropperReady()"
-                (loadImageFailed)="loadImageFailed()"></image-cropper>
-              <div class="flex flex-row justify-evenly pt-3 ">
-                <div class="cursor-pointer font-[GilroyBold] py-2 px-5 bg-[#ff6782] rounded-lg text-white my-1" (click)="onCancel()">Cancel</div>
-                <div class="cursor-pointer font-[GilroyBold] py-2 px-5 bg-[#ff6782] rounded-lg text-white my-1" (click)="showcroppedImage()">
-                  Preview
-                </div>
-              </div>
-            </div>
-          </div>
+        
         </div>
       </div>
 
@@ -394,5 +378,34 @@
         <div class="py-3 bg-red rounded-lg cursor-pointer w-1/2 items-center text-center font-['GilroySemi']" (click)="toggleModalTutorial=false">No</div>
       </div>
     </div>
+  </ng-template>
+</app-modal-filter>
+
+
+<app-modal-filter [modalBody]='modalBody3' [showModal]="showImageUpload">
+
+  <ng-template #modalBody3>
+    <!-- <div *ngIf="showImageUpload"> -->
+      <div *ngIf="showCropped" class=" z-10 p-3 w-full border-b-2 bg-[#f8eff0] rounded-lg left-0 right-0 sm:left-24 m-auto">
+        <img [src]="croppedImage" style="width: 100%; height: 100%"  class="rounded-full m-auto" />
+        <div class="flex flex-row justify-evenly pt-3 ">
+          <div class="cursor-pointer font-[GilroyBold] py-2 px-5 bg-[#ff6782] rounded-lg text-white text-center my-1" (click)="onBack()">Back</div>
+          <div class="cursor-pointer font-[GilroyBold] py-2 px-5 bg-[#ff6782] rounded-lg text-white text-center my-1" (click)="uploadImage()">Save</div>
+        </div>
+      </div>
+
+      <div *ngIf="!showCropped" class=" z-10 w-full border-b-2 bg-[#f8eff0] p-3 rounded-lg left-0 right-0 sm:left-24 m-auto">
+        <image-cropper class="m-auto img_cropper" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="2 / 2"
+          format="png" [roundCropper]="true" [resizeToWidth]="256" (imageCropped)="imageCropped($event)"
+          (imageLoaded)="imageLoaded($event)" (cropperReady)="cropperReady()"
+          (loadImageFailed)="loadImageFailed()"></image-cropper>
+        <div class="flex flex-row justify-evenly pt-3 ">
+          <div class="cursor-pointer font-[GilroyBold] py-2 px-5 bg-[#ff6782] rounded-lg text-white my-1" (click)="onCancel()">Cancel</div>
+          <div class="cursor-pointer font-[GilroyBold] py-2 px-5 bg-[#ff6782] rounded-lg text-white my-1" (click)="showcroppedImage()">
+            Preview
+          </div>
+        </div>
+      </div>
+    <!-- </div> -->
   </ng-template>
 </app-modal-filter>

@@ -86,7 +86,7 @@ export class UserService {
     return this._httpServe.update(`${environment.serverUrl}UpdateLiabilities/${id}`,obj);
   }
   updateAssets(obj,id){
-    return this._httpServe.update(`${environment.serverUrl}updateAssets/${id}`,obj);
+    return this._httpServe.update(`${environment.serverUrl}updateAsets/${id}`,obj);
   }
   updateMembers(obj,id){
     return this._httpServe.update(`${environment.serverUrl}updateMember/${id}`,obj);

@@ -20,7 +20,7 @@ export class CreateTrustComponent implements OnInit {
   id: string = '';
   TrustForm: FormGroup;
   responseMessage: string;
-  toggleModalTutorial:boolean=false;
+  toggleModalTutorial: boolean = false;
   constructor(
     private _fb: FormBuilder,
     private _userServ: UserService,
@@ -28,7 +28,7 @@ export class CreateTrustComponent implements OnInit {
     private _route: Router,
     private toastr: ToastrService,
     private _actRoute: ActivatedRoute,
-    private route:ActivatedRoute,
+    private route: ActivatedRoute
   ) {}
 
   createForm() {
@@ -85,45 +85,53 @@ export class CreateTrustComponent implements OnInit {
       }
 
       this.toastr.message(result.message, result.success);
-    });
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message("Something Went Wrong!!!",false);
+        });
   }
-  onUpdateTrust(){
+  onUpdateTrust() {
     this.spinner.start();
 
-    this._userServ.updateTrust(this.TrustForm.value,this.id).subscribe((result) => {
-      this.spinner.stop();
-      if (result.success) {
-        this.TrustForm.reset();
-        this._route.navigate(['/trust']);
-      }
-     
-      this.toastr.message(result.message, result.success);
-    });
+    this._userServ
+      .updateTrust(this.TrustForm.value, this.id)
+      .subscribe((result) => {
+        this.spinner.stop();
+        if (result.success) {
+          this.TrustForm.reset();
+          this._route.navigate(['/trust']);
+        }
+
+        this.toastr.message(result.message, result.success);
+      },(err)=>{
+        this.spinner.stop();
+        this.toastr.message("Something Went Wrong!!!",false);
+          });
   }
   getdata(id) {
     this.spinner.start();
     this._userServ.getTrust().subscribe((result) => {
       this.spinner.stop();
       console.log(result);
-      
-      const data=result.data.users.filter((item,i)=>{
+
+      const data = result.data.users.filter((item, i) => {
         console.log(item);
-        
-        if (item._id===id) {
-          const {bankAccount,country,specifyOwnershipType} = item;
+
+        if (item._id === id) {
+          const { bankAccount, country, specifyOwnershipType } = item;
           this.TrustForm.patchValue({
             trustName: item.trustName,
             description: item.description,
-          })     
+          });
           return bankAccount;
         }
         return null;
-      })
+      });
       console.log(data);
-      
-
-     
-    });
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message("Something Went Wrong!!!",false);
+        });
   }
   ngOnInit(): void {
     this.route.queryParams.subscribe(({ id }) => {
@@ -133,6 +141,5 @@ export class CreateTrustComponent implements OnInit {
       }
     });
     this.createForm();
-
   }
 }

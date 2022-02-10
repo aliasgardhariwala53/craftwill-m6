@@ -4,6 +4,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { UserService } from 'src/app/services/user.service';
 import { environment } from 'src/environments/environment.prod';
 import { HeaderService } from '../../../services/header.service';
+import { ToastrService } from '../../services/toastr.service';
 
 @Component({
   selector: 'app-header',
@@ -20,7 +21,8 @@ export class HeaderComponent implements OnInit {
     public router: Router,
     public _headerServ: HeaderService,
     private _userServ: UserService,
-    private spinner: NgxUiLoaderService
+    private spinner: NgxUiLoaderService,
+    private toastr: ToastrService,
   ) {
     this._headerServ.username.subscribe((name) => {
       this.username = name;
@@ -35,7 +37,6 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.spinner.start();
     this._headerServ.image.subscribe((image) => {
       this.imageSrc = image;
     });
@@ -43,9 +44,7 @@ export class HeaderComponent implements OnInit {
       this.spinner.stop();
       this.username = result.data.fullName;
       const setImageHandler = (result) => {
-        if (
-          !result.data.profileImage)
-         {
+        if ((result.data.gender === 'male' || 'other') && !result.data.profileImage) {
           this.imageSrc = this.defaultMale;
         } else if (
           result.data.gender === 'female' &&
@@ -60,6 +59,9 @@ export class HeaderComponent implements OnInit {
         }
       };
       setImageHandler(result);
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message("Error Getting User Data!!",false);
     });
   }
 }

@@ -94,7 +94,10 @@ export class InsurancePolicyComponent implements OnInit {
         this._route.navigate(['/assets/assetsuccess']);
       }
       this.toastr.message(result.message, result.success);
-    });
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message("Something Went Wrong!!!",false);
+        });
   }
   onUpdateInsurancePolicy(){
     this.spinner.start();
@@ -112,7 +115,10 @@ export class InsurancePolicyComponent implements OnInit {
       }
      
       this.toastr.message(result.message, result.success);
-    });
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message("Something Went Wrong!!!",false);
+        });
   }
   getdata(id) {
     this.spinner.start();

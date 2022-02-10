@@ -131,7 +131,10 @@ export class SecuredLoanComponent implements OnInit {
       }
      
       this.toastr.message(result.message, result.success);
-    });
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message("Something Went Wrong!!!",false);
+        });
   }
   onUpdateSecuredLoan(){
     this.spinner.start();
@@ -149,7 +152,10 @@ export class SecuredLoanComponent implements OnInit {
       }
      
       this.toastr.message(result.message, result.success);
-    });
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message("Something Went Wrong!!!",false);
+        });
   }
   getdata(id) {
     this.spinner.start();
@@ -178,7 +184,10 @@ export class SecuredLoanComponent implements OnInit {
       
 
      
-    });
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message("Something Went Wrong!!!",false);
+        });
   }
   ngOnInit(): void {
     this.spinner.start();
@@ -206,7 +215,10 @@ export class SecuredLoanComponent implements OnInit {
         console.log(items);
         return items;
       });
-    });
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message("Something Went Wrong!!!",false);
+        });
 
   }
 }

@@ -90,7 +90,10 @@ export class SafeDepositBoxComponent implements OnInit {
         this._route.navigate(['/assets/assetsuccess']);
       }
       this.toastr.message(result.message, result.success);
-    });
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message("Something Went Wrong!!!",false);
+        });
   }
   onUpdateSafeDepositBox() {
     this.spinner.start();
@@ -110,7 +113,10 @@ export class SafeDepositBoxComponent implements OnInit {
         }
 
         this.toastr.message(result.message, result.success);
-      });
+      },(err)=>{
+        this.spinner.stop();
+        this.toastr.message("Something Went Wrong!!!",false);
+          });
   }
     getdata(id) {
     this.spinner.start();
@@ -132,7 +138,10 @@ export class SafeDepositBoxComponent implements OnInit {
         return null;
       });
       console.log(data);
-    });
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message("Something Went Wrong!!!",false);
+        });
   }
   ngOnInit(): void {
     this.route.queryParams.subscribe(({ id }) => {

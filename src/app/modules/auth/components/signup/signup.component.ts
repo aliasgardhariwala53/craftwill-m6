@@ -1,8 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
+import {
+  FormBuilder,
+  Validators,
+  FormGroup,
+  FormControl,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { passwordValidation, valueChanges } from 'src/app/helper/formerror.helper';
+import {
+  passwordValidation,
+  valueChanges,
+} from 'src/app/helper/formerror.helper';
 import { AuthservicesService } from 'src/app/services/authservices.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
 
@@ -17,18 +25,20 @@ export class SignupComponent implements OnInit {
   accountDetails: FormGroup;
   addressDetails: FormGroup;
   message: string;
-  options: any[] = [{_id: '1', status: 'waiting'},
-  {_id: '2', status: 'open'},
-  {_id: '3', status: 'in_progress'},
-  {_id: '4', status: 'close'}];
+  options: any[] = [
+    { _id: '1', status: 'waiting' },
+    { _id: '2', status: 'open' },
+    { _id: '3', status: 'in_progress' },
+    { _id: '4', status: 'close' },
+  ];
 
-  idList=['NRIC','Passport','FIN','Others']
+  idList = ['NRIC', 'Passport', 'FIN', 'Others'];
   constructor(
     private _fb: FormBuilder,
     private _authService: AuthservicesService,
     private _router: Router,
     private toastr: ToastrService,
-    private spinner:NgxUiLoaderService,
+    private spinner: NgxUiLoaderService
   ) {}
 
   ngOnInit(): void {
@@ -37,33 +47,32 @@ export class SignupComponent implements OnInit {
   createForm() {
     this.userRegistration = this._fb.group({
       id_type: new FormControl(null, Validators.required),
-     
+
       id_number: ['', Validators.required],
       fullName: ['', Validators.required],
     });
-    this.accountDetails = this._fb.group({
-      gender: ['', Validators.required],
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
+    this.accountDetails = this._fb.group(
+      {
+        gender: ['', Validators.required],
+        email: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
+          ],
         ],
-      ],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required]],
-     
-    },
-    {
-      validators:[passwordValidation.match('password','confirmPassword')]
-    }
-    
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        confirmPassword: ['', [Validators.required]],
+      },
+      {
+        validators: [passwordValidation.match('password', 'confirmPassword')],
+      }
     );
     this.addressDetails = this._fb.group({
       floorNumber: ['', Validators.required],
       unitNumber: ['', Validators.required],
       streetName: ['', Validators.required],
-      postalCode: ['', [Validators.required,, Validators.pattern("^[0-9]*$")]],
+      postalCode: ['', [Validators.required, , Validators.pattern('^[0-9]*$')]],
     });
 
     this.userRegistration.valueChanges.subscribe(() => {
@@ -125,7 +134,7 @@ export class SignupComponent implements OnInit {
     },
     confirmPassword: {
       required: 'Confirm Password is Required',
-      matching: 'Password not matched'
+      matching: 'Password not matched',
     },
     floorNumber: {
       required: 'Floor Number is Required',
@@ -140,51 +149,47 @@ export class SignupComponent implements OnInit {
       required: 'Postal Code is Required',
       pattern: 'Please Enter valid numeric value',
     },
- 
   };
   submit() {
     this.spinner.start();
     console.log('Helloo');
 
-  let obj={
-    id_type:this.userRegistration.value.id_type,
-    id_number:this.userRegistration.value.id_number,
-    fullName:this.userRegistration.value.fullName,
-    gender:this.accountDetails.value.gender,
-    email:this.accountDetails.value.email,
-    password:this.accountDetails.value.password,
-    floorNumber:this.addressDetails.value.floorNumber,
-    unitNumber:this.addressDetails.value.unitNumber,
-    streetName:this.addressDetails.value.streetName,
-    postalCode:this.addressDetails.value.postalCode,
-  }
+    let obj = {
+      id_type: this.userRegistration.value.id_type,
+      id_number: this.userRegistration.value.id_number,
+      fullName: this.userRegistration.value.fullName,
+      gender: this.accountDetails.value.gender,
+      email: this.accountDetails.value.email,
+      password: this.accountDetails.value.password,
+      floorNumber: this.addressDetails.value.floorNumber,
+      unitNumber: this.addressDetails.value.unitNumber,
+      streetName: this.addressDetails.value.streetName,
+      postalCode: this.addressDetails.value.postalCode,
+    };
     console.log(obj);
 
-    this._authService.signup(obj).subscribe(
-      (result) => {
-        this.spinner.stop();
-        this.toastr.message(result.message,result.success);
-        if (result.success == true) {
-          this.userRegistration.reset();
-          this.addressDetails.reset();
-          this.accountDetails.reset();
-          this._router.navigate(['/']);
-        }
-        if(result.message==='User already exists'){
-          
-          this.step=2;
-          // this._router.navigate(['/signup']);
-        }
-      },
-     
-    );
+    this._authService.signup(obj).subscribe((result) => {
+      this.spinner.stop();
+      this.toastr.message(result.message, result.success);
+      if (result.success == true) {
+        this.userRegistration.reset();
+        this.addressDetails.reset();
+        this.accountDetails.reset();
+        this._router.navigate(['/']);
+      }
+      if (result.message === 'User already exists') {
+        this.step = 2;
+        // this._router.navigate(['/signup']);
+      }
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message("Something Went Wrong!!!",false);
+        });
   }
 
-
   next(value) {
-  
     if (value == 2 && this.userRegistration.invalid) {
-      console.log("is 2");
+      console.log('is 2');
       this.userRegistration.markAllAsTouched();
       this.formErrors = valueChanges(
         this.userRegistration,
@@ -194,7 +199,7 @@ export class SignupComponent implements OnInit {
       return;
     }
     if (value == 3 && this.accountDetails.invalid) {
-      console.log("is 3");
+      console.log('is 3');
       this.accountDetails.markAllAsTouched();
       this.formErrors = valueChanges(
         this.accountDetails,
@@ -204,7 +209,7 @@ export class SignupComponent implements OnInit {
       return;
     }
     if (value == 4 && this.addressDetails.invalid) {
-      console.log("is 4");
+      console.log('is 4');
       this.addressDetails.markAllAsTouched();
       this.formErrors = valueChanges(
         this.addressDetails,
@@ -215,10 +220,10 @@ export class SignupComponent implements OnInit {
     }
 
     if (value == 5) {
-      console.log("is 5");
+      console.log('is 5');
       this.submit();
-    } 
-      this.step = value;
-      console.log(this.step);
+    }
+    this.step = value;
+    console.log(this.step);
   }
 }

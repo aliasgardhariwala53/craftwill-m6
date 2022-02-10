@@ -3,6 +3,8 @@ import { FormControl } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { countries } from 'src/app/shared/utils/countries-store';
+import { ToastrModule } from 'ngx-toastr';
+import { ToastrService } from 'src/app/shared/services/toastr.service';
 @Component({
   selector: 'app-list-assets',
   templateUrl: './list-assets.component.html',
@@ -51,7 +53,7 @@ export class ListAssetsComponent implements OnInit {
   ];
   ownershipFilter = ['Sole', 'joint'];
   countryFilter = ['india'];
-  constructor(private _userServ: UserService,private spinner: NgxUiLoaderService) {}
+  constructor(private _userServ: UserService,private spinner: NgxUiLoaderService,private toastr:ToastrService) {}
   public countries:any = countries
   onChangehandler() {
     console.log(this.searchForm.value);
@@ -80,7 +82,10 @@ export class ListAssetsComponent implements OnInit {
         };
       });
       this.allAssetsinOne = [...this.assetsFilterData];
-    });
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message("Something Went Wrong!!!",false);
+        });
   }
 
   onClickAction(value) {
@@ -179,6 +184,8 @@ export class ListAssetsComponent implements OnInit {
         };
       });
       this.allAssetsinOne = [...this.allAssetsData];
-    });
+    },(err)=>{
+      this.spinner.stop();
+        });
   }
 }

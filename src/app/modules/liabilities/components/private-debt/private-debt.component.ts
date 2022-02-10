@@ -14,21 +14,21 @@ export class PrivateDebtComponent implements OnInit {
   memberData = [];
   slectedList = [];
   id: string = '';
-  toggleModalTutorial: boolean=false;
+  toggleModalTutorial: boolean = false;
   nameType = 'fullname' || 'organisationName';
   key = [this.nameType, 'Relationship'];
   classes = ['font-bold', 'font-bold', 'text-sm'];
 
   PrivateDebtForm: FormGroup;
   responseMessage: string;
-  
+
   constructor(
     private _fb: FormBuilder,
     private _userServ: UserService,
     private spinner: NgxUiLoaderService,
     private _route: Router,
     private toastr: ToastrService,
-    private route:ActivatedRoute,
+    private route: ActivatedRoute
   ) {}
 
   createForm() {
@@ -75,7 +75,7 @@ export class PrivateDebtComponent implements OnInit {
     } else {
       memberId.push(value);
     }
-    this.slectedList=memberId;
+    this.slectedList = memberId;
     this.PrivateDebtForm.patchValue({
       memberId: memberId,
     });
@@ -102,36 +102,46 @@ export class PrivateDebtComponent implements OnInit {
       privateDept: this.PrivateDebtForm.value,
       type: 'privateDept',
     };
-    this._userServ.addLiabilities(privateDebtData).subscribe((result) => {
-      this.spinner.stop();
-      if (result.success) {
-        this.PrivateDebtForm.reset();
-        this._route.navigate(['/liabilities/liabilitiesSuccess']);
-      }
+    this._userServ.addLiabilities(privateDebtData).subscribe(
+      (result) => {
+        this.spinner.stop();
+        if (result.success) {
+          this.PrivateDebtForm.reset();
+          this._route.navigate(['/liabilities/liabilitiesSuccess']);
+        }
 
-      this.toastr.message(result.message, result.success);
-    });
+        this.toastr.message(result.message, result.success);
+      },
+      (err) => {
+        this.spinner.stop();
+        this.toastr.message('Something Went Wrong!!!', false);
+      }
+    );
   }
   onUpdatePrivateDept() {
     this.spinner.start();
     const privateDeptData = {
       current_Outstanding_Amount:
         this.PrivateDebtForm.value.current_Outstanding_Amount,
-        privateDept: this.PrivateDebtForm.value,
+      privateDept: this.PrivateDebtForm.value,
       type: 'privateDept',
     };
-    this._userServ
-      .updateLiabilities(privateDeptData, this.id)
-      .subscribe((result) => {
+    this._userServ.updateLiabilities(privateDeptData, this.id).subscribe(
+      (result) => {
         this.spinner.stop();
         if (result.success) {
           this.PrivateDebtForm.reset();
           this._route.navigate(['/liabilities']);
         }
         this.toastr.message(result.message, result.success);
-      });
+      },
+      (err) => {
+        this.spinner.stop();
+        this.toastr.message('Something Went Wrong!!!', false);
+      }
+    );
   }
-    getdata(id) {
+  getdata(id) {
     this.spinner.start();
     this._userServ.getAllLiabilities().subscribe((result) => {
       this.spinner.stop();
@@ -143,10 +153,10 @@ export class PrivateDebtComponent implements OnInit {
           this.PrivateDebtForm.patchValue({
             dept_Name: privateDept.dept_Name,
             current_Outstanding_Amount: current_Outstanding_Amount,
-            description:privateDept.description,
+            description: privateDept.description,
             memberId: privateDept.lender,
           });
-          this.slectedList=[...privateDept.lender];
+          this.slectedList = [...privateDept.lender];
           // this.memberData = result.data.map((item) => {
           //   console.log(item);
           //   return (
@@ -183,6 +193,9 @@ export class PrivateDebtComponent implements OnInit {
           }
         );
       });
-    });
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message("Something Went Wrong!!!",false);
+        });
   }
 }

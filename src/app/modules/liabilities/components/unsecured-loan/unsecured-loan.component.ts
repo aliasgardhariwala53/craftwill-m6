@@ -98,7 +98,10 @@ export class UnsecuredLoanComponent implements OnInit {
         this._route.navigate(['/liabilities/liabilitiesSuccess']);
       }
       this.toastr.message(result.message, result.success);
-    });
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message("Something Went Wrong!!!",false);
+        });
   }
   onUpdateUnSecuredLoan(){
     this.spinner.start();
@@ -116,7 +119,10 @@ export class UnsecuredLoanComponent implements OnInit {
       }
      
       this.toastr.message(result.message, result.success);
-    });
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message("Something Went Wrong!!!",false);
+        });
   }
   getdata(id) {
     this.spinner.start();
@@ -144,7 +150,10 @@ export class UnsecuredLoanComponent implements OnInit {
       
 
      
-    });
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message("Something Went Wrong!!!",false);
+        });
   }
   ngOnInit(): void {
     this.createForm();

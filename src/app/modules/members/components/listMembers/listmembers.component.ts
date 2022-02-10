@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { ToastrService } from 'src/app/shared/services/toastr.service';
 import { UserService } from '../../../../services/user.service';
 
 @Component({
@@ -12,8 +13,8 @@ import { UserService } from '../../../../services/user.service';
 export class ListmembersComponent implements OnInit {
   searchForm = new FormControl(null);
   toggleModal: boolean;
-  toggleModalTutorial: boolean=false;
-  showSearch: boolean=false;
+  toggleModalTutorial: boolean = false;
+  showSearch: boolean = false;
 
   MemberData = [];
   organisationData = [];
@@ -23,7 +24,12 @@ export class ListmembersComponent implements OnInit {
   memberType = ['Person', 'Organisation'];
   ownershipFilter = ['Sole', 'joint'];
   countryFilter = ['india'];
-  constructor(public route: Router, private _userServ: UserService,private spinner:NgxUiLoaderService) {}
+  constructor(
+    public route: Router,
+    private _userServ: UserService,
+    private spinner: NgxUiLoaderService,
+    private toastr: ToastrService
+  ) {}
 
   tableHeadings = [
     'Name of the member',
@@ -110,7 +116,7 @@ export class ListmembersComponent implements OnInit {
         data.id_type = item.memberAsPerson.id_type || '';
         data.id_number = item.memberAsPerson.id_number || '';
         data.dob = item.memberAsPerson.dob || '';
-        
+
         return data;
         break;
       case 'memberAsOrganisation':
@@ -129,26 +135,32 @@ export class ListmembersComponent implements OnInit {
   }
   ngOnInit(): void {
     this.spinner.start();
-    this._userServ.getMembers().subscribe((result) => {
-      // console.log(result.data);
-      this.spinner.stop();
-      this.MemberData = result.data.map((items, i) => {
-        console.log(items);
+    this._userServ.getMembers().subscribe(
+      (result) => {
+        // console.log(result.data);
+        this.spinner.stop();
+        this.MemberData = result.data.map((items, i) => {
+          console.log(items);
 
-        return {
-          fullname: this.getName(items).fullname,
-          Relationship:this.getName(items).Relationship,
-          gender: this.getName(items).gender,
-          id_number: this.getName(items).id_number,
-          id_type: this.getName(items).id_type,
-          dob: this.getName(items).dob,
-          type: items.type,
-          _id: items._id,
-          actionRoute: 'members/createmembers',
-        };
-      });
-      this.allMemberData = [...this.MemberData];
-      // console.log(this.allMemberData);
-    });
+          return {
+            fullname: this.getName(items).fullname,
+            Relationship: this.getName(items).Relationship,
+            gender: this.getName(items).gender,
+            id_number: this.getName(items).id_number,
+            id_type: this.getName(items).id_type,
+            dob: this.getName(items).dob,
+            type: items.type,
+            _id: items._id,
+            actionRoute: 'members/createmembers',
+          };
+        });
+        this.allMemberData = [...this.MemberData];
+        // console.log(this.allMemberData);
+      },
+      (err) => {
+        this.spinner.stop();
+        this.toastr.message('Error Getting Members data !!', false);
+      }
+    );
   }
 }

@@ -91,7 +91,10 @@ export class PersonalPossessionComponent implements OnInit {
         this._route.navigate(['/assets/assetsuccess']);
       }
       this.toastr.message(result.message, result.success);
-    });
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message("Something Went Wrong!!!",false);
+        });
   }
   onUpdatePossessionData() {
     this.spinner.start();
@@ -110,7 +113,10 @@ export class PersonalPossessionComponent implements OnInit {
       }
 
       this.toastr.message(result.message, result.success);
-    });
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message("Something Went Wrong!!!",false);
+        });
   }
     getdata(id) {
     this.spinner.start();
@@ -132,7 +138,10 @@ export class PersonalPossessionComponent implements OnInit {
         return null;
       });
       console.log(data);
-    });
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message("Something Went Wrong!!!",false);
+        });
   }
   ngOnInit(): void {
     this.route.queryParams.subscribe(({ id }) => {

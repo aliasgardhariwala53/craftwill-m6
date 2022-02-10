@@ -92,7 +92,10 @@ export class MoterVehicleComponent implements OnInit {
         this._route.navigate(['/assets/assetsuccess']);
       }
       this.toastr.message(result.message, result.success);
-    });
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message("Something Went Wrong!!!",false);
+        });
   }
   onUpdateMotorVehicle() {
     this.spinner.start();
@@ -112,7 +115,10 @@ export class MoterVehicleComponent implements OnInit {
         }
 
         this.toastr.message(result.message, result.success);
-      });
+      },(err)=>{
+        this.spinner.stop();
+        this.toastr.message("Something Went Wrong!!!",false);
+          });
   }
     getdata(id) {
     this.spinner.start();
@@ -134,7 +140,10 @@ export class MoterVehicleComponent implements OnInit {
         return null;
       });
       console.log(data);
-    });
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message("Something Went Wrong!!!",false);
+        });
   }
   ngOnInit(): void {
     this.route.queryParams.subscribe(({ id }) => {

@@ -115,7 +115,10 @@ export class BusinessComponent implements OnInit {
       }
      
       this.toastr.message(result.message, result.success);
-    });
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message("Something Went Wrong!!!",false);
+        });
   }
   getdata(id) {
     this.spinner.start();
@@ -140,7 +143,10 @@ export class BusinessComponent implements OnInit {
       
 
      
-    });
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message("Something Went Wrong!!!",false);
+        });
   }
   ngOnInit(): void {
     this.route.queryParams.subscribe(({id})=>{

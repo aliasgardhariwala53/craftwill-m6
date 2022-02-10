@@ -93,7 +93,10 @@ export class InvestmentAccountComponent implements OnInit {
         this._route.navigate(['/assets/assetsuccess']);
       }
       this.toastr.message(result.message, result.success);
-    });
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message("Something Went Wrong!!!",false);
+        });
   }
   onUpdateInvestment(){
     this.spinner.start();
@@ -112,7 +115,10 @@ export class InvestmentAccountComponent implements OnInit {
       }
      
       this.toastr.message(result.message, result.success);
-    });
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message("Something Went Wrong!!!",false);
+        });
   }
   getdata(id) {
     this.spinner.start();
@@ -137,7 +143,10 @@ export class InvestmentAccountComponent implements OnInit {
       
 
      
-    });
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message("Something Went Wrong!!!",false);
+        });
   }
   ngOnInit(): void {
     this.route.queryParams.subscribe(({id})=>{

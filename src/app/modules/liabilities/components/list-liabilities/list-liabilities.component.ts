@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { forkJoin } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
+import { ToastrService } from 'src/app/shared/services/toastr.service';
 
 @Component({
   selector: 'app-list-liabilities',
@@ -11,19 +12,21 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ListLiabilitiesComponent implements OnInit {
   searchForm = new FormControl(null);
-  showSearch:boolean=false;
-  toggleModalTutorial:boolean=false;
+  showSearch: boolean = false;
+  toggleModalTutorial: boolean = false;
   LiabilitiesData = [];
-  allLiabilities = [
-
-  ];
+  allLiabilities = [];
   LiabilitiesFilterData = [];
   LiabilitiesSearchData = [];
   toggleModal: boolean;
   ownershipFilter = ['Sole', 'joint'];
   countryFilter = ['india'];
   liabilitiesType = ['Secured Loan', 'Unsecured Loan', 'Private Dept'];
-  constructor(private _userServ: UserService,private spinner:NgxUiLoaderService) {}
+  constructor(
+    private _userServ: UserService,
+    private spinner: NgxUiLoaderService,
+    private toastr: ToastrService
+  ) {}
   tableHeadings = [
     'Name of the Liabilities',
     'Loan Provider',
@@ -53,27 +56,33 @@ export class ListLiabilitiesComponent implements OnInit {
       this.allLiabilities = [...this.LiabilitiesData];
     }
     this.allLiabilities = this.LiabilitiesData.filter((items) => {
-      return items.loanName.toLowerCase().includes(this.searchForm.value.toLowerCase());
+      return items.loanName
+        .toLowerCase()
+        .includes(this.searchForm.value.toLowerCase());
     });
-   
-    
   }
   onFilterHandler(value) {
     this.spinner.start();
     console.log('helllooo', value);
-    this._userServ.filterLiabilities(value).subscribe((result) => {
-      this.spinner.stop();
-      this.LiabilitiesFilterData = result.map((items, i) => {
-        return {
-          loanName: this.getName(items)?.loanName,
-          loanProvider: this.getName(items)?.loanProvider,
-          loanNumber: this.getName(items)?.loanProvider,
-          current_Outstanding_Amount: items.current_Outstanding_Amount,
-          type: items.type,
-        };
-      });
-      this.allLiabilities = [...this.LiabilitiesFilterData];
-    });
+    this._userServ.filterLiabilities(value).subscribe(
+      (result) => {
+        this.spinner.stop();
+        this.LiabilitiesFilterData = result.map((items, i) => {
+          return {
+            loanName: this.getName(items)?.loanName,
+            loanProvider: this.getName(items)?.loanProvider,
+            loanNumber: this.getName(items)?.loanProvider,
+            current_Outstanding_Amount: items.current_Outstanding_Amount,
+            type: items.type,
+          };
+        });
+        this.allLiabilities = [...this.LiabilitiesFilterData];
+      },
+      (err) => {
+        this.spinner.stop();
+        this.toastr.message("Something Went Wrong!!!",false);
+      }
+      );
   }
   onSorting(value) {
     if (value === 'All') {
@@ -116,8 +125,8 @@ export class ListLiabilitiesComponent implements OnInit {
         return data;
         break;
 
-      default:
-        return data;
+        default:
+          return data;
     }
   }
   ngOnInit(): void {
@@ -136,6 +145,9 @@ export class ListLiabilitiesComponent implements OnInit {
         };
       });
       this.allLiabilities = [...this.LiabilitiesData];
-    });
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message('Error getting Liabilities Data!!!', false);
+        });
   }
 }

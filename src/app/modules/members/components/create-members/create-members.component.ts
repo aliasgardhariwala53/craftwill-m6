@@ -170,7 +170,10 @@ export class CreateMembersComponent implements OnInit {
         this._route.navigate(['/members']);
       }
       this.toastr.message(result.message, result.success);
-    });
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message("Something Went Wrong!!!",false);
+        });
   }
   organisationUpdate() {
     if (this.organisationForm.invalid) {
@@ -198,9 +201,10 @@ export class CreateMembersComponent implements OnInit {
         }
         this.toastr.message(result.message, result.success);
         // this.responseMessageOrganisation=result.message;
-      },
-      (err) => {}
-    );
+      },(err)=>{
+        this.spinner.stop();
+        this.toastr.message("Something Went Wrong!!!",false);
+          });
   }
   onUpdateMembers() {
     this.spinner.start();
@@ -222,7 +226,10 @@ export class CreateMembersComponent implements OnInit {
         }
 
         this.toastr.message(result.message, result.success);
-      });
+      },(err)=>{
+        this.spinner.stop();
+        this.toastr.message("Something Went Wrong!!!",false);
+          });
   }
     getdata(id) {
     this.spinner.start();
@@ -266,7 +273,10 @@ export class CreateMembersComponent implements OnInit {
         return null;
       });
       console.log(data);
-    });
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message("Something Went Wrong!!!",false);
+        });
   }
   ngOnInit(): void {
     this.route.queryParams.subscribe(({ id }) => {

@@ -104,7 +104,10 @@ export class BankAccountUserComponent implements OnInit {
       }
 
       
-    });
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message("Something Went Wrong!!!",false);
+        });
   }
   onUpdateBank(){
     this.spinner.start();
@@ -124,9 +127,7 @@ export class BankAccountUserComponent implements OnInit {
       this.toastr.message(result.message, result.success);
     },(err)=>{
       this.spinner.stop();
-      // console.log(err);
-      errorHandlers.errorHandler(err);
-      // this.toastr.message(err.message, false);
+      this.toastr.message("Something Went Wrong!!!",false);
     });
   }
   getdata(id) {

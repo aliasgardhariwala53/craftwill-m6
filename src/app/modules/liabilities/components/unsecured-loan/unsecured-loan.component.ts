@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { valueChanges } from 'src/app/helper/formerror.helper';
+import { errorHandler, valueChanges } from 'src/app/helper/formerror.helper';
 import { UserService } from 'src/app/services/user.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
 @Component({
@@ -64,6 +64,7 @@ export class UnsecuredLoanComponent implements OnInit {
     },
     current_Outstanding_Amount: {
       required: 'Current Outstanding Amount is Required',
+      pattern: 'Only numeric values allowed',
     },
     description: {
       required: 'Description is Required',
@@ -100,7 +101,7 @@ export class UnsecuredLoanComponent implements OnInit {
       this.toastr.message(result.message, result.success);
     },(err)=>{
       this.spinner.stop();
-      this.toastr.message("Something Went Wrong!!!",false);
+      this.toastr.message(errorHandler(err),false);
         });
   }
   onUpdateUnSecuredLoan(){
@@ -121,7 +122,7 @@ export class UnsecuredLoanComponent implements OnInit {
       this.toastr.message(result.message, result.success);
     },(err)=>{
       this.spinner.stop();
-      this.toastr.message("Something Went Wrong!!!",false);
+      this.toastr.message(errorHandler(err),false);
         });
   }
   getdata(id) {
@@ -152,7 +153,7 @@ export class UnsecuredLoanComponent implements OnInit {
      
     },(err)=>{
       this.spinner.stop();
-      this.toastr.message("Something Went Wrong!!!",false);
+      this.toastr.message(errorHandler(err),false);
         });
   }
   ngOnInit(): void {

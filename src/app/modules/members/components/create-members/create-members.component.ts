@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { valueChanges } from 'src/app/helper/formerror.helper';
+import { errorHandler, valueChanges } from 'src/app/helper/formerror.helper';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
 import { countries } from 'src/app/shared/utils/countries-store';
 import { UserService } from '../../../../services/user.service';
@@ -172,7 +172,7 @@ export class CreateMembersComponent implements OnInit {
       this.toastr.message(result.message, result.success);
     },(err)=>{
       this.spinner.stop();
-      this.toastr.message("Something Went Wrong!!!",false);
+      this.toastr.message(errorHandler(err),false);
         });
   }
   organisationUpdate() {
@@ -275,7 +275,7 @@ export class CreateMembersComponent implements OnInit {
       console.log(data);
     },(err)=>{
       this.spinner.stop();
-      this.toastr.message("Something Went Wrong!!!",false);
+      this.toastr.message(errorHandler(err),false);
         });
   }
   ngOnInit(): void {

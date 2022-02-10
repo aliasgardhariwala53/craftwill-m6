@@ -5,6 +5,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { countries } from 'src/app/shared/utils/countries-store';
 import { ToastrModule } from 'ngx-toastr';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
+import { errorHandler } from 'src/app/helper/formerror.helper';
 @Component({
   selector: 'app-list-assets',
   templateUrl: './list-assets.component.html',
@@ -84,7 +85,7 @@ export class ListAssetsComponent implements OnInit {
       this.allAssetsinOne = [...this.assetsFilterData];
     },(err)=>{
       this.spinner.stop();
-      this.toastr.message("Something Went Wrong!!!",false);
+      this.toastr.message(errorHandler(err),false);
         });
   }
 

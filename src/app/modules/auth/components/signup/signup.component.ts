@@ -8,6 +8,7 @@ import {
 import { Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import {
+  errorHandler,
   passwordValidation,
   valueChanges,
 } from 'src/app/helper/formerror.helper';
@@ -183,7 +184,7 @@ export class SignupComponent implements OnInit {
       }
     },(err)=>{
       this.spinner.stop();
-      this.toastr.message("Something Went Wrong!!!",false);
+      this.toastr.message(errorHandler(err),false);
         });
   }
 

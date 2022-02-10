@@ -1,5 +1,6 @@
 import { FormGroup, ValidatorFn, AbstractControl } from '@angular/forms';
 import {ToastrService}  from 'src/app/shared/services/toastr.service';
+import { ToastrService as toast } from "ngx-toastr";
 export const valueChanges = (form: FormGroup, formErrors, errorMessages): any => {
     if (!form) { return; }
     for (const field in formErrors) {
@@ -58,30 +59,26 @@ export class passwordValidationNotMatch {
     }
   }
 };
-export class errorHandlers {
 
-  static errorHandler (error)  {
-  console.log(error.status);
-  
-  return (toastr: ToastrService)=>{
-    if (error.status === 403) {
-     return toastr.message(error?.message,false);
-  
-    } else if (error.status === 404) {
-      console.log("jjjjjjjjjjjjjjjjjjjjjj");
-      
-     return toastr.message('helllooo',false);
-    } else if (error.status === 500) {
-      toastr.message(error?.message,false);
-    } else if (error.status === 400) {
-      toastr.message(error?.message,false);
-    } else if (error.status === 401) {
-      toastr.message(error?.message,false);
-    }
-     else if (error.status === 503) {
-      toastr.message(error?.message,false);
-    }
+export const errorHandler = (error) => {
+  console.log(error.message);
+  let message =''
+  if (error.status === 403) {
+    message = error?.message || 'Request denied';
+  } else if (error.status === 404) {
+    message = error?.message || 'Not Found';
+  } else if (error.status === 500) {
+    message = error?.message || 'Server error!';
+  } else if (error.status === 400) {
+    message = error?.message || 'Please try again.';
+  } else if (error.status === 401) {
+    message = error?.message || 'Unauthenticated';
   }
- 
+   else if (error.status === 503) {
+    message = error?.message || 'Server error, try after some time.';
+  }
+  else {
+    message = error?.message || 'Something went wrong!'
+  }
+  return message;
 };
-}

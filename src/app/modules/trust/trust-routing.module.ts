@@ -10,6 +10,7 @@ import { TrustComponent } from './trust.component';
 const routes: Routes = [
   {
     path:"",
+    canActivate:[AuthGuard],
     component:TrustComponent,
     children:[
       {

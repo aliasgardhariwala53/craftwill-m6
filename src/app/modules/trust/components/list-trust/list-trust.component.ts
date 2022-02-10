@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { errorHandler } from 'src/app/helper/formerror.helper';
 import { UserService } from 'src/app/services/user.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
 
@@ -77,7 +78,7 @@ export class ListTrustComponent implements OnInit {
       this.alltrustData = [...this.trustData];
     },(err)=>{
       this.spinner.stop();
-      this.toastr.message("Something Went Wrong!!!",false);
+      this.toastr.message(errorHandler(err),false);
         });
   }
 }

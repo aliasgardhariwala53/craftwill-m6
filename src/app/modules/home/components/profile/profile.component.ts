@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import {
-  errorHandlers,
+  errorHandler,
   passwordValidation,
   passwordValidationNotMatch,
   valueChanges,

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { valueChanges } from 'src/app/helper/formerror.helper';
+import { errorHandler, valueChanges } from 'src/app/helper/formerror.helper';
 import { AuthservicesService } from 'src/app/services/authservices.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
 
@@ -56,7 +56,10 @@ export class ForgetComponent implements OnInit {
         this.forgotForm.reset();
       }
       this.toastr.message(result.message,result.success);
-    })
+    },(err)=>{
+      this.spinner.stop();
+      this.toastr.message(errorHandler(err),false);
+        });
   }
 
   ngOnInit(): void {

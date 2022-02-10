@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { valueChanges } from 'src/app/helper/formerror.helper';
+import { errorHandler, valueChanges } from 'src/app/helper/formerror.helper';
 import { UserService } from 'src/app/services/user.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
 import { countries } from 'src/app/shared/utils/countries-store';
@@ -94,7 +94,7 @@ export class MoterVehicleComponent implements OnInit {
       this.toastr.message(result.message, result.success);
     },(err)=>{
       this.spinner.stop();
-      this.toastr.message("Something Went Wrong!!!",false);
+      this.toastr.message(errorHandler(err),false);
         });
   }
   onUpdateMotorVehicle() {
@@ -142,7 +142,7 @@ export class MoterVehicleComponent implements OnInit {
       console.log(data);
     },(err)=>{
       this.spinner.stop();
-      this.toastr.message("Something Went Wrong!!!",false);
+      this.toastr.message(errorHandler(err),false);
         });
   }
   ngOnInit(): void {

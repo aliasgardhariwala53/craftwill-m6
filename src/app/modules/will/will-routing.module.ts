@@ -8,6 +8,7 @@ import { WillComponent } from './will.component';
 const routes: Routes = [
   {
     path:"",
+    canActivate:[AuthGuard],
     component:WillComponent,
     children:[
       {

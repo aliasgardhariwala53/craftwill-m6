@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { errorHandler } from 'src/app/helper/formerror.helper';
+import { TrustService } from 'src/app/services/trust.service';
 import { UserService } from 'src/app/services/user.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
 
@@ -29,7 +30,7 @@ export class ListTrustComponent implements OnInit {
     'w-10/12 m-0 sm:w-[11%] break-words capitalize text  ',
   ];
   constructor(
-    private _userServ: UserService,
+    private trustServices: TrustService,
     private spinner: NgxUiLoaderService,
     private toastr: ToastrService,
 
@@ -51,7 +52,7 @@ export class ListTrustComponent implements OnInit {
   onFilterHandler(value) {
     this.spinner.start();
     console.log('helllooo', value);
-    this._userServ.filterTrust(value).subscribe((result) => {
+    this.trustServices.filterTrust(value).subscribe((result) => {
       this.spinner.stop();
       console.log('sdasdasdadas', result);
       this.alltrustData = result.map((items, i) => {
@@ -64,7 +65,7 @@ export class ListTrustComponent implements OnInit {
   }
   ngOnInit(): void {
     this.spinner.start();
-    this._userServ.getTrust().subscribe((result) => {
+    this.trustServices.getTrust().subscribe((result) => {
       this.spinner.stop();
 
       this.trustData = result.data.users.map((items, i) => {

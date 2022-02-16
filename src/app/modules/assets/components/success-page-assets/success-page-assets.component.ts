@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-success-page-assets',
@@ -6,10 +7,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./success-page-assets.component.scss']
 })
 export class SuccessPageAssetsComponent implements OnInit {
-
-  constructor() { }
+  forwardRouteLink="/assets"
+  constructor(
+    private route :ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(({id,x,y})=>{
+  
+     if (y==='will') {
+        this.forwardRouteLink="/will/createWill";   
+       }
+     });
   }
 
 }

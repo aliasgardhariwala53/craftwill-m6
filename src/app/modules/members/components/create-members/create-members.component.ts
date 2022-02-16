@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { errorHandler, valueChanges } from 'src/app/helper/formerror.helper';
+import { MembersService } from 'src/app/services/members.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
 import { countries } from 'src/app/shared/utils/countries-store';
 import { UserService } from '../../../../services/user.service';
@@ -20,23 +21,27 @@ export class CreateMembersComponent implements OnInit {
   personForm: FormGroup;
   organisationForm: FormGroup;
   responseMessageperson: string = '';
+  backRouteLink="/members";
+  fromCreateWill: string = '';
   responseMessageOrganisation: string = '';
   currentItem: string = 'Create Member';
   genderList = ['Male', 'Female', 'Other'];
   id: string = '';
   constructor(
     private _fb: FormBuilder,
-    private _userServ: UserService,
+    private membersServices: MembersService,
     private toastr: ToastrService,
     private spinner: NgxUiLoaderService,
     private _route: Router,
     private route: ActivatedRoute
   ) {}
   public countries:any = countries
+  
+  idList = ['NRIC', 'Passport', 'FIN', 'Others'];
   createForm() {
     this.personForm = this._fb.group({
       fullname: ['', [Validators.required]],
-      id_type: ['', Validators.required],
+      id_type: [, Validators.required],
       id_number: ['', Validators.required],
       gender: [, Validators.required],
       floorNumber: ['', Validators.required],
@@ -162,12 +167,12 @@ export class CreateMembersComponent implements OnInit {
       type: 'memberAsPerson',
     };
 
-    this._userServ.createMembers(membersASPerson).subscribe((result) => {
+    this.membersServices.createMembers(membersASPerson).subscribe((result) => {
       console.log('result');
       this.spinner.stop();
       if (result.success) {
         this.personForm.reset();
-        this._route.navigate(['/members']);
+        this._route.navigate([ this.backRouteLink]);
       }
       this.toastr.message(result.message, result.success);
     },(err)=>{
@@ -192,12 +197,12 @@ export class CreateMembersComponent implements OnInit {
       memberAsOrganisation: { ...this.organisationForm.value },
       type: 'memberAsOrganisation',
     };
-    this._userServ.createMembers(membersAsOrganisation).subscribe(
+    this.membersServices.createMembers(membersAsOrganisation).subscribe(
       (result) => {
         this.spinner.stop();
         if (result.success) {
           this.organisationForm.reset();
-          this._route.navigate(['/members']);
+          this._route.navigate([this.backRouteLink]);
         }
         this.toastr.message(result.message, result.success);
         // this.responseMessageOrganisation=result.message;
@@ -216,13 +221,13 @@ export class CreateMembersComponent implements OnInit {
       },
       type: 'memberAsPerson',
     };
-    this._userServ
+    this.membersServices
       .updateMembers(membersASPerson, this.id)
       .subscribe((result) => {
         this.spinner.stop();
         if (result.success) {
           this.personForm.reset();
-          this._route.navigate(['/members']);
+          this._route.navigate([this.backRouteLink]);
         }
 
         this.toastr.message(result.message, result.success);
@@ -233,7 +238,7 @@ export class CreateMembersComponent implements OnInit {
   }
     getdata(id) {
     this.spinner.start();
-    this._userServ.getMembers().subscribe((result) => {
+    this.membersServices.getMembers().subscribe((result) => {
       this.spinner.stop();
       console.log(result);
 
@@ -279,11 +284,20 @@ export class CreateMembersComponent implements OnInit {
         });
   }
   ngOnInit(): void {
-    this.route.queryParams.subscribe(({ id }) => {
-      if (id) {
+    this.route.queryParams.subscribe(({ id,x,y }) => {
+     if (id) {
         this.id = id;
         this.getdata(id);
+        if (x) {
+        this.backRouteLink="/will/createWill";      this.fromCreateWill = x;
+        }
       }
+      if (y==='will') {
+        this.backRouteLink="/will/createWill";   
+        this.fromCreateWill = y;
+        console.log(this.fromCreateWill);
+      }
+
     });
     this.createForm();
   }

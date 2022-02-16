@@ -1,4 +1,4 @@
-import { Component, OnInit ,Input} from '@angular/core';
+import { Component, OnInit ,Input, Output, EventEmitter} from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -15,6 +15,7 @@ export class HeaderToolbarComponent implements OnInit {
   @Input() showbackbutton:boolean;
   @Input() headerMenuIcon:boolean=false;
   @Input() notificatioIcon:boolean=false;
+  @Output() backButtonHandler =new EventEmitter();
   constructor(private route:Router) { }
   toggleModal:boolean;
   ngOnInit(): void {
@@ -23,7 +24,12 @@ export class HeaderToolbarComponent implements OnInit {
   }
 
   routeTo(){
-    this.route.navigate([this.routerlink]);
-  }
+    if (this.routerlink) {
+      this.route.navigate([this.routerlink]);
+    }
+    
+      this.backButtonHandler.emit();
+    
+  }     
 
 }

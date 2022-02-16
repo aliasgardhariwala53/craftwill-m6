@@ -1,0 +1,245 @@
+<div class="flex flex-col overflow-auto min-h-[100vh]">
+  <div class="font-['GilroySemi'] text-[#ccc]">
+    An executor must not be bankrupt, must be Above 21 years old.
+  </div>
+  <div class="flex flex-row justify-between">
+    <div class="font-['GilroyBold'] mb-2 mt-5 text-xl">
+      Appoint Primary Executor
+    </div>
+    <div>  <app-button
+        border="border-2 border-black"
+        (myMethod)="toggleModalTutorial = true"
+        padding="px-10 py-2"
+        backgroundColor="bg-[#fff]"
+        borderRadius="rounded-xl"
+        color="text-[#000]"
+        value="Tutorial"
+      ></app-button></div>
+  </div>
+  <div class="flex flex-col bg-[#f7f7f7] rounded-2xl p-4">
+    <div class="white">
+      <ng-select
+        [(ngModel)]="primaryExecutor"
+        [searchable]="false" [clearable]="false"
+        class="custom-selector white joint w-1/4"
+      >
+        <ng-option *ngFor="let item of listType" [value]="item.name">
+          <img height="15" width="15" [src]="item.avatar" class="mr-3" />{{
+            item.name
+          }}</ng-option
+        >
+      </ng-select>
+    </div>
+    <div class="text-[#A2A2A2] mb-2">
+      A member can be a business/organisation
+    </div>
+    <div>
+      <app-select-box
+        [key]="key"
+        [listItem]="memberData"
+        [selectedItems]="slectedExecutor"
+        addItemRoute="members/createmembers"
+        [classes]="classes"
+        (onSelectId)="selectMemberExecutor($event)"
+        addItemRoute="members/createmembers"
+        avtarType="name"
+        imageUrl="../../../../../assets/Icons/Bank Account.svg"
+        addItemTitle="Add Executor"
+        (actionButton)="onUpdate($event)"
+      >
+      </app-select-box>
+    </div>
+  </div>
+  <div class="flex flex-row justify-between mb-2 mt-5">
+    <div class="font-['GilroyBold'] my-2 text-xl">
+      Appoint Replacement Executor
+    </div>
+    <div>  <app-button
+        border="border-2 border-black"
+        (myMethod)="toggleModalTutorial = true"
+        padding="px-10 py-2"
+        backgroundColor="bg-[#fff]"
+        borderRadius="rounded-xl"
+        color="text-[#000]"
+        value="Tutorial"
+      ></app-button></div>
+  </div>
+  <div class="flex flex-col bg-[#f7f7f7] rounded-2xl p-4">
+    <div class="white">
+        <ng-select
+          [(ngModel)]="replaceExecutor"
+          [searchable]="false" [clearable]="false"
+          class="custom-selector white joint w-1/4"
+        >
+          <ng-option *ngFor="let item of listType" [value]="item.name">
+            <img height="15" width="15" [src]="item.avatar" class="mr-3" />{{
+              item.name
+            }}</ng-option
+          >
+        </ng-select>
+      </div>
+    <div class="text-[#A2A2A2] mb-2">
+      A member can be a business/organisation
+    </div>
+    <div>
+      <app-select-box
+        [key]="key"
+        [listItem]="memberData"
+        [selectedItems]="slectedReplacementExecutor"
+        addItemRoute="members/createmembers"
+        [classes]="classes"
+        (onSelectId)="selectMemberReplacementExecutor($event)"
+        addItemRoute="members/createmembers"
+        avtarType="name"
+        imageUrl="../../../../../assets/Icons/Bank Account.svg"
+        addItemTitle="Add Executor"
+      >
+      </app-select-box>
+    </div>
+  </div>
+  <div class="flex flex-row justify-between mb-2 mt-5">
+    <div class="font-['GilroyBold'] my-2 text-xl">Appoint Guardian</div>
+    <div>  <app-button
+        border="border-2 border-black"
+        (myMethod)="toggleModalTutorial = true"
+        padding="px-10 py-2"
+        backgroundColor="bg-[#fff]"
+        borderRadius="rounded-xl"
+        color="text-[#000]"
+        value="Tutorial"
+      ></app-button></div>
+  </div>
+  <div class="flex flex-col bg-[#f7f7f7] rounded-2xl p-4">
+    <div class="text-[#A2A2A2] mb-2">
+      Guardians must be above 21 years old and must not be the Other parent of
+      the childrend.
+    </div>
+    <div>
+      <div
+        class="flex justify-between items-center p-3 bg-[#f7f7f7] rounded-2xl w-full"
+      >
+        <input
+          type="radio"
+          value="guardian1"
+          [(ngModel)]="guardianType"
+          id="test1"
+          class="mx-1 radioCustom"
+        />
+        <label class="mx-1 font-['gilroysemi'] w-full" for="test1"
+          >No guardianship clause</label
+        >
+      </div>
+      <div
+        class="flex justify-between items-center p-3 bg-[#f7f7f7] rounded-2xl w-full"
+      >
+        <input
+          type="radio"
+          id="test2"
+          value="guardian2"
+          [(ngModel)]="guardianType"
+          class="mx-1 radioCustom"
+        />
+        <label class="mx-1 font-['gilroysemi'] w-full" for="test2"
+          >To act jointly with other parent</label
+        >
+      </div>
+      <div
+        class="flex justify-between items-center p-3 bg-[#f7f7f7] rounded-2xl w-full"
+      >
+        <input
+          type="radio"
+          id="test3"
+          value="guardian3"
+          [(ngModel)]="guardianType"
+          class="mx-1 radioCustom"
+        />
+        <label class="mx-1 font-['gilroysemi'] w-full" for="test3"
+          >To act only if no parent survives</label
+        >
+      </div>
+      <div *ngIf="guardianType !== 'guardian1'">
+        <div class="mt-4 mb-8">
+            <div class="white">
+                <ng-select
+                  [(ngModel)]="appointGuardian"
+                  [searchable]="false" [clearable]="false"
+                  class="custom-selector white joint w-1/4"
+                >
+                  <ng-option *ngFor="let item of listType" [value]="item.name">
+                    <img height="15" width="15" [src]="item.avatar" class="mr-3" />{{
+                      item.name
+                    }}</ng-option
+                  >
+                </ng-select>
+              </div>
+          <div class="text-[#A2A2A2] mb-2">Select and add executors</div>
+          <div>
+            <app-select-box
+              [key]="key"
+              [listItem]="memberData"
+              [selectedItems]="selectedGuardian"
+              addItemRoute="members/createmembers"
+              [classes]="classes"
+              (onSelectId)="selectMemberGuardian($event)"
+              addItemRoute="members/createmembers"
+              avtarType="name"
+              imageUrl="../../../../../assets/Icons/Bank Account.svg"
+              addItemTitle="Add Executor"
+            >
+            </app-select-box>
+          </div>
+        </div>
+        <hr class="border-b-2 border-t-0" />
+        <div class="font-['GilroyBold'] text-lg mt-6 mb-4">
+          Appoint Replacement Guardian
+        </div>
+        <div class="my-2">
+            <div class="white">
+                <ng-select
+                  [(ngModel)]="replaceGuardian"
+                  [searchable]="false" [clearable]="false"
+                  class="custom-selector white joint w-1/4"
+                >
+                  <ng-option *ngFor="let item of listType" [value]="item.name">
+                    <img height="15" width="15" [src]="item.avatar" class="mr-3" />{{
+                      item.name
+                    }}</ng-option
+                  >
+                </ng-select>
+              </div>
+          <div class="text-[#A2A2A2] mb-2">Select and add guardian</div>
+          <div>
+            <app-select-box
+              [key]="key"
+              [listItem]="memberData"
+              [selectedItems]="slectedReplacementGuardian"
+              addItemRoute="members/createmembers"
+              [classes]="classes"
+              (onSelectId)="selectReplacementMemberGuardian($event)"
+              addItemRoute="members/createmembers"
+              avtarType="name"
+              imageUrl="../../../../../assets/Icons/Bank Account.svg"
+              addItemTitle="Add Guardian"
+              
+            >
+            </app-select-box>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
+    <app-button
+      [arrow]="true"
+      (myMethod)="onClickNext()"
+      value="Distribution Of Assets"
+      padding="py-3 px-3"
+      id="submitButtonId"
+    ></app-button>
+  </div>
+</div>
+<app-modal-filter [modalBody]="modalBody2" [showModal]="toggleModalTutorial">
+  <ng-template #modalBody2>
+    <app-tutorial (onClose)="toggleModalTutorial = false"> </app-tutorial>
+  </ng-template>
+</app-modal-filter>

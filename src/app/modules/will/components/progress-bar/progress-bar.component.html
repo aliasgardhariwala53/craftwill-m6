@@ -1,0 +1,30 @@
+<div class="bg-[#f7f7f7] rounded-3xl flex flex-row justify-evenly relative px-3 pt-3 pb-2">
+    <div class="relative flex flex-row w-[85%] justify-between">
+        <hr class="border-b-4 border-t-0 border border-[#ED7184] w-[97%] absolute top-[9px] right-0 left-0 m-auto" />
+
+        <div class="" *ngFor="let y of arr; let i = index">
+            <div class="flex flex-col">
+                <svg *ngIf="step===i+1" xmlns="http://www.w3.org/2000/svg" fill="#000" width="20" height="20" viewBox="0 0 28 28"
+                    class="m-auto z-20">
+                    <g id="Group_4390" data-name="Group 4390" transform="translate(-146 -324)">
+                        <g id="Ellipse_51" data-name="Ellipse 51" transform="translate(146 324)" stroke="#fff"
+                            stroke-width="2">
+                            <circle cx="14" cy="14" r="14" stroke="#fff" fill="#000" />
+                            <circle cx="14" cy="14" r="13" fill="none" />
+                        </g>
+                        <circle id="Ellipse_52" data-name="Ellipse 52" cx="6" cy="6" r="6"
+                            transform="translate(154 332)" fill="#fff" />
+                    </g>
+                </svg>
+                <svg *ngIf="step!==i+1" xmlns="http://www.w3.org/2000/svg" class="m-auto z-20" width="20" height="20" viewBox="0 0 17 17">
+                    <g id="Ellipse_48" data-name="Ellipse 48" fill="#d9d9d9" stroke="#fff" stroke-width="2">
+                      <circle cx="8.5" cy="8.5" r="8.5" stroke="none"/>
+                      <circle cx="8.5" cy="8.5" r="7.5" fill="none"/>
+                    </g>
+                  </svg>
+                  
+            </div>
+            <div class="font-['GilroySemi'] text-sm">Step {{ i + 1 }}</div>
+        </div>
+    </div>
+</div>

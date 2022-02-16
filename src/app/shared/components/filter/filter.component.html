@@ -40,11 +40,12 @@
       bindLabel="projectName"
       bindValue="_id"
       placeholder="{{ 'Select Country' }}"
-      [items]="country"
+      [items]="countries"
       [formControl]="countryForm"
     >
       >
     </ng-select>
+
   </div>
   <div *ngIf="ownershipFilter">
     <label class="block font-[GilroyBold]">Ownership Type</label>

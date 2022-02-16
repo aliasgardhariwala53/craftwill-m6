@@ -1,6 +1,6 @@
 
 <div class="flex flex-col px-8 py-4 space-y-2   overflow-auto h-[100vh] md:h-[90vh] lg:h-[80vh]">
-    <app-header-toolbar routerlink="/trust" pagetitle="Trust" ></app-header-toolbar>
+    <app-header-toolbar routerlink="{{backRouteLink}}" pagetitle="Trust" ></app-header-toolbar>
   <div class="font-bold text-lg">Trust Profile</div>
     <form
     class=""
@@ -49,8 +49,11 @@
         </div>
   </div>
     </div>
-  <div class=" hidden sm:block sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
+  <div *ngIf="id =='' " class=" hidden sm:block sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
       <app-button (myMethod)="addTrustForm()" value="Add Trust" id="submitButtonId" [arrow]="true"></app-button>
+  </div>
+  <div *ngIf="id !=='' "  class=" hidden sm:block sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
+      <app-button (myMethod)="onUpdateTrust()" value="Update Trust" id="submitButtonId" [arrow]="true"></app-button>
   </div>
   <div class="absolute md:hidden left-0 right-0 bottom-2 w-[87%] m-auto bg-white ">
 

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import * as moment from 'moment'
+import { countries } from '../../utils/countries-store';
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
@@ -19,7 +20,7 @@ export class FilterComponent implements OnInit {
   @Output() formData = new EventEmitter();
   @Output() onClose= new EventEmitter();
 
-  
+  public countries:any = countries
   startDate = new FormControl(null, [Validators.required]);
   endDate = new FormControl(moment().format('YYYY-MM-DD'), [Validators.required]);
   typeForm = new FormControl(null);

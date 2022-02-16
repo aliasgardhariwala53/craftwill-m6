@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { errorHandler, valueChanges } from 'src/app/helper/formerror.helper';
+import { TrustService } from 'src/app/services/trust.service';
 import { UserService } from 'src/app/services/user.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
 @Component({
@@ -20,10 +21,13 @@ export class CreateTrustComponent implements OnInit {
   id: string = '';
   TrustForm: FormGroup;
   responseMessage: string;
+  backRouteLink="/trust";
+  forwardRouteLink="/trust"
+  fromCreateWill: string;
   toggleModalTutorial: boolean = false;
   constructor(
     private _fb: FormBuilder,
-    private _userServ: UserService,
+    private trustServices: TrustService,
     private spinner: NgxUiLoaderService,
     private _route: Router,
     private toastr: ToastrService,
@@ -77,11 +81,11 @@ export class CreateTrustComponent implements OnInit {
     this.spinner.start();
     console.log(this.TrustForm.value);
 
-    this._userServ.addTrust(this.TrustForm.value).subscribe((result) => {
+    this.trustServices.addTrust(this.TrustForm.value).subscribe((result) => {
       this.spinner.stop();
       if (result.success) {
         this.TrustForm.reset();
-        this._route.navigate(['/trust']);
+        this._route.navigate(['/trust/succesTrust'],{queryParams:{y:'will'}});
       }
 
       this.toastr.message(result.message, result.success);
@@ -93,13 +97,13 @@ export class CreateTrustComponent implements OnInit {
   onUpdateTrust() {
     this.spinner.start();
 
-    this._userServ
+    this.trustServices
       .updateTrust(this.TrustForm.value, this.id)
       .subscribe((result) => {
         this.spinner.stop();
         if (result.success) {
           this.TrustForm.reset();
-          this._route.navigate(['/trust']);
+          this._route.navigate([this.forwardRouteLink]);
         }
 
         this.toastr.message(result.message, result.success);
@@ -110,7 +114,7 @@ export class CreateTrustComponent implements OnInit {
   }
   getdata(id) {
     this.spinner.start();
-    this._userServ.getTrust().subscribe((result) => {
+    this.trustServices.getTrust().subscribe((result) => {
       this.spinner.stop();
       console.log(result);
 
@@ -134,10 +138,20 @@ export class CreateTrustComponent implements OnInit {
         });
   }
   ngOnInit(): void {
-    this.route.queryParams.subscribe(({ id }) => {
-      if (id) {
+     this.route.queryParams.subscribe(({id,x,y})=>{
+     if (id) {
         this.id = id;
         this.getdata(id);
+        if (x) {
+          this.backRouteLink="/will/createWill"; 
+          this.fromCreateWill = x;
+        }
+      }
+      if (y==='will') {
+        this.backRouteLink="/will/createWill";   
+        this.forwardRouteLink="/will/createWill";   
+        this.fromCreateWill = y;
+        console.log(this.fromCreateWill);
       }
     });
     this.createForm();

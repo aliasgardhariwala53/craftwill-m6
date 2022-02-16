@@ -88,11 +88,11 @@
   <div *ngIf="!showSearch" (click)="showSearch=true" class="w-4/12 md:ml-8 md:mr-8 sm:w-fit items-center hidden md:flex cursor-pointer"><img class="ml-auto h-[38px] w-[38px]" src='../../../../../assets/Icons/Group 4361.svg'></div>
   <div *ngIf="showSearch" (click)="onChangehandler()" class="w-4/12 md:ml-8 md:mr-8 sm:w-fit items-center hidden md:flex cursor-pointer"><img class="ml-auto h-[38px] w-[38px]" src='../../../../../assets/Icons/Group 4361.svg'></div>
   <div class="w-12/12 md:w-fit justify-end hidden md:flex text-base text-center">
-      <app-button bac value="Create New Assets" routelink="/assets/createAssets"></app-button>
+      <app-button  value="Create New Assets" routelink="/assets/createAssets"></app-button>
     </div>
   </div>
 
-  <app-table [tableHeadings]="tableHeadings"  (actionButton)="onClickAction($event)" [tableData]="allAssetsinOne"
+  <app-table [tableHeadings]="tableHeadings" avtarType="image" (actionButton)="onClickAction($event)" [tableData]="allAssetsinOne"
     [keys]="tableKeys" [classes]="classes" emptyTableMessage="No Assets Found">
   </app-table>
   <div class="absolute md:hidden left-0 right-0 bottom-1 w-[87%] m-auto">

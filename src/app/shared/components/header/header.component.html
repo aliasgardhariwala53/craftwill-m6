@@ -472,7 +472,7 @@ Craft<span class="text-red font-[GilroyBold]">Wills.</span>
     </div>
     <div class="sm:flex flex-row space-x-5 items-center   ">
       <div
-      *ngIf="router.url === '/home'"
+      *ngIf="(router.url === '/home') || (router.url === '/will/myWills')"
       class="flex flex-row bg-red rounded-xl py-2 px-4 items-center cursor-pointer w-[140px] h-[44px] justify-center"
       (click)="toggleModal=true"
     >
@@ -483,7 +483,7 @@ Craft<span class="text-red font-[GilroyBold]">Wills.</span>
         *ngIf="router.url === '/home'"
         (click)="latestWill()"
         class="flex flex-row rounded-xl items-center py-1 cursor-pointer border-2 border-[#E0E0E0]"
-        [routerLink]="['/will/createWill']"
+        [routerLink]="['/will/myWills']"
         routerLinkActive="router-link-active"
       >
         <div class="mx-2" >
@@ -512,7 +512,7 @@ Craft<span class="text-red font-[GilroyBold]">Wills.</span>
       <div
         *ngIf="router.url === '/home'"
         class="flex flex-row bg-red rounded-xl py-1 px-4 items-center cursor-pointer w-[140px] h-[44px]"
-        [routerLink]="['/will/createWill']"
+        [routerLink]="['/will/myWills']"
         routerLinkActive="router-link-active"
       >
         <div class="mr-1">
@@ -522,7 +522,7 @@ Craft<span class="text-red font-[GilroyBold]">Wills.</span>
       </div>
 
       <div
-        *ngIf="router.url === '/will/createWill'"
+        *ngIf="router.url === '/will/myWills'"
         class="flex flex-row rounded-xl items-center py-1 cursor-pointer"
         [routerLink]="['/will/pastWills']"
         routerLinkActive="router-link-active"
@@ -537,10 +537,10 @@ Craft<span class="text-red font-[GilroyBold]">Wills.</span>
       </div>
 
       <div
-        *ngIf="router.url === '/will/createWill'"
+        *ngIf="router.url === '/will/myWills'"
         (click)="latestWill()"
         class="flex flex-row rounded-xl items-center py-1 cursor-pointer border-2 border-[#E0E0E0]"
-        [routerLink]="['/will/createWill']"
+        [routerLink]="['/will/myWills']"
         routerLinkActive="router-link-active"
       >
         <div class="mx-2">

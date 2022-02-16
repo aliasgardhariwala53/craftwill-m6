@@ -1,0 +1,46 @@
+<div class="flex flex-col mx-0 px-8 my-4 overflow-auto h-[90vh] sm:h-[77vh]">
+    <div class="flex flex-row justify-between">
+        <div class="font-['GilroyBold'] text-2xl">
+            My Wills
+        </div>
+        <div class="">
+            <app-button padding="px-5 py-2" borderRadius="rounded-full"  value="Create Will " routelink="/will/createWill"></app-button>
+        </div>
+    </div>
+    <div class="text-left w-full font-['GilroyBold'] text-xl mt-4 mb-2">Liabilities</div>
+    <div class="bg-[#F7F7F7] rounded-3xl px-5 pt-3 pb-5">
+        <app-table
+        [tableHeadings]="tableHeadingsLiabilities"
+        (actionButton)="onClickAction($event)"
+        [tableData]="allLiabilitiesData"
+        [keys]="tableKeysLiabilities"
+        [classes]="classesLiabilities"
+        emptyTableMessage="No Liabilities Found"
+      ></app-table>
+  </div>
+    <div class="text-left w-full font-['GilroyBold'] text-xl mt-4 mb-2">Assets</div>
+    <div class="bg-[#F7F7F7] rounded-3xl px-5 pt-3 pb-5">
+    <app-table
+      [tableHeadings]="tableHeadingsAssets"
+      avtarType="image"
+      (actionButton)="onClickAction($event)"
+      [tableData]="allAssetsData"
+      [keys]="tableKeysAssets"
+      [classes]="classesAssets"
+      emptyTableMessage="No Assets Found"
+    >
+    </app-table>
+  </div>
+    <div class="text-left w-full font-['GilroyBold'] text-xl mt-4 mb-2">Trust</div>
+    <div class="bg-[#F7F7F7] rounded-3xl px-5 pt-3 pb-5">
+        <app-table
+        [tableHeadings]="tableHeadingsTrust"
+        actionRoute="trust/createTrust"
+        (actionButton)="onClickAction($event)"
+        [tableData]="alltrustData"
+        [keys]="tableKeysTrust"
+        [classes]="classesTrust"
+        emptyTableMessage="No Trust Data Found"
+      ></app-table>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 
 <div class="flex flex-col px-8 py-4 space-y-2 overflow-auto h-[100vh] md:h-[90vh] lg:h-[80vh]">
-    <app-header-toolbar routerlink="/members" pagetitle="Create New Member" ></app-header-toolbar>
+    <app-header-toolbar routerlink="{{backRouteLink}}" pagetitle="{{id ==='' ?'Create New Member':'Update Member'}}" ></app-header-toolbar>
     
     <div
       class="flex flex-col w-full md:w-2/5 lg:w-1/5 space-x-4 p-3 items-center bg_grey rounded-3xl font-semibold"
@@ -17,11 +17,11 @@
         id="test1"
         class="mx-1 radioCustom"
         />
-        <label class=" text-sm mx-1 mt-1" for="test1">Person</label>
+        <label [ngClass]="{'hidden': memberType==='person' && id!==''}" class=" text-sm mx-1 mt-1" for="test1">Person</label>
         <input
         type="radio"
         id="test2"
-        [ngClass]="{'cursor-not-allowed': memberType==='person' && id!==''}"
+        [ngClass]="{'hidden': memberType==='person' && id!==''}"
         [disabled]="memberType==='person' && id!==''"
         value="organisation"
         [(ngModel)]="memberType"
@@ -124,13 +124,14 @@
       <div class="form-group">
         <div class="input-group1">
           <label class="input_label text-sm ml-1">ID type</label>
-          <input
-            type="text"
-            placeholder="ID Type"
-   
-            formControlName="id_type"
-            class="authinput form-control"
-          />
+          <ng-select
+          class="custom-selector custom w-full"
+          placeholder="{{ 'Select ID Type' }}"
+          [items]="idList"
+          formControlName="id_type"
+        
+          >
+        </ng-select>
         </div>
   
         <div class="text-red-500 errors mx-2">

@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { errorHandler, valueChanges } from 'src/app/helper/formerror.helper';
+import { AssetsService } from 'src/app/services/assets.service';
+import { MembersService } from 'src/app/services/members.service';
 import { UserService } from 'src/app/services/user.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
 import { countries } from 'src/app/shared/utils/countries-store';
@@ -14,17 +16,30 @@ import { countries } from 'src/app/shared/utils/countries-store';
 })
 export class MoterVehicleComponent implements OnInit {
   id: string = '';
+  fromCreateWill: string;
+assetsResidualType
   vehicleForm: FormGroup;
+  memberData=[];
   responseMessage: string;
+backRouteLink="/assets/createAssets";
+forwardRouteLink="/assets"
+
+
+      
+  toggleModalTutorial:boolean;
   constructor(
     private _fb: FormBuilder,
-    private _userServ: UserService,
+    private assetsServices: AssetsService,
     private spinner: NgxUiLoaderService,
     private _route: Router,
     private toastr: ToastrService,
     private route:ActivatedRoute,
+    private memberServices: MembersService
   ) {}
   public countries: any = countries;
+key = ['fullname', 'Relationship'];
+  classes = ['font-bold', 'font-bold', 'text-sm'];
+  slectedResidualMembers = [];
   createForm() {
     this.vehicleForm = this._fb.group({
       CarModel: ['', [Validators.required]],
@@ -85,17 +100,20 @@ export class MoterVehicleComponent implements OnInit {
       motorVehicle: this.vehicleForm.value,
       type: 'motorVehicle',
     };
-    this._userServ.addAssets(VehicletData).subscribe((result) => {
+    this.assetsServices.addAssets(VehicletData).subscribe((result) => {
       this.spinner.stop();
       if (result.success) {
         this.vehicleForm.reset();
-        this._route.navigate(['/assets/assetsuccess']);
+        this._route.navigate(['/assets/assetsuccess'],{queryParams:{y:'will'}});
       }
       this.toastr.message(result.message, result.success);
     },(err)=>{
       this.spinner.stop();
       this.toastr.message(errorHandler(err),false);
         });
+  }
+ addSharesMember(value){
+    console.log(value)
   }
   onUpdateMotorVehicle() {
     this.spinner.start();
@@ -105,13 +123,13 @@ export class MoterVehicleComponent implements OnInit {
       motorVehicle: this.vehicleForm.value,
       type: 'motorVehicle',
     };
-    this._userServ
+    this.assetsServices
       .updateAssets(VehicletData, this.id)
       .subscribe((result) => {
         this.spinner.stop();
         if (result.success) {
           this.vehicleForm.reset();
-          this._route.navigate(['/assets']);
+          this._route.navigate([this.forwardRouteLink]);
         }
 
         this.toastr.message(result.message, result.success);
@@ -122,7 +140,7 @@ export class MoterVehicleComponent implements OnInit {
   }
     getdata(id) {
     this.spinner.start();
-    this._userServ.getAssets().subscribe((result) => {
+    this.assetsServices.getAssets().subscribe((result) => {
       this.spinner.stop();
       console.log(result);
 
@@ -146,12 +164,47 @@ export class MoterVehicleComponent implements OnInit {
         });
   }
   ngOnInit(): void {
-    this.route.queryParams.subscribe(({ id }) => {
-      if (id) {
+ this.route.queryParams.subscribe(({id,x,y})=>{
+     if (id) {
         this.id = id;
         this.getdata(id);
+        if (x) {
+    this.backRouteLink="/will/createWill";      this.fromCreateWill = x;
+        }
+      }
+if (y==='will') {
+        this.backRouteLink="/will/createWill"; 
+  this.forwardRouteLink="/will/createWill";   
+        this.fromCreateWill = y;
+        console.log(this.fromCreateWill);
       }
     });
-    this.createForm();
+    this.memberServices.getMembers().subscribe(
+      (result) => {
+        // console.log(result.data);
+        this.spinner.stop();
+        this.memberData = result.data.map((items, i) => {
+          console.log(items);
+
+          return {
+            fullname: this.memberServices.getMembersData(items).fullname,
+            Relationship:
+              this.memberServices.getMembersData(items).Relationship,
+            gender: this.memberServices.getMembersData(items).gender,
+            id_number: this.memberServices.getMembersData(items).id_number,
+            id_type: this.memberServices.getMembersData(items).id_type,
+            dob: this.memberServices.getMembersData(items).dob,
+            type: items.type,
+            _id: items._id,
+            actionRoute: 'members/createmembers',
+          };
+        });
+        // console.log(this.allMemberData);
+      },
+      (err) => {
+        this.spinner.stop();
+        this.toastr.message('Error Getting Members data !!', false);
+      }
+    );   this.createForm();
   }
 }

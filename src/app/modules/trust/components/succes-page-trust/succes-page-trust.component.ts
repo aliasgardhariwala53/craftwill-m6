@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-succes-page-trust',
@@ -6,10 +7,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./succes-page-trust.component.scss']
 })
 export class SuccesPageTrustComponent implements OnInit {
-
-  constructor() { }
+  forwardRouteLink="/trust"
+  constructor(
+    private route :ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
-  }
+    this.route.queryParams.subscribe(({id,x,y})=>{
+  
+      if (y==='will') {
+         this.forwardRouteLink="/will/createWill";   
+        }
+      });
+   }
 
 }

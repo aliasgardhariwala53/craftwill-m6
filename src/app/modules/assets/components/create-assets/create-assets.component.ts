@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-assets',
@@ -9,8 +9,11 @@ import { Router } from '@angular/router';
 export class CreateAssetsComponent implements OnInit {
   Titile:string='Assets';
   routepath:string="";
+  backRouteLink="/assets"
+  fromCreateWill:string;
   toggleModalTutorial: boolean=false;
-  constructor(private routeTo:Router) { }
+  constructor(private routeTo:Router,
+    private route: ActivatedRoute) { }
   selectHandler(value){
     this.routepath=value;
     console.log(value);
@@ -21,10 +24,23 @@ export class CreateAssetsComponent implements OnInit {
       if (this.routepath==="") {
         return;
       }
-      this.routeTo.navigate([`/assets/${this.routepath}`]);
+      if (this.fromCreateWill==='will') {
+        this.routeTo.navigate([`/assets/${this.routepath}`],{queryParams:{y:'will'}});
+      } else {
+        
+        this.routeTo.navigate([`/assets/${this.routepath}`]);
+      }
       
     }
   ngOnInit(): void {
+    this.route.queryParams.subscribe(({ id, x,y }) => {
+
+if (y==='will') {
+        this.backRouteLink="/will/createWill"; 
+        this.fromCreateWill = y;  
+      }
+
+    });
   }
 
 }

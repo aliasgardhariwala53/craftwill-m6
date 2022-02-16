@@ -1,6 +1,7 @@
 import { UpperCasePipe } from '@angular/common';
 import { Component, Input, OnInit, Output,EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from 'src/environments/environment.prod';
 
 
 @Component({
@@ -15,14 +16,29 @@ export class SelectBoxComponent implements OnInit,OnChanges {
 @Input() addItemTitle;
 @Input() avtarType='name';
 @Input() addItemRoute='name';
+@Input() inputToggle:boolean=false;
+@Input() deleteToggle:boolean=false;
 @Input() imageUrl='../../../../assets/Icons/DP.svg';
 @Output() onSelectId=new EventEmitter;
 @Output() onAddNewItem=new EventEmitter;
+@Output() onDeleteHandler=new EventEmitter;
 @Input() selectedItems:Array<any>=[];
 
+@Output() actionButton = new EventEmitter();
 selectedItem: Array<any>=[];
-constructor(private _route:Router) { 
+currentRoute:string;
+constructor(private _route:Router,private currentUrl:ActivatedRoute) { 
   console.log(this.selectedItem);
+}
+onClickActionButton(Item){
+  
+  this.actionButton.emit(Item._id);
+  if (this._route.url=='/will/createWill') {
+    this._route.navigate([`${Item.actionRoute}`], { queryParams:{id:Item._id,x:Item._id}});
+    return;
+  }
+  this._route.navigate([`${Item.actionRoute}`], { queryParams:{id:Item._id}})
+  
 }
 onSelectItem(value){
   this.onSelectId.emit(value);
@@ -37,13 +53,21 @@ onSelectItem(value){
   // }
   
 }
+deleteHandler(){
+
+}
 onAddItem(){
+  if (this._route.url=='/will/createWill') {
+    this._route.navigate([`${this.addItemRoute}`], { queryParams:{y:'will'}});
+    return;
+  }
   this._route.navigate([this.addItemRoute]);
 }
 
-getShortName(fullName) { 
-  if (fullName) {
-    return fullName.split(' ').map(n => n[0]).join('').toUpperCase();
+getShortName(obj) { 
+  const name =obj[Object.keys(obj)[0]];
+  if (name) {
+    return name.split(' ').map(n => n[0]).join('').toUpperCase();
   } else {
     return "AA"
   }
@@ -54,10 +78,15 @@ ngOnChanges(changes: SimpleChanges): void {
 
     
     this.selectedItem = changes['selectedItems']?.currentValue
-  
+
   
 }
 ngOnInit(): void {
+  console.log(this._route.url);
+  
+  if (this._route.url==='/will/createWill') {
+    this.currentRoute=this._route.url
+  }
   // this.selectedItem=this.selectedItems;
     console.log(this.selectedItem);
   }

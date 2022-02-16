@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { errorHandler, valueChanges } from 'src/app/helper/formerror.helper';
+import { LiabilitiesService } from 'src/app/services/liabilities.service';
 import { UserService } from 'src/app/services/user.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
 @Component({
@@ -12,12 +13,15 @@ import { ToastrService } from 'src/app/shared/services/toastr.service';
 })
 export class UnsecuredLoanComponent implements OnInit {
   id: string = '';
+  fromCreateWill: string = '';
   UnSecuredLoan: FormGroup;
   responseMessage: string;
+  backRouteLink="/liabilities/createLiabilities";
+forwardRouteLink="/liabilities";
   toggleModalTutorial: boolean=false;
   constructor(
     private _fb: FormBuilder,
-    private _userServ: UserService,
+    private liabilitiesServices: LiabilitiesService,
     private spinner: NgxUiLoaderService,
     private _route: Router,
     private toastr: ToastrService,
@@ -92,11 +96,11 @@ export class UnsecuredLoanComponent implements OnInit {
       unsecuredLoan: this.UnSecuredLoan.value,
       type: 'unsecuredLoan',
     };
-    this._userServ.addLiabilities(unSecuredLoanData).subscribe((result) => {
+    this.liabilitiesServices.addLiabilities(unSecuredLoanData).subscribe((result) => {
       this.spinner.stop();
       if (result.success) {
         this.UnSecuredLoan.reset();
-        this._route.navigate(['/liabilities/liabilitiesSuccess']);
+        this._route.navigate(['/liabilities/liabilitiesSuccess'],{queryParams:{y:'will'}});
       }
       this.toastr.message(result.message, result.success);
     },(err)=>{
@@ -112,11 +116,11 @@ export class UnsecuredLoanComponent implements OnInit {
       unsecuredLoan: this.UnSecuredLoan.value,
       type: 'unsecuredLoan',
     };
-    this._userServ.updateLiabilities(unSecuredLoanData,this.id).subscribe((result) => {
+    this.liabilitiesServices.updateLiabilities(unSecuredLoanData,this.id).subscribe((result) => {
       this.spinner.stop();
       if (result.success) {
         this.UnSecuredLoan.reset();
-        this._route.navigate(['/liabilities']);
+        this._route.navigate([this.forwardRouteLink]);
       }
      
       this.toastr.message(result.message, result.success);
@@ -127,7 +131,7 @@ export class UnsecuredLoanComponent implements OnInit {
   }
   getdata(id) {
     this.spinner.start();
-    this._userServ.getAllLiabilities().subscribe((result) => {
+    this.liabilitiesServices.getAllLiabilities().subscribe((result) => {
       this.spinner.stop();
       console.log(result);
       
@@ -158,10 +162,18 @@ export class UnsecuredLoanComponent implements OnInit {
   }
   ngOnInit(): void {
     this.createForm();
-    this.route.queryParams.subscribe(({id})=>{
-      if (id) {
-        this.id=id;
+    this.route.queryParams.subscribe(({id,x,y})=>{
+     if (id) {
+        this.id = id;
         this.getdata(id);
+        if (x) {
+    this.backRouteLink="/will/createWill";      this.fromCreateWill = x;
+        }
+      }
+if (y==='will') {
+        this.backRouteLink="/will/createWill";   
+        this.fromCreateWill = y;
+        console.log(this.fromCreateWill);
       }
     })
   }

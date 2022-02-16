@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { errorHandler, valueChanges } from 'src/app/helper/formerror.helper';
+import { AssetsService } from 'src/app/services/assets.service';
+import { LiabilitiesService } from 'src/app/services/liabilities.service';
 import { UserService } from 'src/app/services/user.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
 @Component({
@@ -13,17 +15,20 @@ import { ToastrService } from 'src/app/shared/services/toastr.service';
 export class SecuredLoanComponent implements OnInit {
   assetsId = [];
   assetsData = [];
-
   key = ['nameofAssets', 'uniqueNumber'];
   classes = ['font-bold', 'font-bold', 'text-sm'];
   SecuredLoan: FormGroup;
   responseMessage: string;
+  backRouteLink="/liabilities/createLiabilities";
+forwardRouteLink="/liabilities";
   id: string='';
+  fromCreateWill: string;
   selectedAssetsId;
   toggleModalTutorial: boolean=false;
   constructor(
     private _fb: FormBuilder,
-    private _userServ: UserService,
+    private liabilitiesServices: LiabilitiesService,
+    private assetsServices: AssetsService,
     private _route: Router,
     private toastr: ToastrService,
     private spinner:NgxUiLoaderService,
@@ -60,7 +65,6 @@ export class SecuredLoanComponent implements OnInit {
     description: '',
     assetId: '',
   };
-  allAssetsinOne = [];
   formErrorMessages = {
     loanName: {
       required: 'Loan Name is Required',
@@ -86,11 +90,12 @@ export class SecuredLoanComponent implements OnInit {
       required: 'Please Select Asset',
     },
   };
-  selectAssets(value) {
+  selectAssets({value, condition}) {
     let assetId: Array<any> = this.SecuredLoan.value.assetId;
-    if (assetId?.includes(value)) {
+    if (condition) {
       assetId.splice(assetId.indexOf(value), 1);
-    } else {
+    }
+    else {
       assetId?.push(value);
     }
     this.selectedAssetsId=assetId;
@@ -124,11 +129,11 @@ export class SecuredLoanComponent implements OnInit {
     };
     
     console.log(securedLoanData);
-    this._userServ.addLiabilities(securedLoanData).subscribe((result) => {
+    this.liabilitiesServices.addLiabilities(securedLoanData).subscribe((result) => {
       this.spinner.stop();
       if (result.success) {
         this.SecuredLoan.reset();
-        this._route.navigate(['/liabilities/liabilitiesSuccess']);
+        this._route.navigate(['/liabilities/liabilitiesSuccess'],{queryParams:{y:'will'}});
       }
      
       this.toastr.message(result.message, result.success);
@@ -145,11 +150,11 @@ export class SecuredLoanComponent implements OnInit {
         type:'securedLoan'
         
       };
-    this._userServ.updateLiabilities(securedLoanData,this.id).subscribe((result) => {
+    this.liabilitiesServices.updateLiabilities(securedLoanData,this.id).subscribe((result) => {
       this.spinner.stop();
       if (result.success) {
         this.SecuredLoan.reset();
-        this._route.navigate(['/liabilities']);
+        this._route.navigate([this.forwardRouteLink]);
       }
      
       this.toastr.message(result.message, result.success);
@@ -160,7 +165,7 @@ export class SecuredLoanComponent implements OnInit {
   }
   getdata(id) {
     this.spinner.start();
-    this._userServ.getAllLiabilities().subscribe((result) => {
+    this.liabilitiesServices.getAllLiabilities().subscribe((result) => {
       this.spinner.stop();
       console.log(result);
       
@@ -190,35 +195,35 @@ export class SecuredLoanComponent implements OnInit {
       this.toastr.message(errorHandler(err),false);
         });
   }
+
   ngOnInit(): void {
     this.spinner.start();
-    this.route.queryParams.subscribe(({id})=>{
-      if (id) {
-        this.id=id;
+    this.route.queryParams.subscribe(({id,x,y})=>{
+     if (id) {
+        this.id = id;
         this.getdata(id);
+        if (x) {
+          this.backRouteLink="/will/createWill";      this.fromCreateWill = x;
+        }
       }
     })
     this.createForm();
-    this._userServ.getAssets().subscribe((result) => {
+    this.assetsServices.getAssets().subscribe((result) => {
       this.spinner.stop();
       this.assetsData = result.data.map((items, i) => {
-        this.allAssetsinOne.push(
-          ...[
-            {
-              nameofAssets: Object.keys(items)[0],
-              uniqueNumber: Object.values(Object.values(items)[0])[1],
-              country: items.country,
-              ownerShip: items.specifyOwnershipType,
-              _id:items._id
-            },
-          ]
-        );
-        console.log(items);
-        return items;
+        return {
+          nameofAssets: this.assetsServices.getAssetsData(items)?.name,
+          uniqueNumber: this.assetsServices.getAssetsData(items)?.uniqueNumber,
+          country: items.country,
+          ownerShip: items.specifyOwnershipType,
+          type: items.type,
+          _id: items._id,
+          actionRoute: this.assetsServices.getAssetsData(items)?.actionRoute,
+          image:this.assetsServices.getAssetsData(items)?.img,
+        };
       });
     },(err)=>{
       this.spinner.stop();
-      this.toastr.message(errorHandler(err),false);
         });
 
   }

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { MembersService } from 'src/app/services/members.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
 import { UserService } from '../../../../services/user.service';
 
@@ -15,7 +16,8 @@ export class ListmembersComponent implements OnInit {
   toggleModal: boolean;
   toggleModalTutorial: boolean = false;
   showSearch: boolean = false;
-
+  backRouteLink="/home";   
+  fromCreateWill:string;   
   MemberData = [];
   organisationData = [];
   allMemberData = [];
@@ -25,10 +27,11 @@ export class ListmembersComponent implements OnInit {
   ownershipFilter = ['Sole', 'joint'];
   countryFilter = ['india'];
   constructor(
-    public route: Router,
-    private _userServ: UserService,
+    public _route: Router,
+    private memberServices: MembersService,
     private spinner: NgxUiLoaderService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private route: ActivatedRoute,
   ) {}
 
   tableHeadings = [
@@ -75,15 +78,15 @@ export class ListmembersComponent implements OnInit {
   onFilterHandler(value) {
     this.spinner.start();
     console.log('helllooo', value);
-    this._userServ.filterMembers(value).subscribe((result) => {
+    this.memberServices.filterMembers(value).subscribe((result) => {
       this.spinner.stop();
       this.memberFilterData = result.map((items, i) => {
         return {
-          fullname: this.getName(items).fullname,
-          Relationship: this.getName(items).Relationship,
-          gender: this.getName(items).gender,
-          id_number: this.getName(items).id_number,
-          id_type: this.getName(items).id_type,
+          fullname: this.memberServices.getMembersData(items).fullname,
+          Relationship: this.memberServices.getMembersData(items).Relationship,
+          gender: this.memberServices.getMembersData(items).gender,
+          id_number: this.memberServices.getMembersData(items).id_number,
+          id_type: this.memberServices.getMembersData(items).id_type,
           type: items.type,
         };
       });
@@ -99,43 +102,11 @@ export class ListmembersComponent implements OnInit {
       );
     }
   }
-  getName(item) {
-    let data = {
-      fullname: '',
-      Relationship: '',
-      gender: '',
-      id_type: '',
-      id_number: '',
-      dob: '',
-    };
-    switch (item.type) {
-      case 'memberAsPerson':
-        data.fullname = item.memberAsPerson.fullname || '';
-        data.Relationship = item.memberAsPerson.Relationship || '---';
-        data.gender = item.memberAsPerson.gender || '';
-        data.id_type = item.memberAsPerson.id_type || '';
-        data.id_number = item.memberAsPerson.id_number || '';
-        data.dob = item.memberAsPerson.dob || '';
 
-        return data;
-        break;
-      case 'memberAsOrganisation':
-        data.Relationship = '---';
-        data.fullname = item.memberAsOrganisation.organisationName || '';
-        data.gender = item.memberAsOrganisation.gender || 'NA';
-        data.id_type = item.memberAsOrganisation.gender || 'NA';
-        data.id_number = item.memberAsOrganisation.registration_number || '';
-        data.dob = item.memberAsOrganisation.dob || 'NA';
-        return data;
-        break;
-
-      default:
-        return data;
-    }
-  }
   ngOnInit(): void {
     this.spinner.start();
-    this._userServ.getMembers().subscribe(
+   
+    this.memberServices.getMembers().subscribe(
       (result) => {
         // console.log(result.data);
         this.spinner.stop();
@@ -143,12 +114,12 @@ export class ListmembersComponent implements OnInit {
           console.log(items);
 
           return {
-            fullname: this.getName(items).fullname,
-            Relationship: this.getName(items).Relationship,
-            gender: this.getName(items).gender,
-            id_number: this.getName(items).id_number,
-            id_type: this.getName(items).id_type,
-            dob: this.getName(items).dob,
+            fullname: this.memberServices.getMembersData(items).fullname,
+            Relationship: this.memberServices.getMembersData(items).Relationship,
+            gender: this.memberServices.getMembersData(items).gender,
+            id_number: this.memberServices.getMembersData(items).id_number,
+            id_type: this.memberServices.getMembersData(items).id_type,
+            dob: this.memberServices.getMembersData(items).dob,
             type: items.type,
             _id: items._id,
             actionRoute: 'members/createmembers',

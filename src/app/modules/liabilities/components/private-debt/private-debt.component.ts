@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { errorHandler, valueChanges } from 'src/app/helper/formerror.helper';
+import { LiabilitiesService } from 'src/app/services/liabilities.service';
+import { MembersService } from 'src/app/services/members.service';
 import { UserService } from 'src/app/services/user.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
 @Component({
@@ -14,17 +16,20 @@ export class PrivateDebtComponent implements OnInit {
   memberData = [];
   slectedList = [];
   id: string = '';
+  fromCreateWill: string = '';
   toggleModalTutorial: boolean = false;
   nameType = 'fullname' || 'organisationName';
   key = [this.nameType, 'Relationship'];
   classes = ['font-bold', 'font-bold', 'text-sm'];
-
+  backRouteLink="/liabilities/createLiabilities";
+forwardRouteLink="/liabilities";
   PrivateDebtForm: FormGroup;
   responseMessage: string;
 
   constructor(
     private _fb: FormBuilder,
-    private _userServ: UserService,
+    private liabilitiesServices: LiabilitiesService,
+    private memberServices: MembersService,
     private spinner: NgxUiLoaderService,
     private _route: Router,
     private toastr: ToastrService,
@@ -103,12 +108,12 @@ export class PrivateDebtComponent implements OnInit {
       privateDept: this.PrivateDebtForm.value,
       type: 'privateDept',
     };
-    this._userServ.addLiabilities(privateDebtData).subscribe(
+    this.liabilitiesServices.addLiabilities(privateDebtData).subscribe(
       (result) => {
         this.spinner.stop();
         if (result.success) {
           this.PrivateDebtForm.reset();
-          this._route.navigate(['/liabilities/liabilitiesSuccess']);
+          this._route.navigate(['/liabilities/liabilitiesSuccess'],{queryParams:{y:'will'}});
         }
 
         this.toastr.message(result.message, result.success);
@@ -127,12 +132,12 @@ export class PrivateDebtComponent implements OnInit {
       privateDept: this.PrivateDebtForm.value,
       type: 'privateDept',
     };
-    this._userServ.updateLiabilities(privateDeptData, this.id).subscribe(
+    this.liabilitiesServices.updateLiabilities(privateDeptData, this.id).subscribe(
       (result) => {
         this.spinner.stop();
         if (result.success) {
           this.PrivateDebtForm.reset();
-          this._route.navigate(['/liabilities']);
+          this._route.navigate([this.forwardRouteLink]);
         }
         this.toastr.message(result.message, result.success);
       },
@@ -144,7 +149,7 @@ export class PrivateDebtComponent implements OnInit {
   }
   getdata(id) {
     this.spinner.start();
-    this._userServ.getAllLiabilities().subscribe((result) => {
+    this.liabilitiesServices.getAllLiabilities().subscribe((result) => {
       this.spinner.stop();
       console.log(result);
 
@@ -174,29 +179,49 @@ export class PrivateDebtComponent implements OnInit {
       console.log(this.slectedList);
     });
   }
+
   ngOnInit(): void {
     this.spinner.start();
-    this.route.queryParams.subscribe(({ id }) => {
-      if (id) {
+     this.route.queryParams.subscribe(({id,x,y})=>{
+     if (id) {
         this.id = id;
         this.getdata(id);
+        if (x) {
+    this.backRouteLink="/will/createWill";      this.fromCreateWill = x;
+        }
+      }
+if (y==='will') {
+        this.backRouteLink="/will/createWill";   
+        this.fromCreateWill = y;
+        console.log(this.fromCreateWill);
       }
     });
     this.createForm();
-    this._userServ.getMembers().subscribe((result) => {
-      this.spinner.stop();
-      this.memberData = result.data.map((item) => {
-        console.log(item);
-        return (
-          { ...item.memberAsPerson, _id: item._id } || {
-            ...item.memberAsOrganisation,
-            _id: item._id,
-          }
-        );
-      });
-    },(err)=>{
-      this.spinner.stop();
-      this.toastr.message(errorHandler(err),false);
+    this.memberServices.getMembers().subscribe(
+      (result) => {
+        // console.log(result.data);
+        this.spinner.stop();
+        this.memberData = result.data.map((items, i) => {
+          console.log(items);
+
+          return {
+            fullname: this.memberServices.getMembersData(items).fullname,
+            Relationship: this.memberServices.getMembersData(items).Relationship,
+            gender: this.memberServices.getMembersData(items).gender,
+            id_number: this.memberServices.getMembersData(items).id_number,
+            id_type: this.memberServices.getMembersData(items).id_type,
+            dob: this.memberServices.getMembersData(items).dob,
+            type: items.type,
+            _id: items._id,
+            actionRoute: 'members/createmembers',
+          };
         });
+        // console.log(this.allMemberData);
+      },
+      (err) => {
+        this.spinner.stop();
+        this.toastr.message('Error Getting Members data !!', false);
+      }
+    );
   }
 }

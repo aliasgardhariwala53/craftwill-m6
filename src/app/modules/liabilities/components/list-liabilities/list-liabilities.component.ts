@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { forkJoin } from 'rxjs';
+import { LiabilitiesService } from 'src/app/services/liabilities.service';
 import { UserService } from 'src/app/services/user.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
 
@@ -23,7 +24,7 @@ export class ListLiabilitiesComponent implements OnInit {
   countryFilter = ['india'];
   liabilitiesType = ['Secured Loan', 'Unsecured Loan', 'Private Dept'];
   constructor(
-    private _userServ: UserService,
+    private liabilitiesServices: LiabilitiesService,
     private spinner: NgxUiLoaderService,
     private toastr: ToastrService
   ) {}
@@ -64,14 +65,17 @@ export class ListLiabilitiesComponent implements OnInit {
   onFilterHandler(value) {
     this.spinner.start();
     console.log('helllooo', value);
-    this._userServ.filterLiabilities(value).subscribe(
+    this.liabilitiesServices.filterLiabilities(value).subscribe(
       (result) => {
         this.spinner.stop();
         this.LiabilitiesFilterData = result.map((items, i) => {
           return {
-            loanName: this.getName(items)?.loanName,
-            loanProvider: this.getName(items)?.loanProvider,
-            loanNumber: this.getName(items)?.loanProvider,
+            loanName:
+              this.liabilitiesServices.getLiabilitiesData(items)?.loanName,
+            loanProvider:
+              this.liabilitiesServices.getLiabilitiesData(items)?.loanProvider,
+            loanNumber:
+              this.liabilitiesServices.getLiabilitiesData(items)?.loanProvider,
             current_Outstanding_Amount: items.current_Outstanding_Amount,
             type: items.type,
           };
@@ -80,9 +84,9 @@ export class ListLiabilitiesComponent implements OnInit {
       },
       (err) => {
         this.spinner.stop();
-        this.toastr.message("Something Went Wrong!!!",false);
+        this.toastr.message('Something Went Wrong!!!', false);
       }
-      );
+    );
   }
   onSorting(value) {
     if (value === 'All') {
@@ -94,60 +98,33 @@ export class ListLiabilitiesComponent implements OnInit {
     }
   }
 
-  getName(item) {
-    let data = {
-      loanName: '',
-      loanProvider: '',
-      loan_Id_Number: 0,
-      actionRoute: '',
-    };
-    switch (item.type) {
-      case 'privateDept':
-        data.loanProvider = item.privateDept.dept_Name || '---';
-        data.loan_Id_Number = item.privateDept.loan_Id_Number || '---';
-        data.loanName = 'Private Dept';
-        data.actionRoute = 'liabilities/privateDebt';
-
-        return data;
-        break;
-      case 'securedLoan':
-        data.loanProvider = item.securedLoan.loanProvider || '';
-        data.loan_Id_Number = item.securedLoan.loan_Id_Number || '';
-        data.loanName = 'Secured Loan';
-        data.actionRoute = 'liabilities/securedLoan';
-        return data;
-        break;
-      case 'unsecuredLoan':
-        data.loanProvider = item.unsecuredLoan.loanProvider || '---';
-        data.loan_Id_Number = item.unsecuredLoan.loan_Id_Number || '---';
-        data.loanName = 'Unsecured Loan';
-        data.actionRoute = 'liabilities/unSecuredLoan';
-        return data;
-        break;
-
-        default:
-          return data;
-    }
-  }
   ngOnInit(): void {
     this.spinner.start();
-    this._userServ.getAllLiabilities().subscribe((result) => {
-      this.spinner.stop();
-      this.LiabilitiesData = result.data.map((items, i) => {
-        return {
-          loanName: this.getName(items)?.loanName,
-          loanProvider: this.getName(items)?.loanProvider,
-          loanNumber: this.getName(items)?.loan_Id_Number,
-          current_Outstanding_Amount: items.current_Outstanding_Amount,
-          type: items.type,
-          _id: items._id,
-          actionRoute: this.getName(items)?.actionRoute,
-        };
-      });
-      this.allLiabilities = [...this.LiabilitiesData];
-    },(err)=>{
-      this.spinner.stop();
-      this.toastr.message('Error getting Liabilities Data!!!', false);
+    this.liabilitiesServices.getAllLiabilities().subscribe(
+      (result) => {
+        this.spinner.stop();
+        this.LiabilitiesData = result.data.map((items, i) => {
+          return {
+            loanName:
+              this.liabilitiesServices.getLiabilitiesData(items)?.loanName,
+            loanProvider:
+              this.liabilitiesServices.getLiabilitiesData(items)?.loanProvider,
+            loanNumber:
+              this.liabilitiesServices.getLiabilitiesData(items)
+                ?.loan_Id_Number,
+            current_Outstanding_Amount: items.current_Outstanding_Amount,
+            type: items.type,
+            _id: items._id,
+            actionRoute:
+              this.liabilitiesServices.getLiabilitiesData(items)?.actionRoute,
+          };
         });
+        this.allLiabilities = [...this.LiabilitiesData];
+      },
+      (err) => {
+        this.spinner.stop();
+        this.toastr.message('Error getting Liabilities Data!!!', false);
+      }
+    );
   }
 }

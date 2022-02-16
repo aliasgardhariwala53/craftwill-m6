@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { errorHandler, valueChanges } from 'src/app/helper/formerror.helper';
+import { AssetsService } from 'src/app/services/assets.service';
+import { MembersService } from 'src/app/services/members.service';
+import { PreviousRouteService } from 'src/app/services/previous-route.service';
 import { UserService } from 'src/app/services/user.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
 import { countries } from 'src/app/shared/utils/countries-store';
@@ -15,16 +18,33 @@ import { countries } from 'src/app/shared/utils/countries-store';
 export class BusinessComponent implements OnInit {
   businessForm: FormGroup;
   responseMessage: string;
+  backRouteLink="/assets/createAssets";
+  forwardRouteLink="/assets"
   id: string='';
+  fromCreateWill: string;
+  memberData=[];
+  slectedResidualMembers = [];
+  assetsResidualType
+  previousRoute: string;
+  toggleModalTutorial:boolean;
   constructor(
     private _fb: FormBuilder,
-    private _userServ: UserService,
+    private assetsServices: AssetsService,
     private _route: Router,
     private toastr: ToastrService,
     private spinner:NgxUiLoaderService,
     private route:ActivatedRoute,
-  ) {}
-  public countries:any = countries
+    private _previousRoute: PreviousRouteService,
+  private memberServices: MembersService
+  ) {
+    
+    this._previousRoute.previousRoute.subscribe((route) => {
+      this.previousRoute = route;
+    });
+  }
+  public countries:any = countries;
+  key = ['fullname', 'Relationship'];
+  classes = ['font-bold', 'font-bold', 'text-sm'];
   createForm() {
     this.businessForm = this._fb.group({
       businessName: ['', [Validators.required]],
@@ -86,18 +106,21 @@ export class BusinessComponent implements OnInit {
       business: this.businessForm.value,
       type:'business'
     };
-    this._userServ.addAssets(businessData).subscribe((result) => {
+    this.assetsServices.addAssets(businessData).subscribe((result) => {
       this.spinner.stop();
       this.toastr.message(result.message,result.success);
       if (result.success) {
         this.businessForm.reset();
-        this._route.navigate(['/assets/assetsuccess']);
+        this._route.navigate(['/assets/assetsuccess'],{queryParams:{y:'will'}});
       }
       
     },(err)=>{
       this.toastr.message(errorHandler(err),false);
       this.spinner.stop();
     });
+  }
+  addSharesMember(value){
+
   }
   onUpdateBusiness(){
     this.spinner.start();
@@ -107,11 +130,11 @@ export class BusinessComponent implements OnInit {
       business: this.businessForm.value,
       type:'business'
     };
-    this._userServ.updateAssets(businessData,this.id).subscribe((result) => {
+    this.assetsServices.updateAssets(businessData,this.id).subscribe((result) => {
       this.spinner.stop();
       if (result.success) {
         this.businessForm.reset();
-        this._route.navigate(['/assets']);
+        this._route.navigate([this.forwardRouteLink]);
       }
      
       this.toastr.message(result.message, result.success);
@@ -120,9 +143,10 @@ export class BusinessComponent implements OnInit {
       this.toastr.message(errorHandler(err),false);
         });
   }
+
   getdata(id) {
     this.spinner.start();
-    this._userServ.getAssets().subscribe((result) => {
+    this.assetsServices.getAssets().subscribe((result) => {
       this.spinner.stop();
       console.log(result);
       
@@ -149,12 +173,49 @@ export class BusinessComponent implements OnInit {
         });
   }
   ngOnInit(): void {
-    this.route.queryParams.subscribe(({id})=>{
-      if (id) {
-        this.id=id;
+    console.log(this.previousRoute);
+    this.route.queryParams.subscribe(({id,x,y})=>{
+     if (id) {
+        this.id = id;
         this.getdata(id);
+        if (x) {
+    this.backRouteLink="/will/createWill";      this.fromCreateWill = x;
+        }
+      }
+if (y==='will') {
+        this.backRouteLink="/will/createWill"; 
+  this.forwardRouteLink="/will/createWill";   
+        this.fromCreateWill = y;
+        console.log(this.fromCreateWill);
       }
     })
+    this.memberServices.getMembers().subscribe(
+      (result) => {
+        // console.log(result.data);
+        this.spinner.stop();
+        this.memberData = result.data.map((items, i) => {
+          console.log(items);
+
+          return {
+            fullname: this.memberServices.getMembersData(items).fullname,
+            Relationship:
+              this.memberServices.getMembersData(items).Relationship,
+            gender: this.memberServices.getMembersData(items).gender,
+            id_number: this.memberServices.getMembersData(items).id_number,
+            id_type: this.memberServices.getMembersData(items).id_type,
+            dob: this.memberServices.getMembersData(items).dob,
+            type: items.type,
+            _id: items._id,
+            actionRoute: 'members/createmembers',
+          };
+        });
+        // console.log(this.allMemberData);
+      },
+      (err) => {
+        this.spinner.stop();
+        this.toastr.message('Error Getting Members data !!', false);
+      }
+    );
     this.createForm();
   }
 }

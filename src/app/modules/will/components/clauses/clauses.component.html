@@ -1,0 +1,373 @@
+<div class="flex flex-col">
+  <div class="flex flex-row justify-between mt-4">
+    <div class="font-['GilroyBold'] text-xl flex items-center">
+      {{ pageTitle }}
+    </div>
+    <div>
+      <app-button
+        border="border-2 border-black"
+        (myMethod)="toggleModalTutorial = true"
+        padding="px-10 py-2"
+        backgroundColor="bg-[#fff]"
+        borderRadius="rounded-xl"
+        color="text-[#000]"
+        value="Tutorial"
+      ></app-button>
+    </div>
+  </div>
+
+  <!-- header end -->
+  <!-- list clause start -->
+  <div *ngIf="viewClause === 'listClause'">
+      <app-list-clause></app-list-clause>
+    <div
+      class="bg-[#fff] cursor-pointer flex flex-col rounded-xl border-dashed border-2 border-[#ff6782] py-10 justify-center items-center text-red my-2"
+      (click)="showClauseModal = true"
+    >
+      Add Clauses
+    </div>
+
+    <div class="sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
+      <app-button
+        [arrow]="true"
+        (myMethod)="onClickNext()"
+        value="Review"
+        padding="py-3 px-3"
+        id="submitButtonId"
+      ></app-button>
+    </div>
+  </div>
+  <!-- list clause end -->
+
+  <!-- clause 1 start -->
+  <div *ngIf="viewClause === 'clause1'" class="space-y-2 ">
+
+    <div class="flex flex-col bg-[#F4F4F4] rounded-2xl p-5 space-y-3 ">
+      <div class="font-['gilroysemi']">I Direct that my gifts to the delayed payout beneficiaries Shall be managed by me</div>
+      <div class="flex flex-row w-fit space-x-3">
+        <div
+        class="flex justify-between items-center p-4 bg-[#fff] rounded-xl w-full"
+      >
+        <input
+          type="radio"
+          id="delay1"
+          value="delay1"
+          [(ngModel)]="delayType"
+          class="mx-1 radioCustom"
+        />
+        <label class="mx-1 font-['gilroysemi'] text-base w-max" for="delay1"
+          >Executors (Default)</label
+        >
+      </div>
+      <div
+        class="flex justify-between items-center p-4 bg-[#fff] rounded-xl w-full"
+      >
+        <input
+          type="radio"
+          id="delay2"
+          value="delay2"
+          [(ngModel)]="delayType"
+          class="mx-1 radioCustom"
+        />
+        <label class="mx-1 font-['gilroysemi'] text-base w-max" for="delay2"
+          >Guardians</label
+        >
+      </div>
+      </div>
+      <div class="font-['gilroysemi']">Who shall at his/her/their sole discretion apply such gift Towards the maintenance, educational needs, and urgent or reasonable medical expenses of the delayed payout Beneficiary, and to pay out any balance remaining in Such gift to him/her upon attaining the age of Years.</div>
+    </div>
+
+    <div class="flex flex-row justify-between">
+      <div class="font-['GilroyBold'] mb-2 mt-5 text-xl">
+        Appoint Beneficiaries
+      </div>
+      <div>  <app-button
+          border="border-2 border-black"
+          (myMethod)="toggleModalTutorial = true"
+          padding="px-10 py-2"
+          backgroundColor="bg-[#fff]"
+          borderRadius="rounded-xl"
+          color="text-[#000]"
+          value="Tutorial"
+        ></app-button></div>
+    </div>
+    <div class="flex flex-col bg-[#F4F4F4] rounded-2xl p-5">
+      <div class="text-[#A2A2A2] mb-2">
+        Select and add beneficiary
+      </div>
+      <div>
+        <app-select-box
+          [key]="key"
+          [listItem]="memberData"
+          [selectedItems]="slectedDelayMember"
+          addItemRoute="members/createmembers"
+          [classes]="classes"
+          (onSelectId)="selectMemberDelayPayout($event)"
+          addItemRoute="members/createmembers"
+          avtarType="name"
+          imageUrl="../../../../../assets/Icons/Bank Account.svg"
+          addItemTitle="Add Beneficiary"
+          (actionButton)="onUpdate($event)"
+        >
+        </app-select-box>
+      </div>
+      <div class="w-1/5 mt-8">
+        <app-button
+          [arrow]="true"
+          (myMethod)="onSaveDelayPayout()"
+          padding="px-10 py-3 "
+          value="Save"
+        ></app-button>
+      </div>
+    </div>
+   
+  </div>
+  <!-- clause 1 end -->
+  <!-- clause 2 start -->
+  <div *ngIf="viewClause === 'clause2'" class="my-3">
+    <div class="flex flex-col bg-[#F4F4F4] p-4 rounded-2xl w-full space-y-2 ">
+      <div class="font-[GilroySemi]">Appoint Advisor</div>
+      <div class="input-group1">
+        <input
+          type="text"
+          placeholder="Advisor Name"
+          class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#fff] w-1/5 px-2 sm:px-4 py-2 form-control rounded-[14px] focus:outline-none"
+        />
+      </div>
+      <div class="input-group1 w-1/3">
+        <input
+          type="text"
+          placeholder="Contact Number"
+          class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#fff] w-1/5 px-2 sm:px-4 py-2 form-control rounded-[14px] focus:outline-none"
+        />
+      </div>
+      <div class="white">
+        <ng-select
+          class="custom-selector white  w-1/5"
+          placeholder="Expertise"
+          [items]="expertiseList"
+        >
+        </ng-select>
+      </div>
+    </div>
+    
+    <div class="w-1/5 mt-8">
+      <app-button
+        [arrow]="true"
+        (myMethod)="onSaveAdvisor()"
+        padding="px-10 py-3 "
+        value="Save"
+      ></app-button>
+    </div>
+  </div>
+  <!-- clause 2 end -->
+  <!-- clause 3 final words start -->
+  <div *ngIf="viewClause === 'clause3'">
+    <textarea
+      type="text"
+      class="min-h-[250px] w-full border-2 rounded-xl p-3"
+      placeholder="Write here...."
+    ></textarea>
+    <div class="w-2/12 my-2">
+      <app-button
+        [arrow]="true"
+        (myMethod)="onSaveFinalWord()"
+        padding="px-10 py-3"
+        value="Save"
+      ></app-button>
+    </div>
+  </div>
+  <!-- clause 3 end -->
+  <!-- clause 4 start -->
+  <div *ngIf="viewClause === 'clause4'" >
+      <div class="bg-[#F7F7F7] space-y-2 py-5 px-3 rounded-2xl">
+    <div
+        class="flex justify-between items-center p-3 bg-[#F1F1F1] rounded-2xl w-1/5"
+      >
+        <input
+          type="radio"
+          value="translate1"
+          [(ngModel)]="translateType"
+          id="translate1"
+          class="mx-1 radioCustom"
+        />
+        <label class="mx-1 font-['gilroysemi'] text-lg w-full" for="translate1"
+          >English</label
+        >
+      </div>
+      <div
+        class="flex justify-between items-center p-3 bg-[#F1F1F1] rounded-2xl w-1/5"
+      >
+        <input
+          type="radio"
+          id="translate2"
+          value="translate2"
+          [(ngModel)]="translateType"
+          class="mx-1 radioCustom"
+        />
+        <label class="mx-1 font-['gilroysemi'] text-lg w-full" for="translate2"
+          >Cantonese</label
+        >
+      </div>
+      <div
+        class="flex justify-between items-center p-3 bg-[#F1F1F1] rounded-2xl w-1/5"
+      >
+        <input
+          type="radio"
+          id="translate3"
+          value="translate3"
+          [(ngModel)]="translateType"
+          class="mx-1 radioCustom"
+        />
+        <label class="mx-1 font-['gilroysemi'] text-lg w-full" for="translate3"
+          >Mandarin</label
+        >
+      </div>
+      <div
+        class="flex justify-between items-center p-3 bg-[#F1F1F1] rounded-2xl w-1/5"
+      >
+        <input
+          type="radio"
+          id="translate4"
+          value="translate4"
+          [(ngModel)]="translateType"
+          class="mx-1 radioCustom"
+        />
+        <label class="mx-1 font-['gilroysemi'] text-lg w-full" for="translate4"
+          >Hookien</label
+        >
+      </div>
+    </div>
+    <div class="w-2/12 my-2">
+      <app-button
+        [arrow]="true"
+        (myMethod)="onSaveTranslation()"
+        padding="px-10 py-3"
+        value="Save"
+      ></app-button>
+    </div>
+  </div>
+  <!-- clause 4 end -->
+  <!-- clause 5 start -->
+  <div *ngIf="viewClause === 'clause5'">
+    <textarea
+      type="text"
+      class="min-h-[250px] w-full border-2 rounded-xl p-3"
+      placeholder="Write here...."
+    ></textarea>
+    <div class="w-2/12 my-2">
+      <app-button
+        [arrow]="true"
+        (myMethod)="onSaveCustomClause()"
+        padding="px-10 py-3"
+        value="Save"
+      ></app-button>
+    </div>
+  </div>
+  <!-- clause 5 end -->
+</div>
+
+<!-- modal start -->
+<app-modal-filter [modalBody]="modalBody3" [showModal]="showClauseModal">
+  <ng-template #modalBody3>
+    <div class="flex flex-col p-4 space-y-2">
+      <div class="flex flex-row justify-between">
+        <div class="font-['GilroyBold']">Please Select Clause</div>
+        <div (click)="showClauseModal = false" class="text-[#FF6782]">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+        </div>
+      </div>
+      <div
+        class="flex justify-between items-center p-3 bg-[#f7f7f7] rounded-2xl w-full"
+      >
+        <input
+          type="radio"
+          value="clause1"
+          [(ngModel)]="clauseType"
+          id="test1"
+          class="mx-1 radioCustom"
+        />
+        <label class="mx-1 font-['gilroysemi'] text-lg w-full" for="test1"
+          >Delayed Payout</label
+        >
+      </div>
+      <div
+        class="flex justify-between items-center p-3 bg-[#f7f7f7] rounded-2xl w-full"
+      >
+        <input
+          type="radio"
+          id="test2"
+          value="clause2"
+          [(ngModel)]="clauseType"
+          class="mx-1 radioCustom"
+        />
+        <label class="mx-1 font-['gilroysemi'] text-lg w-full" for="test2"
+          >Recommended Advisor</label
+        >
+      </div>
+      <div
+        class="flex justify-between items-center p-3 bg-[#f7f7f7] rounded-2xl w-full"
+      >
+        <input
+          type="radio"
+          id="test3"
+          value="clause3"
+          [(ngModel)]="clauseType"
+          class="mx-1 radioCustom"
+        />
+        <label class="mx-1 font-['gilroysemi'] text-lg w-full" for="test3"
+          >Final Words</label
+        >
+      </div>
+      <div
+        class="flex justify-between items-center p-3 bg-[#f7f7f7] rounded-2xl w-full"
+      >
+        <input
+          type="radio"
+          id="test4"
+          value="clause4"
+          [(ngModel)]="clauseType"
+          class="mx-1 radioCustom"
+        />
+        <label class="mx-1 font-['gilroysemi'] text-lg w-full" for="test4"
+          >Translation</label
+        >
+      </div>
+      <div
+        class="flex justify-between items-center p-3 bg-[#f7f7f7] rounded-2xl w-full"
+      >
+        <input
+          type="radio"
+          id="test5"
+          value="clause5"
+          [(ngModel)]="clauseType"
+          class="mx-1 radioCustom"
+        />
+        <label class="mx-1 font-['gilroysemi'] text-lg w-full" for="test5"
+          >Custom Clause</label
+        >
+      </div>
+      <div class="">
+        <app-button
+          padding="px-3 py-3"
+          (myMethod)="onClickContinue()"
+          value="Continue"
+          id="submitButtonId"
+        ></app-button>
+      </div>
+    </div>
+  </ng-template>
+</app-modal-filter>

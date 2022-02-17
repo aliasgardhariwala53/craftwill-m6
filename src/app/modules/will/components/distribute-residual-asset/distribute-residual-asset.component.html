@@ -9,7 +9,7 @@
     </div>
     <div class="flex flex-col bg-[#f7f7f7] rounded-2xl p-4">
         <div>
-            <app-select-box [inputToggle]="true"  [key]="key" [listItem]="memberData" [selectedItems]="slectedResidualMembers"
+            <app-select-box [shareToggle]="true"  [key]="key" [listItem]="memberData" [selectedItems]="slectedResidualMembers"
                 addItemRoute="members/createmembers" [classes]="classes"
                 (onSelectId)="selectResidualAssetsMember($event)" addItemRoute='members/createmembers' avtarType="name"
                 addItemTitle="Add Distribution"> </app-select-box>
@@ -64,7 +64,7 @@
             
         </div>
         <div *ngIf="fallbackType==='terminate'">
-            <app-select-box [inputToggle]="true"   [key]="key" [listItem]="memberData" [selectedItems]="slectedFallbackMembers"
+            <app-select-box [shareToggle]="true"   [key]="key" [listItem]="memberData" [selectedItems]="slectedFallbackMembers"
                 addItemRoute="members/createmembers" [classes]="classes" (onSelectId)="selectFallbackMember($event)"
                 addItemRoute='members/createmembers' avtarType="name" addItemTitle="Add Distribution"> </app-select-box>
         </div>
@@ -90,7 +90,7 @@
                 class="mx-1 radioCustom"
                 
               />
-              <label (click)="clickModal()" class="text-sm mx-1 mt-1 font-['GilroySemi']" for="test4">Child/ren of beneficiar(ies)</label>
+              <label (click)="clickModal()" class="text-sm mx-1 mt-1 font-['GilroySemi']" for="test4">Children of beneficiar(ies)</label>
               <input
                 type="radio"
                 id="test5"
@@ -108,7 +108,7 @@
         <div class=" text-[#838383] font-['GilroySemi']">Select and add executors</div>
    
         <div>
-            <app-select-box [inputToggle]="true"  [key]="key" [listItem]="memberData" [selectedItems]="slectedFallbackReplaceMembers"
+            <app-select-box [shareToggle]="true"  [key]="key" [listItem]="memberData" [selectedItems]="slectedFallbackReplaceMembers"
                 addItemRoute="members/createmembers" [classes]="classes"
                 (onSelectId)="slecteFallbackReplaceMember($event)" addItemRoute='members/createmembers' avtarType="name"
                 addItemTitle="Add Distribution"> </app-select-box>

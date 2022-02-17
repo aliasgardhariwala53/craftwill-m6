@@ -13,7 +13,7 @@ export class SuccessPageAssetsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(({id,x,y})=>{
+    this.route.queryParams.subscribe(({y})=>{
   
      if (y==='will') {
         this.forwardRouteLink="/will/createWill";   

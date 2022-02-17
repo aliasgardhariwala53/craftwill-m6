@@ -289,7 +289,8 @@ export class CreateMembersComponent implements OnInit {
         this.id = id;
         this.getdata(id);
         if (x) {
-        this.backRouteLink="/will/createWill";      this.fromCreateWill = x;
+        this.backRouteLink="/will/createWill";      
+
         }
       }
       if (y==='will') {

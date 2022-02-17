@@ -104,7 +104,11 @@ key = ['fullname', 'Relationship'];
       this.spinner.stop();
       if (result.success) {
         this.personalPossessionForm.reset();
-        this._route.navigate(['/assets/assetsuccess'],{queryParams:{y:'will'}});
+        if (this.fromCreateWill==='will') {
+            this._route.navigate(['/assets/assetsuccess'],{queryParams:{y:'will'}});
+          } else {
+            this._route.navigate(['/assets/assetsuccess']);
+          }
       }
       this.toastr.message(result.message, result.success);
     },(err)=>{
@@ -168,7 +172,8 @@ key = ['fullname', 'Relationship'];
         this.id = id;
         this.getdata(id);
         if (x) {
-    this.backRouteLink="/will/createWill";      this.fromCreateWill = x;
+    this.backRouteLink="/will/createWill";      
+ this.forwardRouteLink="/will/createWill";  
         }
       }
       if (y==='will') {

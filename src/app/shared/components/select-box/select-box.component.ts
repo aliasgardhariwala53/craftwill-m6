@@ -16,19 +16,40 @@ export class SelectBoxComponent implements OnInit,OnChanges {
 @Input() addItemTitle;
 @Input() avtarType='name';
 @Input() addItemRoute='name';
-@Input() inputToggle:boolean=false;
+@Input() shareToggle:boolean=false;
 @Input() deleteToggle:boolean=false;
 @Input() imageUrl='../../../../assets/Icons/DP.svg';
 @Output() onSelectId=new EventEmitter;
 @Output() onAddNewItem=new EventEmitter;
 @Output() onDeleteHandler=new EventEmitter;
 @Input() selectedItems:Array<any>=[];
-
+@Output() shareDataHandler = new EventEmitter();
 @Output() actionButton = new EventEmitter();
 selectedItem: Array<any>=[];
 currentRoute:string;
+arr4=[];
 constructor(private _route:Router,private currentUrl:ActivatedRoute) { 
   console.log(this.selectedItem);
+}
+sharePercentage(e, itemId){
+  const myItem = this.arr4.findIndex((el) => el.id === itemId);
+  if(myItem === -1) {
+    this.arr4.push({
+      id: itemId,
+      share: e.target.value
+    })
+  }
+  else {
+    const newarr= this.arr4.map((el)=>{
+      if (el.id === itemId) {
+        return {id:itemId,share:e.target.value};
+      }
+      return el;
+      });
+  
+    this.arr4 = [...newarr];
+  }
+  this.shareDataHandler.emit(this.arr4);
 }
 onClickActionButton(Item){
   

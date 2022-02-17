@@ -85,7 +85,12 @@ export class CreateTrustComponent implements OnInit {
       this.spinner.stop();
       if (result.success) {
         this.TrustForm.reset();
-        this._route.navigate(['/trust/succesTrust'],{queryParams:{y:'will'}});
+        if (this.fromCreateWill==='will') {
+          this._route.navigate(['/trust/succesTrust'],{queryParams:{y:'will'}});
+        } else {
+          this._route.navigate(['/trust/succesTrust']);
+        }
+      
       }
 
       this.toastr.message(result.message, result.success);
@@ -144,7 +149,7 @@ export class CreateTrustComponent implements OnInit {
         this.getdata(id);
         if (x) {
           this.backRouteLink="/will/createWill"; 
-          this.fromCreateWill = x;
+          
         }
       }
       if (y==='will') {

@@ -26,7 +26,10 @@ export class CreateAssetsComponent implements OnInit {
       }
       if (this.fromCreateWill==='will') {
         this.routeTo.navigate([`/assets/${this.routepath}`],{queryParams:{y:'will'}});
-      } else {
+      } else if(this.fromCreateWill==='secure'){
+        this.routeTo.navigate([`/assets/${this.routepath}`],{queryParams:{y:'secure'}});
+      }
+      else {
         
         this.routeTo.navigate([`/assets/${this.routepath}`]);
       }
@@ -37,6 +40,10 @@ export class CreateAssetsComponent implements OnInit {
 
 if (y==='will') {
         this.backRouteLink="/will/createWill"; 
+        this.fromCreateWill = y;  
+      }
+if (y==='secure') {
+        this.backRouteLink="/liabilities/securedLoan"; 
         this.fromCreateWill = y;  
       }
 

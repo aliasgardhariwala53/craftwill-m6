@@ -251,7 +251,7 @@
           <label class="input_label text-sm ml-1">Registration number</label>
           <input
             type="text"
-            placeholder="registration number"
+            placeholder="Registration number"
             formControlName="registration_number"
             class="authinput form-control"
           />
@@ -343,10 +343,10 @@
       </div>
     </div>
     <div *ngIf="id =='' " class=" sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
-    <app-button (myMethod)="organisationUpdate()" value="Create Organisation" id="submitButtonId"></app-button>
+    <app-button (myMethod)="addOrganisation()" value="Create Organisation" id="submitButtonId"></app-button>
     </div>
     <div *ngIf="id !=='' " class=" sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
-    <app-button (myMethod)="onUpdateMembers()" value="Update Organisation" id="submitButtonId"></app-button>
+    <app-button (myMethod)="onUpdateOrganisation()" value="Update Organisation" id="submitButtonId"></app-button>
     </div>
     <div class="text-green-500 mt-2 text-2xl">{{responseMessageOrganisation}}</div>
   </form>

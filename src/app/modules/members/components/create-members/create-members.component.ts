@@ -180,7 +180,7 @@ export class CreateMembersComponent implements OnInit {
       this.toastr.message(errorHandler(err),false);
         });
   }
-  organisationUpdate() {
+  addOrganisation() {
     if (this.organisationForm.invalid) {
       this.organisationForm.markAllAsTouched();
       this.formErrors = valueChanges(
@@ -217,16 +217,41 @@ export class CreateMembersComponent implements OnInit {
       country: this.personForm.value.id_country,
       memberAsPerson: {
         ...this.personForm.value,
-        gender: this.personForm.value.gender.toLowerCase(),
+        gender: this.personForm.value.gender?.toLowerCase(),
       },
       type: 'memberAsPerson',
     };
+    console.log("updated member");
+    
     this.membersServices
       .updateMembers(membersASPerson, this.id)
       .subscribe((result) => {
         this.spinner.stop();
         if (result.success) {
           this.personForm.reset();
+          this._route.navigate([this.backRouteLink]);
+        }
+
+        this.toastr.message(result.message, result.success);
+      },(err)=>{
+        this.spinner.stop();
+        this.toastr.message("Something Went Wrong!!!",false);
+          });
+  }
+  onUpdateOrganisation() {
+    this.spinner.start();
+    const membersAsOrganisation = {
+      country: this.organisationForm.value.id_country,
+      memberAsOrganisation: { ...this.organisationForm.value },
+      type: 'memberAsOrganisation',
+    };
+    console.log("updated Organistion");
+    
+    this.membersServices
+      .updateMembers(membersAsOrganisation, this.id)
+      .subscribe((result) => {
+        this.spinner.stop();
+        if (result.success) {
           this._route.navigate([this.backRouteLink]);
         }
 
@@ -295,6 +320,11 @@ export class CreateMembersComponent implements OnInit {
       }
       if (y==='will') {
         this.backRouteLink="/will/createWill";   
+        this.fromCreateWill = y;
+        console.log(this.fromCreateWill);
+      }
+      if (y==='private') {
+        this.backRouteLink="/liabilities/privateDebt";   
         this.fromCreateWill = y;
         console.log(this.fromCreateWill);
       }

@@ -104,7 +104,10 @@ key = ['fullname', 'Relationship'];
         this.IntellectualPropertyForm.reset();
         if (this.fromCreateWill==='will') {
             this._route.navigate(['/assets/assetsuccess'],{queryParams:{y:'will'}});
-          } else {
+          } else if(this.fromCreateWill==='secure'){
+this._route.navigate(['/assets/assetsuccess'],{queryParams:{y:'secure'}});
+}
+else {
             this._route.navigate(['/assets/assetsuccess']);
           }
       }
@@ -179,6 +182,12 @@ if (y==='will') {
         this.fromCreateWill = y;
         console.log(this.fromCreateWill);
       }
+if (y==='secure') {
+          this.backRouteLink="/liabilities/securedLoan"; 
+            this.forwardRouteLink="/liabilities/securedLoan";   
+            this.fromCreateWill = y;
+        }
+
     });
     this.memberServices.getMembers().subscribe(
       (result) => {

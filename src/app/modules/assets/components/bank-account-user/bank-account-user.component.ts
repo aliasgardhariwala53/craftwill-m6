@@ -133,7 +133,10 @@ key = ['fullname', 'Relationship'];
           this.BankAccountUser.reset();
           if (this.fromCreateWill==='will') {
             this._route.navigate(['/assets/assetsuccess'],{queryParams:{y:'will'}});
-          } else {
+          } else if(this.fromCreateWill==='secure'){
+this._route.navigate(['/assets/assetsuccess'],{queryParams:{y:'secure'}});
+}
+else {
             this._route.navigate(['/assets/assetsuccess']);
           }
         }
@@ -277,11 +280,15 @@ key = ['fullname', 'Relationship'];
       }
     if (y==='will') {
             this.backRouteLink="/will/createWill"; 
-      this.forwardRouteLink="/will/createWill";   
+            this.forwardRouteLink="/will/createWill";   
             this.fromCreateWill = y;
             console.log(this.fromCreateWill);
           }
-        
+        if (y==='secure') {
+          this.backRouteLink="/liabilities/securedLoan"; 
+            this.forwardRouteLink="/liabilities/securedLoan";   
+            this.fromCreateWill = y;
+        }
         });
     this.memberServices.getMembers().subscribe(
       (result) => {

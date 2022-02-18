@@ -97,6 +97,14 @@ onAddItem(){
     this._route.navigate([`${this.addItemRoute}`], { queryParams:{y:'will'}});
     return;
   }
+  if (this._route.url=='/liabilities/securedLoan') {
+    this._route.navigate([`${this.addItemRoute}`], { queryParams:{y:'secure'}});
+    return;
+  }
+  if (this._route.url=='/liabilities/privateDebt') {
+    this._route.navigate([`${this.addItemRoute}`], { queryParams:{y:'private'}});
+    return;
+  }
   this._route.navigate([this.addItemRoute]);
 }
 

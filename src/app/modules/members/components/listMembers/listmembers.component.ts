@@ -23,7 +23,7 @@ export class ListmembersComponent implements OnInit {
   allMemberData = [];
   memberFilterData = [];
   memberSearchData = [];
-  memberType = ['Person', 'Organisation'];
+  memberType = ['Member As Person', 'Member As Organisation'];
   ownershipFilter = ['Sole', 'joint'];
   countryFilter = ['india'];
   constructor(

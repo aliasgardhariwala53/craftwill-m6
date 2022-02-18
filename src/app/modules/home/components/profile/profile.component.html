@@ -121,10 +121,14 @@
           <div class="w-full">
             <div class="input-group1">
               <label class="input_label text-sm sm:text-base font-[GilroySemi]">Citizenship</label>
-              <input type="text" placeholder="Citizenship" [ngClass]="{ input_bg: inputState }"
-                [attr.disabled]="inputState ? '' : null" [ngStyle]="{ cursor: inputState ? 'not-allowed' : 'default' }"
-                formControlName="Citizenship"
-                class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#F0F0F0] w-[100%] px-2 sm:px-4 py-2  form-control rounded-[14px]  focus:outline-none" />
+          
+              <ng-select
+              [readonly]="inputState"
+              class="custom-selector profile w-full"
+              placeholder="Citizenship"
+              [items]="countries"
+              formControlName="Citizenship"
+              ></ng-select>
             </div>
 
             <div class="text-red-500 errors mx-2">

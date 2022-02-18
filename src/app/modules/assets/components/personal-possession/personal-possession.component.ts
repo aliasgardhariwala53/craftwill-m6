@@ -18,14 +18,11 @@ export class PersonalPossessionComponent implements OnInit {
   id: string = '';
   fromCreateWill: string;
 assetsResidualType
-  personalPossessionForm: FormGroup;
-  responseMessage: string;
+personalPossessionForm: FormGroup;
+responseMessage: string;
 backRouteLink="/assets/createAssets";
-forwardRouteLink="/assets"
-
-
-      
-  toggleModalTutorial:boolean;
+forwardRouteLink="/assets"    
+toggleModalTutorial:boolean;
   
   memberData=[];
   constructor(
@@ -38,7 +35,7 @@ forwardRouteLink="/assets"
     private memberServices: MembersService
   ) {}
   public countries: any = countries;
-key = ['fullname', 'Relationship'];
+  key = ['fullname', 'Relationship'];
   classes = ['font-bold', 'font-bold', 'text-sm'];
   slectedResidualMembers = [];
   createForm() {
@@ -106,7 +103,10 @@ key = ['fullname', 'Relationship'];
         this.personalPossessionForm.reset();
         if (this.fromCreateWill==='will') {
             this._route.navigate(['/assets/assetsuccess'],{queryParams:{y:'will'}});
-          } else {
+          } else if(this.fromCreateWill==='secure'){
+this._route.navigate(['/assets/assetsuccess'],{queryParams:{y:'secure'}});
+}
+else {
             this._route.navigate(['/assets/assetsuccess']);
           }
       }
@@ -182,6 +182,12 @@ key = ['fullname', 'Relationship'];
         this.fromCreateWill = y;
         console.log(this.fromCreateWill);
       }
+if (y==='secure') {
+          this.backRouteLink="/liabilities/securedLoan"; 
+            this.forwardRouteLink="/liabilities/securedLoan";   
+            this.fromCreateWill = y;
+        }
+
     });
     this.memberServices.getMembers().subscribe(
       (result) => {

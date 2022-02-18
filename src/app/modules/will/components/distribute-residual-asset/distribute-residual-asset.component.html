@@ -1,127 +1,218 @@
 <div class="flex flex-col overflow-auto min-h-[100vh]">
-
+  <form [formGroup]="distributeResidualAssetsForm">
     <div class="flex flex-row justify-between mt-4">
-        <div class="font-['GilroyBold']  text-xl flex items-center">Specify Residual Asset Beneficiary</div>
-        <div>
-            <app-button border="border-2 border-black" (myMethod)="toggleModalTutorial = true" padding="px-10 py-2"
-                backgroundColor="bg-[#fff]" borderRadius="rounded-xl" color="text-[#000]" value="Tutorial"></app-button>
-        </div>
+      <div class="font-['GilroyBold'] text-xl flex items-center">
+        Specify Residual Asset Beneficiary
+      </div>
+      <div>
+        <app-button
+          border="border-2 border-black"
+          (myMethod)="toggleModalTutorial = true"
+          padding="px-10 py-2"
+          backgroundColor="bg-[#fff]"
+          borderRadius="rounded-xl"
+          color="text-[#000]"
+          value="Tutorial"
+        ></app-button>
+      </div>
     </div>
     <div class="flex flex-col bg-[#f7f7f7] rounded-2xl p-4">
-        <div>
-            <app-select-box [shareToggle]="true"  [key]="key" [listItem]="memberData" [selectedItems]="slectedResidualMembers"
-                addItemRoute="members/createmembers" [classes]="classes"
-                (onSelectId)="selectResidualAssetsMember($event)" addItemRoute='members/createmembers' avtarType="name"
-                addItemTitle="Add Distribution"> </app-select-box>
-        </div>
-    </div>
-
-    <div class="flex flex-col bg-[#f7f7f7] rounded-2xl mt-4 p-4">
-        <div class="flex flex-row justify-between mb-2 ">
-            <div class="font-['GilroyBold']  text-xl flex items-center">Trust Fallback</div>
-            <div>
-                <app-button border="border-2 border-black" (myMethod)="toggleModalTutorial = true" padding="px-10 py-2"
-                    backgroundColor="bg-[#fff]" borderRadius="rounded-xl" color="text-[#000]" value="Tutorial">
-                </app-button>
-            </div>
-        </div>
-        <div class="-mt-4 text-[#838383] font-['GilroySemi']">In the case where this trust cannot be carried out due to any reason.</div>
-        <div class="flex flex-row justify-between my-4 ">
-            
-                <div class="flex w-fit mt-1 justify-evenly ml-0 items-center">
-                    <input
-                    type="radio"
-                    value="terminate"
-                    
-                    [(ngModel)]="fallbackType"
-                    id="test1"
-                    class="mx-1 radioCustom"
-                  />
-                  <label (click)="clickModal()"
-                    [ngClass]="{ hidden: fallbackType === 'terminate' }"
-                    class="text-sm mx-1 mt-1 font-['GilroySemi']"
-                    for="test1"
-                    >Terminate Trust</label
-                  >
-                  <input
-                    type="radio"
-                    id="test2"
-                    
-                    value="custom"
-                    [(ngModel)]="fallbackType"
-                    class="mx-1 radioCustom"
-                  />
-                  <label (click)="clickModal()" class="text-sm mx-1 mt-1 font-['GilroySemi']" for="test2">Custom</label>
-                
-                </div>
-
-                <div class="flex flex-row justify-between space-x-1">
-                    <div [ngClass]="{'text-[#FF6782]': splitToggle}" class=" w-fit cursor-pointer"><svg (click)="splitHandler()" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg></div>
-                    <div class="font-['GilroySemi']">Split Equally</div>
-                </div>
-            
-        </div>
-        <div *ngIf="fallbackType==='terminate'">
-            <app-select-box [shareToggle]="true"   [key]="key" [listItem]="memberData" [selectedItems]="slectedFallbackMembers"
-                addItemRoute="members/createmembers" [classes]="classes" (onSelectId)="selectFallbackMember($event)"
-                addItemRoute='members/createmembers' avtarType="name" addItemTitle="Add Distribution"> </app-select-box>
-        </div>
-        <div *ngIf="fallbackType==='custom'" class="flex flex-col">
-                <input
-                type="radio"
-                value="custom1"
-                [(ngModel)]="customType"
-                id="test3"
-                class="mx-1 radioCustom"
-                
-              />
-              <label (click)="clickModal()"
-                class="text-sm mx-1 mt-1 font-['GilroySemi']"
-                for="test3"
-                >Give to replacement beneficiaries (Required to specify replacement beneficiaries)</label
-              >
-              <input
-                type="radio"
-                id="test4"
-                value="custom2"
-                [(ngModel)]="customType"
-                class="mx-1 radioCustom"
-                
-              />
-              <label (click)="clickModal()" class="text-sm mx-1 mt-1 font-['GilroySemi']" for="test4">Children of beneficiar(ies)</label>
-              <input
-                type="radio"
-                id="test5"
-                value="custom3"
-                [(ngModel)]="customType"
-                class="mx-1 radioCustom"
-                
-              />
-              <label (click)="clickModal()" class="text-sm mx-1 mt-1 font-['GilroySemi']" for="test5">Surviving beneficiaries to split proportionately</label>
-        </div>
-     
-    </div>
-    <div *ngIf="customType==='custom1'" class="flex flex-col ">
-        <div class="flex  justify-between mt-4 font-['GilroyBold']  text-xl  items-center">Specify Replacement beneficiaries</div>
-        <div class=" text-[#838383] font-['GilroySemi']">Select and add executors</div>
-   
-        <div>
-            <app-select-box [shareToggle]="true"  [key]="key" [listItem]="memberData" [selectedItems]="slectedFallbackReplaceMembers"
-                addItemRoute="members/createmembers" [classes]="classes"
-                (onSelectId)="slecteFallbackReplaceMember($event)" addItemRoute='members/createmembers' avtarType="name"
-                addItemTitle="Add Distribution"> </app-select-box>
-        </div>
-    </div>
-    
-
-    <div class=" sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
-        <app-button [arrow]="true" padding="px-3 py-3" (myMethod)="onClickNext()" value="Clauses" id="submitButtonId"></app-button>
+      <div>
+        <app-select-box
+          [shareToggle]="true"
+          [key]="key"
+          [listItem]="memberData"
+          [selectedItems]="this.distributeResidualAssetsForm.value.residualMemberId"
+          addItemRoute="members/createmembers"
+          [classes]="classes"
+          (onSelectId)="selectResidualAssetsMember($event)"
+          addItemRoute="members/createmembers"
+          avtarType="name"
+          addItemTitle="Add Distribution"
+        >
+        </app-select-box>
       </div>
+    </div>
+    <div class="flex flex-col bg-[#f7f7f7] rounded-2xl mt-4 p-4">
+      <div class="flex flex-row justify-between mb-2">
+        <div class="font-['GilroyBold'] text-xl flex items-center">
+          Trust Fallback
+        </div>
+        <div>
+          <app-button
+            border="border-2 border-black"
+            (myMethod)="toggleModalTutorial = true"
+            padding="px-10 py-2"
+            backgroundColor="bg-[#fff]"
+            borderRadius="rounded-xl"
+            color="text-[#000]"
+            value="Tutorial"
+          >
+          </app-button>
+        </div>
+      </div>
+      <div class="-mt-4 text-[#838383] font-['GilroySemi']">
+        In the case where this trust cannot be carried out due to any reason.
+      </div>
+      <div class="flex flex-row justify-between my-4">
+        <div class="flex w-fit mt-1 justify-evenly ml-0 items-center">
+          <input
+            type="radio"
+            value="terminate"
+            formControlName="trustType"
+            id="test1"
+            class="mx-1 radioCustom"
+          />
+          <label
+            (click)="clickModal()"
+            [ngClass]="{ hidden: fallbackType === 'terminate' }"
+            class="text-sm mx-1 mt-1 font-['GilroySemi']"
+            for="test1"
+            >Terminate Trust</label
+          >
+          <input
+            type="radio"
+            id="test2"
+            value="custom"
+            formControlName="trustType"
+            class="mx-1 radioCustom"
+          />
+          <label
+            (click)="clickModal()"
+            class="text-sm mx-1 mt-1 font-['GilroySemi']"
+            for="test2"
+            >Custom</label
+          >
+        </div>
+
+        <div class="flex flex-row justify-between space-x-1">
+          <div
+            [ngClass]="{ 'text-[#FF6782]': splitToggle }"
+            class="w-fit cursor-pointer"
+          >
+            <svg
+              (click)="splitHandler()"
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </div>
+          <div class="font-['GilroySemi']">Split Equally</div>
+        </div>
+      </div>
+      <div *ngIf="this.distributeResidualAssetsForm.value.trustType === 'terminate'">
+        <app-select-box
+          [shareToggle]="true"
+          [key]="key"
+          [listItem]="memberData"
+          [selectedItems]="this.distributeResidualAssetsForm.value.fallbackMemberId"
+          addItemRoute="members/createmembers"
+          [classes]="classes"
+          (onSelectId)="selectFallbackMember($event)"
+          addItemRoute="members/createmembers"
+          avtarType="name"
+          addItemTitle="Add Distribution"
+          (shareDataHandler)="shareDataHandler($event)"
+        >
+        </app-select-box>
+      </div>
+      <div
+        *ngIf="this.distributeResidualAssetsForm.value.trustType === 'custom'"
+        class="flex flex-col"
+      >
+        <input
+          type="radio"
+          value="custom1"
+          formControlName="customType"
+          id="test3"
+          class="mx-1 radioCustom"
+        />
+        <label
+          (click)="clickModal()"
+          class="text-sm mx-1 mt-1 font-['GilroySemi']"
+          for="test3"
+          >Give to replacement beneficiaries (Required to specify replacement
+          beneficiaries)</label
+        >
+        <input
+          type="radio"
+          id="test4"
+          value="custom2"
+          formControlName="customType"
+          class="mx-1 radioCustom"
+        />
+        <label
+          (click)="clickModal()"
+          class="text-sm mx-1 mt-1 font-['GilroySemi']"
+          for="test4"
+          >Children of beneficiar(ies)</label
+        >
+        <input
+          type="radio"
+          id="test5"
+          value="custom3"
+          formControlName="customType"
+          class="mx-1 radioCustom"
+        />
+        <label
+          (click)="clickModal()"
+          class="text-sm mx-1 mt-1 font-['GilroySemi']"
+          for="test5"
+          >Surviving beneficiaries to split proportionately</label
+        >
+      </div>
+    </div>
+    <div
+      *ngIf="this.distributeResidualAssetsForm.value.customType === 'custom1'  && this.distributeResidualAssetsForm.value.trustType === 'custom' "
+      class="flex flex-col"
+    >
+      <div
+        class="flex justify-between mt-4 font-['GilroyBold'] text-xl items-center"
+      >
+        Specify Replacement beneficiaries
+      </div>
+      <div class="text-[#838383] font-['GilroySemi']">
+        Select and add executors
+      </div>
+
+      <div>
+        <app-select-box
+          [shareToggle]="true"
+          [key]="key"
+          [listItem]="memberData"
+          [selectedItems]="this.distributeResidualAssetsForm.value.fallbackReplacementMemberId"
+          addItemRoute="members/createmembers"
+          [classes]="classes"
+          (onSelectId)="slecteFallbackReplaceMember($event)"
+          addItemRoute="members/createmembers"
+          avtarType="name"
+          addItemTitle="Add Distribution"
+        >
+        </app-select-box>
+      </div>
+    </div>
+    <div class="sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
+      <app-button
+        [arrow]="true"
+        padding="px-3 py-3"
+        (myMethod)="onClickNext()"
+        value="Clauses"
+        id="submitButtonId"
+      ></app-button>
+    </div>
+  </form>
 </div>
 <app-modal-filter [modalBody]="modalBody2" [showModal]="toggleModalTutorial">
-    <ng-template #modalBody2>
-        <app-tutorial (onClose)="toggleModalTutorial = false"> </app-tutorial>
-    </ng-template>
+  <ng-template #modalBody2>
+    <app-tutorial (onClose)="toggleModalTutorial = false"> </app-tutorial>
+  </ng-template>
 </app-modal-filter>

@@ -90,9 +90,9 @@ forwardRouteLink="/liabilities";
       required: 'Please Select Asset',
     },
   };
-  selectAssets({value, condition}) {
+  selectAssets(value) {
     let assetId: Array<any> = this.SecuredLoan.value.assetId;
-    if (condition) {
+    if (assetId.includes(value)) {
       assetId.splice(assetId.indexOf(value), 1);
     }
     else {

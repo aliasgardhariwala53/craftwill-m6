@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { valueChanges } from 'src/app/helper/formerror.helper';
 import { MembersService } from 'src/app/services/members.service';
+import { WillService } from 'src/app/services/will.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
 
 @Component({
@@ -17,8 +18,10 @@ export class AppointExecutorComponent implements OnInit {
     private _fb: FormBuilder,
     private memberServices: MembersService,
     private spinner: NgxUiLoaderService,
-    private toastr: ToastrService
-  ) {}
+    private toastr: ToastrService,
+    private _willServices: WillService
+  ) {
+  }
   appointExecutorForm: FormGroup;
   memberData = [];
   guardianType = 'guardian1';
@@ -32,34 +35,53 @@ export class AppointExecutorComponent implements OnInit {
     {
       id: 1,
       name: 'Sole',
+      value: 'sole',
       avatar:
         '/assets/Icons/sole.svg',
     },
     {
       id: 2,
       name: 'Jointly',
+      value: 'joint',
       avatar:
         '/assets/Icons/joint.svg',
     },
     {
       id: 3,
       name: 'Jointly & Severally',
+      value: 'jointlyAndSeverally',
       avatar:
         '/assets/Icons/joint.svg',
     },
   ];
-  primaryExecutor = this.listType[0].name;
-  replaceExecutor = this.listType[0].name;
-  replaceGuardian = this.listType[0].name;
-  appointGuardian = this.listType[0].name;
+  // primaryExecutor = this.listType[0].name;
+  // replaceExecutor = this.listType[0].name;
+  // replaceGuardian = this.listType[0].name;
+  // appointGuardian = this.listType[0].name;
   key = ['fullname', 'Relationship'];
   classes = ['font-bold', 'font-bold', 'text-sm'];
   createForm() {
     this.appointExecutorForm = this._fb.group({
-      executorId: [[], [Validators.required]],
-      replacementExecutorId: [[], [Validators.required]],
-      guardianId: [[], [Validators.required]],
-      replacementGuardianId: [[], [Validators.required]],
+       ///Appoint Primary Executor
+      primary_executor_type: ['sole', [Validators.required]],
+      addPrimaryExecutor: [[], [Validators.required]],
+    /// Appoint Replacement Executor
+      replacement_executor_type: ['sole', [Validators.required]],
+      addReplacementExecutor: [[], [Validators.required]],
+
+    /// Appoint Guardian
+      guardian_type: ['guardian1', [Validators.required]],
+
+      guardian_executor_type: ['sole'],
+      addGuardianExecutor: [[]],
+   /// Appoint Replacement Guardian
+      guardian_replacement_executor_type: ['sole'],
+      addGuardianReplacementExecutor: [[]],
+
+      // executorId: [[], [Validators.required]],
+      // replacementExecutorId: [[], [Validators.required]],
+      // guardianId: [[], [Validators.required]],
+      // replacementGuardianId: [[], [Validators.required]],
     });
     this.appointExecutorForm.valueChanges.subscribe(() => {
       this.formErrors = valueChanges(
@@ -83,25 +105,23 @@ export class AppointExecutorComponent implements OnInit {
     },
   };
   selectMemberExecutor(value) {
-    console.log(value);
-
-    let executorId: Array<any> = this.appointExecutorForm.value.executorId;
-    if (executorId.includes(value)) {
-      executorId.splice(executorId.indexOf(value), 1);
+    let primaryExecutorId: Array<any> = this.appointExecutorForm.value.addPrimaryExecutor;
+    if (primaryExecutorId.includes(value)) {
+      primaryExecutorId.splice(primaryExecutorId.indexOf(value), 1);
     } else {
-      executorId.push(value);
+      primaryExecutorId.push(value);
     }
-    this.slectedExecutor = executorId;
+    this.slectedExecutor = primaryExecutorId;
     this.appointExecutorForm.patchValue({
-      executorId: executorId,
+      addPrimaryExecutor: primaryExecutorId,
     });
-    console.log(this.appointExecutorForm.value.executorId);
+    // console.log(this.appointExecutorForm.value.addPrimaryExecutor);
   }
   selectMemberReplacementExecutor(value) {
-    console.log(value);
+    // console.log(value);
 
     let replacementExecutorId: Array<any> =
-      this.appointExecutorForm.value.replacementExecutorId;
+      this.appointExecutorForm.value.addReplacementExecutor;
     if (replacementExecutorId.includes(value)) {
       replacementExecutorId.splice(replacementExecutorId.indexOf(value), 1);
     } else {
@@ -109,12 +129,12 @@ export class AppointExecutorComponent implements OnInit {
     }
     this.slectedReplacementExecutor = replacementExecutorId;
     this.appointExecutorForm.patchValue({
-      replacementExecutorId: replacementExecutorId,
+      addReplacementExecutor: replacementExecutorId,
     });
-    console.log(this.appointExecutorForm.value.replacementExecutorId);
+    // console.log(this.appointExecutorForm.value.replacement_executor_type);
   }
   selectMemberGuardian(value) {
-    let guardianId: Array<any> = this.appointExecutorForm.value.guardianId;
+    let guardianId: Array<any> = this.appointExecutorForm.value.addGuardianExecutor;
     if (guardianId.includes(value)) {
       guardianId.splice(guardianId.indexOf(value), 1);
     } else {
@@ -122,12 +142,12 @@ export class AppointExecutorComponent implements OnInit {
     }
     this.selectedGuardian = guardianId;
     this.appointExecutorForm.patchValue({
-      guardianId: guardianId,
+      addGuardianExecutor: guardianId,
     });
   }
   selectReplacementMemberGuardian(value) {
     let slectedReplacementGuardian: Array<any> =
-      this.appointExecutorForm.value.replacementGuardianId;
+      this.appointExecutorForm.value.addGuardianReplacementExecutor;
     if (slectedReplacementGuardian.includes(value)) {
       slectedReplacementGuardian.splice(
         slectedReplacementGuardian.indexOf(value),
@@ -138,11 +158,12 @@ export class AppointExecutorComponent implements OnInit {
     }
     this.slectedReplacementGuardian = slectedReplacementGuardian;
     this.appointExecutorForm.patchValue({
-      replacementGuardianId: slectedReplacementGuardian,
+      addGuardianReplacementExecutor: slectedReplacementGuardian,
     });
   }
   onClickNext() {
     this.onClickNextBtn.emit(3);
+    this._willServices.step2.next(this.appointExecutorForm.value);
   }
   onUpdate(value) {}
   ngOnInit(): void {
@@ -152,7 +173,7 @@ export class AppointExecutorComponent implements OnInit {
         // console.log(result.data);
         this.spinner.stop();
         this.memberData = result.data.map((items, i) => {
-          console.log(items);
+          // console.log(items);
 
           return {
             fullname: this.memberServices.getMembersData(items).fullname,
@@ -174,5 +195,9 @@ export class AppointExecutorComponent implements OnInit {
         this.toastr.message('Error Getting Members data !!', false);
       }
     );
+    this._willServices.step2.subscribe((step2Data) => {
+      console.log(step2Data);
+      this.appointExecutorForm.setValue(step2Data);
+    });
   }
 }

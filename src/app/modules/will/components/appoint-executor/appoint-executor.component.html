@@ -1,5 +1,6 @@
 <div class="flex flex-col overflow-auto min-h-[100vh]">
-  <div class="font-['GilroySemi'] text-[#ccc]">
+  <form class="flex flex-col" [formGroup]="appointExecutorForm">
+      <div class="font-['GilroySemi'] text-[#ccc]">
     An executor must not be bankrupt, must be Above 21 years old.
   </div>
   <div class="flex flex-row justify-between">
@@ -19,11 +20,11 @@
   <div class="flex flex-col bg-[#f7f7f7] rounded-2xl p-4">
     <div class="white">
       <ng-select
-        [(ngModel)]="primaryExecutor"
+        formControlName="primary_executor_type"
         [searchable]="false" [clearable]="false"
         class="custom-selector white joint w-1/4"
       >
-        <ng-option *ngFor="let item of listType" [value]="item.name">
+        <ng-option *ngFor="let item of listType" [value]="item.value">
           <img height="15" width="15" [src]="item.avatar" class="mr-3" />{{
             item.name
           }}</ng-option
@@ -37,7 +38,7 @@
       <app-select-box
         [key]="key"
         [listItem]="memberData"
-        [selectedItems]="slectedExecutor"
+        [selectedItems]="this.appointExecutorForm.value.addPrimaryExecutor"
         addItemRoute="members/createmembers"
         [classes]="classes"
         (onSelectId)="selectMemberExecutor($event)"
@@ -67,11 +68,11 @@
   <div class="flex flex-col bg-[#f7f7f7] rounded-2xl p-4">
     <div class="white">
         <ng-select
-          [(ngModel)]="replaceExecutor"
+          formControlName="replacement_executor_type"
           [searchable]="false" [clearable]="false"
           class="custom-selector white joint w-1/4"
         >
-          <ng-option *ngFor="let item of listType" [value]="item.name">
+          <ng-option *ngFor="let item of listType" [value]="item.value">
             <img height="15" width="15" [src]="item.avatar" class="mr-3" />{{
               item.name
             }}</ng-option
@@ -85,7 +86,7 @@
       <app-select-box
         [key]="key"
         [listItem]="memberData"
-        [selectedItems]="slectedReplacementExecutor"
+        [selectedItems]="this.appointExecutorForm.value.addReplacementExecutor"
         addItemRoute="members/createmembers"
         [classes]="classes"
         (onSelectId)="selectMemberReplacementExecutor($event)"
@@ -121,7 +122,7 @@
         <input
           type="radio"
           value="guardian1"
-          [(ngModel)]="guardianType"
+          formControlName="guardian_type"
           id="test1"
           class="mx-1 radioCustom"
         />
@@ -136,7 +137,7 @@
           type="radio"
           id="test2"
           value="guardian2"
-          [(ngModel)]="guardianType"
+          formControlName="guardian_type"
           class="mx-1 radioCustom"
         />
         <label class="mx-1 font-['gilroysemi'] w-full" for="test2"
@@ -150,22 +151,22 @@
           type="radio"
           id="test3"
           value="guardian3"
-          [(ngModel)]="guardianType"
+          formControlName="guardian_type"
           class="mx-1 radioCustom"
         />
         <label class="mx-1 font-['gilroysemi'] w-full" for="test3"
           >To act only if no parent survives</label
         >
       </div>
-      <div *ngIf="guardianType !== 'guardian1'">
+      <div *ngIf="this.appointExecutorForm.value.guardian_type !== 'guardian1'">
         <div class="mt-4 mb-8">
             <div class="white">
                 <ng-select
-                  [(ngModel)]="appointGuardian"
+                  formControlName="guardian_executor_type"
                   [searchable]="false" [clearable]="false"
                   class="custom-selector white joint w-1/4"
                 >
-                  <ng-option *ngFor="let item of listType" [value]="item.name">
+                  <ng-option *ngFor="let item of listType" [value]="item.value">
                     <img height="15" width="15" [src]="item.avatar" class="mr-3" />{{
                       item.name
                     }}</ng-option
@@ -177,7 +178,7 @@
             <app-select-box
               [key]="key"
               [listItem]="memberData"
-              [selectedItems]="selectedGuardian"
+              [selectedItems]="this.appointExecutorForm.value.addGuardianExecutor"
               addItemRoute="members/createmembers"
               [classes]="classes"
               (onSelectId)="selectMemberGuardian($event)"
@@ -196,11 +197,11 @@
         <div class="my-2">
             <div class="white">
                 <ng-select
-                  [(ngModel)]="replaceGuardian"
+                  formControlName="guardian_replacement_executor_type"
                   [searchable]="false" [clearable]="false"
                   class="custom-selector white joint w-1/4"
                 >
-                  <ng-option *ngFor="let item of listType" [value]="item.name">
+                  <ng-option *ngFor="let item of listType" [value]="item.value">
                     <img height="15" width="15" [src]="item.avatar" class="mr-3" />{{
                       item.name
                     }}</ng-option
@@ -212,7 +213,7 @@
             <app-select-box
               [key]="key"
               [listItem]="memberData"
-              [selectedItems]="slectedReplacementGuardian"
+              [selectedItems]="this.appointExecutorForm.value.addGuardianReplacementExecutor"
               addItemRoute="members/createmembers"
               [classes]="classes"
               (onSelectId)="selectReplacementMemberGuardian($event)"
@@ -237,6 +238,8 @@
       id="submitButtonId"
     ></app-button>
   </div>
+</form>
+
 </div>
 <app-modal-filter [modalBody]="modalBody2" [showModal]="toggleModalTutorial">
   <ng-template #modalBody2>

@@ -1,6 +1,7 @@
 import { Component, OnInit, Output,EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { valueChanges } from 'src/app/helper/formerror.helper';
+import { WillService } from 'src/app/services/will.service';
 
 @Component({
   selector: 'app-personal-information',
@@ -9,7 +10,10 @@ import { valueChanges } from 'src/app/helper/formerror.helper';
 })
 export class PersonalInformationComponent implements OnInit {
   @Output() onClickNextBtn = new EventEmitter();
-  constructor(private _fb:FormBuilder) { }
+  constructor(private _fb:FormBuilder,private _willServices: WillService) {
+   
+
+   }
   idList = ['NRIC', 'Passport', 'FIN', 'Others'];
   genderList = ['Male', 'Female', 'Other'];
   userInfo: FormGroup;
@@ -17,16 +21,16 @@ export class PersonalInformationComponent implements OnInit {
   step=1;
   createForm() {
     this.userInfo = this._fb.group({
+      id_Number: [],
+      id_Type: [],
       fullName: [''],
-      email: [''],
-      id_type: [],
-      id_number: [''],
       gender: [],
+      email: [''],
       floorNumber: [''],
       unitNumber: [''],
       streetName: [''],
       postalCode: [''],
-      specifyOwnershipType: [''],
+      assetScope: ['Singapore'],
     });
 
     this.userInfo.valueChanges.subscribe(() => {
@@ -39,8 +43,8 @@ export class PersonalInformationComponent implements OnInit {
 
   }
   formErrors = {
-    id_type: '',
-    id_number: '',
+    id_Type: '',
+    id_Number: '',
     gender: '',
     fullName: '',
     email: '',
@@ -48,17 +52,18 @@ export class PersonalInformationComponent implements OnInit {
     unitNumber: '',
     streetName: '',
     postalCode: '',
-    specifyOwnershipType: '',
+    assetScope: '',
 
   };
   onClickNext(){
-    this.onClickNextBtn.emit(2)
+    this.onClickNextBtn.emit(2);
+    this._willServices.step1.next(this.userInfo.value);
   }
   formErrorMessages = {
-    id_type: {
+    id_Type: {
       required: 'Id Type is Required',
     },
-    id_number: {
+    id_Number: {
       required: 'Id Number is Required',
     },
     gender: {
@@ -91,7 +96,11 @@ export class PersonalInformationComponent implements OnInit {
 
   };
   ngOnInit(): void {
-    this.createForm()
+    this.createForm();
+    this._willServices.step1.subscribe((step1Data) => {
+      console.log(step1Data);
+      this.userInfo.setValue(step1Data);
+    });
   }
 
 }

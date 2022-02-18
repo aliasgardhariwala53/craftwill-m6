@@ -4,6 +4,7 @@ import { ToastrService } from 'src/app/shared/services/toastr.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { MembersService } from 'src/app/services/members.service';
 import { valueChanges } from 'src/app/helper/formerror.helper';
+import { WillService } from 'src/app/services/will.service';
 
 @Component({
   selector: 'app-distribute-residual-asset',
@@ -18,9 +19,11 @@ export class DistributeResidualAssetComponent implements OnInit {
     private memberServices: MembersService,
     private spinner: NgxUiLoaderService,
     private toastr: ToastrService,
-  ) {}
+    private _willServices: WillService
+  ) {
+   
+  }
   fallbackType: string = 'terminate';
-  customType: string = '';
   memberData = [];
   slectedResidualMembers = [];
   slectedFallbackMembers = [];
@@ -31,8 +34,14 @@ export class DistributeResidualAssetComponent implements OnInit {
   classes = ['font-bold', 'font-bold', 'text-sm'];
   createForm() {
     this.distributeResidualAssetsForm = this._fb.group({
+      specifyResidualAssetBenificiary:[[]],
       residualMemberId:[[],[Validators.required]],
+
+      trustType:['terminate',[Validators.required]],
+      //terminate
       fallbackMemberId:[[],[Validators.required]],
+      //custom member
+      customType:['',[Validators.required]],
       fallbackReplacementMemberId:[[],[Validators.required]],
     });
     this.distributeResidualAssetsForm.valueChanges.subscribe(() => {
@@ -58,13 +67,13 @@ export class DistributeResidualAssetComponent implements OnInit {
     },
   };
   clickModal(){
-    console.log(this.fallbackType,this.customType);
+    console.log(this.distributeResidualAssetsForm.value.trustType);
   
     
   }
+
   selectResidualAssetsMember(value) {
     console.log(value);
-    
     let residualMemberId: Array<any> = this.distributeResidualAssetsForm.value.residualMemberId;
     if (residualMemberId.includes(value)) {
       residualMemberId.splice(residualMemberId.indexOf(value), 1);
@@ -76,6 +85,8 @@ export class DistributeResidualAssetComponent implements OnInit {
       residualMemberId: residualMemberId,
     });
     console.log(this.distributeResidualAssetsForm.value.residualMemberId);
+
+    
   }
   selectFallbackMember(value) {
     console.log(value);
@@ -113,10 +124,15 @@ export class DistributeResidualAssetComponent implements OnInit {
     this.splitToggle=!this.splitToggle;
   }
   onClickNext(){
-    this.onClickNextBtn.emit(2)
+    this.onClickNextBtn.emit(5)
+    this._willServices.step4.next(this.distributeResidualAssetsForm.value);
   }
   ngOnInit(): void {
     this.createForm();
+    this._willServices.step4.subscribe((step4Data) => {
+      console.log(step4Data);
+      this.distributeResidualAssetsForm.setValue(step4Data);
+    });
     this.memberServices.getMembers().subscribe(
       (result) => {
         // console.log(result.data);

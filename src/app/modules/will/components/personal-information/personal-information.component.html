@@ -10,13 +10,13 @@
           <input
             type="text"
             placeholder="ID Number"
-            formControlName="id_number"
+            formControlName="id_Number"
             class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#F7F7F7] w-[100%] px-2 sm:px-4 py-2 form-control rounded-[14px] focus:outline-none"
           />
         </div>
 
         <div class="text-red-500 errors mx-2">
-          {{ formErrors.id_number }}
+          {{ formErrors.id_Number }}
         </div>
       </div>
       <div class="w-full">
@@ -28,13 +28,13 @@
             class="custom-selector members w-full"
             placeholder="{{ 'Select ID Type' }}"
             [items]="idList"
-            formControlName="id_type"
+            formControlName="id_Type"
           >
           </ng-select>
         </div>
 
         <div class="text-red-500 errors mx-2">
-          {{ formErrors.id_type }}
+          {{ formErrors.id_Type }}
         </div>
       </div>
       <div class="w-full">
@@ -69,7 +69,7 @@
         </div>
 
         <div class="text-red-500 errors mx-2">
-          {{ formErrors.id_number }}
+          {{ formErrors.id_Number }}
         </div>
       </div>
       <div class="w-full">
@@ -174,7 +174,7 @@
       <div class="flex w-full  justify-between  items-center py-1">
         <input
           type="radio"
-          formControlName="specifyOwnershipType"
+          formControlName="assetScope"
           value="international"
           id="test1"
           class="mx-1 radioCustom"
@@ -185,14 +185,14 @@
         <input
           type="radio"
           id="test2"
-          formControlName="specifyOwnershipType"
+          formControlName="assetScope"
           value="singapore"
           class="mx-1 radioCustom"
         />
         <label class="text-sm font-['GilroySemi']" for="test2">Singapore</label>
       </div>
       <div class="text-red-500 errors mx-2">
-        {{ formErrors.specifyOwnershipType }}
+        {{ formErrors.assetScope }}
       </div>
     </div>
     <div class=" sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">

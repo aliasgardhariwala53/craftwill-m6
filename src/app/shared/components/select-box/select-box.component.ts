@@ -28,34 +28,49 @@ export class SelectBoxComponent implements OnInit,OnChanges {
 selectedItem: Array<any>=[];
 currentRoute:string;
 arr4=[];
+shareValue=0;
 constructor(private _route:Router,private currentUrl:ActivatedRoute) { 
   console.log(this.selectedItem);
 }
+
 sharePercentage(e, itemId){
+  if (parseInt(e.target.value)>100) {
+    this.shareValue=100;
+  } else if(parseInt(e.target.value)<0){
+    this.shareValue=0;
+  }else{
+    this.shareValue =parseInt(e.target.value);
+  }
   const myItem = this.arr4.findIndex((el) => el.id === itemId);
   if(myItem === -1) {
     this.arr4.push({
       id: itemId,
-      share: e.target.value
+      share: this.shareValue
     })
   }
   else {
     const newarr= this.arr4.map((el)=>{
       if (el.id === itemId) {
-        return {id:itemId,share:e.target.value};
+        return {id:itemId,share:this.shareValue};
       }
       return el;
       });
   
     this.arr4 = [...newarr];
   }
-  this.shareDataHandler.emit(this.arr4);
+  this.shareDataHandler.emit({shareData:this.arr4,id:itemId});
+console.log(this.arr4);
+
+}
+clicl(value){
+  console.log(value);
+  
 }
 onClickActionButton(Item){
   
   this.actionButton.emit(Item._id);
   if (this._route.url=='/will/createWill') {
-    this._route.navigate([`${Item.actionRoute}`], { queryParams:{id:Item._id,x:Item._id}});
+    this._route.navigate([`${Item.actionRoute}`], { queryParams:{id:Item._id,y:'will'}});
     return;
   }
   this._route.navigate([`${Item.actionRoute}`], { queryParams:{id:Item._id}})

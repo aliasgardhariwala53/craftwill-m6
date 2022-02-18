@@ -6,6 +6,7 @@ import { errorHandler, valueChanges } from 'src/app/helper/formerror.helper';
 import { AssetsService } from 'src/app/services/assets.service';
 import { LiabilitiesService } from 'src/app/services/liabilities.service';
 import { TrustService } from 'src/app/services/trust.service';
+import { WillService } from 'src/app/services/will.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
 @Component({
   selector: 'app-distribution-assets',
@@ -21,15 +22,21 @@ export class DistributionAssetsComponent implements OnInit {
     private spinner: NgxUiLoaderService,
     private liabilitiesServices: LiabilitiesService,
     private trustServices: TrustService,
-    private toastr: ToastrService
-  ) {}
+    private toastr: ToastrService,
+    private _willServices: WillService
+  ) {
+    
+  }
 
   distributeAssetsForm: FormGroup;
   createForm() {
     this.distributeAssetsForm = this._fb.group({
-      assetId: [[], [Validators.required]],
-      liabilitiesId: [[], [Validators.required]],
-      trustId: [[], [Validators.required]],
+          /// Liabilities
+      liabilities: [[], [Validators.required]],
+          ///Assets
+      assets: [[], [Validators.required]],
+///trust
+      trust: [[], [Validators.required]],
     });
     this.distributeAssetsForm.valueChanges.subscribe(() => {
       this.formErrors = valueChanges(
@@ -40,16 +47,18 @@ export class DistributionAssetsComponent implements OnInit {
     });
   }
   formErrors = {
-    trustId: '',
+    liabilities: '',
+    assets: '',
+    trust: '',
   };
   formErrorMessages = {
-    assetId: {
+    assets: {
       required: 'Please Select Asset',
     },
-    liabilitiesId: {
+    liabilities: {
       required: 'Please Select Liabilities',
     },
-    trustId: {
+    trust: {
       required: 'Please Select Trust',
     },
   };
@@ -58,66 +67,60 @@ export class DistributionAssetsComponent implements OnInit {
   keyAssets = ['nameofAssets', 'uniqueNumber'];
   classes = ['font-bold', 'font-bold', 'text-sm'];
   assetsData = [];
-  selectedAssetsId;
   selectAssets(value) {
     console.log(value);
-
-    let assetId: Array<any> = this.distributeAssetsForm.value.assetId;
+    let assetId: Array<any> = this.distributeAssetsForm.value.assets;
     if (assetId?.includes(value)) {
       assetId.splice(assetId.indexOf(value), 1);
     } else {
       assetId?.push(value);
     }
-    this.selectedAssetsId = assetId;
     this.distributeAssetsForm.patchValue({
-      assetId: assetId,
+      assets: assetId,
     });
 
-    console.log(this.distributeAssetsForm.value.assetId);
+    console.log(this.distributeAssetsForm.value.assets);
   }
 
   //liabilities
   KeysLiability = ['loanName', 'loanProvider'];
   LiabilitiesData = [];
-  slectedLiabilitiesId;
 
   selectLiabilities(value) {
     let liabilitiesId: Array<any> =
-      this.distributeAssetsForm.value.liabilitiesId;
+      this.distributeAssetsForm.value.liabilities;
     if (liabilitiesId?.includes(value)) {
       liabilitiesId.splice(liabilitiesId.indexOf(value), 1);
     } else {
       liabilitiesId?.push(value);
     }
-    this.slectedLiabilitiesId = liabilitiesId;
     this.distributeAssetsForm.patchValue({
-      liabilitiesId: liabilitiesId,
+      liabilities: liabilitiesId,
     });
 
-    console.log(this.distributeAssetsForm.value.assetId);
+    console.log(this.distributeAssetsForm.value.assets);
   }
 
   //trust
   trustData = [];
-  slectedTrustId;
   KeysTrust = ['trustName', 'ownerShipType'];
   selectTrust(value) {
     let trustId: Array<any> =
-      this.distributeAssetsForm.value.trustId;
+      this.distributeAssetsForm.value.trust;
     if (trustId?.includes(value)) {
       trustId.splice(trustId.indexOf(value), 1);
     } else {
       trustId?.push(value);
     }
-    this.slectedTrustId = trustId;
     this.distributeAssetsForm.patchValue({
-      slectedTrustId: trustId,
+      trust: trustId,
     });
 
-    console.log(this.distributeAssetsForm.value.assetId);
+    console.log(this.distributeAssetsForm.value.assets);
   }
   onClickNext(){
-    this.onClickNextBtn.emit(2)
+    this.onClickNextBtn.emit(4)
+    this._willServices.step3.next(this.distributeAssetsForm.value);
   }
   onUpdateAssets(value){
   console.log(value);
@@ -125,7 +128,10 @@ export class DistributionAssetsComponent implements OnInit {
   }
   ngOnInit(): void {
     this.createForm();
-
+    this._willServices.step3.subscribe((step3Data) => {
+      console.log(step3Data);
+      this.distributeAssetsForm.setValue(step3Data);
+    });
     this.assetsServices.getAssets().subscribe(
       (result) => {
         this.spinner.stop();
@@ -192,5 +198,7 @@ export class DistributionAssetsComponent implements OnInit {
         this.toastr.message(errorHandler(err), false);
       }
     );
+
+
   }
 }

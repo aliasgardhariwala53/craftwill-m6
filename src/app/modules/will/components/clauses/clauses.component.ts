@@ -2,6 +2,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { MembersService } from 'src/app/services/members.service';
+import { WillService } from 'src/app/services/will.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { valueChanges } from 'src/app/helper/formerror.helper';
 
 @Component({
   selector: 'app-clauses',
@@ -27,8 +30,41 @@ export class ClausesComponent implements OnInit {
   constructor(
     private memberServices: MembersService,
     private spinner: NgxUiLoaderService,
-    private toastr: ToastrService
-  ) { }
+    private toastr: ToastrService,
+    private _willServices: WillService,
+    private _fb: FormBuilder,
+  ) {
+
+   }
+   clauseForm: FormGroup;
+   createForm() {
+    this.clauseForm = this._fb.group({
+      assetId: [[], [Validators.required]],
+      liabilitiesId: [[], [Validators.required]],
+      trustId: [[], [Validators.required]],
+    });
+    this.clauseForm.valueChanges.subscribe(() => {
+      this.formErrors = valueChanges(
+        this.clauseForm,
+        { ...this.formErrors },
+        this.formErrorMessages
+      );
+    });
+  }
+  formErrors = {
+    trustId: '',
+  };
+  formErrorMessages = {
+    assetId: {
+      required: 'Please Select Asset',
+    },
+    liabilitiesId: {
+      required: 'Please Select Liabilities',
+    },
+    trustId: {
+      required: 'Please Select Trust',
+    },
+  };
   onSelectClause(){
 
   }
@@ -95,9 +131,15 @@ export class ClausesComponent implements OnInit {
     this.showClauseModal=false;
   }
   onClickNext() {
-    this.onClickNextBtn.emit(3);
+    this.onClickNextBtn.emit(6);
+    this._willServices.step5.next(this.clauseForm.value);
   }
   ngOnInit(): void {
+    this.createForm() 
+    this._willServices.step5.subscribe((step5Data) => {
+      console.log(step5Data);
+      this.clauseForm.setValue(step5Data);
+    });
     this.memberServices.getMembers().subscribe(
       (result) => {
         // console.log(result.data);

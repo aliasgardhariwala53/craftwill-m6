@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { valueChanges } from 'src/app/helper/formerror.helper';
+import { WillService } from 'src/app/services/will.service';
 
 @Component({
   selector: 'app-create-will',
@@ -9,10 +10,11 @@ import { valueChanges } from 'src/app/helper/formerror.helper';
 })
 export class CreateWillComponent implements OnInit {
   
-  constructor( private _fb: FormBuilder,) { }
+  constructor( private _fb: FormBuilder,
+    ) { }
   pageTitle='Personal Information';
   viewClause="listClause";
-  step=6;
+  step=4;
   setPageInfo(){
     switch (this.step) {
       case 1:
@@ -42,6 +44,7 @@ export class CreateWillComponent implements OnInit {
     this.step+=1;
     this.setPageInfo()
     console.log(value);
+    
   }
   onbackClause(value){
   this.viewClause=value;  
@@ -54,8 +57,8 @@ export class CreateWillComponent implements OnInit {
       this.viewClause='listClause';
       return;
     }
-    this.setPageInfo();
     this.step=this.step-1;
+    this.setPageInfo();
   }
   ngOnInit(): void {
   }

@@ -145,12 +145,27 @@ key = ['fullname', 'Relationship'];
     );
   }
  
-  shareDataHandler(value){
-    this.shareData=[...value]
-    // console.log(this.shareData);
-    console.log(this.BankAccountUser.value.GiftBenificiary);
-    // let sharesObj = value.filter((el)=>el.id===id);
-    // this.jointArrayhandler(sharesObj,id);
+  shareDataHandler({shareData,id}){
+    this.shareData=[...shareData]
+    let sharesObj = shareData.filter((el)=>el.id===id);
+    const myItem = this.slectedResidualMembers.findIndex((el) => el === id);
+    if(myItem !== -1) {
+      let sharesMemberId: Array<any> = this.BankAccountUser.value.GiftBenificiary;
+      const shareMemberIdNew=sharesMemberId.map((el)=>{
+        if (el?.member===id) {
+          return{member:id,share:sharesObj[0].share}
+        }
+        return el;
+      })
+           this.BankAccountUser.patchValue({
+           GiftBenificiary:shareMemberIdNew
+           })
+           console.log(this.BankAccountUser.value.GiftBenificiary);
+    }else{
+      
+     return;
+    }
+    
   }
   addColorArray(){
     this.slectedResidualMembers=this.BankAccountUser.value.GiftBenificiary.map((el)=>el.member);
@@ -173,19 +188,23 @@ key = ['fullname', 'Relationship'];
     this.BankAccountUser.patchValue({
       GiftBenificiary:sharesMemberId
     })
+    const sum =this.BankAccountUser.value.GiftBenificiary.reduce((el,number)=>{
+      return parseInt(el?.share) + number;
+    })
+    console.log(sum);
+    console.log(this.BankAccountUser.value.GiftBenificiary);
+
+
   }
   addSharesMember(id) {
-    let sharesMemberId: Array<any> = this.BankAccountUser.value.GiftBenificiary;
     let sharesObj = this.shareData.filter((el)=>el.id===id);
-    console.log(sharesObj);
-
     this.jointArrayhandler(sharesObj,id);
     this.addColorArray()
-    console.log(this.slectedResidualMembers);
     console.log(this.BankAccountUser.value.GiftBenificiary);
-    
+
   }
   onUpdateBank() {
+  
     this.spinner.start();
     const bankAccountData = {
       specifyOwnershipType: this.BankAccountUser.value.specifyOwnershipType,

@@ -23,6 +23,7 @@ export class BusinessComponent implements OnInit {
   id: string='';
   fromCreateWill: string;
   memberData=[];
+  shareData = [];
   slectedResidualMembers = [];
   assetsResidualType
   previousRoute: string;
@@ -51,6 +52,7 @@ export class BusinessComponent implements OnInit {
       UEN_no: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
       country: [, [Validators.required]],
       specifyOwnershipType: ['', [Validators.required]],
+      GiftBenificiary: [[]],
     });
     this.businessForm.valueChanges.subscribe(() => {
       this.formErrors = valueChanges(
@@ -84,6 +86,35 @@ export class BusinessComponent implements OnInit {
       required: 'Ownership is Required',
     },
   };
+  shareDataHandler({shareData,id}){
+    this.shareData=[...shareData]
+    console.log(this.shareData);
+    console.log(this.businessForm.value.GiftBenificiary);
+    let sharesObj = shareData.filter((el)=>el.id===id);
+    this.jointArrayhandler(sharesObj,id);
+  }
+  addColorArray(){
+    this.slectedResidualMembers=this.businessForm.value.GiftBenificiary.map((el)=>el.member);
+  }
+  jointArrayhandler(sharesObj,id){
+    let sharesMemberId: Array<any> = this.businessForm.value.GiftBenificiary;
+    const myItem = sharesMemberId?.findIndex((el) => el.member === id);
+
+    if(myItem === -1) {
+      sharesMemberId.push({
+        member: id,
+        share: sharesObj[0]?.share || 0
+      })
+    }
+    else {
+      const newarr=sharesMemberId.filter((el)=>el.member !==id )
+      sharesMemberId = newarr;   
+    }
+
+    this.businessForm.patchValue({
+      GiftBenificiary:sharesMemberId
+    })
+  }
   addBusiness() {
    
     console.log(this.businessForm);
@@ -104,7 +135,9 @@ export class BusinessComponent implements OnInit {
       country: this.businessForm.value.country,
       specifyOwnershipType: this.businessForm.value.specifyOwnershipType,
       business: this.businessForm.value,
-      type:'business'
+      type:'business',
+      GiftBenificiary: this.businessForm.value.GiftBenificiary,
+      ifBenificiaryNotSurvive :this.assetsResidualType,
     };
     this.assetsServices.addAssets(businessData).subscribe((result) => {
       this.spinner.stop();

@@ -1,204 +1,85 @@
 <div class="flex flex-col mx-8 my-8 md:hidden">
-  <app-header-toolbar
-    routerlink="/home"
-    pagetitle="Liabilities"
-    [headerMenuIcon]="true"
-  ></app-header-toolbar>
-  <app-button
-    value="Tutorial"
-    (click)="toggleModalTutorial = true"
-    class="md:hidden"
-    backgroundColor="bg-[#000]"
-    margin="my-1"
-  ></app-button>
+  <app-header-toolbar routerlink="/home" pagetitle="Liabilities" [headerMenuIcon]="true"></app-header-toolbar>
+  <app-button value="Tutorial" (click)="toggleModalTutorial = true" class="md:hidden" backgroundColor="bg-[#000]"
+    margin="my-1"></app-button>
 </div>
 
-<div
-  class="flex flex-col px-8 mt-16 md:mt-5 pt-0 pb-4 h-[75vh] md:h-[80vh] top-40"
->
+<div class="flex flex-col px-8 mt-16 md:mt-5 pt-0 pb-4 h-[75vh] md:h-[80vh] top-40">
   <div class="flex flex-row items-center w-full">
     <div class="hidden md:block w-1/12 font-extrabold text-xl ml-3">
       Liabilities
     </div>
-    <div
-      class="w-3/12 hidden md:flex items-center dropdown cursor-pointer font-semibold"
-    >
-      <svg
-        (click)="toggleModal = true"
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-6 w-6 -rotate-90"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
-        />
+    <div class="w-3/12 hidden md:flex items-center dropdown cursor-pointer font-semibold">
+      <svg (click)="toggleModal = true" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 -rotate-90" fill="none"
+        viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
       </svg>
       <app-dropdown #dropdown class="ml-1">
-        <div
-          button
-          class="cursor-pointer"
-          (click)="dropdown.open = !dropdown.open"
-          (clickOutside)="dropdown.open = false"
-        >
+        <div button class="cursor-pointer" (click)="dropdown.open = !dropdown.open"
+          (clickOutside)="dropdown.open = false">
           Sort by Liabilities
           <i class="fa fa-chevron-down text-[14px]" aria-hidden="true"></i>
         </div>
         <div options class="w-full p-2 bg-white rounded-2xl shadow-lg ml-auto">
-          <div
-            (click)="onSorting('securedLoan')"
-            class="hover:bg-[#ff6782] flex flex-row rounded-xl py-1 px-2 items-center hover:text-[#fff] hover:no-underline cursor-pointer"
-          >
+          <div (click)="onSorting('securedLoan')"
+            class="hover:bg-[#ff6782] flex flex-row rounded-xl py-1 px-2 items-center hover:text-[#fff] hover:no-underline cursor-pointer">
             <div class="font-bold">Secure Loan</div>
           </div>
-          <div
-            (click)="onSorting('unsecuredLoan')"
-            class="hover:bg-[#ff6782] flex flex-row rounded-xl py-1 px-2 items-center hover:text-[#fff] hover:no-underline cursor-pointer"
-          >
+          <div (click)="onSorting('unsecuredLoan')"
+            class="hover:bg-[#ff6782] flex flex-row rounded-xl py-1 px-2 items-center hover:text-[#fff] hover:no-underline cursor-pointer">
             <div class="font-bold">Unsecure Loan</div>
           </div>
-          <div
-            (click)="onSorting('privateDept')"
-            class="hover:bg-[#ff6782] flex flex-row rounded-xl py-1 px-2 items-center hover:text-[#fff] hover:no-underline cursor-pointer"
-          >
+          <div (click)="onSorting('privateDept')"
+            class="hover:bg-[#ff6782] flex flex-row rounded-xl py-1 px-2 items-center hover:text-[#fff] hover:no-underline cursor-pointer">
             <div class="font-bold">Private Dept</div>
           </div>
-          <div
-            (click)="onSorting('All')"
-            class="hover:bg-[#ff6782] flex flex-row rounded-xl py-1 px-2 items-center hover:text-[#fff] hover:no-underline cursor-pointer"
-          >
+          <div (click)="onSorting('All')"
+            class="hover:bg-[#ff6782] flex flex-row rounded-xl py-1 px-2 items-center hover:text-[#fff] hover:no-underline cursor-pointer">
             <div class="font-bold text-center">All</div>
           </div>
         </div>
       </app-dropdown>
     </div>
-    <div
-      class="w-full left-0 px-8 md:px-0 md:w-4/12 flex items-center fixed md:static top-36 space-x-2"
-    >
-      <input
-        [ngClass]="{ 'md:hidden': !showSearch }"
-        type="search"
+    <div class="w-full left-0 px-8 md:px-0 md:w-4/12 flex items-center fixed md:static top-36 space-x-2">
+      <input [ngClass]="{ 'md:hidden': !showSearch }" type="search"
         class="w-[96%] px-4 py-3 sm:py-2 bg-[#f7f7f7] form-control rounded-[10px] md:rounded-3xl form-control outline-none"
-        placeholder="search"
-        [formControl]="searchForm"
-      />
-      <div
-        (click)="onChangehandler()"
-        class="bg-[#f7f7f7] px-4 py-3 rounded-[10px] md:hidden cursor-pointer"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-          />
-        </svg>
-      </div>
-      <div
-        class="bg-[#f7f7f7] px-4 py-3 rounded-[10px] md:hidden cursor-pointer"
-      >
-        <svg
-          (click)="toggleModal = true"
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6 -rotate-90"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
-          />
+        placeholder="search" [formControl]="searchForm" />
+      <div class="bg-[#f7f7f7] px-4 py-3 rounded-[10px] md:hidden cursor-pointer">
+        <svg (click)="toggleModal = true" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 -rotate-90" fill="none"
+          viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
         </svg>
       </div>
     </div>
 
-    <div
-      (click)="toggleModalTutorial = true"
-      class="hidden md:w-2/12 justify-end md:flex text-base text-center"
-    >
-      <app-button
-        border="border-2 border-black"
-        padding="px-10 py-2"
-        backgroundColor="bg-[#fff]"
-        borderRadius="rounded-xl"
-        color="text-[#000]"
-        value="Tutorial"
-      ></app-button>
+    <div (click)="toggleModalTutorial = true" class="hidden md:w-2/12 justify-end md:flex text-base text-center">
+      <app-button border="border-2 border-black" padding="px-10 py-2" backgroundColor="bg-[#fff]"
+        borderRadius="rounded-xl" color="text-[#000]" value="Tutorial"></app-button>
     </div>
-    <div
-      *ngIf="!showSearch"
-      (click)="showSearch = true"
-      class="w-4/12 md:ml-8 md:mr-8 sm:w-fit items-center hidden md:flex cursor-pointer"
-    >
-      <img
-        class="ml-auto h-[38px] w-[38px]"
-        src="../../../../../assets/Icons/Group 4361.svg"
-      />
+    <div  (click)="showSearch = !showSearch"
+      class="w-4/12 md:ml-8 md:mr-8 sm:w-fit items-center hidden md:flex cursor-pointer">
+      <img class="ml-auto h-[38px] w-[38px]" src="../../../../../assets/Icons/Group 4361.svg" />
     </div>
-    <div
-      *ngIf="showSearch"
-      (click)="onChangehandler()"
-      class="w-4/12 md:ml-8 md:mr-8 sm:w-fit items-center hidden md:flex cursor-pointer"
-    >
-      <img
-        class="ml-auto h-[38px] w-[38px]"
-        src="../../../../../assets/Icons/Group 4361.svg"
-      />
-    </div>
-    <div
-      class="w-12/12 md:w-fit justify-end hidden md:flex text-base text-center"
-    >
-      <app-button
-        value="Create New Liabilities"
-        routelink="/liabilities/createLiabilities"
-      ></app-button>
+    <div class="w-12/12 md:w-fit justify-end hidden md:flex text-base text-center">
+      <app-button value="Create New Liabilities" routelink="/liabilities/createLiabilities"></app-button>
     </div>
   </div>
 
-  <app-table
-    [tableHeadings]="tableHeadings"
-    (actionButton)="onClickAction($event)"
-    [tableData]="allLiabilities"
-    [keys]="tableKeys"
-    [classes]="classes"
-    emptyTableMessage="No Liabilities Found"
-  ></app-table>
-  <div
-    class="absolute md:hidden left-0 right-0 bottom-1 w-[87%] m-auto bg-white"
-  >
-    <app-button
-      [plus]="true"
-      value="Create New Liabilities"
-      routelink="/liabilities/createLiabilities"
-      class="md:hidden"
-    ></app-button>
+  <app-table [tableHeadings]="tableHeadings" (actionButton)="onClickAction($event)" [tableData]="allLiabilities"
+    [keys]="tableKeys" [classes]="classes" emptyTableMessage="No Liabilities Found"></app-table>
+  <div class="absolute md:hidden left-0 right-0 bottom-1 w-[87%] m-auto bg-white">
+    <app-button [plus]="true" value="Create New Liabilities" routelink="/liabilities/createLiabilities"
+      class="md:hidden"></app-button>
   </div>
 </div>
 
 <app-modal-filter [modalBody]="modalBody" [showModal]="toggleModal">
   <ng-template #modalBody>
     <!-- <app-filter (onFilter)="onFilterHandler()" (onClose)='toggleModal=false'></app-filter> -->
-    <app-filter
-      title="Filter Liabilities"
-      [type]="liabilitiesType"
-      [typeFilter]="true"
-      (formData)="onFilterHandler($event)"
-      (onClose)="toggleModal = false"
-    >
+    <app-filter title="Filter Liabilities" [type]="liabilitiesType" [typeFilter]="true"
+      (formData)="onFilterHandler($event)" (onClose)="toggleModal = false">
     </app-filter>
   </ng-template>
 </app-modal-filter>

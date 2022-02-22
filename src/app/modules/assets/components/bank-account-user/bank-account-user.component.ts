@@ -13,7 +13,9 @@ import { AssetsService } from 'src/app/services/assets.service';
 import { MembersService } from 'src/app/services/members.service';
 import { PreviousRouteService } from 'src/app/services/previous-route.service';
 import { UserService } from 'src/app/services/user.service';
+import { WillService } from 'src/app/services/will.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
+import { shareItemsHandler } from 'src/app/shared/utils/common-function';
 import { countries } from 'src/app/shared/utils/countries-store';
 
 @Component({
@@ -25,21 +27,19 @@ export class BankAccountUserComponent implements OnInit {
   Titile: string = 'BankAccount';
   BankAccountUser: FormGroup;
   responseMessage: string;
-backRouteLink="/assets/createAssets";
-forwardRouteLink="/assets"
+  backRouteLink = '/assets/createAssets';
+  forwardRouteLink = '/assets';
 
-
-      
   previousRoute: string;
   id: string = '';
   previousUrl: string;
   currentUrl: string;
   fromCreateWill: string;
   memberData = [];
-  shareData = [];
+
   slectedResidualMembers = [];
-  assetsResidualType:string;
-  toggleModalTutorial:boolean;
+  assetsResidualType: string;
+  toggleModalTutorial: boolean;
   constructor(
     private _fb: FormBuilder,
     private assetsServices: AssetsService,
@@ -48,15 +48,18 @@ forwardRouteLink="/assets"
     private spinner: NgxUiLoaderService,
     private route: ActivatedRoute,
     private _previousRoute: PreviousRouteService,
-    private memberServices: MembersService
+    private memberServices: MembersService,
+    private _willServices: WillService
   ) {
     this._previousRoute.previousRoute.subscribe((route) => {
       this.previousRoute = route;
     });
   }
   public countries: any = countries;
-key = ['fullname', 'Relationship'];
+  key = ['fullname', 'Relationship'];
   classes = ['font-bold', 'font-bold', 'text-sm'];
+  GiftBenificiary=[];
+  shareData = [];
   createForm() {
     this.BankAccountUser = this._fb.group({
       bankname: ['', [Validators.required]],
@@ -67,7 +70,7 @@ key = ['fullname', 'Relationship'];
       country: [, [Validators.required]],
       estimateValue: ['', [Validators.required]],
       specifyOwnershipType: ['', [Validators.required]],
-      GiftBenificiary: [[]],
+      
     });
     this.BankAccountUser.valueChanges.subscribe(() => {
       this.formErrors = valueChanges(
@@ -104,6 +107,7 @@ key = ['fullname', 'Relationship'];
       required: 'Ownership is Required',
     },
   };
+  assetsBeneficiary=[];
   addBankAccount() {
     console.log(this.BankAccountUser);
 
@@ -131,12 +135,15 @@ key = ['fullname', 'Relationship'];
         this.toastr.message(result.message, result.success);
         if (result.success) {
           this.BankAccountUser.reset();
-          if (this.fromCreateWill==='will') {
-            this._route.navigate(['/assets/assetsuccess'],{queryParams:{y:'will'}});
-          } else if(this.fromCreateWill==='secure'){
-this._route.navigate(['/assets/assetsuccess'],{queryParams:{y:'secure'}});
-}
-else {
+          if (this.fromCreateWill === 'will') {
+            this._route.navigate(['/assets/assetsuccess'], {
+              queryParams: { y: 'will' },
+            });
+          } else if (this.fromCreateWill === 'secure') {
+            this._route.navigate(['/assets/assetsuccess'], {
+              queryParams: { y: 'secure' },
+            });
+          } else {
             this._route.navigate(['/assets/assetsuccess']);
           }
         }
@@ -147,80 +154,76 @@ else {
       }
     );
   }
- 
-  shareDataHandler({shareData,id}){
-    this.shareData=[...shareData]
-    let sharesObj = shareData.filter((el)=>el.id===id);
+
+  shareDataHandler({ shareData, id }) {
+    this.shareData = [...shareData];
+    let sharesObj = shareData.filter((el) => el.id === id);
     const myItem = this.slectedResidualMembers.findIndex((el) => el === id);
-    if(myItem !== -1) {
-      let sharesMemberId: Array<any> = this.BankAccountUser.value.GiftBenificiary;
-      const shareMemberIdNew=sharesMemberId.map((el)=>{
-        if (el?.member===id) {
-          return{member:id,share:sharesObj[0].share}
+    if (myItem !== -1) {
+      let sharesMemberId: Array<any> =this.GiftBenificiary;
+      const shareMemberIdNew = sharesMemberId.map((el) => {
+        if (el?.member === id ) {
+          return { ...el, share: sharesObj[0].share};
         }
         return el;
-      })
-           this.BankAccountUser.patchValue({
-           GiftBenificiary:shareMemberIdNew
-           })
-           console.log(this.BankAccountUser.value.GiftBenificiary);
-    }else{
+      });
+      this.GiftBenificiary=shareMemberIdNew;
+      console.log(shareMemberIdNew);
       
-     return;
-    }
     
-  }
-  addColorArray(){
-    this.slectedResidualMembers=this.BankAccountUser.value.GiftBenificiary.map((el)=>el.member);
-  }
-  jointArrayhandler(sharesObj,id){
-    let sharesMemberId: Array<any> = this.BankAccountUser.value.GiftBenificiary;
-    const myItem = sharesMemberId?.findIndex((el) => el.member === id);
-
-    if(myItem === -1) {
-      sharesMemberId.push({
-        member: id,
-        share: sharesObj[0]?.share || 0
-      })
+    } else {
+      return;
     }
-    else {
-      const newarr=sharesMemberId.filter((el)=>el.member !==id )
-      sharesMemberId = newarr;   
-    }
-
-    this.BankAccountUser.patchValue({
-      GiftBenificiary:sharesMemberId
-    })
-    const sum =this.BankAccountUser.value.GiftBenificiary.reduce((el,number)=>{
-      return parseInt(el?.share) + number;
-    })
-    console.log(sum);
-    console.log(this.BankAccountUser.value.GiftBenificiary);
-
-
   }
+  addColorArray() {
+    this.slectedResidualMembers =
+      this.GiftBenificiary.map((el) => el.member);
+      console.log(this.GiftBenificiary);
+      console.log(this.slectedResidualMembers);
+  }
+
   addSharesMember(id) {
-    let sharesObj = this.shareData.filter((el)=>el.id===id);
-    this.jointArrayhandler(sharesObj,id);
-    this.addColorArray()
-    console.log(this.BankAccountUser.value.GiftBenificiary);
-
+    let sharesObj = this.shareData.filter((el) => el.id === id);
+    let sharesMemberId: Array<any> =  this.GiftBenificiary;
+    this.GiftBenificiary=shareItemsHandler(sharesObj, id, sharesMemberId,'bankAccount'),
+    this.addColorArray();
+    console.log(this.GiftBenificiary);
+    
+ 
   }
   onUpdateBank() {
-  
     this.spinner.start();
     const bankAccountData = {
       specifyOwnershipType: this.BankAccountUser.value.specifyOwnershipType,
       country: this.BankAccountUser.value.country,
       bankAccount: this.BankAccountUser.value,
       type: 'bankAccount',
-      GiftBenificiary: this.BankAccountUser.value.GiftBenificiary,
-      ifBenificiaryNotSurvive :this.assetsResidualType,
+      ifBenificiaryNotSurvive: this.assetsResidualType,
     };
     this.assetsServices.updateAssets(bankAccountData, this.id).subscribe(
       (result) => {
         this.spinner.stop();
         if (result.success) {
+          console.log(this.GiftBenificiary);
+          console.log(this.assetsBeneficiary);
+          const itemNo=this.assetsBeneficiary.findIndex((el)=>el.type==='bankAccount');
+          if (itemNo === -1) {
+            this.assetsBeneficiary.push(this.GiftBenificiary);
+            console.log("najiiii");
+            
+          } else {
+            this.assetsBeneficiary=this.assetsBeneficiary.map((el)=>{
+              if (el.type==='bankAccount') {
+                return {...this.GiftBenificiary}
+              } 
+              return el;
+              
+            })
+            console.log(this.assetsBeneficiary);
+            
+          }
+          
+          this._willServices.assetsBeneficiary.next(this.assetsBeneficiary);
           this.BankAccountUser.reset();
           this._route.navigate([this.forwardRouteLink]);
         }
@@ -236,7 +239,6 @@ else {
     this.spinner.start();
     this.assetsServices.getAssets().subscribe((result) => {
       this.spinner.stop();
-      console.log(result);
 
       const data = result.data.filter((item, i) => {
         if (item._id === id) {
@@ -252,51 +254,47 @@ else {
         }
         return null;
       });
-      console.log(data);
+      // console.log(data);
 
-      let obj = [
-        {
-          name: 'krishna',
-          value: 50,
-        },
-        {
-          name: 'krishna',
-          value: 50,
-        },
-      ];
+     
     });
   }
   ngOnInit(): void {
     this.createForm();
+    this._willServices.assetsBeneficiary.subscribe((assetsBeneficiary) => {
+      this.assetsBeneficiary=assetsBeneficiary;
 
-    this.route.queryParams.subscribe(({ id, x,y }) => {
+      this.GiftBenificiary=assetsBeneficiary.filter((el)=>el.type==='bankAccount');
+      this.addColorArray();
+      console.log("assetsBeneficiary",assetsBeneficiary);
+    });
+    this.route.queryParams.subscribe(({ id, x, y }) => {
       if (id) {
         this.id = id;
         this.getdata(id);
         if (x) {
-    this.backRouteLink="/will/createWill";      
- this.forwardRouteLink="/will/createWill";  
+          this.backRouteLink = '/will/createWill';
+          this.forwardRouteLink = '/will/createWill';
         }
       }
-    if (y==='will') {
-            this.backRouteLink="/will/createWill"; 
-            this.forwardRouteLink="/will/createWill";   
-            this.fromCreateWill = y;
-            console.log(this.fromCreateWill);
-          }
-        if (y==='secure') {
-          this.backRouteLink="/liabilities/securedLoan"; 
-            this.forwardRouteLink="/liabilities/securedLoan";   
-            this.fromCreateWill = y;
-        }
-        });
+      if (y === 'will') {
+        this.backRouteLink = '/will/createWill';
+        this.forwardRouteLink = '/will/createWill';
+        this.fromCreateWill = y;
+        // console.log(this.fromCreateWill);
+      }
+      if (y === 'secure') {
+        this.backRouteLink = '/liabilities/securedLoan';
+        this.forwardRouteLink = '/liabilities/securedLoan';
+        this.fromCreateWill = y;
+      }
+    });
     this.memberServices.getMembers().subscribe(
       (result) => {
         // console.log(result.data);
         this.spinner.stop();
         this.memberData = result.data.map((items, i) => {
-          console.log(items);
-
+          // console.log(items);
           return {
             fullname: this.memberServices.getMembersData(items).fullname,
             Relationship:

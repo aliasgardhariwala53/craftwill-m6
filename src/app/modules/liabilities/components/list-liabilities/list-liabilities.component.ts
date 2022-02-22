@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { forkJoin } from 'rxjs';
+import { debounceTime, forkJoin } from 'rxjs';
 import { LiabilitiesService } from 'src/app/services/liabilities.service';
 import { UserService } from 'src/app/services/user.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
@@ -56,11 +56,14 @@ export class ListLiabilitiesComponent implements OnInit {
       console.log(this.searchForm.value);
       this.allLiabilities = [...this.LiabilitiesData];
     }
-    this.allLiabilities = this.LiabilitiesData.filter((items) => {
-      return items.loanName
-        .toLowerCase()
-        .includes(this.searchForm.value.toLowerCase());
-    });
+    this.allLiabilities = this.LiabilitiesData.map((items) => {
+      for (const property in items) {
+        console.log(items[property]);
+        if(items[property].toString().toLowerCase().includes(this.searchForm.value.toLowerCase())){
+          return items
+        }
+      }
+    }).filter(items => items!== undefined);
   }
   onFilterHandler(value) {
     this.spinner.start();
@@ -100,6 +103,10 @@ export class ListLiabilitiesComponent implements OnInit {
 
   ngOnInit(): void {
     this.spinner.start();
+    this.searchForm.valueChanges.pipe(debounceTime( 200 )  ).subscribe((e) => {
+      console.log(e);
+      this.onChangehandler();
+    });
     this.liabilitiesServices.getAllLiabilities().subscribe(
       (result) => {
         this.spinner.stop();

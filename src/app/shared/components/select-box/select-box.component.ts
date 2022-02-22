@@ -2,7 +2,7 @@ import { UpperCasePipe } from '@angular/common';
 import { Component, Input, OnInit, Output,EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment.prod';
-
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-select-box',
@@ -18,6 +18,7 @@ export class SelectBoxComponent implements OnInit,OnChanges {
 @Input() addItemRoute='name';
 @Input() shareToggle:boolean=false;
 @Input() deleteToggle:boolean=false;
+@Input() dragToggle:boolean=false;
 @Input() imageUrl='../../../../assets/Icons/DP.svg';
 @Output() onSelectId=new EventEmitter;
 @Output() onAddNewItem=new EventEmitter;
@@ -89,8 +90,9 @@ onSelectItem(value){
   // }
   
 }
-deleteHandler(){
 
+delete(index: any) {
+  this.listItem.splice(index,1);
 }
 onAddItem(){
   if (this._route.url=='/will/createWill') {
@@ -117,6 +119,9 @@ getShortName(obj) {
   }
  
 }
+drop(event: CdkDragDrop<string[]>) {
+  moveItemInArray(this.listItem, event.previousIndex, event.currentIndex);
+}
 ngOnChanges(changes: SimpleChanges): void {
   console.log(changes);
 
@@ -125,6 +130,7 @@ ngOnChanges(changes: SimpleChanges): void {
 
   
 }
+
 ngOnInit(): void {
   console.log(this._route.url);
   

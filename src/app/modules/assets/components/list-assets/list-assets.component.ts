@@ -7,6 +7,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
 import { errorHandler } from 'src/app/helper/formerror.helper';
 import { AssetsService } from 'src/app/services/assets.service';
+import { debounce, debounceTime, delay } from 'rxjs';
 @Component({
   selector: 'app-list-assets',
   templateUrl: './list-assets.component.html',
@@ -66,12 +67,16 @@ export class ListAssetsComponent implements OnInit {
     if (!this.searchForm.value || this.searchForm.value === null) {
       this.allAssetsinOne = [...this.allAssetsData];
     }
-    this.allAssetsinOne = this.allAssetsData.filter((items) => {
-      console.log(items.nameofAssets);
-      return items.nameofAssets
-        .toLowerCase()
-        .includes(this.searchForm.value.toLowerCase());
-    });
+    console.log(this.allAssetsData);
+    // let filteredArr = []
+    this.allAssetsinOne = this.allAssetsData.map((items) => {
+      for (const property in items) {
+        console.log(items[property]);
+        if(items[property].toString().toLowerCase().includes(this.searchForm.value.toLowerCase())){
+          return items
+        }
+      }
+    }).filter(items => items!== undefined);
     console.log(this.allAssetsinOne);
   }
   onFilterHandler(value) {
@@ -115,7 +120,10 @@ export class ListAssetsComponent implements OnInit {
 
   ngOnInit(): void {
     this.spinner.start();
-
+    this.searchForm.valueChanges.pipe(debounceTime( 200 )  ).subscribe((e) => {
+      console.log(e);
+      this.onChangehandler();
+    });
     this.assetsServices.getAssets().subscribe(
       (result) => {
         this.spinner.stop();

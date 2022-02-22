@@ -17,7 +17,7 @@ import { ModalFilterComponent } from './components/modal-filter/modal-filter.com
 import { FilterComponent } from './components/filter/filter.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TutorialComponent } from './components/tutorial/tutorial.component';
-
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 
 
@@ -45,6 +45,7 @@ import { TutorialComponent } from './components/tutorial/tutorial.component';
     ReactiveFormsModule,
     ClickOutsideModule,
     NgSelectModule,
+    DragDropModule,
   ],
   exports:[
     HeaderToolbarComponent,

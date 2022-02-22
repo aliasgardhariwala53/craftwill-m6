@@ -6,7 +6,9 @@ import { errorHandler, valueChanges } from 'src/app/helper/formerror.helper';
 import { AssetsService } from 'src/app/services/assets.service';
 import { MembersService } from 'src/app/services/members.service';
 import { UserService } from 'src/app/services/user.service';
+import { WillService } from 'src/app/services/will.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
+import { shareItemsHandler } from 'src/app/shared/utils/common-function';
 import { countries } from 'src/app/shared/utils/countries-store';
 
 @Component({
@@ -35,13 +37,16 @@ forwardRouteLink="/assets"
     private _route: Router,
     private toastr: ToastrService,
     private route:ActivatedRoute,
-    private memberServices: MembersService
+    private memberServices: MembersService,
+      private _willServices: WillService
   ) {}
   public countries: any = countries;
 key = ['fullname', 'Relationship'];
   classes = ['font-bold', 'font-bold', 'text-sm'];
   slectedResidualMembers = [];
 
+GiftBenificiary=[];  
+shareData = [];
   createForm() {
     this.realEstateForm = this._fb.group({
       address: ['', [Validators.required]],
@@ -115,10 +120,7 @@ else {
       this.toastr.message(errorHandler(err),false);
         });
   }
-  addSharesMember(value){
-    console.log(value);
-    
-  }
+
   onUpdateRealEstate() {
     this.spinner.start();
     const realEstateData = {
@@ -133,7 +135,8 @@ else {
         this.spinner.stop();
         if (result.success) {
           this.realEstateForm.reset();
-          this._route.navigate([this.forwardRouteLink]);
+          this._willServices.assetsBeneficiary.next(this.GiftBenificiary);
+this._route.navigate([this.forwardRouteLink]); 
         }
 
         this.toastr.message(result.message, result.success);
@@ -166,8 +169,43 @@ else {
       this.toastr.message(errorHandler(err),false);
         });
   }
+  shareDataHandler({ shareData, id }) {
+    this.shareData = [...shareData];
+    let sharesObj = shareData.filter((el) => el.id === id);
+    const myItem = this.slectedResidualMembers.findIndex((el) => el === id);
+    if (myItem !== -1) {
+      let sharesMemberId: Array<any> =this.GiftBenificiary;
+      const shareMemberIdNew = sharesMemberId.map((el) => {
+        if (el?.member === id) {
+          return { member: id, share: sharesObj[0].share,type:'realEstate' };
+        }
+        return el;
+      });
+      this.GiftBenificiary=shareMemberIdNew;
+    
+    } else {
+      return;
+    }
+  }
+  addColorArray() {
+    this.slectedResidualMembers =
+      this.GiftBenificiary.map((el) => el.member);
+  }
+
+  addSharesMember(id) {
+    let sharesObj = this.shareData.filter((el) => el.id === id);
+    let sharesMemberId: Array<any> =  this.GiftBenificiary;
+    this.GiftBenificiary=shareItemsHandler(sharesObj, id, sharesMemberId,'realEstate'),
+    this.addColorArray();
+ 
+  }
   ngOnInit(): void {
-     this.route.queryParams.subscribe(({id,x,y})=>{
+     this._willServices.assetsBeneficiary.subscribe((assetsBeneficiary) => {
+      this.GiftBenificiary=assetsBeneficiary.filter((el)=>el.type==='realEstate');
+      this.addColorArray();
+      console.log("assetsBeneficiary",assetsBeneficiary);
+    });
+this.route.queryParams.subscribe(({id,x,y})=>{
      if (id) {
         this.id = id;
         this.getdata(id);

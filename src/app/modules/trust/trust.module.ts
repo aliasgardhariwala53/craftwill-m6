@@ -12,6 +12,7 @@ import { SuccesPageTrustComponent } from './components/succes-page-trust/succes-
 import { ClickOutsideModule } from 'ng-click-outside';
 import { CreateInfoTrustComponent } from './components/create-info-trust/create-info-trust.component';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { NgxUiLoaderModule } from 'ngx-ui-loader';
     FormsModule,
     HttpClientModule,
     ClickOutsideModule,
+    NgSelectModule
   ]
 })
 export class TrustModule { }

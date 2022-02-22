@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { debounceTime } from 'rxjs';
 import { errorHandler } from 'src/app/helper/formerror.helper';
 import { TrustService } from 'src/app/services/trust.service';
 import { UserService } from 'src/app/services/user.service';
@@ -43,11 +44,14 @@ export class ListTrustComponent implements OnInit {
     if (!this.searchForm.value) {
       this.alltrustData = [...this.trustData];
     }
-    this.alltrustData = this.trustData.filter((items) => {
-      return items.trustName
-        .toLowerCase()
-        .includes(this.searchForm.value.toLowerCase());
-    });
+    this.alltrustData = this.trustData.map((items) => {
+      for (const property in items) {
+        console.log(items[property]);
+        if(items[property].toString().toLowerCase().includes(this.searchForm.value.toLowerCase())){
+          return items
+        }
+      }
+    }).filter(items => items!== undefined);
   }
   onFilterHandler(value) {
     this.spinner.start();
@@ -65,6 +69,10 @@ export class ListTrustComponent implements OnInit {
   }
   ngOnInit(): void {
     this.spinner.start();
+    this.searchForm.valueChanges.pipe(debounceTime( 200 )  ).subscribe((e) => {
+      console.log(e);
+      this.onChangehandler();
+    });
     this.trustServices.getTrust().subscribe((result) => {
       this.spinner.stop();
 

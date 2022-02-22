@@ -7,7 +7,9 @@ import { AssetsService } from 'src/app/services/assets.service';
 import { MembersService } from 'src/app/services/members.service';
 import { PreviousRouteService } from 'src/app/services/previous-route.service';
 import { UserService } from 'src/app/services/user.service';
+import { WillService } from 'src/app/services/will.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
+import { shareItemsHandler } from 'src/app/shared/utils/common-function';
 import { countries } from 'src/app/shared/utils/countries-store';
 
 @Component({
@@ -23,7 +25,6 @@ export class BusinessComponent implements OnInit {
   id: string='';
   fromCreateWill: string;
   memberData=[];
-  shareData = [];
   slectedResidualMembers = [];
   assetsResidualType
   previousRoute: string;
@@ -36,7 +37,8 @@ export class BusinessComponent implements OnInit {
     private spinner:NgxUiLoaderService,
     private route:ActivatedRoute,
     private _previousRoute: PreviousRouteService,
-  private memberServices: MembersService
+  private memberServices: MembersService,
+private _willServices: WillService
   ) {
     
     this._previousRoute.previousRoute.subscribe((route) => {
@@ -46,13 +48,14 @@ export class BusinessComponent implements OnInit {
   public countries:any = countries;
   key = ['fullname', 'Relationship'];
   classes = ['font-bold', 'font-bold', 'text-sm'];
+GiftBenificiary=[];  
+shareData = [];
   createForm() {
     this.businessForm = this._fb.group({
       businessName: ['', [Validators.required]],
       UEN_no: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
       country: [, [Validators.required]],
       specifyOwnershipType: ['', [Validators.required]],
-      GiftBenificiary: [[]],
     });
     this.businessForm.valueChanges.subscribe(() => {
       this.formErrors = valueChanges(
@@ -86,34 +89,36 @@ export class BusinessComponent implements OnInit {
       required: 'Ownership is Required',
     },
   };
-  shareDataHandler({shareData,id}){
-    this.shareData=[...shareData]
-    console.log(this.shareData);
-    console.log(this.businessForm.value.GiftBenificiary);
-    let sharesObj = shareData.filter((el)=>el.id===id);
-    this.jointArrayhandler(sharesObj,id);
-  }
-  addColorArray(){
-    this.slectedResidualMembers=this.businessForm.value.GiftBenificiary.map((el)=>el.member);
-  }
-  jointArrayhandler(sharesObj,id){
-    let sharesMemberId: Array<any> = this.businessForm.value.GiftBenificiary;
-    const myItem = sharesMemberId?.findIndex((el) => el.member === id);
-
-    if(myItem === -1) {
-      sharesMemberId.push({
-        member: id,
-        share: sharesObj[0]?.share || 0
-      })
+  assetsBeneficiary=[];
+  shareDataHandler({ shareData, id }) {
+    this.shareData = [...shareData];
+    let sharesObj = shareData.filter((el) => el.id === id);
+    const myItem = this.slectedResidualMembers.findIndex((el) => el === id);
+    if (myItem !== -1) {
+      let sharesMemberId: Array<any> =this.GiftBenificiary;
+      const shareMemberIdNew = sharesMemberId.map((el) => {
+        if (el?.member === id) {
+          return { ...el, share: sharesObj[0].share };
+        }
+        return el;
+      });
+      this.GiftBenificiary=shareMemberIdNew;
+    
+    } else {
+      return;
     }
-    else {
-      const newarr=sharesMemberId.filter((el)=>el.member !==id )
-      sharesMemberId = newarr;   
-    }
+  }
+  addColorArray() {
+    this.slectedResidualMembers =
+      this.GiftBenificiary.map((el) => el.member);
+  }
 
-    this.businessForm.patchValue({
-      GiftBenificiary:sharesMemberId
-    })
+  addSharesMember(id) {
+    let sharesObj = this.shareData.filter((el) => el.id === id);
+    let sharesMemberId: Array<any> =  this.GiftBenificiary;
+    this.GiftBenificiary=shareItemsHandler(sharesObj, id, sharesMemberId,'business'),
+    this.addColorArray();
+ 
   }
   addBusiness() {
    
@@ -159,9 +164,7 @@ else {
       this.spinner.stop();
     });
   }
-  addSharesMember(value){
 
-  }
   onUpdateBusiness(){
     this.spinner.start();
     const businessData = {
@@ -173,8 +176,21 @@ else {
     this.assetsServices.updateAssets(businessData,this.id).subscribe((result) => {
       this.spinner.stop();
       if (result.success) {
+        const itemNo=this.assetsBeneficiary.findIndex((el)=>el.type==='business');
+        if (itemNo === -1) {
+          this.assetsBeneficiary.push(this.GiftBenificiary);
+        } else {
+          this.assetsBeneficiary=this.assetsBeneficiary.map((el)=>{
+            if (el.type==='business') {
+              return {...this.GiftBenificiary}
+            } 
+            return el;
+            
+          })
+        }
         this.businessForm.reset();
-        this._route.navigate([this.forwardRouteLink]);
+        this._willServices.assetsBeneficiary.next(this.assetsBeneficiary);
+this._route.navigate([this.forwardRouteLink]); 
       }
      
       this.toastr.message(result.message, result.success);
@@ -212,9 +228,15 @@ else {
       this.toastr.message(errorHandler(err),false);
         });
   }
+  
   ngOnInit(): void {
     console.log(this.previousRoute);
-    this.route.queryParams.subscribe(({id,x,y})=>{
+    this._willServices.assetsBeneficiary.subscribe((assetsBeneficiary) => {
+      this.GiftBenificiary=assetsBeneficiary.filter((el)=>el.type==='business');
+      this.addColorArray();
+      console.log("assetsBeneficiary",assetsBeneficiary);
+    });
+this.route.queryParams.subscribe(({id,x,y})=>{
      if (id) {
         this.id = id;
         this.getdata(id);

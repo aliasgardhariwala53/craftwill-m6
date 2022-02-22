@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { debounceTime } from 'rxjs';
 import { MembersService } from 'src/app/services/members.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
 import { UserService } from '../../../../services/user.service';
@@ -69,11 +70,14 @@ export class ListmembersComponent implements OnInit {
     if (!this.searchForm.value) {
       this.allMemberData = [...this.MemberData];
     }
-    this.allMemberData = this.MemberData.filter((items) => {
-      return items.fullname
-        .toLowerCase()
-        .includes(this.searchForm.value.toLowerCase());
-    });
+    this.allMemberData = this.MemberData.map((items) => {
+      for (const property in items) {
+        console.log(items[property]);
+        if(items[property].toString().toLowerCase().includes(this.searchForm.value.toLowerCase())){
+          return items
+        }
+      }
+    }).filter(items => items!== undefined);
   }
   onFilterHandler(value) {
     this.spinner.start();
@@ -105,7 +109,10 @@ export class ListmembersComponent implements OnInit {
 
   ngOnInit(): void {
     this.spinner.start();
-   
+    this.searchForm.valueChanges.pipe(debounceTime( 200 )  ).subscribe((e) => {
+      console.log(e);
+      this.onChangehandler();
+    });
     this.memberServices.getMembers().subscribe(
       (result) => {
         // console.log(result.data);

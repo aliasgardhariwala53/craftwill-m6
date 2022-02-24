@@ -39,28 +39,28 @@
           <ng-option *ngFor="let item of listType" [value]="item.value">
             <img height="15" width="15" [src]="item.avatar" class="mr-3" />{{
               item.name
-            }}</ng-option
-          >
+            }}
+          </ng-option>
         </ng-select>
       </div>
-      <div class="text-[#A2A2A2] mb-2">
-        A member can be a business/organisation
+      <div class="text-[#A2A2A2] my-2 flex flex-row justify-between">
+        <div>Select and add executors</div>
+        <div
+          (click)="editToggle = true"
+          class="text-red font-['GilroySemi'] cursor-pointer"
+        >
+          Edit
+        </div>
       </div>
       <div class="max-h-[50vh] overflow-auto">
-        <app-select-box
-          [key]="key"
-          [listItem]="memberData"
-          [selectedItems]="this.appointExecutorForm.value.addPrimaryExecutor"
-          addItemRoute="members/createmembers"
-          [classes]="classes"
-          (onSelectId)="selectMemberExecutor($event)"
-          addItemRoute="members/createmembers"
-          avtarType="name"
-          imageUrl="../../../../../assets/Icons/Bank Account.svg"
+        <app-select-mobile
+          [listItem]="selectedItemFromEdit"
           addItemTitle="Add Executor"
-          (actionButton)="onUpdate($event)"
+          (selectedListItem)="selectCircularMembers($event)"
+          (addItemHandler)="editToggle = true"
+          addItemRoute="members/createmembers"
         >
-        </app-select-box>
+        </app-select-mobile>
       </div>
     </div>
     <div class="flex flex-col-reverse sm:flex-row justify-between">
@@ -99,14 +99,14 @@
           <ng-option *ngFor="let item of listType" [value]="item.value">
             <img height="15" width="15" [src]="item.avatar" class="mr-3" />{{
               item.name
-            }}</ng-option
-          >
+            }}
+          </ng-option>
         </ng-select>
       </div>
-      <div class="text-[#A2A2A2] mb-2">
-        A member can be a business/organisation
+      <div class="text-[#A2A2A2] my-2 flex flex-row justify-between">
+        <div>Select and add executors</div>
       </div>
-      <div class="max-h-[50vh] overflow-auto">
+      <div class="max-h-[50vh] overflow-auto drag-boundary">
         <app-select-box
           [key]="key"
           [listItem]="memberData"
@@ -115,6 +115,7 @@
           "
           addItemRoute="members/createmembers"
           [classes]="classes"
+          [dragToggle]="true"
           (onSelectId)="selectMemberReplacementExecutor($event)"
           addItemRoute="members/createmembers"
           avtarType="name"
@@ -212,11 +213,13 @@
                     width="15"
                     [src]="item.avatar"
                     class="mr-3"
-                  />{{ item.name }}</ng-option
-                >
+                  />{{ item.name }}
+                </ng-option>
               </ng-select>
             </div>
-            <div class="text-[#A2A2A2] mb-2">Select and add executors</div>
+            <div class="text-[#A2A2A2] my-2 flex flex-row justify-between">
+              <div>Select and add guardian</div>
+            </div>
             <div class="max-h-[50vh] overflow-auto">
               <app-select-box
                 [key]="key"
@@ -236,11 +239,12 @@
             </div>
           </div>
           <hr class="border-b-2 border-t-0" />
-          <div class="flex  flex-col-reverse sm:flex-row justify-between">
+          <div class="flex flex-col-reverse sm:flex-row justify-between">
             <div class="font-['GilroyBold'] mb-2 mt-5 text-xl">
-              Appoint Replacement Guardian 
+              Appoint Replacement Guardian
             </div>
-            <div>  <app-button
+            <div>
+              <app-button
                 border="border-2 border-black"
                 (myMethod)="toggleModalTutorial = true"
                 padding="px-10 py-2"
@@ -248,11 +252,16 @@
                 borderRadius="rounded-xl"
                 color="text-[#000]"
                 value="Tutorial"
-                 class="hidden md:flex"
+                class="hidden md:flex"
               ></app-button>
-              <app-button value="Tutorial" (click)="toggleModalTutorial = true" class="md:hidden" backgroundColor="bg-[#000]"
-              margin="my-1">
-            </app-button>
+              <app-button
+                value="Tutorial"
+                (click)="toggleModalTutorial = true"
+                class="md:hidden"
+                backgroundColor="bg-[#000]"
+                margin="my-1"
+              >
+              </app-button>
             </div>
           </div>
           <div class="my-2">
@@ -269,11 +278,13 @@
                     width="15"
                     [src]="item.avatar"
                     class="mr-3"
-                  />{{ item.name }}</ng-option
-                >
+                  />{{ item.name }}
+                </ng-option>
               </ng-select>
             </div>
-            <div class="text-[#A2A2A2] mb-2">Select and add guardian</div>
+            <div class="text-[#A2A2A2] my-2 flex flex-row justify-between">
+              <div>Select and add guardian</div>
+            </div>
             <div class="max-h-[50vh] overflow-auto">
               <app-select-box
                 [key]="key"
@@ -311,3 +322,24 @@
     <app-tutorial (onClose)="toggleModalTutorial = false"> </app-tutorial>
   </ng-template>
 </app-modal-filter>
+
+<app-edit-items [modalBody]="modalBody3" [showModal]="editToggle">
+  <ng-template #modalBody3>
+    <div class="p-5">
+      <app-header-toolbar
+        pagetitle="All Added Executor"
+        [headerMenuIcon]="true"
+        (backButtonHandler)="editToggle = false"
+      ></app-header-toolbar>
+      <div class="max-h-[90vh] overflow-auto">
+        <app-edit-select-box
+          [allItems]="memberData"
+          (getSelectedList)="selectMemberExecutor($event)"
+          [deletedItemBySelectMobile]="deletedItemsInArray"
+          addItemTitle="Add Executor"
+        >
+        </app-edit-select-box>
+      </div>
+    </div>
+  </ng-template>
+</app-edit-items>

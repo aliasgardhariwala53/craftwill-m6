@@ -1,0 +1,56 @@
+<div class="flex flex-row flex-wrap md:hidden">
+    <div  class="flex flex-row justify-between" *ngFor="let item of listItem;index as i" >
+        <div></div>
+        
+        <div class="flex flex-col  justify-between p-2">
+            <div class="rounded-full bg-blue-300 font-extrabold w-[50px] h-[50px] p-2 text-center relative mx-auto flex justify-center items-center">
+                <div (click)="delete(i)" class="absolute -right-1 -top-1 text-[#FF6782] z-20"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg></div>
+                {{ getShortName(item) || "AA" }}    
+            </div>
+            <div class="text-xs font-bold m-auto max-w-[70px] text-center">
+                {{ item.fullname }}
+            </div>
+        </div>
+    </div>
+    <div (click)="onAddItem()" class="cursor-pointer rounded-full border-2 border-[#ccc] font-extrabold w-[50px] h-[50px] p-2 text-center relative mt-2 ml-2 flex justify-center items-center text-[#ccc]">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+    </div>
+
+</div>
+
+<div class="md:grid bold grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 hidden " >
+    <div  class="flex flex-col" *ngFor="let item of listItem;index as i" >
+        <div 
+            class="flex flex-row items-center relative rounded-2xl p-3 shadow-[0_0px_10px_rgba(0,0,0,0.1)]  cursor-pointer visited:bg-gray-700  bg-white "
+            >
+            <div  (click)="delete(i)" class="absolute right-6 md:top-5 text-[#FF6782] z-20"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg></div>
+            <div class="flex flex-row md:flex-col  items-center sm:items-start space-y-2 space-x-2 md:space-x-0 cursor-pointer visited:bg-gray-700 relative w-full">
+            <div   class="rounded-full bg-blue-300 font-extrabold w-[40px] p-2 text-center">
+                {{ getShortName(item) || "AA" }}    
+            </div>
+
+            <div class="flex flex-row justify-between">
+                <div class="flex flex-col">
+                    <div class="font-['GilroySemi']">
+                        {{ item.fullname }}
+                    </div>
+                </div>
+            </div>
+
+            </div>
+        </div>
+       
+    </div>
+    
+    <div class=" md:max-h-[120px] bg-[#fff] cursor-pointer flex flex-col rounded-xl border-dashed border-2 border-[#ff6782] py-7 justify-center items-center text-red"
+        (click)="onAddItem()">
+        {{ addItemTitle }}
+    </div>
+    
+</div>

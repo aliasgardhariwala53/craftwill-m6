@@ -105,6 +105,11 @@ cursor: pointer;
       &:active{
         background-color: #FF6782;
         color: #fff;
+        &:hover{
+          color: #fff !important;
+          text-decoration: none;
+          background-color: #FF6782;
+        }
       }
       &:hover{
         color: #fff;
@@ -186,6 +191,11 @@ cursor: pointer;
       background-color: #FF6782;
       color: #fff;
       fill: #ff6782;
+      &:hover{
+        color: #fff !important;
+        text-decoration: none;
+        background-color: #FF6782;
+      }
     }
     &:hover{
       color: #fff;

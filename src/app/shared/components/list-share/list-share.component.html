@@ -1,0 +1,18 @@
+<div  class="space-y-2  px-2 py-1 max-h-52 overflow-auto " *ngFor="let item of allAssetsBeneficiary">
+  <div class="flex flex-col "  >
+    <div
+      class="flex flex-row space-2 justify-around items-center rounded-2xl p-2 shadow-[0_0px_10px_rgba(0,0,0,0.1)] bg-white space-x-1" [ngClass]="{'bg-[#ff678229]': !selectedParentAssets}"
+    >
+    <div class="rounded-full bg-blue-300 font-extrabold w-[40px] p-2 text-center">
+        {{ getShortName(item) || "AA" }}    
+    </div>
+      <div class="flex flex-col justify-center w-2/4">
+        <div class="font-['GilroyBold']">{{ item.fullname }}</div>
+        <div class="font-['GilroySemi']">{{ item.Relationship }}</div>
+      </div>
+      <div class="w-1/4 flex justify-center items-center">
+          <div class="rounded-lg bg-[#ff6782] w-full text-center text-white font-['GilroySemi'] text-sm">{{ item.share }}%</div>
+        </div>
+    </div>
+  </div>
+</div>

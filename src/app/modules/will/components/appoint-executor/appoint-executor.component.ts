@@ -29,8 +29,11 @@ export class AppointExecutorComponent implements OnInit {
   slectedReplacementExecutor = [];
   selectedGuardian = [];
   slectedReplacementGuardian = [];
+  selectedItemFromEdit = [];
+  deletedItemsInArray = [];
   toggleUpdateModal = false;
   toggleModalTutorial = false;
+  editToggle = false;
   listType = [
     {
       id: 1,
@@ -64,7 +67,7 @@ export class AppointExecutorComponent implements OnInit {
     this.appointExecutorForm = this._fb.group({
        ///Appoint Primary Executor
       primary_executor_type: ['sole', [Validators.required]],
-      addPrimaryExecutor: [[], [Validators.required]],
+      addPrimaryExecutor: [[]],
     /// Appoint Replacement Executor
       replacement_executor_type: ['sole', [Validators.required]],
       addReplacementExecutor: [[], [Validators.required]],
@@ -104,32 +107,27 @@ export class AppointExecutorComponent implements OnInit {
       required: 'Please Select Replacement Executor',
     },
   };
+  selectCircularMembers(value){
+    this.deletedItemsInArray=value;
+        console.log(value);
+        this.appointExecutorForm.patchValue({
+          addPrimaryExecutor:value,
+        })
+        console.log(this.appointExecutorForm.value.addPrimaryExecutor);     
+  }
   selectMemberExecutor(value) {
-    let primaryExecutorId: Array<any> = this.appointExecutorForm.value.addPrimaryExecutor;
-    if (primaryExecutorId.includes(value)) {
-      primaryExecutorId.splice(primaryExecutorId.indexOf(value), 1);
-    } else {
-      primaryExecutorId.push(value);
-    }
-    this.slectedExecutor = primaryExecutorId;
+    this.selectedItemFromEdit=value;
+    this.deletedItemsInArray=value;
     this.appointExecutorForm.patchValue({
-      addPrimaryExecutor: primaryExecutorId,
+      addPrimaryExecutor: this.selectedItemFromEdit
     });
-    // console.log(this.appointExecutorForm.value.addPrimaryExecutor);
+    console.log(this.appointExecutorForm.value.addPrimaryExecutor);  
+       
   }
   selectMemberReplacementExecutor(value) {
-    // console.log(value);
-
-    let replacementExecutorId: Array<any> =
-      this.appointExecutorForm.value.addReplacementExecutor;
-    if (replacementExecutorId.includes(value)) {
-      replacementExecutorId.splice(replacementExecutorId.indexOf(value), 1);
-    } else {
-      replacementExecutorId.push(value);
-    }
-    this.slectedReplacementExecutor = replacementExecutorId;
+    console.log(value);
     this.appointExecutorForm.patchValue({
-      addReplacementExecutor: replacementExecutorId,
+      addReplacementExecutor: value,
     });
     // console.log(this.appointExecutorForm.value.replacement_executor_type);
   }
@@ -163,6 +161,7 @@ export class AppointExecutorComponent implements OnInit {
   }
   onClickNext() {
     this.onClickNextBtn.emit(3);
+    console.log(this.appointExecutorForm.value);  
     this._willServices.step2.next(this.appointExecutorForm.value);
   }
   onUpdate(value) {}
@@ -174,6 +173,7 @@ export class AppointExecutorComponent implements OnInit {
         this.spinner.stop();
         this.memberData = result.data.map((items, i) => {
           // console.log(items);
+
 
           return {
             fullname: this.memberServices.getMembersData(items).fullname,
@@ -199,5 +199,7 @@ export class AppointExecutorComponent implements OnInit {
       console.log(step2Data);
       this.appointExecutorForm.setValue(step2Data);
     });
+    this.selectedItemFromEdit=this.appointExecutorForm.value.addPrimaryExecutor;
+
   }
 }

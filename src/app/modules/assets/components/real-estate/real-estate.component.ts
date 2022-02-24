@@ -8,7 +8,7 @@ import { MembersService } from 'src/app/services/members.service';
 import { UserService } from 'src/app/services/user.service';
 import { WillService } from 'src/app/services/will.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
-import { shareItemsHandler } from 'src/app/shared/utils/common-function';
+
 import { countries } from 'src/app/shared/utils/countries-store';
 
 @Component({
@@ -18,35 +18,34 @@ import { countries } from 'src/app/shared/utils/countries-store';
 })
 export class RealEstateComponent implements OnInit {
   realEstateForm: FormGroup;
-  id: string='';
+  id: string = '';
   fromCreateWill: string;
-  memberData=[];
-assetsResidualType
+  memberData = [];
+  assetsResidualType;
   responseMessage: string;
-backRouteLink="/assets/createAssets";
-forwardRouteLink="/assets"
+  backRouteLink = '/assets/createAssets';
+  forwardRouteLink = '/assets';
+  allAssetsBeneficiary = [];
+  assetsBeneficiary = [];
+  toggleModalTutorial: boolean;
 
-
-      
-  toggleModalTutorial:boolean;
-  
   constructor(
     private _fb: FormBuilder,
     private assetsServices: AssetsService,
     private spinner: NgxUiLoaderService,
     private _route: Router,
     private toastr: ToastrService,
-    private route:ActivatedRoute,
+    private route: ActivatedRoute,
     private memberServices: MembersService,
-      private _willServices: WillService
+    private _willServices: WillService
   ) {}
   public countries: any = countries;
-key = ['fullname', 'Relationship'];
+  key = ['fullname', 'Relationship'];
   classes = ['font-bold', 'font-bold', 'text-sm'];
   slectedResidualMembers = [];
 
-GiftBenificiary=[];  
-shareData = [];
+  GiftBenificiary = [];
+  shareData = [];
   createForm() {
     this.realEstateForm = this._fb.group({
       address: ['', [Validators.required]],
@@ -101,24 +100,30 @@ shareData = [];
       type: 'realEstate',
     };
 
-    this.assetsServices.addAssets(realEstateData).subscribe((result) => {
-      this.spinner.stop();
-      if (result.success) {
-        this.realEstateForm.reset();
-        if (this.fromCreateWill==='will') {
-            this._route.navigate(['/assets/assetsuccess'],{queryParams:{y:'will'}});
-          } else if(this.fromCreateWill==='secure'){
-this._route.navigate(['/assets/assetsuccess'],{queryParams:{y:'secure'}});
-}
-else {
+    this.assetsServices.addAssets(realEstateData).subscribe(
+      (result) => {
+        this.spinner.stop();
+        if (result.success) {
+          this.realEstateForm.reset();
+          if (this.fromCreateWill === 'will') {
+            this._route.navigate(['/assets/assetsuccess'], {
+              queryParams: { y: 'will' },
+            });
+          } else if (this.fromCreateWill === 'secure') {
+            this._route.navigate(['/assets/assetsuccess'], {
+              queryParams: { y: 'secure' },
+            });
+          } else {
             this._route.navigate(['/assets/assetsuccess']);
           }
+        }
+        this.toastr.message(result.message, result.success);
+      },
+      (err) => {
+        this.spinner.stop();
+        this.toastr.message(errorHandler(err), false);
       }
-      this.toastr.message(result.message, result.success);
-    },(err)=>{
-      this.spinner.stop();
-      this.toastr.message(errorHandler(err),false);
-        });
+    );
   }
 
   onUpdateRealEstate() {
@@ -129,104 +134,92 @@ else {
       realEstate: this.realEstateForm.value,
       type: 'realEstate',
     };
-    this.assetsServices
-      .updateAssets(realEstateData, this.id)
-      .subscribe((result) => {
+    this.assetsServices.updateAssets(realEstateData, this.id).subscribe(
+      (result) => {
         this.spinner.stop();
         if (result.success) {
+          const myItem=this.allAssetsBeneficiary.findIndex((el)=>el.assetId===this.id);
+          if (myItem===-1) {
+            this.allAssetsBeneficiary.push(...this.assetsBeneficiary);
+          } else {
+            this.allAssetsBeneficiary=this.allAssetsBeneficiary.filter((el)=>el.assetId!==this.id);
+            this.allAssetsBeneficiary=[...this.allAssetsBeneficiary,...this.assetsBeneficiary]
+          }
+          console.log(this.allAssetsBeneficiary);
+          
+          this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
           this.realEstateForm.reset();
-          this._willServices.assetsBeneficiary.next(this.GiftBenificiary);
-this._route.navigate([this.forwardRouteLink]); 
+
+          this._route.navigate([this.forwardRouteLink]);
         }
 
         this.toastr.message(result.message, result.success);
-      },(err)=>{
+      },
+      (err) => {
         this.spinner.stop();
-        this.toastr.message("Something Went Wrong!!!",false);
-          });
+        this.toastr.message('Something Went Wrong!!!', false);
+      }
+    );
   }
-    getdata(id) {
+  getdata(id) {
     this.spinner.start();
-    this.assetsServices.getAssets().subscribe((result) => {
-      this.spinner.stop();
-      console.log(result);
+    this.assetsServices.getAssets().subscribe(
+      (result) => {
+        this.spinner.stop();
+        console.log(result);
 
-      const data = result.data.filter((item, i) => {
-        if (item._id === id) {
-          const { realEstate, country, specifyOwnershipType } = item;
-          this.realEstateForm.patchValue({
-            address: realEstate.address,
-            country,
-            specifyOwnershipType,
-          });
-          return realEstate;
-        }
-        return null;
-      });
-      console.log(data);
-    },(err)=>{
-      this.spinner.stop();
-      this.toastr.message(errorHandler(err),false);
+        const data = result.data.filter((item, i) => {
+          if (item._id === id) {
+            const { realEstate, country, specifyOwnershipType } = item;
+            this.realEstateForm.patchValue({
+              address: realEstate.address,
+              country,
+              specifyOwnershipType,
+            });
+            return realEstate;
+          }
+          return null;
         });
+        console.log(data);
+      },
+      (err) => {
+        this.spinner.stop();
+        this.toastr.message(errorHandler(err), false);
+      }
+    );
   }
-  shareDataHandler({ shareData, id }) {
-    this.shareData = [...shareData];
-    let sharesObj = shareData.filter((el) => el.id === id);
-    const myItem = this.slectedResidualMembers.findIndex((el) => el === id);
-    if (myItem !== -1) {
-      let sharesMemberId: Array<any> =this.GiftBenificiary;
-      const shareMemberIdNew = sharesMemberId.map((el) => {
-        if (el?.member === id) {
-          return { member: id, share: sharesObj[0].share,type:'realEstate' };
-        }
-        return el;
-      });
-      this.GiftBenificiary=shareMemberIdNew;
-    
-    } else {
-      return;
-    }
-  }
-  addColorArray() {
-    this.slectedResidualMembers =
-      this.GiftBenificiary.map((el) => el.member);
-  }
-
-  addSharesMember(id) {
-    let sharesObj = this.shareData.filter((el) => el.id === id);
-    let sharesMemberId: Array<any> =  this.GiftBenificiary;
-    this.GiftBenificiary=shareItemsHandler(sharesObj, id, sharesMemberId,'realEstate'),
-    this.addColorArray();
- 
+  addSharesMember(value) {
+    console.log(value);  
+    this.assetsBeneficiary= value.map((el)=>{return{...el,assetId:this.id}})
+    console.log(this.assetsBeneficiary);
   }
   ngOnInit(): void {
-     this._willServices.assetsBeneficiary.subscribe((assetsBeneficiary) => {
-      this.GiftBenificiary=assetsBeneficiary.filter((el)=>el.type==='realEstate');
-      this.addColorArray();
-      console.log("assetsBeneficiary",assetsBeneficiary);
-    });
-this.route.queryParams.subscribe(({id,x,y})=>{
-     if (id) {
+
+    this.route.queryParams.subscribe(({ id, x, y }) => {
+      if (id) {
         this.id = id;
         this.getdata(id);
         if (x) {
-          this.backRouteLink="/assets/createAssets";
-          
-          
+          this.backRouteLink = '/assets/createAssets';
         }
       }
-      if (y==='will') {
-        this.backRouteLink="/will/createWill"; 
-  this.forwardRouteLink="/will/createWill";   
+      if (y === 'will') {
+        this.backRouteLink = '/will/createWill';
+        this.forwardRouteLink = '/will/createWill';
         this.fromCreateWill = y;
         console.log(this.fromCreateWill);
       }
-if (y==='secure') {
-          this.backRouteLink="/liabilities/securedLoan"; 
-            this.forwardRouteLink="/liabilities/securedLoan";   
-            this.fromCreateWill = y;
-        }
-
+      if (y === 'secure') {
+        this.backRouteLink = '/liabilities/securedLoan';
+        this.forwardRouteLink = '/liabilities/securedLoan';
+        this.fromCreateWill = y;
+      }
+    });
+    this._willServices.assetsBeneficiary.subscribe((value) => {
+      this.allAssetsBeneficiary=value;
+      console.log("assetsBeneficiary",value);
+      this.slectedResidualMembers=this.allAssetsBeneficiary?.filter((el)=>el.assetId===this.id);
+   
     });
     this.memberServices.getMembers().subscribe(
       (result) => {
@@ -254,6 +247,7 @@ if (y==='secure') {
         this.spinner.stop();
         this.toastr.message('Error Getting Members data !!', false);
       }
-    );   this.createForm();
+    );
+    this.createForm();
   }
 }

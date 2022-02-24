@@ -16,6 +16,8 @@ import { ToastrService } from 'src/app/shared/services/toastr.service';
 export class DistributionAssetsComponent implements OnInit {
   @Output() onClickNextBtn = new EventEmitter();
   toggleModalTutorial:boolean=false;
+  allAssetsBeneficiary;
+  step3AssetData;
   constructor(
     private assetsServices: AssetsService,
     private _fb: FormBuilder,
@@ -69,14 +71,16 @@ export class DistributionAssetsComponent implements OnInit {
   assetsData = [];
   selectAssets(value) {
     console.log(value);
-    let assetId: Array<any> = this.distributeAssetsForm.value.assets;
-    if (assetId?.includes(value)) {
-      assetId.splice(assetId.indexOf(value), 1);
-    } else {
-      assetId?.push(value);
-    }
+    let memberData = this.allAssetsBeneficiary.filter(o1 => value.some(o2 => o1.assetId === o2._id));
+    console.log(this.allAssetsBeneficiary);
+    console.log(memberData);
+    this.step3AssetData=value;
+    const assets=value.map((el)=>{
+      const data =memberData.filter((i)=>i.assetId===el._id);
+    return {assetData:el._id,memberData:data}
+    })
     this.distributeAssetsForm.patchValue({
-      assets: assetId,
+      assets: assets,
     });
 
     console.log(this.distributeAssetsForm.value.assets);
@@ -121,6 +125,7 @@ export class DistributionAssetsComponent implements OnInit {
   onClickNext(){
     this.onClickNextBtn.emit(4)
     this._willServices.step3.next(this.distributeAssetsForm.value);
+    this._willServices.step3AssetData.next(this.step3AssetData);
   }
   onUpdateAssets(value){
   console.log(value);
@@ -128,9 +133,19 @@ export class DistributionAssetsComponent implements OnInit {
   }
   ngOnInit(): void {
     this.createForm();
+    this._willServices.assetsBeneficiary.subscribe((value) => {
+      this.allAssetsBeneficiary=value;
+      
+    });
     this._willServices.step3.subscribe((step3Data) => {
       console.log(step3Data);
       this.distributeAssetsForm.setValue(step3Data);
+
+    });
+    this._willServices.step3AssetData.subscribe((step3AssetData) => {
+      console.log(step3AssetData);
+      this.step3AssetData=step3AssetData;
+
     });
     this.assetsServices.getAssets().subscribe(
       (result) => {

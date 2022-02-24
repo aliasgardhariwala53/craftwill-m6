@@ -35,22 +35,22 @@
             </span>
             <span *ngIf="!inputState" (click)="profileUpdate()"
               class="round-buttons bg-blue text-light cursor-pointer flex align-items-center">
-              <label class="m-0" style="cursor: pointer" for="submitButtonId"><img width="28px" height="28px"
+              <label class="m-0" style="cursor: pointer" for="submitButtonId"><img width="30px" height="28px"
                   src="../../../../assets/Icons/Personal Details.svg" /></label>
             </span>
             <span (click)="changeStatus()" *ngIf="!inputState"
               class="round-buttons mx-2 bg-grey round-buttons-cancel cursor-pointer">
-              <i class="fa fa-times-circle fa-2x" style="color: #ff6782"></i>
+              <i class="fa fa-times-circle font-[32px]" style="color: #ff6782; font-size: 33.78px;"></i>
             </span>
           </div>
         </div>
       
         <div class=" flex flex-row mt-6  space-x-4">
           <div class="relative">
-            <label *ngIf="!showRemoveButton" for="imageInput" class="absolute left-16 sm:left-20 w-7 cursor-pointer">
+            <label *ngIf="!showRemoveButton" for="imageInput" class="absolute left-16 sm:left-[72px] w-7 cursor-pointer">
               <img width="25px" for="imageInput" src="../../../../assets/Icons/Edit 2.svg" />
             </label>
-            <label *ngIf="showRemoveButton" class="absolute left-16 sm:left-20 w-7 text-[#ff6782] cursor-pointer">
+            <label *ngIf="showRemoveButton" class="absolute left-16 sm:left-[72px] w-7 text-[#ff6782] cursor-pointer">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" (click)="toggleModalTutorial=true" fill="currentColor">
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
               </svg>
@@ -267,12 +267,12 @@
             </span>
             <span *ngIf="!disablePassword" (click)="passwordUpdate()"
               class="round-buttons bg-blue text-light cursor-pointer flex align-items-center">
-              <label class="m-0" style="cursor: pointer" for="submitPassword"><img width="28px" height="28px"
+              <label class="m-0" style="cursor: pointer" for="submitPassword"><img width="30px" height="28px"
                   src="../../../../assets/Icons/Personal Details.svg" /></label>
             </span>
             <span (click)="togglePassword()" *ngIf="!disablePassword"
               class="round-buttons mx-2 bg-grey round-buttons-cancel cursor-pointer">
-              <i class="fa fa-times-circle fa-2x" style="color: #ff6782"></i>
+              <i class="fa fa-times-circle  font-[32px]" style="color: #ff6782; font-size: 33.78px;"></i>
             </span>
           </div>
         </div>

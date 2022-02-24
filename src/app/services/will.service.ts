@@ -13,17 +13,6 @@ export class WillService {
   step5 = new BehaviorSubject({});
 
   assetsBeneficiary = new BehaviorSubject([]);
-  benificiaryAdder(value, type) {
-    let GiftBenificiary=[];
-    this.assetsBeneficiary.subscribe((data) => {
-      GiftBenificiary= data.map((el) => {
-        if (el.type === type) {
-          return { ...value };
-        } else {
-          return el;
-        }
-      });
-    });
-    this.assetsBeneficiary.next(GiftBenificiary);
-  }
+
+  step3AssetData = new BehaviorSubject([]);
 }

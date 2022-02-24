@@ -57,7 +57,7 @@ export class ProfileComponent implements OnInit {
       {
         password: [
           '0000000000000000',
-          [Validators.required, Validators.minLength(6)],
+          [Validators.required],
         ],
         newPassword: ['', [Validators.required, Validators.minLength(6)]],
         confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
@@ -317,6 +317,7 @@ export class ProfileComponent implements OnInit {
           Citizenship,
           id_country,
           dob,
+          profileImage,
         }) => ({
           id_type,
           id_number,
@@ -332,6 +333,7 @@ export class ProfileComponent implements OnInit {
           Citizenship,
           id_country,
           dob,
+          profileImage,
         }))(result.data);
         this.setImageHandler(result);
 

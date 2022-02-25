@@ -18,6 +18,10 @@ import { FilterComponent } from './components/filter/filter.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TutorialComponent } from './components/tutorial/tutorial.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { EditItemsComponent } from './components/edit-items/edit-items.component';
+import { SelectMobileComponent } from './components/select-mobile/select-mobile.component';
+import { EditSelectBoxComponent } from './components/edit-select-box/edit-select-box.component';
+import { ListShareComponent } from './components/list-share/list-share.component';
 
 
 
@@ -37,6 +41,10 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     ModalFilterComponent,
     FilterComponent,
     TutorialComponent,
+    EditItemsComponent,
+    SelectMobileComponent,
+    EditSelectBoxComponent,
+    ListShareComponent,
   ],
   imports: [
     CommonModule,
@@ -60,7 +68,11 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     ModalComponent,
     ModalFilterComponent,
     FilterComponent,
-    TutorialComponent
+    TutorialComponent,
+    EditItemsComponent,
+    SelectMobileComponent,
+    EditSelectBoxComponent,
+    ListShareComponent
   ]
 })
 export class SharedModule { }

@@ -38,6 +38,7 @@ export class BankAccountUserComponent implements OnInit {
   memberData = [];
 
   slectedResidualMembers = [];
+  allAssetsBeneficiary = [];
   assetsResidualType: string;
   toggleModalTutorial: boolean;
   constructor(
@@ -155,41 +156,11 @@ export class BankAccountUserComponent implements OnInit {
     );
   }
 
-  shareDataHandler({ shareData, id }) {
-    this.shareData = [...shareData];
-    let sharesObj = shareData.filter((el) => el.id === id);
-    const myItem = this.slectedResidualMembers.findIndex((el) => el === id);
-    if (myItem !== -1) {
-      let sharesMemberId: Array<any> =this.GiftBenificiary;
-      const shareMemberIdNew = sharesMemberId.map((el) => {
-        if (el?.member === id ) {
-          return { ...el, share: sharesObj[0].share};
-        }
-        return el;
-      });
-      this.GiftBenificiary=shareMemberIdNew;
-      console.log(shareMemberIdNew);
-      
-    
-    } else {
-      return;
-    }
-  }
-  addColorArray() {
-    this.slectedResidualMembers =
-      this.GiftBenificiary.map((el) => el.member);
-      console.log(this.GiftBenificiary);
-      console.log(this.slectedResidualMembers);
-  }
-
-  addSharesMember(id) {
-    let sharesObj = this.shareData.filter((el) => el.id === id);
-    let sharesMemberId: Array<any> =  this.GiftBenificiary;
-    this.GiftBenificiary=shareItemsHandler(sharesObj, id, sharesMemberId,'bankAccount'),
-    this.addColorArray();
-    console.log(this.GiftBenificiary);
-    
  
+  addSharesMember(value) {
+    console.log(value);  
+    this.assetsBeneficiary= value.map((el)=>{return{...el,assetId:this.id}})
+    console.log(this.assetsBeneficiary);
   }
   onUpdateBank() {
     this.spinner.start();
@@ -204,26 +175,16 @@ export class BankAccountUserComponent implements OnInit {
       (result) => {
         this.spinner.stop();
         if (result.success) {
-          console.log(this.GiftBenificiary);
-          console.log(this.assetsBeneficiary);
-          const itemNo=this.assetsBeneficiary.findIndex((el)=>el.type==='bankAccount');
-          if (itemNo === -1) {
-            this.assetsBeneficiary.push(this.GiftBenificiary);
-            console.log("najiiii");
-            
+          const myItem=this.allAssetsBeneficiary.findIndex((el)=>el.assetId===this.id);
+          if (myItem===-1) {
+            this.allAssetsBeneficiary.push(...this.assetsBeneficiary);
           } else {
-            this.assetsBeneficiary=this.assetsBeneficiary.map((el)=>{
-              if (el.type==='bankAccount') {
-                return {...this.GiftBenificiary}
-              } 
-              return el;
-              
-            })
-            console.log(this.assetsBeneficiary);
-            
+            this.allAssetsBeneficiary=this.allAssetsBeneficiary.filter((el)=>el.assetId!==this.id);
+            this.allAssetsBeneficiary=[...this.allAssetsBeneficiary,...this.assetsBeneficiary]
           }
+          console.log(this.allAssetsBeneficiary);
           
-          this._willServices.assetsBeneficiary.next(this.assetsBeneficiary);
+          this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
           this.BankAccountUser.reset();
           this._route.navigate([this.forwardRouteLink]);
         }
@@ -261,13 +222,6 @@ export class BankAccountUserComponent implements OnInit {
   }
   ngOnInit(): void {
     this.createForm();
-    this._willServices.assetsBeneficiary.subscribe((assetsBeneficiary) => {
-      this.assetsBeneficiary=assetsBeneficiary;
-
-      this.GiftBenificiary=assetsBeneficiary.filter((el)=>el.type==='bankAccount');
-      this.addColorArray();
-      console.log("assetsBeneficiary",assetsBeneficiary);
-    });
     this.route.queryParams.subscribe(({ id, x, y }) => {
       if (id) {
         this.id = id;
@@ -289,6 +243,13 @@ export class BankAccountUserComponent implements OnInit {
         this.fromCreateWill = y;
       }
     });
+    this._willServices.assetsBeneficiary.subscribe((value) => {
+      this.allAssetsBeneficiary=value;
+      console.log("assetsBeneficiary",value);
+      this.slectedResidualMembers=this.allAssetsBeneficiary?.filter((el)=>el.assetId===this.id);
+   
+    });
+ 
     this.memberServices.getMembers().subscribe(
       (result) => {
         // console.log(result.data);

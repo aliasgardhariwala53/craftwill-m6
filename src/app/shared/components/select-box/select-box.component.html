@@ -1,10 +1,10 @@
 <div cdkDropList class="grid bold grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4" (cdkDropListDropped)="drop($event)">
-    <div  class="flex flex-col" *ngFor="let item of listItem;index as i" >
-    <!-- <div  class="flex flex-col" *ngFor="let item of listItem;index as i" cdkDrag> -->
-        <div [ngClass]="{ 'bg-[#ff6782] text-white': selectedItems?.includes(item._id) }"
-            class="flex flex-row items-center relative rounded-2xl p-3 shadow-[0_0px_10px_rgba(0,0,0,0.1)]  cursor-pointer visited:bg-gray-700  bg-white "
+    <!-- <div  class="flex flex-col" *ngFor="let item of listItem;index as i" > -->
+    <div  class="flex flex-col  rounded-2xl  h-fit" *ngFor="let item of listItem;index as i" cdkDrag [cdkDragDisabled]="!dragToggle">
+        <div [ngClass]="{ 'bg-[#ff6782] text-white': colorArray?.includes(item._id) }"
+            class="flex flex-row items-center relative rounded-2xl p-3  cursor-pointer visited:bg-gray-700  bg-white shadow-[0_0px_10px_rgba(0,0,0,0.1)]"
             (click)="onSelectItem(item._id)">
-            <div [ngClass]="{ 'text-inherit': selectedItems?.includes(item._id) }" *ngIf="deleteToggle" (click)="delete(i)" class="absolute right-6 md:top-5 text-[#FF6782] z-20"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div [ngClass]="{ 'text-inherit': colorArray?.includes(item._id) }" *ngIf="deleteToggle" (click)="delete(i)" class="absolute right-6 md:top-5 text-[#FF6782] z-20"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg></div>
             <div cdkDragHandle *ngIf="dragToggle" class="flex flex-row -space-x-3 text-[#ccc]">
@@ -15,7 +15,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
                 </svg>
             </div>
-            <div *ngIf="dragToggle" class="font-['GilroySemi'] mr-1 ">#{{i+1}}</div>
+            <div [ngClass]="{ 'hidden': !colorArray?.includes(item._id) }" *ngIf="dragToggle" class="font-['GilroySemi'] mr-1 md:absolute right-5 top-5">#{{colorArray?.indexOf(item._id)+1}}</div>
 
             <div class="flex flex-row md:flex-col  items-center sm:items-start space-y-2 space-x-2 md:space-x-0 cursor-pointer visited:bg-gray-700 relative w-full">
             <div  *ngIf="avtarType === 'name'" class="rounded-full bg-blue-300 font-extrabold w-[40px] p-2 text-center">
@@ -30,9 +30,9 @@
                 </div>
             </div>
 
-            <div class="absolute right-2 md:bottom-1">
+            <div *ngIf="actionToggle" class="absolute right-2 md:bottom-1">
                 <div (click)="onClickActionButton(item)" class="border-2 rounded-full border-[#ff6782] p-1"
-                    [ngClass]="{ 'border-white': selectedItems?.includes(item._id) }">
+                    [ngClass]="{ 'border-white': colorArray?.includes(item._id) }">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 md:h-3 md:w-3" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -42,10 +42,16 @@
             </div>
             </div>
         </div>
+   <div *ngIf="memberShareList" class="bg-white pt-5 pb-1 -mt-4 rounded-b-2xl shadow-[0_0px_10px_rgba(0,0,0,0.1)] max-h-[155px] overflow-auto" [ngClass]="{ 'bg-[#ff6782] ': colorArray?.includes(item._id) }">
+    <div *ngIf="shareMemberList.length === 0" class="font-['GilroySemi'] text-center text-[#ff6782]">No Member Selected</div>
+       <app-list-share [selectedParentAssets]="colorArray?.includes(item._id)" [_id]="item._id" [memberListShare]="shareMemberList"></app-list-share>
+   </div>
+       
+        
         <div *ngIf="shareToggle" class="mt-2">
             <div class="font-['GilroySemi']">Specify Shares</div>
             <div>
-                <input type="number" placeholder="Share Percentage" max="100" min="0" (keyup)="sharePercentage($event,item._id)"
+                <input (change)="sharePercentage($event,item._id)" [value]="shareDisplay(item._id) | number" type="number" placeholder="Share Percentage" max="100" min="0" (keyup)="sharePercentage($event,item._id)"
                 class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#F0F0F0] w-[100%] px-2 sm:px-4 py-2  form-control rounded-[14px]  focus:outline-none" />
             </div>
         </div>

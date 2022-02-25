@@ -13,3 +13,12 @@ export const  shareItemsHandler=(sharesObj,id,shareNewObj,type) =>{
     }  
     return shareNewObj;
 }
+// export const nextServiceHandler=(allData=,type,typeData)=>{
+//   const myItem=allData?.findIndex((el)=>el.type===type);
+//   if (myItem===-1) {
+//    return allData.push(...typeData);
+//   } else {
+//     allData=allData.filter((el)=>el.type !==type);
+//    return allData=[...allData,...typeData]
+//   }
+// }

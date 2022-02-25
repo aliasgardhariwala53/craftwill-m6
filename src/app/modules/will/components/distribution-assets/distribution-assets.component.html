@@ -1,6 +1,8 @@
 <div class="flex flex-col overflow-auto min-h-[100vh]">
-  <div class="flex flex-row justify-between mt-4">
-    <div class="font-['GilroyBold'] flex items-center text-xl">Liabilities</div>
+  <div class="flex flex-col-reverse sm:flex-row justify-between mt-4">
+    <div class="font-['GilroyBold'] flex items-center text-xl">
+      Liabilities
+    </div>
     <div>
       <app-button
         border="border-2 border-black"
@@ -10,13 +12,22 @@
         borderRadius="rounded-xl"
         color="text-[#000]"
         value="Tutorial"
+        class="hidden md:flex"
       ></app-button>
+      <app-button
+        value="Tutorial"
+        (click)="toggleModalTutorial = true"
+        class="md:hidden"
+        backgroundColor="bg-[#000]"
+        margin="my-1"
+      >
+      </app-button>
     </div>
   </div>
-  <div class="font-['GilroySemi'] text-[#ccc] -mt-3">
+  <div class="font-['GilroySemi'] text-[#ccc] -mt-1">
     Select and add liabilities
   </div>
-  <div class="flex flex-col bg-[#f7f7f7] rounded-2xl p-4 mt-2">
+  <div class="flex flex-col bg-[#f7f7f7] rounded-2xl p-4 mt-2 max-h-[50vh] overflow-auto">
     <app-select-box
       [key]="KeysLiability"
       [listItem]="LiabilitiesData"
@@ -27,54 +38,79 @@
       addItemRoute="members/createmembers"
       avtarType="name"
       addItemTitle="Add Liabilities"
+      
     >
     </app-select-box>
   </div>
-  <div class="flex flex-row justify-between mt-4">
-    <div class="font-['GilroyBold'] flex items-center text-xl">Assets</div>
+  <div class="flex flex-col-reverse sm:flex-row justify-between mt-4">
+    <div class="font-['GilroyBold'] flex items-center text-xl">
+      Assets
+    </div>
     <div>
       <app-button
         border="border-2 border-black"
-        padding="px-10 py-2"
         (myMethod)="toggleModalTutorial = true"
+        padding="px-10 py-2"
         backgroundColor="bg-[#fff]"
         borderRadius="rounded-xl"
         color="text-[#000]"
         value="Tutorial"
+        class="hidden md:flex"
       ></app-button>
+      <app-button
+        value="Tutorial"
+        (click)="toggleModalTutorial = true"
+        class="md:hidden"
+        backgroundColor="bg-[#000]"
+        margin="my-1"
+      >
+      </app-button>
     </div>
   </div>
-  <div class="font-['GilroySemi'] text-[#ccc] -mt-3">Select and add assets</div>
-  <div class="flex flex-col bg-[#f7f7f7] rounded-2xl p-4 mt-2">
+  <div class="font-['GilroySemi'] text-[#ccc] -mt-1">Select and add assets</div>
+  <div class="flex flex-col bg-[#f7f7f7] rounded-2xl p-4 mt-2 max-h-[50vh] overflow-auto">
     <app-select-box
       [key]="keyAssets"
       (actionButton)="onUpdateAssets($event)"
       [listItem]="assetsData"
-      [selectedItems]="this.distributeAssetsForm.value.assets"
+      [selectedItems]="step3AssetData"
       [classes]="classes"
       addItemRoute="assets/createAssets"
       (onSelectId)="selectAssets($event)"
       avtarType="image"
       addItemTitle="Add Assets"
+      [memberListShare]="allAssetsBeneficiary"
+      [memberShareList]="true"
     >
     </app-select-box>
   </div>
-  <div class="flex flex-row justify-between mt-4">
-    <div class="font-['GilroyBold'] flex items-center text-xl">Trust</div>
+  <div class="flex flex-col-reverse sm:flex-row justify-between mt-4">
+    <div class="font-['GilroyBold'] flex items-center text-xl ">
+      Trust
+    </div>
     <div>
       <app-button
         border="border-2 border-black"
-        padding="px-10 py-2"
         (myMethod)="toggleModalTutorial = true"
+        padding="px-10 py-2"
         backgroundColor="bg-[#fff]"
         borderRadius="rounded-xl"
         color="text-[#000]"
         value="Tutorial"
+        class="hidden md:flex"
       ></app-button>
+      <app-button
+        value="Tutorial"
+        (click)="toggleModalTutorial = true"
+        class="md:hidden"
+        backgroundColor="bg-[#000]"
+        margin="my-1"
+      >
+      </app-button>
     </div>
   </div>
-  <div class="font-['GilroySemi'] text-[#ccc] -mt-3">Select and add trust</div>
-  <div class="flex flex-col bg-[#f7f7f7] rounded-2xl p-4 mt-2">
+  <div class="font-['GilroySemi'] text-[#ccc] -mt-1">Select and add trust</div>
+  <div class="flex flex-col bg-[#f7f7f7] rounded-2xl p-4 mt-2 max-h-[50vh] overflow-auto">
     <app-select-box
       [key]="KeysTrust"
       [listItem]="trustData"

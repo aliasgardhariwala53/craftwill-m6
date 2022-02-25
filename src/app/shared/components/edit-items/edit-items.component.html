@@ -1,0 +1,12 @@
+
+<div *ngIf="showModal" class="fixed inset-0 z-50 outline-none focus:outline-none justify-end items-center flex bg-[#0000003f]">
+    <div class="relative w-full overflow-auto  flex h-[100vh] shadow-lg ">
+        
+        <div class="border-0  w-full h-full m-auto relative flex flex-col  bg-white outline-none focus:outline-none"> 
+          <app-header></app-header>
+        <ng-container *ngTemplateOutlet="modalBody"></ng-container>
+        
+      </div>
+    </div>
+  </div>
+  <div *ngIf="showModal" class="opacity-25 fixed inset-0 z-40 bg-black"></div>

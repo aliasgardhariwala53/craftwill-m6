@@ -26,6 +26,15 @@ export class UserService {
   imageUpload(obj) {
     return this._httpServe.update(environment.serverUrl + 'users/upload', obj);
   }
+
+
+  upgradePlanApi(obj) {
+    return this._httpServe.post(environment.serverUrl + 'subscription/product', obj);
+  }
+
+
+
+
   // getUserImage() {
   //   return this._httpServe.get(environment.serverUrl + 'users/getProfilepic');
   // }

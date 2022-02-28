@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { WillService } from 'src/app/services/will.service';
 
 @Component({
@@ -9,10 +9,11 @@ import { WillService } from 'src/app/services/will.service';
 export class ListShareComponent implements OnInit {
   @Input() memberListShare=[];
   @Input() _id;
+  @Input() listCol: boolean =false;
   shareValue;
   allAssetsBeneficiary;
   @Input() selectedParentAssets:boolean=false;
-
+  @Output() selectedListItem=new EventEmitter();
   constructor(private _willServices:WillService) { }
   getShortName(obj) { 
     const name =obj.fullname;
@@ -32,9 +33,15 @@ export class ListShareComponent implements OnInit {
   }
   ngOnInit(): void {
 
-    // console.log(this.allAssetsBeneficiary);
+    console.log(this.memberListShare);
 
     
+  }
+  delete(index: any) {
+    
+    this.allAssetsBeneficiary.splice(index,1);
+    console.log(this.memberListShare);
+    this.selectedListItem.emit(this.allAssetsBeneficiary);
   }
 
 }

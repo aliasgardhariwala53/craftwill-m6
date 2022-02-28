@@ -158,7 +158,9 @@ export class PersonalPossessionComponent implements OnInit {
           }
           console.log(this.allAssetsBeneficiary);
 
-          this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
+       if (this.fromCreateWill==='will') {         
+            this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
+          }
           this.personalPossessionForm.reset();
           this._route.navigate([this.forwardRouteLink]);
         }

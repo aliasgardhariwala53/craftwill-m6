@@ -22,6 +22,7 @@ import { EditItemsComponent } from './components/edit-items/edit-items.component
 import { SelectMobileComponent } from './components/select-mobile/select-mobile.component';
 import { EditSelectBoxComponent } from './components/edit-select-box/edit-select-box.component';
 import { ListShareComponent } from './components/list-share/list-share.component';
+import { SelectPayoutComponent } from './components/select-payout/select-payout.component';
 
 
 
@@ -45,6 +46,7 @@ import { ListShareComponent } from './components/list-share/list-share.component
     SelectMobileComponent,
     EditSelectBoxComponent,
     ListShareComponent,
+    SelectPayoutComponent,
   ],
   imports: [
     CommonModule,
@@ -72,7 +74,8 @@ import { ListShareComponent } from './components/list-share/list-share.component
     EditItemsComponent,
     SelectMobileComponent,
     EditSelectBoxComponent,
-    ListShareComponent
+    ListShareComponent,
+    SelectPayoutComponent
   ]
 })
 export class SharedModule { }

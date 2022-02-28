@@ -1,18 +1,26 @@
-<div  class="space-y-2  px-2 py-1 max-h-52 overflow-auto " *ngFor="let item of allAssetsBeneficiary">
-  <div class="flex flex-col "  >
-    <div
-      class="flex flex-row space-2 justify-around items-center rounded-2xl p-2 shadow-[0_0px_10px_rgba(0,0,0,0.1)] bg-white space-x-1" [ngClass]="{'bg-[#ff678229]': !selectedParentAssets}"
-    >
-    <div class="rounded-full bg-blue-300 font-extrabold w-[40px] p-2 text-center">
-        {{ getShortName(item) || "AA" }}    
-    </div>
-      <div class="flex flex-col justify-center w-2/4">
-        <div class="font-['GilroyBold']">{{ item.fullname }}</div>
-        <div class="font-['GilroySemi']">{{ item.Relationship }}</div>
+<div [ngClass]="{'lg:grid-cols-1': listCol}" class="grid grid-col-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+
+
+  <div  class="space-y-2  px-2 py-1  overflow-auto " *ngFor="let item of allAssetsBeneficiary;let i =index">
+    
+      <div
+        class="flex flex-row space-2 justify-around items-center rounded-2xl p-2 shadow-[0_0px_10px_rgba(0,0,0,0.1)] bg-white space-x-1 " [ngClass]="{'bg-[#ff678229]': !selectedParentAssets}"
+      >
+      <div class="rounded-full bg-blue-300 font-extrabold w-[40px] p-2 text-center">
+          {{ getShortName(item) || "AA" }}      
       </div>
-      <div class="w-1/4 flex justify-center items-center">
-          <div class="rounded-lg bg-[#ff6782] w-full text-center text-white font-['GilroySemi'] text-sm">{{ item.share }}%</div>
+        <div class="flex flex-col justify-center w-2/4">
+          <div class="font-['GilroyBold']">{{ item.fullname }}</div>
+          <div class="font-['GilroySemi']">{{ item.Relationship }}</div>
         </div>
-    </div>
+        <div class="w-1/4 flex justify-center items-center">
+            <div class="rounded-lg bg-[#ff6782] w-1/2 px-1 py-0.5 text-center text-white font-['GilroySemi'] text-xs ">{{ item.share }} %</div>
+          </div>
+         <div (click)="delete(i)" class=" -right-1 -top-1 text-[#FF6782] z-20"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg></div> 
+      </div>
+
   </div>
+
 </div>

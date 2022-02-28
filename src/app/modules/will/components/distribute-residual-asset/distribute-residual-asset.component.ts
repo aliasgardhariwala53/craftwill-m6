@@ -67,9 +67,7 @@ export class DistributeResidualAssetComponent implements OnInit {
     },
   };
   clickModal(){
-    console.log(this.distributeResidualAssetsForm.value.trustType);
-  
-    
+    console.log(this.distributeResidualAssetsForm.value.trustType);  
   }
 
   selectResidualAssetsMember(value) {

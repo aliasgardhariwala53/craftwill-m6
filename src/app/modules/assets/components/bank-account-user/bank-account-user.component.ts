@@ -184,7 +184,9 @@ export class BankAccountUserComponent implements OnInit {
           }
           console.log(this.allAssetsBeneficiary);
           
-          this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
+       if (this.fromCreateWill==='will') {         
+            this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
+          }
           this.BankAccountUser.reset();
           this._route.navigate([this.forwardRouteLink]);
         }

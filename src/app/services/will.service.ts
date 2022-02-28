@@ -13,6 +13,13 @@ export class WillService {
   step5 = new BehaviorSubject({});
 
   assetsBeneficiary = new BehaviorSubject([]);
-
+// step 3
   step3AssetData = new BehaviorSubject([]);
+  //trust
+  allTrustAdditionalData = new BehaviorSubject([]);
+  step3TrustData = new BehaviorSubject([]);
+
+  allpayoutTrust = new BehaviorSubject([]);
+
+  
 }

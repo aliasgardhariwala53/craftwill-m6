@@ -143,16 +143,24 @@ export class IntellectualPropertyComponent implements OnInit {
       (result) => {
         this.spinner.stop();
         if (result.success) {
-const myItem=this.allAssetsBeneficiary.findIndex((el)=>el.assetId===this.id);
-if (myItem===-1) {
-  this.allAssetsBeneficiary.push(...this.assetsBeneficiary);
-} else {
-  this.allAssetsBeneficiary=this.allAssetsBeneficiary.filter((el)=>el.assetId!==this.id);
-  this.allAssetsBeneficiary=[...this.allAssetsBeneficiary,...this.assetsBeneficiary]
-}
-console.log(this.allAssetsBeneficiary);
-
-this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
+          const myItem = this.allAssetsBeneficiary.findIndex(
+            (el) => el.assetId === this.id
+          );
+          if (myItem === -1) {
+            this.allAssetsBeneficiary.push(...this.assetsBeneficiary);
+          } else {
+            this.allAssetsBeneficiary = this.allAssetsBeneficiary.filter(
+              (el) => el.assetId !== this.id
+            );
+            this.allAssetsBeneficiary = [
+              ...this.allAssetsBeneficiary,
+              ...this.assetsBeneficiary,
+            ];
+          }
+          console.log(this.allAssetsBeneficiary);
+          if (this.fromCreateWill==='will') {         
+            this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
+          }
           this._route.navigate([this.forwardRouteLink]);
         }
 
@@ -188,16 +196,19 @@ this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
   }
 
   addSharesMember(value) {
-    console.log(value);  
-    this.assetsBeneficiary= value.map((el)=>{return{...el,assetId:this.id}})
+    console.log(value);
+    this.assetsBeneficiary = value.map((el) => {
+      return { ...el, assetId: this.id };
+    });
     console.log(this.assetsBeneficiary);
   }
   ngOnInit(): void {
     this._willServices.assetsBeneficiary.subscribe((value) => {
-      this.allAssetsBeneficiary=value;
-      console.log("assetsBeneficiary",value);
-      this.slectedResidualMembers=this.allAssetsBeneficiary?.filter((el)=>el.assetId===this.id);
-   
+      this.allAssetsBeneficiary = value;
+      console.log('assetsBeneficiary', value);
+      this.slectedResidualMembers = this.allAssetsBeneficiary?.filter(
+        (el) => el.assetId === this.id
+      );
     });
     this.route.queryParams.subscribe(({ id, x, y }) => {
       if (id) {

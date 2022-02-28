@@ -18,6 +18,7 @@ export class DistributionAssetsComponent implements OnInit {
   toggleModalTutorial:boolean=false;
   allAssetsBeneficiary;
   step3AssetData;
+  allTrustAdditionalData=[];
   constructor(
     private assetsServices: AssetsService,
     private _fb: FormBuilder,
@@ -137,6 +138,11 @@ export class DistributionAssetsComponent implements OnInit {
       this.allAssetsBeneficiary=value;
       
     });
+    this._willServices.allTrustAdditionalData.subscribe((value) => {
+      console.log(value);
+      this.allTrustAdditionalData =value;
+      
+    });
     this._willServices.step3.subscribe((step3Data) => {
       console.log(step3Data);
       this.distributeAssetsForm.setValue(step3Data);
@@ -147,6 +153,7 @@ export class DistributionAssetsComponent implements OnInit {
       this.step3AssetData=step3AssetData;
 
     });
+
     this.assetsServices.getAssets().subscribe(
       (result) => {
         this.spinner.stop();

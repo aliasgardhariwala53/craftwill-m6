@@ -160,7 +160,9 @@ export class MoterVehicleComponent implements OnInit {
           }
           console.log(this.allAssetsBeneficiary);
 
-          this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
+       if (this.fromCreateWill==='will') {         
+            this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
+          }
           this.vehicleForm.reset();
           this._route.navigate([this.forwardRouteLink]);
         }

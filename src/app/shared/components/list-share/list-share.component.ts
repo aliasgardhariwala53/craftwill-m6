@@ -9,7 +9,7 @@ import { WillService } from 'src/app/services/will.service';
 export class ListShareComponent implements OnInit {
   @Input() memberListShare=[];
   @Input() _id;
-  @Input() listCol: boolean =false;
+  @Input() listCol: boolean =true;
   shareValue;
   allAssetsBeneficiary;
   @Input() selectedParentAssets:boolean=false;

@@ -1,4 +1,4 @@
-<div [ngClass]="{'lg:grid-cols-1': listCol}" class="grid grid-col-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+<div [ngClass]="{'grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1': listCol}" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
 
 
   <div  class="space-y-2  px-2 py-1  overflow-auto " *ngFor="let item of allAssetsBeneficiary;let i =index">
@@ -14,7 +14,7 @@
           <div class="font-['GilroySemi']">{{ item.Relationship }}</div>
         </div>
         <div class="w-1/4 flex justify-center items-center">
-            <div class="rounded-lg bg-[#ff6782] w-1/2 px-1 py-0.5 text-center text-white font-['GilroySemi'] text-xs ">{{ item.share }} %</div>
+            <div class="rounded-lg bg-[#ff6782] px-1 py-0.5 text-center text-white font-['GilroySemi'] text-xs ">{{ item.share }} %</div>
           </div>
          <div (click)="delete(i)" class=" -right-1 -top-1 text-[#FF6782] z-20"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />

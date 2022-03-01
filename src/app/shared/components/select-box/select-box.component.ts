@@ -19,6 +19,7 @@ export class SelectBoxComponent implements OnInit {
 @Input() shareToggle:boolean=false;
 @Input() deleteToggle:boolean=false;
 @Input() actionToggle:boolean=true;
+@Input() addItemToggle:boolean=true;
 @Input() dragToggle:boolean=false;
 @Input() memberShareList:boolean=false;
 @Input() imageUrl='../../../../assets/Icons/DP.svg';
@@ -146,20 +147,20 @@ drop(event: CdkDragDrop<string[]>) {
 }
 
 shareDisplay(_id){
- return this.selectedItems.find((el)=>el._id===_id)?.share;
+ return this.selectedItems?.find((el)=>el._id===_id)?.share;
 }
 ngOnChanges(changes: SimpleChanges) {
   
   // console.log(changes);
   this.shareMemberList= this.memberListShare;
   this.selectedItem = this.selectedItems;
-  
-}
-ngOnInit(): void {
-  // console.log(this.memberListShare);
-  
   this.colorArray=this.selectedItem.map((el)=>el._id);
   console.log(this.selectedItem);
+  
+}
+
+ngOnInit(): void {
+  // console.log(this.memberListShare);
   
   if (this._route.url==='/will/createWill') {
     this.currentRoute=this._route.url

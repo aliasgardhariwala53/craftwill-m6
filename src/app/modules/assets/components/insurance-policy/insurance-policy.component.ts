@@ -154,7 +154,9 @@ export class InsurancePolicyComponent implements OnInit {
           }
           console.log(this.allAssetsBeneficiary);
           
-          this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
+       if (this.fromCreateWill==='will') {         
+            this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
+          }
           this.insuranceForm.reset();
           this._route.navigate([this.forwardRouteLink]);
         }

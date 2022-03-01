@@ -1,0 +1,91 @@
+<div cdkDropList class="grid bold grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4"
+    (cdkDropListDropped)="drop($event)">
+    <!-- <div  class="flex flex-col" *ngFor="let item of listItem;index as i" > -->
+    <div class="flex flex-col  rounded-2xl  h-fit" *ngFor="let item of listItem;index as i" cdkDrag
+        [cdkDragDisabled]="!dragToggle">
+
+        <div [ngClass]="{ 'bg-[#ff6782] text-white': colorArray?.includes(item._id) }"
+            class="flex flex-row items-center relative rounded-2xl p-3 pt-7  cursor-pointer visited:bg-gray-700  bg-white shadow-[0_0px_10px_rgba(0,0,0,0.1)]"
+            (click)="onSelectItem(item._id)">
+            <div cdkDragHandle *ngIf="dragToggle && !togglePayoutDetail" class="flex flex-row -space-x-3 text-[#ccc]">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                </svg>
+            </div>
+            <div [ngClass]="{ 'text-[#fff]': colorArray?.includes(item._id) }" (click)="delete(i)" class="absolute left-2 top-2 text-[#FF6782] z-20"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg></div>
+            <div class="absolute right-2 top-2 border-2 border-[#ff6782]  rounded-full z-40 bg-white text-black" >
+                <svg *ngIf="togglePayoutDetail" (click)="togglePayoutDetail=false" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                  </svg>
+                  <svg *ngIf="!togglePayoutDetail" (click)="togglePayoutDetail=true" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+            </div>
+            <div *ngIf="!togglePayoutDetail"
+                class="flex flex-row md:flex-col  items-center sm:items-start space-y-2 space-x-2 md:space-x-0 cursor-pointer visited:bg-gray-700 relative w-full">
+
+                <div class="flex flex-row justify-between">
+                    <div class="flex flex-col">
+                        <div  class=" font-['GilroyBold'] text-[#000]">
+                          Payouts  {{ i+1 }}
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div *ngIf="togglePayoutDetail"
+                class="flex flex-row md:flex-col  items-center sm:items-start space-y-2 space-x-2 md:space-x-0 cursor-pointer visited:bg-gray-700 relative w-full">
+
+         
+                    <div class="flex flex-col space-y-2 w-[inherit]" >
+                        
+                        <div [ngClass]="{ 'bg-[#ffc4cf] text-white': colorArray?.includes(item._id) }" class=" bg-[#EAEAEA] py-3 px-5 rounded-2xl text-[#000]" *ngFor="let key of key; let i = index">
+                            <div class="text-xs text-[#000]">{{key.name}}</div>
+                            <div *ngIf="i!==4" class="bg-[#fff] px-3 py-2 rounded-2xl font-['GilroySemi'] text-[#000] mt-1 ">{{ item[key.value]  || "---"}}</div>
+                            <div *ngIf="i==4">
+                                <div class="bg-[#fff] p-3 rounded-2xl font-['GilroySemi'] text-[#000] mt-1" >
+          
+                                    <div class="font-['GilroySemi'] text-[#000] mt-1 text-xs">* If Benificiary Attains {{item[key.value]?.ifBenificiaryAttains}}</div>
+                                    <div class="font-['GilroySemi'] text-[#000] mt-1 text-xs">* If Benificiary Is {{item[key.value]?.ifBenificiaryIs}}</div>
+                                    <div class="font-['GilroySemi'] text-[#000] mt-1 text-xs">* If Benificiary Turns {{item[key.value]?.ifBenificiaryTurns }}</div>
+                                    <div class="font-['GilroySemi'] text-[#000] mt-1 text-xs">* {{item[key.value]?.customField}}</div>
+                                </div>
+                            </div>
+                        </div>
+                       <div *ngFor="let member of displayMembers">
+                           <div class="bg-[#fff] flex flex-row">
+                            <div class="rounded-full bg-blue-300 font-extrabold w-[40px] p-2 text-center">
+                                {{ getShortName(item) || "AA" }}    
+                            </div>
+                                <div class="flex flex-col">
+                                    <div>{{member.fullname || ''}}</div>
+                                    <div>{{member.Relationship || ''}}</div>
+                                </div>
+                           </div>
+                       </div>
+                    </div>
+       
+
+
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class=" max-h-[120px] bg-[#fff] cursor-pointer flex flex-col rounded-xl border-dashed border-2 border-[#ff6782] py-4 px-8 justify-center items-center text-red"
+        (click)="onAddItem()">
+        {{ addItemTitle }}
+    </div>
+
+</div>

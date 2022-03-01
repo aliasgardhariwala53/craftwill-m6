@@ -1,0 +1,750 @@
+<form
+  class="flex flex-col overflow-auto bg-white max-h-[80vh]"
+  [formGroup]="payoutForm"
+>
+  <div class="flex flex-col px-8 py-4 space-y-4">
+    <div class="flex flex-row justify-between">
+      <div class="font-['gilroyBold'] text-2xl">Add A payout</div>
+      <div>
+        <app-button
+          border="border-2 border-black"
+          (myMethod)="toggleModalTutorial = true"
+          padding="px-10 py-2"
+          backgroundColor="bg-[#fff]"
+          borderRadius="rounded-xl"
+          color="text-[#000]"
+          value="Tutorial"
+        ></app-button>
+      </div>
+    </div>
+    <div class="flex flex-col space-y-3">
+      <div class="flex flex-col px-4 py-3 bg-[#F4F4F4] rounded-2xl w-full">
+        <div class="flex flex-row">
+          <input
+            type="radio"
+            value="p1"
+            formControlName="payout_type"
+            id="p1"
+            class="mx-1 radioCustom"
+          />
+          <label class="mx-1 font-['gilroysemi'] text-base w-full" for="p1"
+            >Source of Payout</label
+          >
+        </div>
+
+        <div class="font-['gilroysemi'] text-xs text-[#A2A2A2] mt-1 ml-1">
+          Trust Assets/ Previous Year’s Profit / Payout Fund
+        </div>
+      </div>
+      <div class="flex flex-col px-4 py-3 bg-[#F4F4F4] rounded-2xl w-full">
+        <div class="flex flex-row">
+          <input
+            type="radio"
+            value="p2"
+            formControlName="payout_type"
+            id="p2"
+            class="mx-1 radioCustom"
+          />
+          <label class="mx-1 font-['gilroysemi'] text-base w-full" for="p2"
+            >Denomination of Payout</label
+          >
+        </div>
+
+        <div class="font-['gilroysemi'] text-xs text-[#A2A2A2] mt-1 ml-1">
+          Absolute Value $ or Percentage %
+        </div>
+      </div>
+      <div class="flex flex-col px-4 py-3 bg-[#F4F4F4] rounded-2xl w-full">
+        <div class="flex flex-row">
+          <input
+            type="radio"
+            value="p3"
+            formControlName="payout_type"
+            id="p3"
+            class="mx-1 radioCustom"
+          />
+          <label class="mx-1 font-['gilroysemi'] text-base w-full" for="p3"
+            >Frequency of Payout</label
+          >
+        </div>
+
+        <div class="font-['gilroysemi'] text-xs text-[#A2A2A2] mt-1 ml-1">
+          Weekly / Monthly / Quarterly / Half-Yearly / Yearly
+        </div>
+      </div>
+      <div class="flex flex-col px-4 py-3 bg-[#F4F4F4] rounded-2xl w-full">
+        <div class="flex flex-row">
+          <input
+            type="radio"
+            value="p4"
+            formControlName="payout_type"
+            id="p4"
+            class="mx-1 radioCustom"
+          />
+          <label class="mx-1 font-['gilroysemi'] text-base w-full" for="p4"
+            >Conditions of Payout</label
+          >
+        </div>
+
+        <div class="font-['gilroysemi'] text-xs text-[#A2A2A2] mt-1 ml-1">
+          If the beneficiary is below 21 years old.
+        </div>
+      </div>
+      <div class="flex flex-col px-4 py-3 bg-[#F4F4F4] rounded-2xl w-full">
+        <div class="flex flex-row">
+          <input
+            type="radio"
+            value="p5"
+            formControlName="payout_type"
+            id="p5"
+            class="mx-1 radioCustom"
+          />
+          <label class="mx-1 font-['gilroysemi'] text-base w-full" for="p5"
+            >Purpose of Payout</label
+          >
+        </div>
+
+        <div class="font-['gilroysemi'] text-xs text-[#A2A2A2] mt-1 ml-1">
+          If the beneficiary is below 21 years old.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-col px-8 py-4 w-full">
+    <div class="bg-[#F4F4F4] rounded-2xl p-5 space-y-2">
+      <div class="flex flex-row items-center space-x-2">
+        <label class="switch">
+          <input
+            type="checkbox"
+            (click)="onSelectFallback($event)"
+            [checked]="fallbackChecked"
+            name=""
+            id=""
+          />
+          <span class="slider round"></span>
+        </label>
+        <div class="font-['GilroyBold'] text-xl">Fallback</div>
+      </div>
+      <div class="flex w-fit mt-1 justify-evenly ml-0 items-center">
+        <input
+          type="radio"
+          value="Do not Pay"
+          [attr.disabled]="!fallbackChecked ? true : null"
+          formControlName="fallBackType"
+          id="fall1"
+          class="mx-1 radioCustom"
+        />
+        <label class="text-sm mx-1 mt-1 font-['GilroySemi']" for="fall1"
+          >Do not Pay</label
+        >
+        <input
+          type="radio"
+          id="fall2"
+          [attr.disabled]="!fallbackChecked ? true : null"
+          value="Activate Terminal Clause"
+          formControlName="fallBackType"
+          class="mx-1 radioCustom"
+        />
+        <label class="text-sm mx-1 mt-1 font-['GilroySemi']" for="fall2"
+          >Activate Terminal Clause</label
+        >
+      </div>
+      <div
+        *ngIf="
+          this.payoutForm.value.fallBackType === 'Activate Terminal Clause'
+        "
+        class="flex flex-col bg-[#EAEAEA] p-3 rounded-2xl"
+      >
+        <input
+          type="radio"
+          value="By fully executing the obligations under the contract"
+          formControlName="description"
+          id="at1"
+          class="mx-1 radioCustom"
+        />
+        <label class="text-sm mx-1 mt-1 font-['GilroySemi']" for="at1"
+          >By fully executing the obligations under the contract</label
+        >
+        <input
+          type="radio"
+          id="at2"
+          value="Not renewing the contract upon the arrival of its term"
+          formControlName="description"
+          class="mx-1 radioCustom"
+        />
+        <label class="text-sm mx-1 mt-1 font-['GilroySemi']" for="at2"
+          >Not renewing the contract upon the arrival of its term</label
+        >
+        <input
+          type="radio"
+          id="at3"
+          value="Based on the other party’s default or breach of contract"
+          formControlName="description"
+          class="mx-1 radioCustom"
+        />
+        <label class="text-sm mx-1 mt-1 font-['GilroySemi']" for="at3"
+          >Based on the other party’s default or breach of contract</label
+        >
+        <input
+          type="radio"
+          id="at4"
+          value="Others"
+          formControlName="description"
+          class="mx-1 radioCustom"
+        />
+        <label class="text-sm mx-1 mt-1 font-['GilroySemi']" for="at4"
+          >Others</label
+        >
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-col px-8 py-4 rounded-2xl p-4">
+    <div class="bg-[#F4F4F4] rounded-2xl p-5 space-y-2">
+    <div class=" my-2 flex flex-row justify-between">
+      <div class="font-['gilroyBold'] text-lg">Appoint Beneficiaries</div>
+      <div
+        (click)="editToggle = true"
+        class="text-red font-['GilroySemi'] cursor-pointer"
+      >
+        Edit
+      </div>
+    </div>
+    <div class="max-h-[50vh] overflow-auto">
+      <app-select-mobile
+        [listItem]="selectedItemFromEdit"
+        addItemTitle="Add Executor"
+        (selectedListItem)="selectCircularMembers($event)"
+        (addItemHandler)="editToggle = true"
+        addItemRoute="members/createmembers"
+      >
+      </app-select-mobile>
+    </div>
+  </div>
+  </div>
+  <div class="sm:w-6/12 md:w-4/12 lg:w-2/12 my-4 mx-8">
+    <app-button
+      [arrow]="true"
+      padding="px-3 py-3"
+      (myMethod)="onSavePayout()"
+      value="Done"
+      id="submitButtonId"
+    ></app-button>
+  </div>
+  <!-- p1 -->
+  <app-modal-filter
+    [modalBody]="modalBody1"
+    [showModal]="this.payoutForm.value.payout_type === 'p1'"
+  >
+    <ng-template #modalBody1>
+      <div class="flex flex-col p-4 space-y-2">
+        <div class="flex flex-row justify-between">
+          <div class="font-['GilroyBold'] text-lg">Source of Payout</div>
+          <div
+            (click)="closeModalHandler()"
+            class="text-[#FF6782] cursor-pointer"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </div>
+        </div>
+        <div
+          class="flex justify-between items-center p-3 bg-[#f7f7f7] rounded-2xl w-full"
+        >
+          <input
+            type="radio"
+            value="Pay from Trust Fund"
+            formControlName="sourceOfPayout"
+            id="sp1"
+            class="mx-1 radioCustom"
+          />
+          <label class="mx-1 font-['gilroysemi'] w-full" for="sp1"
+            >Pay from Trust Fund</label
+          >
+        </div>
+        <div
+          class="flex justify-between items-center p-3 bg-[#f7f7f7] rounded-2xl w-full"
+        >
+          <input
+            type="radio"
+            value="Pay from Accumulated Profit Balance of the fund"
+            formControlName="sourceOfPayout"
+            id="sp2"
+            class="mx-1 radioCustom"
+          />
+          <label class="mx-1 font-['gilroysemi'] w-full" for="sp2"
+            >Pay from Accumulated Profit Balance of the fund</label
+          >
+        </div>
+        <div
+          class="flex justify-between items-center p-3 bg-[#f7f7f7] rounded-2xl w-full"
+        >
+          <input
+            type="radio"
+            id="sp3"
+            value="Custom Payout Clause"
+            formControlName="sourceOfPayout"
+            class="mx-1 radioCustom"
+          />
+          <label class="mx-1 font-['gilroysemi'] w-full" for="sp3"
+            >Custom Payout Clause</label
+          >
+        </div>
+        <div class="">
+          <app-button
+            padding="px-3 py-3"
+            [arrow]="true"
+            (myMethod)="closeModalHandler()"
+            value="Save"
+            id="submitButtonId"
+          ></app-button>
+        </div>
+      </div>
+    </ng-template>
+  </app-modal-filter>
+  <!-- p2 -->
+  <app-modal-filter
+    [modalBody]="modalBody2"
+    [showModal]="this.payoutForm.value.payout_type === 'p2'"
+  >
+    <ng-template #modalBody2>
+      <div class="flex flex-col p-4 space-y-2">
+        <div class="flex flex-row justify-between">
+          <div class="font-['GilroyBold'] text-lg">Denomination of Payout</div>
+          <div
+            (click)="closeModalHandler()"
+            class="text-[#FF6782] cursor-pointer"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </div>
+        </div>
+        <div
+          class="flex justify-between items-center p-3 bg-[#f7f7f7] rounded-2xl w-full"
+        >
+          <input
+            type="radio"
+            value="Percentage"
+            formControlName="denominationOfPayout"
+            id="sp1"
+            class="mx-1 radioCustom"
+          />
+          <label class="mx-1 font-['gilroysemi'] w-full" for="sp1"
+            >Percentage</label
+          >
+        </div>
+        <div
+          class="flex justify-between items-center p-3 bg-[#f7f7f7] rounded-2xl w-full"
+        >
+          <input
+            type="radio"
+            value="Currency Selection"
+            formControlName="denominationOfPayout"
+            id="sp2"
+            class="mx-1 radioCustom"
+          />
+          <label class="mx-1 font-['gilroysemi'] w-full" for="sp2"
+            >Currency Selection</label
+          >
+        </div>
+        <div class="">
+          <app-button
+            padding="px-3 py-3"
+            [arrow]="true"
+            (myMethod)="closeModalHandler()"
+            value="Save"
+            id="submitButtonId"
+          ></app-button>
+        </div>
+      </div>
+    </ng-template>
+  </app-modal-filter>
+  <!-- p3 -->
+  <app-modal-filter
+    [modalBody]="modalBody3"
+    [showModal]="this.payoutForm.value.payout_type === 'p3'"
+  >
+    <ng-template #modalBody3>
+      <div class="flex flex-col p-4 space-y-2">
+        <div class="flex flex-row justify-between">
+          <div class="font-['GilroyBold'] text-lg">Frequency of Payout</div>
+          <div
+            (click)="closeModalHandler()"
+            class="text-[#FF6782] cursor-pointer"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </div>
+        </div>
+        <div
+          class="flex justify-between items-center py-2  rounded-2xl w-full"
+        >
+          <input
+            type="radio"
+            value="Weekly"
+            formControlName="frequencyOfPayout"
+            id="fp1"
+            class="mx-1 radioCustom"
+          />
+          <label class="mx-1 font-['gilroysemi'] w-full" for="fp1"
+            >Weekly</label
+          >
+        </div>
+        <div
+          class="flex justify-between items-center py-2  rounded-2xl w-full"
+        >
+          <input
+            type="radio"
+            value="Monthly"
+            formControlName="frequencyOfPayout"
+            id="fp2"
+            class="mx-1 radioCustom"
+          />
+          <label class="mx-1 font-['gilroysemi'] w-full" for="fp2"
+            >Monthly</label
+          >
+        </div>
+        <div
+          class="flex justify-between items-center py-2  rounded-2xl w-full"
+        >
+          <input
+            type="radio"
+            id="fp3"
+            value="Quarterly"
+            formControlName="frequencyOfPayout"
+            class="mx-1 radioCustom"
+          />
+          <label class="mx-1 font-['gilroysemi'] w-full" for="fp3"
+            >Quarterly</label
+          >
+        </div>
+        <div
+          class="flex justify-between items-center py-2  rounded-2xl w-full"
+        >
+          <input
+            type="radio"
+            id="fp4"
+            value="Half-Yearly"
+            formControlName="frequencyOfPayout"
+            class="mx-1 radioCustom"
+          />
+          <label class="mx-1 font-['gilroysemi'] w-full" for="fp4"
+            >Half-Yearly</label
+          >
+        </div>
+        <div
+          class="flex justify-between items-center py-2  rounded-2xl w-full"
+        >
+          <input
+            type="radio"
+            id="fp5"
+            value="Yearly"
+            formControlName="frequencyOfPayout"
+            class="mx-1 radioCustom"
+          />
+          <label class="mx-1 font-['gilroysemi'] w-full" for="fp5"
+            >Yearly</label
+          >
+        </div>
+        <div
+          class="flex justify-between items-center py-2  rounded-2xl w-full"
+        >
+          <input
+            type="radio"
+            id="fp6"
+            value="custom"
+            formControlName="frequencyOfPayout"
+            class="mx-1 radioCustom"
+          />
+          <label class="mx-1 font-['gilroysemi'] w-full" for="fp6"
+            >Custom Field</label
+          >
+        </div>
+        <div
+        class="flex justify-between items-center p-3 bg-[#f7f7f7] rounded-2xl w-full"
+      >
+        <textarea
+          class="bg-[#f7f7f7] focus:outline-none w-full min-h-24 max-h-32 "
+          placeholder="Frequency Of Payout...."
+          id="fp6"
+          formControlName="textAreaFrequencyOfPayout"
+        ></textarea>
+      </div>
+        <div class="">
+          <app-button
+            padding="px-3 py-3"
+            [arrow]="true"
+            (myMethod)="closeModalHandler()"
+            value="Save"
+            id="submitButtonId"
+          ></app-button>
+        </div>
+      </div>
+    </ng-template>
+  </app-modal-filter>
+  <!-- p4 -->
+  <app-modal-filter
+    [modalBody]="modalBody4"
+    [showModal]="this.payoutForm.value.payout_type === 'p4'"
+  >
+    <ng-template #modalBody4>
+      <div class="flex flex-col p-4 space-y-2">
+        <div class="flex flex-row justify-between">
+          <div class="font-['GilroyBold'] text-lg">Conditions of Payout</div>
+          <div
+            (click)="closeModalHandler()"
+            class="text-[#FF6782] cursor-pointer"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </div>
+        </div>
+        <div
+          class="flex flex-col  rounded-2xl w-full"
+        >
+        <div >
+
+        
+          <input
+            type="checkbox"
+            value="If beneficiary turns"
+            formControlName="conditionsOfPayout1"
+            id="cp1"
+            class="mx-1 radioCustom"
+          />
+          <label class="mx-1 font-['gilroysemi'] w-full" for="cp1"
+            >If beneficiary turns</label
+          >
+        </div>
+          <div class="p-4 bg-[#F4F4F4] flex flex-row rounded-2xl font-['GilroySemi'] text-base my-2">
+
+              <ng-select
+              formControlName="ifBenificiaryTurns"
+                [searchable]="false" [clearable]="true"
+                class="custom-selector white joint sm:w-2/4"
+                placeholder="Select Age"
+              >
+                <ng-option *ngFor="let item of counter(100);let i = index" [value]="i+1">
+                  {{
+                    i+1
+                  }}</ng-option
+                >
+              </ng-select>
+              <span class="my-auto font-['GilroySemi'] ml-1">Year Old</span>
+          </div>
+        </div>
+        <div
+          class="flex flex-col  rounded-2xl w-full"
+        >
+        <div >
+          <input
+            type="checkbox"
+            value="If beneficiary attains"
+            formControlName="conditionsOfPayout2"
+            id="cp2"
+            class="mx-1 radioCustom"
+          />
+          <label class="mx-1 font-['gilroysemi'] w-full" for="cp2"
+            >If beneficiary attains</label
+          >
+        </div>
+        <div class="p-4 bg-[#F4F4F4] flex flex-row rounded-2xl font-['GilroySemi'] text-base my-2">
+            <ng-select
+            class="custom-selector white w-full"
+            placeholder="Select"
+            [items]="attain"
+            formControlName="ifBenificiaryAttains"
+          ></ng-select>
+        </div>
+        </div>
+        <div
+        class="flex flex-col  rounded-2xl w-full"
+      >
+      <div >
+          <input
+            type="checkbox"
+            id="cp3"
+            value="If beneficiary is"
+            formControlName="conditionsOfPayout3"
+            class="mx-1 radioCustom"
+          />
+          <label class="mx-1 font-['gilroysemi'] w-full" for="cp3"
+            >If beneficiary is</label
+          >
+        </div>
+        <div class="p-4 bg-[#F4F4F4] flex flex-row rounded-2xl font-['GilroySemi'] text-base my-2">
+            <ng-select
+            class="custom-selector white w-full"
+            placeholder="Select"
+            [items]="status"
+            formControlName="ifBenificiaryIs"
+          ></ng-select>
+        </div>
+        </div>
+        <div class="flex flex-col  rounded-2xl w-full">
+        <div
+          class=""
+        >
+          <input
+            type="checkbox"
+            id="cp4"
+            formControlName="conditionsOfPayout4"
+            class="mx-1 radioCustom"
+          />
+          <label class="mx-1 font-['gilroysemi'] w-full" for="cp4"
+            >Custom Field</label
+          >
+        </div>
+        <div
+          class="flex justify-between items-center p-3 bg-[#F4F4F4] rounded-2xl w-full my-2"
+        >
+          <textarea
+            class="bg-[#F4F4F4] focus:outline-none w-full max-h-32"
+            placeholder="Conditions Of Payout...."
+            id="cp4"
+            formControlName="customField"
+          ></textarea>
+        </div>
+      </div>
+        <div class="">
+          <app-button
+            padding="px-3 py-3"
+            [arrow]="true"
+            (myMethod)="closeModalHandler()"
+            value="Save"
+            id="submitButtonId"
+          ></app-button>
+        </div>
+      </div>
+    </ng-template>
+  </app-modal-filter>
+  <!-- p5 -->
+  <app-modal-filter
+    [modalBody]="modalBody5"
+    [showModal]="this.payoutForm.value.payout_type === 'p5'"
+  >
+    <ng-template #modalBody5>
+      <div class="flex flex-col p-4 space-y-2">
+        <div class="flex flex-row justify-between">
+          <div class="font-['GilroyBold'] text-lg">Purpose of Payout</div>
+          <div
+            (click)="closeModalHandler()"
+            class="text-[#FF6782] cursor-pointer"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </div>
+        </div>
+        <div
+          class="flex justify-between items-center p-3 bg-[#f7f7f7] rounded-2xl w-full"
+        >
+          <textarea
+            class="bg-[#f7f7f7] focus:outline-none w-full max-h-32"
+            formControlName="purposeOfPayout"
+            placeholder="Purpose Of Payout......"
+          ></textarea>
+        </div>
+
+        <div class="">
+          <app-button
+            padding="px-3 py-3"
+            [arrow]="true"
+            (myMethod)="closeModalHandler()"
+            value="Save"
+            id="submitButtonId"
+          ></app-button>
+        </div>
+      </div>
+    </ng-template>
+  </app-modal-filter>
+
+  <!-- tutorial -->
+  <app-modal-filter [modalBody]="modalBody0" [showModal]="toggleModalTutorial">
+    <ng-template #modalBody0>
+      <app-tutorial (onClose)="toggleModalTutorial = false"> </app-tutorial>
+    </ng-template>
+  </app-modal-filter>
+</form>
+
+
+<!-- edit -->
+<app-edit-items [modalBody]="modalBody10" [showModal]="editToggle">
+  <ng-template #modalBody10>
+    <div class="p-5">
+      <app-header-toolbar
+        pagetitle="All Added Executor"
+        [headerMenuIcon]="true"
+        (backButtonHandler)="editToggle = false"
+      ></app-header-toolbar>
+      <div class="max-h-[90vh] overflow-auto">
+        <app-edit-select-box
+          [allItems]="memberData"
+          (getSelectedList)="selectMemberExecutor($event)"
+          [deletedItemBySelectMobile]="deletedItemsInArray"
+          addItemTitle="Add Executor"
+        >
+        </app-edit-select-box>
+      </div>
+    </div>
+  </ng-template>
+</app-edit-items>

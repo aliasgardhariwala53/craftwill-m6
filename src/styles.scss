@@ -219,6 +219,14 @@ body{
   border-radius: 100%;
   transition: all 0.2s ease;
 }
+[type="radio"]:disabled + label:after,
+[type="radio"]:disabled + label:after {
+  background: #ffc4cf;
+}
+[type="radio"]:disabled + label:before,
+[type="radio"]:disabled + label:before {
+  border: 1px solid #ffc4cf;
+}
 [type="radio"]:not(:checked) + label:after {
   opacity: 0;
   -webkit-transform: scale(0);
@@ -228,6 +236,10 @@ body{
   opacity: 1;
   -webkit-transform: scale(1);
   transform: scale(1);
+}
+[type="radio"]:disabled +label {
+cursor: not-allowed;
+
 }
 /* width */
 ::-webkit-scrollbar {

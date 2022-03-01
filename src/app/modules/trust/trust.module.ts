@@ -13,6 +13,7 @@ import { ClickOutsideModule } from 'ng-click-outside';
 import { CreateInfoTrustComponent } from './components/create-info-trust/create-info-trust.component';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { PayoutComponent } from './components/payout/payout.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ListTrustComponent,
     CreateTrustComponent,
     SuccesPageTrustComponent,
-    CreateInfoTrustComponent
+    CreateInfoTrustComponent,
+    PayoutComponent
   ],
   imports: [
     CommonModule,

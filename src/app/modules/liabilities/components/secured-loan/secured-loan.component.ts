@@ -23,7 +23,7 @@ export class SecuredLoanComponent implements OnInit {
 forwardRouteLink="/liabilities";
   id: string='';
   fromCreateWill: string;
-  selectedAssetsId;
+  selectedAssetsId=[];
   toggleModalTutorial: boolean=false;
   constructor(
     private _fb: FormBuilder,
@@ -91,16 +91,10 @@ forwardRouteLink="/liabilities";
     },
   };
   selectAssets(value) {
-    let assetId: Array<any> = this.SecuredLoan.value.assetId;
-    if (assetId.includes(value)) {
-      assetId.splice(assetId.indexOf(value), 1);
-    }
-    else {
-      assetId?.push(value);
-    }
-    this.selectedAssetsId=assetId;
+    console.log(value);
+    
     this.SecuredLoan.patchValue({
-      assetId: assetId,
+      assetId: value,
     });
 
     console.log(this.SecuredLoan.value.assetId);

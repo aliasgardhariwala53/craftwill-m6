@@ -75,15 +75,9 @@ forwardRouteLink="/liabilities";
   };
 
   selectMember(value) {
-    let memberId: Array<any> = this.PrivateDebtForm.value.memberId;
-    if (memberId.includes(value)) {
-      memberId.splice(memberId.indexOf(value), 1);
-    } else {
-      memberId.push(value);
-    }
-    this.slectedList = memberId;
+   
     this.PrivateDebtForm.patchValue({
-      memberId: memberId,
+      memberId: value.map((el)=>el._id),
     });
     console.log(this.PrivateDebtForm.value.memberId);
   }
@@ -102,10 +96,18 @@ forwardRouteLink="/liabilities";
       return;
     }
     this.spinner.start();
+    const formvalue = {...this.PrivateDebtForm.value, memberId: this.PrivateDebtForm.value.memberId.map(el =>{
+      if (el._id) {
+        return el?._id
+        
+      }
+      return el;
+    } 
+    )}
     const privateDebtData = {
       current_Outstanding_Amount:
         this.PrivateDebtForm.value.current_Outstanding_Amount,
-      privateDept: this.PrivateDebtForm.value,
+      privateDept: formvalue,
       type: 'privateDept',
     };
     this.liabilitiesServices.addLiabilities(privateDebtData).subscribe(
@@ -130,6 +132,14 @@ forwardRouteLink="/liabilities";
   }
   onUpdatePrivateDept() {
     this.spinner.start();
+    const formvalue = {...this.PrivateDebtForm.value, memberId: this.PrivateDebtForm.value.memberId.map(el =>{
+      if (el._id) {
+        return el?._id
+        
+      }
+      return el;
+    } 
+    )}
     const privateDeptData = {
       current_Outstanding_Amount:
         this.PrivateDebtForm.value.current_Outstanding_Amount,
@@ -164,18 +174,14 @@ forwardRouteLink="/liabilities";
             dept_Name: privateDept.dept_Name,
             current_Outstanding_Amount: current_Outstanding_Amount,
             description: privateDept.description,
-            memberId: privateDept.lender,
+            memberId: privateDept.lender?.map((el)=>{
+              return { _id:el};
+            })
           });
-          this.slectedList = [...privateDept.lender];
-          // this.memberData = result.data.map((item) => {
-          //   console.log(item);
-          //   return (
-          //     { ...item.memberAsPerson, _id: item.lender } || {
-          //       ...item.memberAsOrganisation,
-          //       _id: item.lender,
-          //     }
-          //   );
-          // });
+          this.slectedList=privateDept.lender.map((el)=>{
+            return { _id:el};
+          });
+
           return privateDept;
         }
         return null;

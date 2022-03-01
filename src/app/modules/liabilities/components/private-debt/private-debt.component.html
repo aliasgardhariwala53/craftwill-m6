@@ -47,7 +47,7 @@
       <div class="rounded-xl bg_grey flex flex-col p-5 overflow-auto sm:overflow-hidden h-[100vh] sm:h-auto">
         <div class="text-[#A2A2A2] mb-2">A member can be a business/organisation</div>
  
-    <app-select-box [key]="key" [listItem]="memberData" [selectedItems]="slectedList" addItemRoute="members/createmembers" [classes]="classes" (onSelectId)="selectMember($event)" addItemRoute='members/createmembers' avtarType="name" imageUrl="../../../../../assets/Icons/Bank Account.svg" addItemTitle="Add Members"> </app-select-box> 
+    <app-select-box [actionToggle]="false" [addItemToggle]="false" [key]="key" [listItem]="memberData" [selectedItems]="slectedList" addItemRoute="members/createmembers" [classes]="classes" (onSelectId)="selectMember($event)" addItemRoute='members/createmembers' avtarType="name" imageUrl="../../../../../assets/Icons/Bank Account.svg" addItemTitle="Add Members"> </app-select-box> 
         </div>
       </div>
       <div *ngIf="id =='' " class="sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">

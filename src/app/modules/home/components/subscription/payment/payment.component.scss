@@ -1,0 +1,13 @@
+.payment-container{
+        position: absolute;
+        top: 58px;
+        width: 100%;
+        min-height: 93vh;
+        background-color: #fff;
+        z-index: 10;
+}
+.ngx-stripe-card{
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin: 10px 0;
+}

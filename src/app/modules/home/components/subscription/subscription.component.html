@@ -60,7 +60,7 @@
           <button class="text-xs text-red font-bold">Cancel anytime.</button>
         </div>
         <div class="flex">
-          <input type="radio" formControlName="specifyOwnershipType1" value="sole" id="test1" class="mx-1 radioCustom" (click)="selectPlan('0', 'free')" />
+          <input type="radio" formControlName="specifyOwnershipType1" name="specifyOwnershipType1" value="sole" id="test1" class="mx-1 radioCustom" (click)="selectPlan('0', 'free')" />
           <label class="text-sm mx-1 mt-1" for="test1"></label>
         </div>
       </div>
@@ -78,7 +78,7 @@
           <button class="text-xs text-red font-bold">Cancel anytime.</button>
         </div>
         <div class="flex">
-          <input type="radio" formControlName="specifyOwnershipType1" value="sole" id="test2" class="mx-1 radioCustom" (click)="selectPlan( '17.99','month')" />
+          <input type="radio" formControlName="specifyOwnershipType1" name="specifyOwnershipType1" value="sole" id="test2" class="mx-1 radioCustom" (click)="selectPlan( '17.99','month')" />
           <label class="text-sm mx-1 mt-1" for="test2"></label>
         </div>
       </div>
@@ -86,4 +86,9 @@
       <button class="bg-red text-white rounded-2xl h-12 w-48 text-xs mt-4" (click) = "upgradePlan()">Upgrade Plan</button>
     </div>
   </div>
+</div>
+
+
+<div *ngIf="payment">
+<app-payment [data]="obj" [payment]="payment" (closePayment)="this.payment = false"></app-payment>
 </div>

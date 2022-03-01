@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+// import { NgxStripeModule } from 'ngx-stripe';
+import { NgxStripeModule } from 'ngx-stripe';
+
 
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
@@ -10,12 +13,14 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { SubscriptionComponent } from './components/subscription/subscription.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { PaymentComponent } from './components/subscription/payment/payment.component';
 
 @NgModule({
   declarations: [
     HomeComponent,
     ProfileComponent,
-    SubscriptionComponent
+    SubscriptionComponent,
+    PaymentComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +30,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     FormsModule,
     HttpClientModule,
     ImageCropperModule,
-    NgSelectModule
+    NgSelectModule,
+    NgxStripeModule.forChild('pk_test_51KRYRcJrEVeMChFEjfcijJk7dvjXpcWG9A639LHqfUCuMirwFDpTrSpHsare5mreBAc4yeULcSjmmQoz2tgUGuTM00czLR7wI6'),
   ]
 })
 export class HomeModule { }

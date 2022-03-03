@@ -179,8 +179,8 @@ export class SignupComponent implements OnInit {
         this._router.navigate(['/']);
       }
       if (result.message === 'User already exists') {
-        this.step = 2;
-        // this._router.navigate(['/signup']);
+        // this.step = 2;
+        this._router.navigate(['/']);
       }
     },(err)=>{
       this.spinner.stop();

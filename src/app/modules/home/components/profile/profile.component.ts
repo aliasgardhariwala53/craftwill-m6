@@ -59,7 +59,7 @@ export class ProfileComponent implements OnInit {
           '0000000000000000',
           [Validators.required],
         ],
-        newPassword: ['', [Validators.required, Validators.minLength(6)]],
+        newPassword: ['', [Validators.required]],
         confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
       },
       {

@@ -98,8 +98,7 @@ forwardRouteLink="/liabilities";
     this.spinner.start();
     const formvalue = {...this.PrivateDebtForm.value, memberId: this.PrivateDebtForm.value.memberId.map(el =>{
       if (el._id) {
-        return el?._id
-        
+        return el?._id 
       }
       return el;
     } 

@@ -108,6 +108,5 @@ else{
 
   ngOnInit(): void {
     this.createForm();
-    localStorage.removeItem('user');
   }
 }

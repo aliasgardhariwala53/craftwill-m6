@@ -1,3 +1,4 @@
+<div class="flex flex-col h-[100vh]">
 <div class="flex   flex-row justify-between px-5 sm:px-16 pt-10 pb-0 sm:pb-5 items-center">
   <div class="">
     <img
@@ -38,7 +39,7 @@
       />
   </div>
 </div>
-<div class="flex w-full justify-center my-20 sm:mt-20 ">
+<div class="flex w-full justify-center h-full items-center sm:items-start sm:mt-20 ">
   <div
     *ngIf="step == 1"
     class="w-full sm:w-2/3 md:w-7/12 lg:w-1/3 mx-5 sm:mx-5 "
@@ -192,13 +193,13 @@
           <div class="flex flex-row relative w-full">
           <input
           #x 
-          autocomplete="new-password"
+          autocomplete="off"
           type="password"
             placeholder="Password"
             formControlName="password"
             class="sm:bg-[#f7f7f7] w-[100%] px-4 py-2  form-control rounded-[5px] sm:rounded-[10px] border-2 border-[#ddd] sm:border-none focus:outline-black sm:focus:outline-none font-['GilroySemi']"
           />
-          <div  class="absolute right-2 top-[25%] text-[#8d8d8d]" (click)="x.type=x.type=='password'?'text':'password'">
+          <div  class="absolute right-2 top-[25%] text-[#8d8d8d] cursor-pointer" (click)="x.type=x.type=='password'?'text':'password'">
             <svg *ngIf="x.type==='text'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -220,12 +221,13 @@
           <div class="flex flex-row relative w-full">
           <input
           #y
+          autocomplete="off"
             type="password"
             placeholder="Confirm password"
             formControlName="confirmPassword"
             class="sm:bg-[#f7f7f7] w-[100%] px-4 py-2  form-control rounded-[5px] sm:rounded-[10px] border-2 border-[#ddd] sm:border-none focus:outline-black sm:focus:outline-none font-['GilroySemi']"
           />
-          <div class="absolute right-2 top-[25%] text-[#8d8d8d]" (click)="y.type=y.type=='password'?'text':'password'">
+          <div class="absolute right-2 top-[25%] text-[#8d8d8d] cursor-pointer" (click)="y.type=y.type=='password'?'text':'password'">
             <svg *ngIf="y.type==='text'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -364,3 +366,4 @@
 </div>
 
 <app-footer class="hidden sm:block"></app-footer>
+</div>

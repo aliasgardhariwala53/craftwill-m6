@@ -230,18 +230,6 @@
           </div>
           <div class="w-full">
             <div class="input-group1">
-              <label class="input_label text-sm sm:text-base font-[GilroySemi]">Postal Code</label>
-              <input type="text" placeholder="Postal Code" [ngClass]="{ input_bg_address: inputState }"
-                [attr.disabled]="inputState ? '' : null" [ngStyle]="{ cursor: inputState ? 'not-allowed' : 'default' }"
-                formControlName="postalCode"
-                class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#ffbcc9] sm:bg-[#F0F0F0] w-[100%] px-2 sm:px-4 py-2  form-control rounded-[14px]  focus:outline-none" />
-            </div>
-            <div class="text-red-500 errors mx-2">
-              {{ formErrors.postalCode }}
-            </div>
-          </div>
-          <div class="w-full">
-            <div class="input-group1">
               <label class="input_label text-sm sm:text-base font-[GilroySemi]">Street Name</label>
               <input type="text" placeholder="Street Name" [ngClass]="{ input_bg_address : inputState } "
                 [attr.disabled]="inputState ? '' : null" [ngStyle]="{ cursor: inputState ? 'not-allowed' : 'default' }"
@@ -251,6 +239,18 @@
 
             <div class="text-red-500 errors mx-2">
               {{ formErrors.streetName }}
+            </div>
+          </div>
+          <div class="w-full">
+            <div class="input-group1">
+              <label class="input_label text-sm sm:text-base font-[GilroySemi]">Postal Code</label>
+              <input type="text" placeholder="Postal Code" [ngClass]="{ input_bg_address: inputState }"
+                [attr.disabled]="inputState ? '' : null" [ngStyle]="{ cursor: inputState ? 'not-allowed' : 'default' }"
+                formControlName="postalCode"
+                class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#ffbcc9] sm:bg-[#F0F0F0] w-[100%] px-2 sm:px-4 py-2  form-control rounded-[14px]  focus:outline-none" />
+            </div>
+            <div class="text-red-500 errors mx-2">
+              {{ formErrors.postalCode }}
             </div>
           </div>
         </div>  

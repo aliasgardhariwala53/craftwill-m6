@@ -33,7 +33,7 @@
       <div class="hidden lg:block header_username mx-2 font-bold">
         {{ username }}
       </div>
-      <div class="header_profile_image z-10">
+      <div class="header_profile_image z-10 cursor-pointer" [routerLink]="['/home/profile']" routerLinkActive="router-link-active" >
         <img class="rounded-full" [src]="imageSrc" alt="Avatar" style="width: 30px; height: 30px" />
       </div>
       <div class="hidden lg:block ml-1">

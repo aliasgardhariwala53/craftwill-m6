@@ -287,6 +287,7 @@ padding-left :7px ;
 }
 
 
+
 .custom-selector .ng-select-container {
   // background: #f7f7f7;
   font-weight: 400;
@@ -410,7 +411,7 @@ border-radius: 10px;
   background: #f0f0f0;
   outline: none;
 border: none;
-border-radius: 10px;
+border-radius: 14px !important;
 }
 .members .ng-select-container {
   background: #f0f0f0;
@@ -435,6 +436,7 @@ border-radius: 10px;
 @media only screen and (max-width: 640px) {
   .profile.ng-select.ng-select-disabled>.ng-select-container{
     background-color: #fff;
+    margin-left: -12px;
     cursor:not-allowed;
   }
 }

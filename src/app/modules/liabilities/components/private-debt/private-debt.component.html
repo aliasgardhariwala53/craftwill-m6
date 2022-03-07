@@ -44,7 +44,7 @@
     </div>
     <div class="w-full">
       <div class="font-extrabold my-2">Lender</div>
-      <div class="rounded-xl bg_grey flex flex-col p-5 overflow-auto sm:overflow-hidden h-[100vh] sm:h-auto">
+      <div class="rounded-xl bg_grey flex flex-col p-5 overflow-auto sm:overflow-hidden h-[100vh] sm:h-auto  max-h-[400px]">
         <div class="text-[#A2A2A2] mb-2">A member can be a business/organisation</div>
  
     <app-select-box [actionToggle]="false" [addItemToggle]="false" [key]="key" [listItem]="memberData" [selectedItems]="slectedList" addItemRoute="members/createmembers" [classes]="classes" (onSelectId)="selectMember($event)" addItemRoute='members/createmembers' avtarType="name" imageUrl="../../../../../assets/Icons/Bank Account.svg" addItemTitle="Add Members"> </app-select-box> 

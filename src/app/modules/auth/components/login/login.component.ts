@@ -83,9 +83,9 @@ export class LoginComponent implements OnInit {
         this.spinner.stop();
         this.toastr.message(result.message, result.success);
         if (result.success === true) {
-          this.userLogin.reset();
-          this._router.navigate(['/home']);
           localStorage.setItem('user', result.token);
+          this._router.navigate(['/home']);
+          this.userLogin.reset();
         }
       },
       (err) => {

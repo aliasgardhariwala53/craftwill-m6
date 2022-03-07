@@ -12,6 +12,7 @@ toggleModalTutorial: boolean=false;
   constructor(private routeTo:Router) { }
   selectHandler(value){
   this.routeLink=value;
+  this.routeTo.navigate([`/liabilities/${this.routeLink}`]);
   // console.log(value);
   
   }

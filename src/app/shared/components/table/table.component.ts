@@ -12,7 +12,6 @@ export class TableComponent implements OnInit {
   @Input() tableData = [];
   @Input() classes ;
   @Input() actionTemplate;
-  @Input() class=[];
   @Input() keys = [];
   @Input() avtarType='name';
   @Input() emptyTableMessage = '';

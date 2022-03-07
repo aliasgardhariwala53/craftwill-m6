@@ -3,7 +3,7 @@
     routerlink="/will/createWill"
     pagetitle="Past Versions"
   ></app-header-toolbar>
-    <app-table [tableHeadings]='tableHeadings' (actionButton)="onClickAction($event)" [tableData]='pastWillData' [keys]='tableKeys' [classes]="classes" emptyTableMessage="No will Versions Found"></app-table>
+    <app-table class="h-[85%] sm:h-[95%]" [tableHeadings]='tableHeadings' (actionButton)="onClickAction($event)" [tableData]='pastWillData' [keys]='tableKeys' [classes]="classes" emptyTableMessage="No will Versions Found"></app-table>
 
 
 </div>

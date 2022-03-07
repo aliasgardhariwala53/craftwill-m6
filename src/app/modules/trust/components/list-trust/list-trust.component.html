@@ -65,7 +65,7 @@
     </div>
   </div>
 
-  <app-table [tableHeadings]="tableHeadings" actionRoute="trust/createTrust" (actionButton)="onClickAction($event)"
+  <app-table class="h-[85%] sm:h-[95%]" [tableHeadings]="tableHeadings" actionRoute="trust/createTrust" (actionButton)="onClickAction($event)"
     [tableData]="alltrustData" [keys]="tableKeys" [classes]="classes" emptyTableMessage="No Trust Data Found">
   </app-table>
   <div class="absolute md:hidden left-0 right-0 bottom-1 w-[87%] m-auto bg-white">

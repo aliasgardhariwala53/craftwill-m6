@@ -49,12 +49,16 @@ export class SignupComponent implements OnInit {
     this.userRegistration = this._fb.group({
       id_type: new FormControl(null, Validators.required),
 
-      id_number: ['', Validators.required],
-      fullName: ['', Validators.required],
+      id_number: ['',[Validators.required,
+        Validators.pattern('[a-zA-Z0-9]*')
+      ]],
+      fullName: ['', [Validators.required,
+        Validators.pattern('[a-zA-Z0-9]*')
+      ]],
     });
     this.accountDetails = this._fb.group(
       {
-        gender: ['', Validators.required],
+        gender: ['', [Validators.required]],
         email: [
           '',
           [
@@ -73,7 +77,7 @@ export class SignupComponent implements OnInit {
       floorNumber: ['', Validators.required],
       unitNumber: ['', Validators.required],
       streetName: ['', Validators.required],
-      postalCode: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+      postalCode: ['', [Validators.required, , Validators.pattern('^[0-9]*$')]],
     });
 
     this.userRegistration.valueChanges.subscribe(() => {
@@ -118,12 +122,14 @@ export class SignupComponent implements OnInit {
     },
     id_number: {
       required: 'Id Number is Required',
+      pattern: 'Invalid Id Number',
     },
     gender: {
       required: 'Gender is Required',
     },
     fullName: {
       required: 'Full Name is Required',
+      pattern: 'Invalid Name',
     },
     email: {
       required: 'Email is Required',
@@ -180,7 +186,7 @@ export class SignupComponent implements OnInit {
       }
       if (result.message === 'User already exists') {
         // this.step = 2;
-        this._router.navigate(['/']);
+        this._router.navigate(['/login']);
       }
     },(err)=>{
       this.spinner.stop();

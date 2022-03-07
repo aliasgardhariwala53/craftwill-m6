@@ -19,6 +19,7 @@ export class CreateAssetsComponent implements OnInit {
     console.log(value);
     
     console.log(this.routepath);
+  this.call();
     }
     call(){
       if (this.routepath==="") {

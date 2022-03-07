@@ -21,6 +21,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { OtherAssetsComponent } from './components/other-assets/other-assets.component';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     PersonalPossessionComponent,
     SafeDepositBoxComponent,
     SuccessPageAssetsComponent,
+    OtherAssetsComponent,
    
   ],
   imports: [

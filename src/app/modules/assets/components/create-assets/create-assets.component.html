@@ -33,7 +33,7 @@
         class="grid grid-cols-2 md:grid-cols-3 items-center justify-center overflow-auto h-full"
       >
         <div
-          class="drop_shadow rounded-2xl flex-row justify-center px-1 py-2 m-1 cursor-pointer"
+          class="drop_shadow rounded-2xl flex-row justify-center px-1 py-2 m-1 cursor-pointer hover:bg-[#FF6782] hover:text-[#fff]"
           (click)="selectHandler('addBank')"
           [ngClass]="{ 'bg-[#FF6782] text-white': routepath === 'addBank' }"
         >
@@ -46,7 +46,7 @@
           <div class="text-center mt-2 font-bold text-sm h-8">Bank account</div>
         </div>
         <div
-          class="drop_shadow rounded-2xl flex-row justify-center px-1 py-2 m-1 cursor-pointer"
+          class="drop_shadow rounded-2xl flex-row justify-center px-1 py-2 m-1 cursor-pointer hover:bg-[#FF6782] hover:text-[#fff]"
           (click)="selectHandler('investmentAccount')"
           [ngClass]="{
             'bg-[#FF6782] text-white': routepath === 'investmentAccount'
@@ -63,7 +63,7 @@
           </div>
         </div>
         <div
-          class="drop_shadow rounded-2xl flex-row justify-center px-1 py-2 m-1 cursor-pointer"
+          class="drop_shadow rounded-2xl flex-row justify-center px-1 py-2 m-1 cursor-pointer hover:bg-[#FF6782] hover:text-[#fff]"
           (click)="selectHandler('insurancePolicy')"
           [ngClass]="{
             'bg-[#FF6782] text-white': routepath === 'insurancePolicy'
@@ -80,7 +80,7 @@
           </div>
         </div>
         <div
-          class="drop_shadow rounded-2xl flex-row justify-center px-1 py-2 m-1 cursor-pointer"
+          class="drop_shadow rounded-2xl flex-row justify-center px-1 py-2 m-1 cursor-pointer hover:bg-[#FF6782] hover:text-[#fff]"
           (click)="selectHandler('business')"
           [ngClass]="{ 'bg-[#FF6782] text-white': routepath === 'business' }"
         >
@@ -93,7 +93,7 @@
           <div class="text-center mt-2 font-bold text-sm h-8">Business</div>
         </div>
         <div
-          class="drop_shadow rounded-2xl flex-row justify-center px-1 py-2 m-1 cursor-pointer"
+          class="drop_shadow rounded-2xl flex-row justify-center px-1 py-2 m-1 cursor-pointer hover:bg-[#FF6782] hover:text-[#fff]"
           (click)="selectHandler('realEstate')"
           [ngClass]="{ 'bg-[#FF6782] text-white': routepath === 'realEstate' }"
         >
@@ -106,7 +106,7 @@
           <div class="text-center mt-2 font-bold text-sm h-8">Real Estate</div>
         </div>
         <div
-          class="drop_shadow rounded-2xl flex-row justify-center px-1 py-2 m-1 cursor-pointer"
+          class="drop_shadow rounded-2xl flex-row justify-center px-1 py-2 m-1 cursor-pointer hover:bg-[#FF6782] hover:text-[#fff]"
           (click)="selectHandler('moterVehicle')"
           [ngClass]="{
             'bg-[#FF6782] text-white': routepath === 'moterVehicle'
@@ -123,7 +123,7 @@
           </div>
         </div>
         <div
-          class="drop_shadow rounded-2xl flex-row justify-center px-1 py-2 m-1 cursor-pointer"
+          class="drop_shadow rounded-2xl flex-row justify-center px-1 py-2 m-1 cursor-pointer hover:bg-[#FF6782] hover:text-[#fff]"
           (click)="selectHandler('intellectualProperty')"
           [ngClass]="{
             'bg-[#FF6782] text-white': routepath === 'intellectualProperty'
@@ -140,7 +140,7 @@
           </div>
         </div>
         <div
-          class="drop_shadow rounded-2xl flex-row justify-center px-1 py-2 m-1 cursor-pointer"
+          class="drop_shadow rounded-2xl flex-row justify-center px-1 py-2 m-1 cursor-pointer hover:bg-[#FF6782] hover:text-[#fff]"
           (click)="selectHandler('personalPossession')"
           [ngClass]="{
             'bg-[#FF6782] text-white': routepath === 'personalPossession'
@@ -157,7 +157,7 @@
           </div>
         </div>
         <div
-          class="drop_shadow rounded-2xl flex-row justify-center px-1 py-2 m-1 cursor-pointer"
+          class="drop_shadow rounded-2xl flex-row justify-center px-1 py-2 m-1 cursor-pointer hover:bg-[#FF6782] hover:text-[#fff]"
           (click)="selectHandler('safeDeposit')"
           [ngClass]="{ 'bg-[#FF6782] text-white': routepath === 'safeDeposit' }"
         >
@@ -172,7 +172,9 @@
           </div>
         </div>
         <div
-          class="drop_shadow rounded-2xl flex-row justify-center px-1 py-2 m-1 cursor-pointer"
+          class="drop_shadow rounded-2xl flex-row justify-center px-1 py-2 m-1 cursor-pointer hover:bg-[#FF6782] hover:text-[#fff]"
+         
+          [ngClass]="{ 'bg-[#FF6782] text-white': routepath === 'otherAssets' }"
         >
           <div class="flex justify-center max-h-10">
             <img

@@ -10,6 +10,7 @@ import { IntellectualPropertyComponent } from './components/intellectual-propert
 import { InvestmentAccountComponent } from './components/investment-account/investment-account.component';
 import { ListAssetsComponent } from './components/list-assets/list-assets.component';
 import { MoterVehicleComponent } from './components/moter-vehicle/moter-vehicle.component';
+import { OtherAssetsComponent } from './components/other-assets/other-assets.component';
 import { PersonalPossessionComponent } from './components/personal-possession/personal-possession.component';
 import { RealEstateComponent } from './components/real-estate/real-estate.component';
 import { SafeDepositBoxComponent } from './components/safe-deposit-box/safe-deposit-box.component';
@@ -76,6 +77,11 @@ const routes: Routes = [
         path:"safeDeposit",
         canActivate:[AuthGuard],
          component:SafeDepositBoxComponent,
+       },
+       {
+        path:"otherAssets",
+        canActivate:[AuthGuard],
+         component:OtherAssetsComponent,
        },
        {
         path:"assetsuccess",

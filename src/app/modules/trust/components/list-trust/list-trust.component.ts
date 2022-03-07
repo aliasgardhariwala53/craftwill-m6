@@ -27,8 +27,8 @@ export class ListTrustComponent implements OnInit {
   tableKeys = ['trustName', 'ownerShipType'];
   tableData = [];
   classes = [
-    'w-10/12 m-0 sm:w-10/12 break-words capitalize ',
-    'w-10/12 m-0 sm:w-[11%] break-words capitalize text  ',
+    'w-10/12 m-0 sm:w-10/12 break-words  ',
+    'w-10/12 m-0 sm:w-[11%] break-words  text  ',
   ];
   constructor(
     private trustServices: TrustService,

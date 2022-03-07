@@ -65,7 +65,7 @@
       </app-dropdown>
     </div>
     <div class="w-full left-0 px-8 md:px-0 md:w-4/12 flex items-center fixed md:static top-36 space-x-2">
-      <input  [ngClass]="{'md:hidden': !showSearch}" type="search" class="w-[96%] px-4 py-3 sm:py-2 bg-[#f7f7f7] form-control  rounded-[10px] md:rounded-3xl form-control outline-none" placeholder="search" [formControl]="searchForm" >
+      <input  [ngClass]="{'md:hidden': !showSearch}" type="search" class="w-[96%] px-4 py-3 sm:py-2 bg-[#f7f7f7] form-control  rounded-[10px] md:rounded-3xl form-control outline-none" placeholder="Search" [formControl]="searchForm" >
   
           <div class="bg-[#f7f7f7] px-4 py-3 rounded-[10px] md:hidden cursor-pointer">
 
@@ -90,7 +90,7 @@
   <app-table [tableHeadings]="tableHeadings" avtarType="image" (actionButton)="onClickAction($event)" [tableData]="allAssetsinOne"
     [keys]="tableKeys" [classes]="classes" emptyTableMessage="No Assets Found">
   </app-table>
-  <div class="absolute md:hidden left-0 right-0 bottom-1 w-[87%] m-auto">
+  <div class="absolute md:hidden left-0 right-0 bottom-0 bg-white w-[87%] m-auto">
     <app-button [plus]="true" value="Create New Assets" routelink="/assets/createAssets" class="md:hidden"
       margin="my-1"></app-button>
   </div>

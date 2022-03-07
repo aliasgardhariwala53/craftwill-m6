@@ -125,6 +125,16 @@ cursor: pointer;
 }
 .active{
         color: #FF6782 !important;
+        &:hover{
+          color: #fff !important;
+          text-decoration: none;
+          background-color: #FF6782;
+        }
+}
+.activeHeader{
+        color: #FF6782 !important;
+        fill: #ff6782;
+       
 }
 .dropdown-menu{
   transform: translate3d(-158px, 28px, 0px) !important;
@@ -214,4 +224,7 @@ cursor: pointer;
 }
 .active{
   fill: #ff6782;
+  &:hover{
+    fill:#fff !important;
+  }
 }

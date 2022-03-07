@@ -73,7 +73,7 @@ export class SignupComponent implements OnInit {
       floorNumber: ['', Validators.required],
       unitNumber: ['', Validators.required],
       streetName: ['', Validators.required],
-      postalCode: ['', [Validators.required, , Validators.pattern('^[0-9]*$')]],
+      postalCode: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
     });
 
     this.userRegistration.valueChanges.subscribe(() => {

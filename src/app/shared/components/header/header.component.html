@@ -46,7 +46,7 @@
           <div options class=" p-2 bg-white rounded-2xl shadow-lg ">
 
             <div
-              class="hover:bg-[#ff6782] flex flex-row rounded-xl py-1 px-1 items-center hover:text-[#fff] hover:no-underline cursor-pointer space-x-1"
+              class="hover:bg-[#ff6782] hover:fill-[#fff] flex flex-row rounded-xl py-1 px-1 items-center hover:text-[#fff] hover:no-underline cursor-pointer space-x-1"
               [routerLink]="['/home/profile']" [routerLinkActive]="['active']">
               <div class="w-1/6 flex justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 19.538 20">
@@ -62,7 +62,7 @@
               <div class="font-bold w-[5/6]">Profile</div>
             </div>
             <div
-              class="hover:bg-[#ff6782] flex flex-row rounded-xl py-1 px-2 items-center hover:text-[#fff] hover:no-underline cursor-pointer"
+              class="hover:bg-[#ff6782] hover:fill-[#fff] flex flex-row rounded-xl py-1 px-2 items-center hover:text-[#fff] hover:no-underline cursor-pointer"
               [routerLink]="['/home/subscription']" [routerLinkActive]="['active']">
               <div class="w-1/6 flex justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 10.853 20.003" class="mr-[7px]">
@@ -75,7 +75,7 @@
               <div class="font-bold w-[5/6]">Subscription </div>
             </div>
             <div
-              class="hover:bg-[#ff6782] flex flex-row rounded-xl py-1 px-2 items-center hover:text-[#fff] hover:no-underline cursor-pointer"
+              class="hover:bg-[#ff6782] hover:fill-[#fff] flex flex-row rounded-xl py-1 px-2 items-center hover:text-[#fff] hover:no-underline cursor-pointer"
               [routerLink]="['/home/subscriptionHistory']" [routerLinkActive]="['active']">
               <div class="w-1/6 flex justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" class="mr-1" 
@@ -105,7 +105,7 @@
               <div class="font-bold ">Subscription History</div>
             </div>
             <div
-              class="hover:bg-[#ff6782] flex flex-row rounded-xl py-1 px-2 items-center hover:text-[#fff] hover:no-underline cursor-pointer"
+              class="hover:bg-[#ff6782] hover:fill-[#fff] flex flex-row rounded-xl py-1 px-2 items-center hover:text-[#fff] hover:no-underline cursor-pointer"
               [routerLink]="['/']" (click)="logout()">
               <div class="w-1/6 flex justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20">
@@ -147,13 +147,13 @@
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18"
               viewBox="0 0 26 26">
               <defs>
-                <clipPath id="clip-path">
+                <clipPath id="clip-path1">
                   <rect id="Rectangle_42" data-name="Rectangle 42" width="26" height="26" rx="5"
                     transform="translate(634 511)" />
                 </clipPath>
               </defs>
               <g id="Mask_Group_3" data-name="Mask Group 3" transform="translate(-634 -511)"
-                clip-path="url(#clip-path)">
+                clip-path="url(#clip-path1)">
                 <g id="Layer_2" data-name="Layer 2" transform="translate(633.999 511.005)">
                   <g id="Layer_1" data-name="Layer 1">
                     <path id="Path_4197" data-name="Path 4197"
@@ -297,13 +297,13 @@
 
     </div>
     <div class="sm:flex flex-row space-x-5 items-center   ">
-      <div *ngIf="(router.url === '/home') || (router.url === '/will/myWills')"
+      <div 
         class="flex flex-row bg-red rounded-xl py-2 px-4 items-center cursor-pointer w-[140px] h-[44px] justify-center"
         (click)="toggleModal=true">
 
         <div class="text-sm mx-1">Guide Me</div>
       </div>
-      <div *ngIf="router.url === '/home'" (click)="latestWill()"
+      <div  (click)="latestWill()"
         class="flex flex-row rounded-xl items-center py-1 cursor-pointer border-2 border-[#E0E0E0]"
         [routerLink]="['/will/myWills']" routerLinkActive="router-link-active">
         <div class="mx-2">
@@ -318,9 +318,9 @@
         </div>
       </div>
 
-      <div *ngIf="router.url === '/home'" class="border-r-2 border-[#E0E0E0] h-[80%]"></div>
+      <div  class="border-r-2 border-[#E0E0E0] h-[80%]"></div>
 
-      <div *ngIf="router.url === '/home'"
+      <div 
         class="flex flex-row bg-red rounded-xl py-1 px-4 items-center cursor-pointer w-[140px] h-[44px]"
         [routerLink]="['/will/myWills']" routerLinkActive="router-link-active">
         <div class="mr-1">
@@ -337,20 +337,7 @@
         <div class="text-sm mx-1">Past Versions</div>
       </div>
 
-      <div *ngIf="router.url === '/will/myWills'" (click)="latestWill()"
-        class="flex flex-row rounded-xl items-center py-1 cursor-pointer border-2 border-[#E0E0E0]"
-        [routerLink]="['/will/myWills']" routerLinkActive="router-link-active">
-        <div class="mx-2">
-          <img class="w-[22px] h-[22px]" src="../../../../assets/Icons/Assets Distribution.svg" />
-        </div>
-        <div>
-          <div class="text-xs">latest Will</div>
-          <div class="text-xs">11-22-2022 | 8:00 pm</div>
-        </div>
-        <div class="mx-2 -rotate-90">
-          <img class="w-[22px] h-[22px]" src="../../../../assets/Icons/Back.svg" />
-        </div>
-      </div>
+ 
     </div>
   </div>
 </div>

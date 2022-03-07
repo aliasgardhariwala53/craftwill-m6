@@ -39,15 +39,15 @@ export class ProfileComponent implements OnInit {
   defaultFemale = '../../../../../assets/Image/female.png';
   createForm() {
     this.userInfo = this._fb.group({
-      fullName: [''],
+      fullName: ['', Validators.required],
       email: [''],
-      id_type: [''],
-      id_number: [''],
+      id_type: ['', Validators.required],
+      id_number: ['', Validators.required],
       gender: [''],
-      floorNumber: [''],
-      unitNumber: [''],
-      streetName: [''],
-      postalCode: [''],
+      floorNumber: ['', Validators.required],
+      unitNumber: ['', Validators.required],
+      streetName: ['', Validators.required],
+      postalCode: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
       id_country: [''],
       dob: [''],
       Citizenship: [''],
@@ -134,7 +134,7 @@ export class ProfileComponent implements OnInit {
     },
     postalCode: {
       required: 'Postal Code is Required',
-      // pattern: 'Please Enter valid numeric value',
+      pattern: 'Please Enter valid numeric value',
     },
     newPassword: {
       required: 'New Password is Required',

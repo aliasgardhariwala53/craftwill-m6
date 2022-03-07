@@ -43,8 +43,8 @@ export class ListLiabilitiesComponent implements OnInit {
 
   tableData = [];
   classes = [
-    'w-10/12 m-0 sm:w-7/12 break-words capitalize ',
-    'w-10/12 m-0 sm:w-1/12 break-words capitalize text',
+    'w-10/12 m-0 sm:w-7/12 break-words  ',
+    'w-10/12 m-0 sm:w-1/12 break-words  text',
     'w-[9%] break-words hidden sm:flex ',
     'w-2/12 break-words hidden sm:flex ',
   ];

@@ -39,7 +39,7 @@ export class SecuredLoanComponent implements OnInit {
     this.SecuredLoan = this._fb.group({
       loanName: ['', [Validators.required]],
       loanProvider: ['', [Validators.required]],
-      loan_Number: ['', [Validators.required]],
+      loan_Number: ['', [Validators.required,, Validators.pattern('^[0-9]*$')]],
       loan_Id_Number: [
         '',
         [Validators.required, Validators.pattern('^[0-9]*$')],
@@ -74,6 +74,7 @@ export class SecuredLoanComponent implements OnInit {
     },
     loan_Number: {
       required: 'Loan Number is Required',
+      pattern: 'Only numeric values allowed',
     },
     loan_Id_Number: {
       required: 'Loan Id Number is Required',

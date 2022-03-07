@@ -34,8 +34,8 @@ export class ListAssetsComponent implements OnInit {
 
   tableData = [];
   classes = [
-    'w-10/12 m-0 sm:w-7/12 break-words capitalize ',
-    'w-10/12 m-0 sm:w-[12%] break-words capitalize text',
+    'w-10/12 m-0 sm:w-7/12 break-words  ',
+    'w-10/12 m-0 sm:w-[12%] break-words  text',
     'w-1/12 break-words hidden md:flex ',
     'w-1/12 break-words hidden md:flex ',
   ];

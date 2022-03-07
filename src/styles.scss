@@ -383,7 +383,7 @@ color:#fff;
   }
 }
 .custom .ng-select-container {
-  background: #fff;
+  background: #f7f7f7;
   outline: none;
 border: none;
 border-radius: 10px;
@@ -401,6 +401,13 @@ border-radius: 10px;
   height: 40px;
   border: 2px solid #ddd;
   border-radius: 5px;
+}
+@media only screen and (min-width: 640px) {
+  .custom.ng-select.ng-select-single .ng-select-container{
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+  }
 }
 .custom.ng-dropdown-panel .ng-dropdown-panel-items{
   padding: 10px 0 10px 0;

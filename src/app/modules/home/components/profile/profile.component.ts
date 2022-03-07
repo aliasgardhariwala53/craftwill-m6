@@ -49,7 +49,7 @@ export class ProfileComponent implements OnInit {
       streetName: ['', Validators.required],
       postalCode: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
       id_country: [''],
-      dob: [''],
+      dob: [],
       Citizenship: [''],
       profileImage: [''],
     });

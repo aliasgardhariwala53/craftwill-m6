@@ -405,7 +405,7 @@
 <app-edit-items [modalBody]="modalBody4" [showModal]="editToggle">
   <ng-template #modalBody4>
     <div class="p-5">
-      <app-header-toolbar pagetitle="All Trustee Fallback Members" [headerMenuIcon]="true"
+      <app-header-toolbar pagetitle="All Trustee Fallback Members" 
         (backButtonHandler)="editToggle = false"></app-header-toolbar>
       <div class="max-h-[90vh] overflow-auto">
         <app-select-box [shareToggle]="true" [key]="key" [listItem]="memberData" addItemRoute="members/createmembers"

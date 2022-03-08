@@ -23,7 +23,7 @@ export class SafeDepositBoxComponent implements OnInit {
   memberData = [];
   safeDepositboxForm: FormGroup;
   responseMessage: string;
-  backRouteLink = '/assets/createAssets';
+  backRouteLink = '/assets';
   forwardRouteLink = '/assets';
 
   toggleModalTutorial: boolean;

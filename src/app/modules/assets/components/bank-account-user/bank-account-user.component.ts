@@ -27,7 +27,7 @@ export class BankAccountUserComponent implements OnInit {
   Titile: string = 'BankAccount';
   BankAccountUser: FormGroup;
   responseMessage: string;
-  backRouteLink = '/assets/createAssets';
+  backRouteLink = '/assets';
   forwardRouteLink = '/assets';
 
   previousRoute: string;

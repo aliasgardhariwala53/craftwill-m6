@@ -22,7 +22,7 @@ export class PersonalPossessionComponent implements OnInit {
   assetsResidualType;
   personalPossessionForm: FormGroup;
   responseMessage: string;
-  backRouteLink = '/assets/createAssets';
+  backRouteLink = '/assets';
   forwardRouteLink = '/assets';
   toggleModalTutorial: boolean;
   allAssetsBeneficiary = [];

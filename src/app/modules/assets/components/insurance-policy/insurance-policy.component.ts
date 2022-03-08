@@ -19,7 +19,7 @@ import { countries } from 'src/app/shared/utils/countries-store';
 export class InsurancePolicyComponent implements OnInit {
   insuranceForm: FormGroup;
   responseMessage: string;
-  backRouteLink = '/assets/createAssets';
+  backRouteLink = '/assets';
   forwardRouteLink = '/assets';
 
   id: string = '';

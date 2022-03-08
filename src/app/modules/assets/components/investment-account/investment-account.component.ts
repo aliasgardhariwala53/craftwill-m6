@@ -22,7 +22,7 @@ export class InvestmentAccountComponent implements OnInit {
   assetsResidualType;
   InvestmentAccountUser: FormGroup;
   responseMessage: string;
-  backRouteLink = '/assets/createAssets';
+  backRouteLink = '/assets';
   forwardRouteLink = '/assets';
 
   toggleModalTutorial: boolean;

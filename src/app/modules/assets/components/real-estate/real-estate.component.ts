@@ -23,7 +23,7 @@ export class RealEstateComponent implements OnInit {
   memberData = [];
   assetsResidualType;
   responseMessage: string;
-  backRouteLink = '/assets/createAssets';
+  backRouteLink = '/assets';
   forwardRouteLink = '/assets';
   allAssetsBeneficiary = [];
   assetsBeneficiary = [];
@@ -202,7 +202,7 @@ export class RealEstateComponent implements OnInit {
         this.id = id;
         this.getdata(id);
         if (x) {
-          this.backRouteLink = '/assets/createAssets';
+          this.backRouteLink = '/assets';
         }
       }
       if (y === 'will') {

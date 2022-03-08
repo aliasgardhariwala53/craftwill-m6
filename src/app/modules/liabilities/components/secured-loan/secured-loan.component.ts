@@ -19,7 +19,7 @@ export class SecuredLoanComponent implements OnInit {
   classes = ['font-bold', 'font-bold', 'text-sm'];
   SecuredLoan: FormGroup;
   responseMessage: string;
-  backRouteLink="/liabilities/createLiabilities";
+  backRouteLink="/liabilities";
   forwardRouteLink="/liabilities";
   id: string='';
   fromCreateWill: string;

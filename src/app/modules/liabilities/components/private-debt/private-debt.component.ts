@@ -21,7 +21,7 @@ export class PrivateDebtComponent implements OnInit {
   nameType = 'fullname' || 'organisationName';
   key = [this.nameType, 'Relationship'];
   classes = ['font-bold', 'font-bold', 'text-sm'];
-  backRouteLink="/liabilities/createLiabilities";
+  backRouteLink="/liabilities";
 forwardRouteLink="/liabilities";
   PrivateDebtForm: FormGroup;
   responseMessage: string;

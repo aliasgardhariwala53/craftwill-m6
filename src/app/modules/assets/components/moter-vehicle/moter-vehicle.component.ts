@@ -26,7 +26,7 @@ export class MoterVehicleComponent implements OnInit {
   allAssetsBeneficiary = [];
   assetsBeneficiary = [];
   responseMessage: string;
-  backRouteLink = '/assets/createAssets';
+  backRouteLink = '/assets';
   forwardRouteLink = '/assets';
 
   toggleModalTutorial: boolean;

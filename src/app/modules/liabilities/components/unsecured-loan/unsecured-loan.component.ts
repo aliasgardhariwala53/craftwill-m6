@@ -16,7 +16,7 @@ export class UnsecuredLoanComponent implements OnInit {
   fromCreateWill: string = '';
   UnSecuredLoan: FormGroup;
   responseMessage: string;
-  backRouteLink="/liabilities/createLiabilities";
+  backRouteLink="/liabilities";
 forwardRouteLink="/liabilities";
   toggleModalTutorial: boolean=false;
   constructor(

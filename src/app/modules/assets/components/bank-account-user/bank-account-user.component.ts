@@ -59,19 +59,18 @@ export class BankAccountUserComponent implements OnInit {
   public countries: any = countries;
   key = ['fullname', 'Relationship'];
   classes = ['font-bold', 'font-bold', 'text-sm'];
-  GiftBenificiary=[];
+  GiftBenificiary = [];
   shareData = [];
   createForm() {
     this.BankAccountUser = this._fb.group({
-      bankname: ['', [Validators.required]],
+      bankname: ['', [Validators.required,Validators.pattern('^[a-zA-Z ]*$')]],
       accountNumber: [
         '',
-        [Validators.required, Validators.pattern('^[0-9]*$')],
+        [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(20)],
       ],
       country: [, [Validators.required]],
-      estimateValue: ['', [Validators.required]],
+      estimateValue: ['', [Validators.required,Validators.maxLength(48)]],
       specifyOwnershipType: ['', [Validators.required]],
-      
     });
     this.BankAccountUser.valueChanges.subscribe(() => {
       this.formErrors = valueChanges(
@@ -92,10 +91,12 @@ export class BankAccountUserComponent implements OnInit {
   formErrorMessages = {
     bankname: {
       required: 'Bank Name is Required',
+      pattern: 'Invalid Name',
     },
     accountNumber: {
       required: 'Account Number is Required',
-
+      maxlength: 'Please Enter Valid Number',
+      
       pattern: 'Only numeric values allowed',
     },
     country: {
@@ -103,12 +104,13 @@ export class BankAccountUserComponent implements OnInit {
     },
     estimateValue: {
       required: 'Estimate Value is Required',
+      maxlength: 'Please Enter Valid Number',
     },
     specifyOwnershipType: {
       required: 'Ownership is Required',
     },
   };
-  assetsBeneficiary=[];
+  assetsBeneficiary = [];
   addBankAccount() {
     console.log(this.BankAccountUser);
 
@@ -156,10 +158,11 @@ export class BankAccountUserComponent implements OnInit {
     );
   }
 
- 
   addSharesMember(value) {
-    console.log(value);  
-    this.assetsBeneficiary= value.map((el)=>{return{...el,assetId:this.id}})
+    console.log(value);
+    this.assetsBeneficiary = value.map((el) => {
+      return { ...el, assetId: this.id };
+    });
     console.log(this.assetsBeneficiary);
   }
   onUpdateBank() {
@@ -175,18 +178,30 @@ export class BankAccountUserComponent implements OnInit {
       (result) => {
         this.spinner.stop();
         if (result.success) {
-          const myItem=this.allAssetsBeneficiary.findIndex((el)=>el.assetId===this.id);
-          if (myItem===-1) {
+          const myItem = this.allAssetsBeneficiary.findIndex(
+            (el) => el.assetId === this.id
+          );
+          if (myItem === -1) {
             this.allAssetsBeneficiary.push(...this.assetsBeneficiary);
           } else {
-            this.allAssetsBeneficiary=this.allAssetsBeneficiary.filter((el)=>el.assetId!==this.id);
-            this.allAssetsBeneficiary=[...this.allAssetsBeneficiary,...this.assetsBeneficiary]
+            // this.allAssetsBeneficiary= this.allAssetsBeneficiary.map((el)=>{
+            //   if(el.assetId===this.id){
+            //     return this.assetsBeneficiary
+            //   }else{
+            //     return el;
+            //   }
+            // })
+            this.allAssetsBeneficiary = this.allAssetsBeneficiary.filter(
+              (el) => el.assetId !== this.id
+            );
+            this.allAssetsBeneficiary = [
+              ...this.allAssetsBeneficiary,
+              ...this.assetsBeneficiary,
+            ];
           }
           console.log(this.allAssetsBeneficiary);
-          
-       if (this.fromCreateWill==='will') {         
-            this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
-          }
+
+          this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
           this.BankAccountUser.reset();
           this._route.navigate([this.forwardRouteLink]);
         }
@@ -218,8 +233,6 @@ export class BankAccountUserComponent implements OnInit {
         return null;
       });
       // console.log(data);
-
-     
     });
   }
   ngOnInit(): void {
@@ -246,12 +259,13 @@ export class BankAccountUserComponent implements OnInit {
       }
     });
     this._willServices.assetsBeneficiary.subscribe((value) => {
-      this.allAssetsBeneficiary=value;
-      console.log("assetsBeneficiary",value);
-      this.slectedResidualMembers=this.allAssetsBeneficiary?.filter((el)=>el.assetId===this.id);
-   
+      this.allAssetsBeneficiary = value;
+      console.log('assetsBeneficiary', value);
+      this.slectedResidualMembers = this.allAssetsBeneficiary?.filter(
+        (el) => el.assetId === this.id
+      );
     });
- 
+
     this.memberServices.getMembers().subscribe(
       (result) => {
         // console.log(result.data);

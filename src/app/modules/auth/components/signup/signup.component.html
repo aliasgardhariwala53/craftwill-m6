@@ -62,10 +62,11 @@
   
             <ng-select
             class="custom-selector custom w-full"
-            placeholder="{{ 'Select ID Type' }}"
+            placeholder="Write your Id type...."
             [items]="idList"
             formControlName="id_type"
-          
+            addTagText="Add New Id Type:"
+            [addTag]="true"
             >
           </ng-select>
           </div>

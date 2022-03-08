@@ -33,7 +33,7 @@ export class SignupComponent implements OnInit {
     { _id: '4', status: 'close' },
   ];
 
-  idList = ['NRIC', 'Passport', 'FIN', 'Others'];
+  idList = ['NRIC', 'Passport', 'FIN'];
   constructor(
     private _fb: FormBuilder,
     private _authService: AuthservicesService,
@@ -50,10 +50,12 @@ export class SignupComponent implements OnInit {
       id_type: new FormControl(null, Validators.required),
 
       id_number: ['',[Validators.required,
-        Validators.pattern('[a-zA-Z0-9]*')
+        Validators.pattern('[a-zA-Z0-9]*'),
+        Validators.maxLength(24),
       ]],
       fullName: ['', [Validators.required,
-        Validators.pattern('[a-zA-Z0-9]*')
+        Validators.pattern('[a-zA-Z0-9]*'),
+        Validators.maxLength(32),
       ]],
     });
     this.accountDetails = this._fb.group(
@@ -66,7 +68,7 @@ export class SignupComponent implements OnInit {
             Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
           ],
         ],
-        password: ['', [Validators.required, Validators.minLength(6),Validators.max(10)]],
+        password: ['', [Validators.required, Validators.minLength(6),Validators.maxLength(32)]],
         confirmPassword: ['', [Validators.required]],
       },
       {
@@ -123,6 +125,7 @@ export class SignupComponent implements OnInit {
     id_number: {
       required: 'Id Number is Required',
       pattern: 'Invalid Id Number',
+      maxlength: 'Invalid Id Number',
     },
     gender: {
       required: 'Gender is Required',
@@ -130,6 +133,7 @@ export class SignupComponent implements OnInit {
     fullName: {
       required: 'Full Name is Required',
       pattern: 'Invalid Name',
+      maxlength: 'Invalid Name',
     },
     email: {
       required: 'Email is Required',
@@ -138,6 +142,7 @@ export class SignupComponent implements OnInit {
     password: {
       required: 'Password is Required',
       minlength: 'Minimum length of password must be 6',
+      maxlength: 'Password Not Allowed',
     },
     confirmPassword: {
       required: 'Confirm Password is Required',

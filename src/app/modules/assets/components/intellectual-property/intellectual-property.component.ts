@@ -48,7 +48,7 @@ export class IntellectualPropertyComponent implements OnInit {
   createForm() {
     this.IntellectualPropertyForm = this._fb.group({
       ip_Name: ['', [Validators.required]],
-      ip_No: ['', [Validators.pattern('^[0-9]*$')]],
+      ip_No: ['', [Validators.pattern('^[0-9]*$'),Validators.maxLength(20)]],
       country: [, [Validators.required]],
       SpecifyOwnershipType: ['', [Validators.required]],
     });
@@ -73,6 +73,7 @@ export class IntellectualPropertyComponent implements OnInit {
     },
     ip_No: {
       pattern: 'Only numeric values allowed',
+      maxlength: 'Please Enter Valid Number',
     },
     country: {
       required: 'Country is Required',
@@ -143,24 +144,16 @@ export class IntellectualPropertyComponent implements OnInit {
       (result) => {
         this.spinner.stop();
         if (result.success) {
-          const myItem = this.allAssetsBeneficiary.findIndex(
-            (el) => el.assetId === this.id
-          );
-          if (myItem === -1) {
-            this.allAssetsBeneficiary.push(...this.assetsBeneficiary);
-          } else {
-            this.allAssetsBeneficiary = this.allAssetsBeneficiary.filter(
-              (el) => el.assetId !== this.id
-            );
-            this.allAssetsBeneficiary = [
-              ...this.allAssetsBeneficiary,
-              ...this.assetsBeneficiary,
-            ];
-          }
-          console.log(this.allAssetsBeneficiary);
-          if (this.fromCreateWill==='will') {         
-            this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
-          }
+const myItem=this.allAssetsBeneficiary.findIndex((el)=>el.type==='intellectualProperty');
+if (myItem===-1) {
+  this.allAssetsBeneficiary.push(...this.assetsBeneficiary);
+} else {
+  this.allAssetsBeneficiary=this.allAssetsBeneficiary.filter((el)=>el.type !=='intellectualProperty');
+  this.allAssetsBeneficiary=[...this.allAssetsBeneficiary,...this.assetsBeneficiary]
+}
+console.log(this.allAssetsBeneficiary);
+
+this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
           this._route.navigate([this.forwardRouteLink]);
         }
 
@@ -194,11 +187,11 @@ export class IntellectualPropertyComponent implements OnInit {
       console.log(data);
     });
   }
-
   addSharesMember(value) {
     console.log(value);
+
     this.assetsBeneficiary = value.map((el) => {
-      return { ...el, assetId: this.id };
+      return { ...el, type: 'intellectualProperty' };
     });
     console.log(this.assetsBeneficiary);
   }
@@ -207,7 +200,7 @@ export class IntellectualPropertyComponent implements OnInit {
       this.allAssetsBeneficiary = value;
       console.log('assetsBeneficiary', value);
       this.slectedResidualMembers = this.allAssetsBeneficiary?.filter(
-        (el) => el.assetId === this.id
+        (el) => el.type === 'intellectualProperty'
       );
     });
     this.route.queryParams.subscribe(({ id, x, y }) => {

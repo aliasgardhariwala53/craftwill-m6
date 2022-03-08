@@ -54,7 +54,7 @@ export class BusinessComponent implements OnInit {
   createForm() {
     this.businessForm = this._fb.group({
       businessName: ['', [Validators.required]],
-      UEN_no: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+      UEN_no: ['', [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(20)]],
       country: [, [Validators.required]],
       specifyOwnershipType: ['', [Validators.required]],
     });
@@ -79,7 +79,7 @@ export class BusinessComponent implements OnInit {
     },
     UEN_no: {
       required: 'UEN No. is Required',
-
+      maxlength: 'Please Enter Valid Number',
       pattern: 'Only numeric values allowed',
     },
     country: {
@@ -141,8 +141,11 @@ export class BusinessComponent implements OnInit {
     );
   }
   addSharesMember(value) {
-    console.log(value);  
-    this.assetsBeneficiary= value.map((el)=>{return{...el,assetId:this.id}})
+    console.log(value);
+
+    this.assetsBeneficiary = value.map((el) => {
+      return { ...el, type: 'business' };
+    });
     console.log(this.assetsBeneficiary);
   }
   onUpdateBusiness() {
@@ -157,18 +160,16 @@ export class BusinessComponent implements OnInit {
       (result) => {
         this.spinner.stop();
         if (result.success) {
-          const myItem=this.allAssetsBeneficiary.findIndex((el)=>el.assetId===this.id);
+          const myItem=this.allAssetsBeneficiary.findIndex((el)=>el.type==='business');
           if (myItem===-1) {
             this.allAssetsBeneficiary.push(...this.assetsBeneficiary);
           } else {
-            this.allAssetsBeneficiary=this.allAssetsBeneficiary.filter((el)=>el.assetId !== this.id);
+            this.allAssetsBeneficiary=this.allAssetsBeneficiary.filter((el)=>el.type !=='business');
             this.allAssetsBeneficiary=[...this.allAssetsBeneficiary,...this.assetsBeneficiary]
           }
           console.log(this.allAssetsBeneficiary);
           
-       if (this.fromCreateWill==='will') {         
-            this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
-          }
+          this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
           this.businessForm.reset();
           this._route.navigate([this.forwardRouteLink]);
         }
@@ -214,10 +215,11 @@ export class BusinessComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.previousRoute);
     this._willServices.assetsBeneficiary.subscribe((value) => {
-      this.allAssetsBeneficiary=value;
-      console.log("assetsBeneficiary",value);
-      this.slectedResidualMembers=this.allAssetsBeneficiary?.filter((el)=>el.assetId===this.id);
-   
+      this.allAssetsBeneficiary = value;
+      console.log('assetsBeneficiary', value);
+      this.slectedResidualMembers = this.allAssetsBeneficiary?.filter(
+        (el) => el.type === 'business'
+      );
     });
     this.route.queryParams.subscribe(({ id, x, y }) => {
       if (id) {

@@ -90,6 +90,13 @@ export class AssetsService {
         data.img='assets/Icons/Motor.svg'
         return data;
         break;
+      case 'otherAssets':
+        data.uniqueNumber = item.otherAssets.id_No || '---';
+        data.name = item.otherAssets.asset_name;
+        data.actionRoute = '/assets/otherAssets';
+        data.img='assets/Icons/Other Assets.svg'
+        return data;
+        break;
       default:
         return data;
     }

@@ -12,6 +12,7 @@ const routes: Routes = [
     component:HomeComponent,
     children:[
    
+ 
       {
        path:"profile",
        canActivate:[AuthGuard],

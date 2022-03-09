@@ -21,6 +21,9 @@ export class AuthservicesService {
   resetPassword(obj){
     return this._httpservices.update(environment.serverUrl +'users/resetPassword',obj);
   }
+  verifyEmail(obj){
+    return this._httpservices.update(environment.serverUrl +'users/verifyEmail',obj);
+  }
   loggedIn(){
     return !!localStorage.getItem('user');
   }

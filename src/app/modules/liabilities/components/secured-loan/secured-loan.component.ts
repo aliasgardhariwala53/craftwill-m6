@@ -39,12 +39,12 @@ export class SecuredLoanComponent implements OnInit {
     this.SecuredLoan = this._fb.group({
       loanName: ['', [Validators.required]],
       loanProvider: ['', [Validators.required]],
-      loan_Number: ['', [Validators.required,, Validators.pattern('^[0-9]*$')]],
+      loan_Number: ['', [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(16)]],
       loan_Id_Number: [
         '',
-        [Validators.required, Validators.pattern('^[0-9]*$')],
+        [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(16)],
       ],
-      current_Outstanding_Amount: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+      current_Outstanding_Amount: ['', [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(16)]],
       description: ['', [Validators.required]],
       assetId: [[], [Validators.required]],
     });
@@ -75,14 +75,18 @@ export class SecuredLoanComponent implements OnInit {
     loan_Number: {
       required: 'Loan Number is Required',
       pattern: 'Only numeric values allowed',
+      maxlength: 'Please Enter Valid Number',
     },
     loan_Id_Number: {
       required: 'Loan Id Number is Required',
+      maxlength: 'Please Enter Valid Number',
       pattern: 'Only numeric values allowed',
     },
     current_Outstanding_Amount: {
       required: 'Current Outstanding Amount is Required',
       pattern: 'Only numeric values allowed',
+      maxlength: 'Please Enter Valid Number',
+      
     },
     description: {
       required: 'Description is Required',

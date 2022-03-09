@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { valueChanges } from 'src/app/helper/formerror.helper';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthservicesService } from 'src/app/services/authservices.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
@@ -59,7 +59,8 @@ export class LoginComponent implements OnInit {
     private _authService: AuthservicesService,
     private _router: Router,
     private toastr: ToastrService,
-    private spinner: NgxUiLoaderService
+    private spinner: NgxUiLoaderService,
+    private route: ActivatedRoute,
   ) {}
 
   submit() {
@@ -105,8 +106,14 @@ else{
       }
     );
   }
-
+emailMessage=false;
   ngOnInit(): void {
+    this.route.queryParams.subscribe(({ en }) => {
+      if (en==="true") {
+        this.emailMessage=true;
+      }
+      
+    });
     this.createForm();
   }
 }

@@ -46,8 +46,8 @@ export class PersonalPossessionComponent implements OnInit {
   shareData = [];
   createForm() {
     this.personalPossessionForm = this._fb.group({
-      Name: ['', [Validators.required]],
-      id_No: ['', [Validators.pattern('^[0-9]*$')]],
+      Name: ['', [Validators.required,Validators.pattern('^[a-zA-Z ]*$')]],
+      id_No: ['', [Validators.pattern('^[0-9]*$'),Validators.maxLength(32)]],
       country: [, [Validators.required]],
       specifyOwnershipType: ['', [Validators.required]],
     });
@@ -69,9 +69,11 @@ export class PersonalPossessionComponent implements OnInit {
   formErrorMessages = {
     Name: {
       required: 'Name  is Required',
+      pattern: 'Please Enter Valid Name',
     },
     id_No: {
       pattern: 'Only numeric values allowed',
+      maxlength: 'Please Enter Valid Number',
     },
     country: {
       required: 'Country is Required',
@@ -143,13 +145,13 @@ export class PersonalPossessionComponent implements OnInit {
         this.spinner.stop();
         if (result.success) {
           const myItem = this.allAssetsBeneficiary.findIndex(
-            (el) => el.assetId===this.id
+            (el) => el.type === 'personalPossession'
           );
           if (myItem === -1) {
             this.allAssetsBeneficiary.push(...this.assetsBeneficiary);
           } else {
             this.allAssetsBeneficiary = this.allAssetsBeneficiary.filter(
-              (el) => el.assetId!==this.id
+              (el) => el.type !== 'personalPossession'
             );
             this.allAssetsBeneficiary = [
               ...this.allAssetsBeneficiary,
@@ -158,9 +160,7 @@ export class PersonalPossessionComponent implements OnInit {
           }
           console.log(this.allAssetsBeneficiary);
 
-       if (this.fromCreateWill==='will') {         
-            this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
-          }
+          this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
           this.personalPossessionForm.reset();
           this._route.navigate([this.forwardRouteLink]);
         }
@@ -200,13 +200,23 @@ export class PersonalPossessionComponent implements OnInit {
         this.toastr.message(errorHandler(err), false);
       }
     );
-  }  addSharesMember(value) {
-    console.log(value);  
-    this.assetsBeneficiary= value.map((el)=>{return{...el,assetId:this.id}})
+  }
+  addSharesMember(value) {
+    console.log(value);
+
+    this.assetsBeneficiary = value.map((el) => {
+      return { ...el, type: 'personalPossession' };
+    });
     console.log(this.assetsBeneficiary);
   }
   ngOnInit(): void {
-
+    this._willServices.assetsBeneficiary.subscribe((value) => {
+      this.allAssetsBeneficiary = value;
+      console.log('assetsBeneficiary', value);
+      this.slectedResidualMembers = this.allAssetsBeneficiary?.filter(
+        (el) => el.type === 'personalPossession'
+      );
+    });
     this.route.queryParams.subscribe(({ id, x, y }) => {
       if (id) {
         this.id = id;
@@ -227,12 +237,6 @@ export class PersonalPossessionComponent implements OnInit {
         this.forwardRouteLink = '/liabilities/securedLoan';
         this.fromCreateWill = y;
       }
-    });
-    this._willServices.assetsBeneficiary.subscribe((value) => {
-      this.allAssetsBeneficiary=value;
-      console.log("assetsBeneficiary",value);
-      this.slectedResidualMembers=this.allAssetsBeneficiary?.filter((el)=>el.assetId===this.id);
-   
     });
     this.memberServices.getMembers().subscribe(
       (result) => {

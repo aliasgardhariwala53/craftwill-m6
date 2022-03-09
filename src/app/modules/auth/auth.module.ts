@@ -11,6 +11,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthservicesService } from 'src/app/services/authservices.service';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { EmailVerifyComponent } from './components/email-verify/email-verify.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     SignupComponent,
     LoginComponent,
     ForgetComponent,
-    ResetComponent
+    ResetComponent,
+    EmailVerifyComponent
   ],
   imports: [
     CommonModule,

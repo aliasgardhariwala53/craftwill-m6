@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component,OnChanges, OnInit, ViewChild ,SimpleChanges} from '@angular/core';
 import { ChartData, ChartDataset } from 'chart.js';
 import { environment } from 'src/environments/environment';
 import { UserService } from 'src/app/services/user.service';
 import { BehaviorSubject } from 'rxjs';
 import { BaseChartDirective } from 'ng2-charts';
 
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,8 @@ import { BaseChartDirective } from 'ng2-charts';
 })
 export class HomeComponent implements OnInit {
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
-  constructor( private _userServ: UserService,) {}
+  constructor( private _userServ: UserService,  private route: ActivatedRoute, private _router: Router,) {}
+  profile=false;
   quickStats : any ;
   totalNetWorth : any;
   totalAssets : any ;
@@ -125,6 +127,13 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.QuickStats() ;
     this.GraphData();
+
+  this.route.queryParams.subscribe(({ profile }) => {
+    if (profile==="true") {
+      console.log(profile);
+      this._router.navigate(['home/profile']);
+    }
+  });
   }
 
 }

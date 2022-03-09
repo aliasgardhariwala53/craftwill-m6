@@ -26,6 +26,7 @@ export class CreateMembersComponent implements OnInit {
   responseMessageOrganisation: string = '';
   currentItem: string = 'Create Member';
   genderList = ['Male', 'Female', 'Other'];
+  relationshipList = ['Brother', 'Sister','Father','Mother'];
   id: string = '';
   constructor(
     private _fb: FormBuilder,
@@ -40,30 +41,30 @@ export class CreateMembersComponent implements OnInit {
   idList = ['NRIC', 'Passport', 'FIN', 'Others'];
   createForm() {
     this.personForm = this._fb.group({
-      fullname: ['', [Validators.required]],
+      fullname: ['', [Validators.required, Validators.maxLength(64)]],
       id_type: [, Validators.required],
-      id_number: ['', Validators.required],
+      id_number: ['', [Validators.required , Validators.maxLength(24)]],
       gender: [, Validators.required],
-      floorNumber: ['', Validators.required],
-      unitNumber: ['', Validators.required],
+      floorNumber: ['', [Validators.required , Validators.maxLength(12)]],
+      unitNumber: ['', [Validators.required , Validators.maxLength(12)]],
       streetName: ['', Validators.required],
-      postalCode: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+      postalCode: ['', [Validators.required, Validators.pattern('^[0-9]*$') , Validators.maxLength(12)]],
       id_country: [, Validators.required],
       dob: ['', Validators.required],
-      Relationship: ['', Validators.required],
+      Relationship: [, Validators.required],
     });
     this.organisationForm = this._fb.group({
-      organisationName: ['', [Validators.required]],
+      organisationName: ['', [Validators.required, Validators.maxLength(64)]],
       registration_number: [
         '',
-        [Validators.required, Validators.pattern('^[0-9]*$')],
+        [Validators.required, Validators.pattern('^[0-9]*$'), Validators.maxLength(24)],
       ],
       id_country: [, Validators.required],
 
-      floorNumber: ['', Validators.required],
-      unitNumber: ['', Validators.required],
+      floorNumber: ['', [Validators.required, Validators.maxLength(12)]],
+      unitNumber: ['', [Validators.required, Validators.maxLength(12)]],
       streetName: ['', Validators.required],
-      postalCode: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+      postalCode: ['', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.maxLength(12)]],
     });
     this.personForm.valueChanges.subscribe(() => {
       this.formErrors = valueChanges(
@@ -102,12 +103,14 @@ export class CreateMembersComponent implements OnInit {
     },
     id_number: {
       required: 'Id Number is Required',
+      maxlength: 'Invalid Number ',
     },
     gender: {
       required: 'Gender is Required',
     },
     fullname: {
       required: 'Fullname is Required',
+      maxlength: 'Invalid Name ',
     },
     dob: {
       required: 'Date of birth is Required',
@@ -115,15 +118,18 @@ export class CreateMembersComponent implements OnInit {
 
     floorNumber: {
       required: 'Floor Number is Required',
+      maxlength: 'Invalid Number ',
     },
     unitNumber: {
       required: 'Unit Number is Required',
+      maxlength: 'Invalid Number ',
     },
     streetName: {
       required: 'Street Name is Required',
     },
     postalCode: {
       required: 'Postal Code is Required',
+      maxlength: 'Invalid Number ',
       pattern: 'Please Enter valid numeric value',
     },
     Relationship: {
@@ -137,9 +143,11 @@ export class CreateMembersComponent implements OnInit {
     registration_number: {
       required: 'Registration Number is Required',
       pattern: 'Please Enter valid registration number',
+      maxlength: 'Invalid Number ',
     },
     organisationName: {
       required: 'Organisation is Required',
+      maxlength: 'Invalid Name ',
       // pattern: 'Please Enter valid numeric value',
     },
   };

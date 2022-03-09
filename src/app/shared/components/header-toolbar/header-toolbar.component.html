@@ -7,7 +7,7 @@
   </ng-template>
 </app-modal>
 <div class="flex flex-row w-full lg:w-fit sm:space-x-4 p-2 items-center" [ngClass]="{'justify-between md:justify-start': headerMenuIcon}">
-    <div class="cursor-pointer" (click)='routeTo()'  >
+    <div class="cursor-pointer z-10" (click)='routeTo()'  >
       <img src="../../../../assets/Icons/Back.svg" />
     </div>
     <div class="text-base sm:text-xl font-bold absolute sm:static left-0 right-0 text-center m-auto">{{pagetitle}}</div>

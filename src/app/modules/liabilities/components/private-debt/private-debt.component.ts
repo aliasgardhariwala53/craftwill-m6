@@ -39,7 +39,7 @@ forwardRouteLink="/liabilities";
   createForm() {
     this.PrivateDebtForm = this._fb.group({
       dept_Name: ['', [Validators.required]],
-      current_Outstanding_Amount: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+      current_Outstanding_Amount: ['', [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(16)]],
       description: ['', [Validators.required]],
       memberId: [[], [Validators.required]],
     });
@@ -65,6 +65,7 @@ forwardRouteLink="/liabilities";
     current_Outstanding_Amount: {
       required: 'Current Outstanding Amount is Required',
       pattern: 'Only numeric values allowed',
+      maxlength: 'Please Enter Valid Number',
     },
     description: {
       required: 'Description is Required',
@@ -98,7 +99,8 @@ forwardRouteLink="/liabilities";
     this.spinner.start();
     const formvalue = {...this.PrivateDebtForm.value, memberId: this.PrivateDebtForm.value.memberId.map(el =>{
       if (el._id) {
-        return el?._id 
+        return el?._id
+        
       }
       return el;
     } 

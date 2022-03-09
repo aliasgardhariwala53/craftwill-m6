@@ -47,7 +47,7 @@ export class InvestmentAccountComponent implements OnInit {
   shareData = [];
   createForm() {
     this.InvestmentAccountUser = this._fb.group({
-      accountName: ['', [Validators.required]],
+      accountName: ['', [Validators.required,Validators.pattern('^[a-zA-Z ]*$')]],
       accountNo: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
       country: [, [Validators.required]],
       specifyOwnershipType: ['', [Validators.required]],
@@ -70,6 +70,7 @@ export class InvestmentAccountComponent implements OnInit {
   formErrorMessages = {
     accountName: {
       required: 'Account Name  is Required',
+      pattern: 'Please Enter Valid Name',
     },
     accountNo: {
       required: 'Account No  is Required',

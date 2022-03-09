@@ -24,15 +24,15 @@
   
   <div class="flex w-full justify-center h-full items-center sm:items-start sm:mt-20">
     <div class="w-full sm:w-2/3 md:w-7/12 lg:w-1/3 -mt-[80px] sm:mt-0 mx-5 sm:mx-5">
+      <div *ngIf="emailMessage" class="message animate-pulse text-green-500 text-base md:text-2xl text-center mb-2">
+        Email Verification link has been send to your mail....
+      </div>
               <div class="text-2xl sm:text-3xl font-[GilroySemi]  sm:text-center ">
               Login to your account
               </div>
               <div class="text-sm sm:text-base sm:text-center  my-4 opacity-60">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
               tempor incididunt ut labore.
-              </div>
-              <div class="message text-red-500 text-center mb-2">
-              {{ message }}
               </div>
   
           <form method="POST" [formGroup]="userLogin">

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AfterLoginGuard } from 'src/app/guards/after-login.guard';
 import { AuthComponent } from './auth.component';
+import { EmailVerifyComponent } from './components/email-verify/email-verify.component';
 import { ForgetComponent } from './components/forget/forget.component';
 import { LoginComponent } from './components/login/login.component';
 import { ResetComponent } from './components/reset/reset.component';
@@ -33,6 +34,11 @@ const routes: Routes = [
         path:'forgetPassword',
         canActivate:[AfterLoginGuard],
         component:ForgetComponent,
+      },
+      {
+        path:'verifyEmail/:id',
+        canActivate:[AfterLoginGuard],
+        component:EmailVerifyComponent,
       },
       {
         path:"resetpassword/:id",

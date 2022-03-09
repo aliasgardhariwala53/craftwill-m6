@@ -14,6 +14,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { SubscriptionComponent } from './components/subscription/subscription.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { PaymentComponent } from './components/subscription/payment/payment.component';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { PaymentComponent } from './components/subscription/payment/payment.comp
     HttpClientModule,
     ImageCropperModule,
     NgSelectModule,
+    NgChartsModule,
     NgxStripeModule.forChild('pk_test_51KRYRcJrEVeMChFEjfcijJk7dvjXpcWG9A639LHqfUCuMirwFDpTrSpHsare5mreBAc4yeULcSjmmQoz2tgUGuTM00czLR7wI6'),
   ]
 })

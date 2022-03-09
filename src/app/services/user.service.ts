@@ -38,6 +38,18 @@ export class UserService {
   }
 
 
+  dashboardStats(){
+    return this._httpServe.get(environment.serverUrl + 'quickStats')
+  }
+
+  dashboardGraph(obj) {
+    return this._httpServe.post(environment.serverUrl + 'statics', obj);
+  }
+
+
+  // getProfile() {
+  //   return this._httpServices.post(environment.url + '/me', {});
+  // }
 
 
   // getUserImage() {

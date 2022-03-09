@@ -5,7 +5,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import {
   errorHandler,
   passwordValidation,
-  passwordValidationNotMatch,
+  passwordValidationNotMatch, 
   valueChanges,
 } from 'src/app/helper/formerror.helper';
 import { HeaderService } from 'src/app/services/header.service';

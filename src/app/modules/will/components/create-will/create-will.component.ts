@@ -14,7 +14,7 @@ export class CreateWillComponent implements OnInit {
     ) { }
   pageTitle='Personal Information';
   viewClause="listClause";
-  step=3;
+  step=5;
   setPageInfo(){
     switch (this.step) {
       case 1:

@@ -31,7 +31,7 @@ export class ResetComponent implements OnInit {
     this.resetForm = this._fb.group(
       {
         _id: null,
-        password: ['', [Validators.required, Validators.minLength(6)]],
+        password: ['', [Validators.required, Validators.minLength(6),Validators.maxLength(32)]],
         newPassword: ['', [Validators.required, Validators.minLength(6)]],
       },
       {
@@ -57,6 +57,7 @@ export class ResetComponent implements OnInit {
     password: {
       required: 'New Password is Required',
       minlength: 'Minimum length must be 6',
+      maxlength: 'Password Not Allowed',
     },
     newPassword: {
       required: 'Confirm Password is Required',

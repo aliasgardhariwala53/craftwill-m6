@@ -20,6 +20,12 @@ export class WillService {
   step3TrustData = new BehaviorSubject([]);
 
   allpayoutTrust = new BehaviorSubject([]);
+//step 5
+ delayPayoutData= new BehaviorSubject(null);
+ recommendedAdvisorData= new BehaviorSubject(null);
+ finalWordsData= new BehaviorSubject(null);
+ translationData= new BehaviorSubject(null);
+ customClauseData= new BehaviorSubject(null);
 
   
 }

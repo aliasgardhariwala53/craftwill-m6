@@ -3,7 +3,7 @@ import { ToastrService } from 'src/app/shared/services/toastr.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { MembersService } from 'src/app/services/members.service';
 import { WillService } from 'src/app/services/will.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { valueChanges } from 'src/app/helper/formerror.helper';
 
 @Component({
@@ -26,7 +26,9 @@ export class ClausesComponent implements OnInit {
   classes = ['font-bold', 'font-bold', 'text-sm'];
   expertiseList=['Investment Advisor','Financial Advisor','Legal Advisor','Tax Advisor','Business Advisor','Others']
   pageTitle:string='Additional Clauses';
-  backRouteStep
+  backRouteStep;
+
+
   constructor(
     private memberServices: MembersService,
     private spinner: NgxUiLoaderService,
@@ -36,7 +38,9 @@ export class ClausesComponent implements OnInit {
   ) {
 
    }
+   allAdvisorArray=[];
    clauseForm: FormGroup;
+   advisorForm: FormGroup;
    createForm() {
     this.clauseForm = this._fb.group({
       assetId: [[], [Validators.required]],
@@ -50,6 +54,14 @@ export class ClausesComponent implements OnInit {
         this.formErrorMessages
       );
     });
+//advisor group
+this.advisorForm =this._fb.group({
+  advisorName : [],
+  contactNumber : [],
+  expertise : [],
+  advisorId:[] 
+});
+
   }
   formErrors = {
     trustId: '',
@@ -68,7 +80,9 @@ export class ClausesComponent implements OnInit {
   onSelectClause(){
 
   }
-  selectMemberDelayPayout(value) {}
+  selectMemberDelayPayout(value) {
+    this.slectedDelayMember=value;
+  }
   onUpdate(value) {}
   setPageInfo(){
     this.onbackClause.emit(this.clauseType);
@@ -104,11 +118,24 @@ export class ClausesComponent implements OnInit {
     this.onbackClause.emit(this.clauseType);
     this.viewClause="listClause"
     this.clauseType="";
+  const data={
+    slectedDelayMember:this.slectedDelayMember,
+    delayType:this.delayType,
   }
+  console.log(data);
+  
+    this._willServices.delayPayoutData.next(data);
+  }
+
+
   onSaveAdvisor(){
     this.onbackClause.emit(this.clauseType);
     this.viewClause="listClause"
     this.clauseType="";
+    console.log(this.advisorForm.value);
+    
+    this.allAdvisorArray.push([...this.advisorForm.value]);
+    this._willServices.recommendedAdvisorData.next(this.allAdvisorArray);
   }
   onSaveFinalWord(){
     this.onbackClause.emit(this.clauseType);
@@ -167,6 +194,16 @@ export class ClausesComponent implements OnInit {
         this.toastr.message('Error Getting Members data !!', false);
       }
     );
+    this._willServices.delayPayoutData.subscribe((value) => {
+      console.log(value);
+      
+      this.delayType=value['delayType'];
+      this.slectedDelayMember=value['slectedDelayMember'];
+    });
+    this._willServices.recommendedAdvisorData.subscribe((value) => {
+      console.log(value);
+      this.allAdvisorArray=value;
+    });
   }
 
 }

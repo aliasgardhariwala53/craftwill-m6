@@ -39,7 +39,7 @@ export class ProfileComponent implements OnInit {
   defaultFemale = '../../../../../assets/Image/female.png';
   createForm() {
     this.userInfo = this._fb.group({
-      fullName: ['', Validators.required],
+      fullName: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
       email: [''],
       id_type: ['', Validators.required],
       id_number: ['', Validators.required],
@@ -114,6 +114,7 @@ export class ProfileComponent implements OnInit {
     },
     fullName: {
       required: 'FullName is Required',
+      pattern: 'Please enter a valid name',
     },
     email: {
       required: 'Email is Required',

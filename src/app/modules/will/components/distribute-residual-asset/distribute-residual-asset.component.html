@@ -1,23 +1,32 @@
 <div class="flex flex-col overflow-auto min-h-[100vh]">
   <form [formGroup]="distributeResidualAssetsForm">
-    <div class="flex flex-row justify-between mt-4">
-      <div class="font-['GilroyBold'] text-xl flex items-center">
+    <div class="flex flex-col-reverse sm:flex-row justify-between mt-4">
+      <div class="font-['GilroyBold'] text-xl flex items-center my-2">
         Specify Residual Asset Beneficiary
       </div>
       <div>
         <app-button
-          border="border-2 border-black"
-          (myMethod)="toggleModalTutorial = true"
-          padding="px-10 py-2"
-          backgroundColor="bg-[#fff]"
-          borderRadius="rounded-xl"
-          color="text-[#000]"
-          value="Tutorial"
-        ></app-button>
+      border="border-2 border-black"
+      (myMethod)="toggleModalTutorial = true"
+      padding="px-10 py-2"
+      backgroundColor="bg-[#fff]"
+      borderRadius="rounded-xl"
+      color="text-[#000]"
+      value="Tutorial"
+      class="hidden md:flex"
+    ></app-button>
+    <app-button
+      value="Tutorial"
+      (click)="toggleModalTutorial = true"
+      class="md:hidden"
+      backgroundColor="bg-[#000]"
+      margin="my-1"
+    >
+    </app-button>
       </div>
     </div>
     <div class="flex flex-col bg-[#f7f7f7] rounded-2xl p-4">
-      <div>
+      <div class="overflow-scroll max-h-[50vh]">
         <app-select-box
           [shareToggle]="true"
           [key]="key"
@@ -34,21 +43,29 @@
       </div>
     </div>
     <div class="flex flex-col bg-[#f7f7f7] rounded-2xl mt-4 p-4">
-      <div class="flex flex-row justify-between mb-2">
-        <div class="font-['GilroyBold'] text-xl flex items-center">
+      <div class="flex flex-col-reverse sm:flex-row justify-between mb-2">
+        <div class="font-['GilroyBold'] text-xl flex items-center my-2">
           Trust Fallback
         </div>
         <div>
           <app-button
-            border="border-2 border-black"
-            (myMethod)="toggleModalTutorial = true"
-            padding="px-10 py-2"
-            backgroundColor="bg-[#fff]"
-            borderRadius="rounded-xl"
-            color="text-[#000]"
-            value="Tutorial"
-          >
-          </app-button>
+          border="border-2 border-black"
+          (myMethod)="toggleModalTutorial = true"
+          padding="px-10 py-2"
+          backgroundColor="bg-[#fff]"
+          borderRadius="rounded-xl"
+          color="text-[#000]"
+          value="Tutorial"
+          class="hidden md:flex"
+        ></app-button>
+        <app-button
+          value="Tutorial"
+          (click)="toggleModalTutorial = true"
+          class="md:hidden"
+          backgroundColor="bg-[#000]"
+          margin="my-1"
+        >
+        </app-button>
         </div>
       </div>
       <div class="-mt-4 text-[#838383] font-['GilroySemi']">
@@ -109,7 +126,7 @@
           <div class="font-['GilroySemi']">Split Equally</div>
         </div>
       </div>
-      <div *ngIf="this.distributeResidualAssetsForm.value.trustType === 'terminate'">
+      <div *ngIf="this.distributeResidualAssetsForm.value.trustType === 'terminate'" class="overflow-scroll max-h-[50vh]">
         <app-select-box
           [shareToggle]="true"
           [key]="key"
@@ -184,7 +201,7 @@
         Select and add executors
       </div>
 
-      <div>
+      <div class="overflow-scroll max-h-[50vh]">
         <app-select-box
           [shareToggle]="true"
           [key]="key"

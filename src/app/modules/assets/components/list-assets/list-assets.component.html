@@ -65,7 +65,7 @@
       </app-dropdown>
     </div>
     <div class="w-full left-0 px-8 md:px-0 md:w-4/12 flex items-center fixed md:static top-40 space-x-2">
-      <input  [ngClass]="{'md:hidden': !showSearch}" type="search" class="w-[96%] px-4 py-3 sm:py-2 bg-[#f7f7f7] form-control  rounded-[10px] md:rounded-3xl form-control outline-none font-['GilroyBold']" placeholder="Search" [formControl]="searchForm" >
+      <input id="mySearchField"  [ngClass]="{'md:hidden': !showSearch}" type="search" class="w-[96%] px-4 py-3 sm:py-2 bg-[#f7f7f7] form-control  rounded-[10px] md:rounded-3xl form-control outline-none font-['GilroyBold']" placeholder="Search" [formControl]="searchForm" >
   
           <div class="bg-[#f7f7f7] px-4 py-3 rounded-[10px] md:hidden cursor-pointer">
 
@@ -82,7 +82,7 @@
     <app-button border="border-2 border-black" padding="px-10 py-2" backgroundColor="bg-[#fff] hover:bg-[#000]"
         borderRadius="rounded-xl" color="text-[#000] hover:text-white" value="Tutorial"></app-button>
   </div>
-  <div (click)="showSearch=!showSearch" class="w-4/12 md:ml-8 md:mr-8 sm:w-fit items-center hidden md:flex cursor-pointer"><img class="ml-auto h-[38px] w-[38px]" src='../../../../../assets/Icons/Group 4361.svg'></div>
+  <div (click)="focusMethod()" class="w-4/12 md:ml-8 md:mr-8 sm:w-fit items-center hidden md:flex cursor-pointer"><img class="ml-auto h-[38px] w-[38px]" src='../../../../../assets/Icons/Group 4361.svg'></div>
   <div class="w-12/12 md:w-fit justify-end hidden md:flex text-base text-center">
       <app-button  value="Create New Assets" routelink="/assets/createAssets"></app-button>
     </div>

@@ -231,6 +231,12 @@ export class MoterVehicleComponent implements OnInit {
         this.forwardRouteLink = '/liabilities/securedLoan';
         this.fromCreateWill = y;
       }
+if (y === 'myWill') {
+        this.backRouteLink = '/will/myWills';
+        this.forwardRouteLink = '/will/myWills';
+        this.fromCreateWill = y;
+        console.log(this.fromCreateWill);
+      }
     });
     this._willServices.assetsBeneficiary.subscribe((value) => {
       this.allAssetsBeneficiary=value;

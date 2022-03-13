@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { environment } from 'src/environments/environment.prod';
+import { HttpService } from './http.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WillService {
-  constructor() {}
+  constructor(private _httpservices : HttpService) {}
   step1 = new BehaviorSubject({});
   step2 = new BehaviorSubject({});
   step3 = new BehaviorSubject({});
@@ -22,10 +24,23 @@ export class WillService {
   allpayoutTrust = new BehaviorSubject([]);
 //step 5
  delayPayoutData= new BehaviorSubject(null);
- recommendedAdvisorData= new BehaviorSubject(null);
+ recommendedAdvisorData= new BehaviorSubject([]);
  finalWordsData= new BehaviorSubject(null);
  translationData= new BehaviorSubject(null);
  customClauseData= new BehaviorSubject(null);
 
-  
+ latestWillId= new BehaviorSubject(null);
+
+
+
+ createWill(obj){
+  return this._httpservices.post(environment.serverUrl +"will/storeWill",obj);
+}
+
+getAllWill(){
+  return this._httpservices.get(environment.serverUrl + "will/getWillDetails");
+}
+updateWill(obj,id){
+  return this._httpservices.update(`${environment.serverUrl}will/updateWill/${id}`,obj);
+}
 }

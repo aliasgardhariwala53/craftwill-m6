@@ -4,35 +4,189 @@
 <div class="bg-[#F7F7F7] p-5 rounded-2xl">
     <div class="flex flex-row items-center space-x-2">
         <div><img src="../../../../../assets/Icons/Personal Details.svg"></div>
-        <div class="font-['GilroySemi']">Personal Details</div>
+        <div class="font-['GilroySemi'] text-lg">Personal Details</div>
     </div>
-    <app-personal-information ></app-personal-information>
+    <app-personal-information  [reviewDisable]="true"></app-personal-information>
 </div>
 <div class="bg-[#F7F7F7] p-5 rounded-2xl">
     <div class="flex flex-row items-center space-x-2">
         <div><img src="../../../../../assets/Icons/Personal Details.svg"></div>
-        <div class="font-['GilroySemi']">Appointed Executors</div>
+        <div class="font-['GilroySemi'] text-lg">Appointed Executors</div>
     </div>
-    <app-appoint-executor ></app-appoint-executor>
+    <div class=" flex flex-col space-y-1">
+        <div class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#fff] w-full sm:w-1/3 md:w-1/5 px-2 sm:px-4 py-2  form-control rounded-[14px]  focus:outline-none">{{primary_executor_type}}</div>
+        <app-select-box [key]="keydistributeAssets" 
+        [listItem]="addPrimaryExecutor" 
+         [classes]="classes"
+         avtarType="name"
+         [addItemToggle]="false"
+         [actionToggle]="false"
+        >
+        </app-select-box>
+        <div class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#fff] w-full sm:w-1/3 md:w-1/5 px-2 sm:px-4 py-2  form-control rounded-[14px]  focus:outline-none">{{replacement_executor_type}}</div>
+        <app-select-box [key]="keydistributeAssets" 
+        [listItem]="addReplacementExecutor" 
+         [classes]="classes"
+         avtarType="name"
+         [addItemToggle]="false"
+         [actionToggle]="false"
+        >
+        </app-select-box>
+    </div>
+</div>
+<div class="bg-[#F7F7F7] p-5 rounded-2xl">
+    <div class="flex flex-row items-center space-x-2">
+        <div><img src="../../../../../assets/Icons/Personal Details.svg"></div>
+        <div class="font-['GilroySemi'] text-lg">Appointed Guardians</div>
+    </div>
+    <div *ngIf="guardian_executor_type ==='guardian1'" class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#fff] w-full sm:w-1/3 md:w-1/5 px-2 sm:px-4 py-2  form-control rounded-[14px]  focus:outline-none">{{guardian_executor_type}}</div>
+    <div *ngIf="guardian_executor_type !=='guardian1'" class=" flex flex-col space-y-2">
+        <div class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#fff] w-full sm:w-1/3 md:w-1/5 px-2 sm:px-4 py-2  form-control rounded-[14px]  focus:outline-none">{{guardian_executor_type}}</div>
+        <app-select-box [key]="keydistributeAssets" 
+        [listItem]="addGuardianExecutor" 
+         [classes]="classes"
+         avtarType="name"
+         [addItemToggle]="false"
+         [actionToggle]="false"
+        >
+        </app-select-box>
+        <div class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#fff] w-full sm:w-1/3 md:w-1/5 px-2 sm:px-4 py-2  form-control rounded-[14px]  focus:outline-none">{{guardian_replacement_executor_type}}</div>
+        <app-select-box [key]="keydistributeAssets" 
+        [listItem]="addGuardianReplacementExecutor" 
+         [classes]="classes"
+         avtarType="name"
+         [addItemToggle]="false"
+         [actionToggle]="false"
+        >
+        </app-select-box>
+    </div>
 </div>
 
-<div class="bg-[#F7F7F7] p-5 rounded-2xl">
-    <div class="flex flex-row items-center space-x-2">
-        <div><img src="../../../../../assets/Icons/Personal Details.svg"></div>
-        <div class="font-['GilroySemi']">Appointed Guardians</div>
-    </div>
-    <app-distribution-assets ></app-distribution-assets>
-</div>
-<div class="bg-[#F7F7F7] p-5 rounded-2xl">
+
+<div class="bg-[#F7F7F7] p-5 rounded-2xl space-y-2">
     <div class="flex flex-row items-center space-x-2">
         <div><img src="../../../../../assets/Icons/Personal Details.svg"></div>
         <div class="font-['GilroySemi']">Liability</div>
     </div>
-    <app-distribute-residual-asset ></app-distribute-residual-asset>
+    <div class=" flex flex-row space-y-1 w-full" >
+    <div class=" grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4  rounded-2xl  w-full" >
+        <div class="flex flex-col items-center w-full shadow-[0_0px_10px_rgba(0,0,0,0.1)] p-2 rounded-2xl " *ngFor="let item of step3liabilities; let i = index">
+
+            <div class="font-['GilroySemi'] text-center text-xl w-full" >{{item['loanName']}}</div>
+            <div class="font-['GilroySemi'] text-center text-lg w-full" >$ {{item['current_Outstanding_Amount']}} Loan</div>
+            <div class="text-center">Asset used to pay for the dept</div>
+            <div *ngIf="item.type==='privateDept'" class="w-full p-1 max-h-56 overflow-auto space-y-2 ">
+                <div  class="flex flex-col  " *ngFor="let itm of item['lender'];let i=index">
+                    <div class="flex flex-row items-center justify-around shadow-[0_0px_10px_rgba(0,0,0,0.1)] rounded-2xl p-2">
+                        <div class="flex justify-around items-center"><img src="../../../../../assets/Icons/Bank Account.svg"></div>
+                        <div class="text-center font-['GilroySemi']">
+                            <div class="font-['GilroySemi']"> {{itm?.fullname}}</div>
+                            <div class="font-['GilroySemi']"> {{itm?.gender}}</div>
+                            <div class="font-['GilroySemi']"> {{itm?.Relationship}}</div>
+                        </div>   
+                    </div>       
+                </div>
+            </div>
+            <div *ngIf="item.type==='securedLoan'" class="w-full p-1 max-h-56 overflow-auto space-y-2 ">
+            <div  class="flex flex-col  " *ngFor="let itm of item['assetId'];let i=index">
+                <div class="flex flex-row items-center justify-around shadow-[0_0px_10px_rgba(0,0,0,0.1)] rounded-2xl p-2">
+                    <div class="flex justify-center items-center"><img src="{{itm.image}}"></div>
+                    <div class="text-center font-['GilroySemi']">
+                        <div class="font-['GilroySemi']"> {{itm?.nameofAssets}}</div>
+                        <div class="font-['GilroySemi']"> {{itm?.uniqueNumber}}</div>
+                        <div class="font-['GilroySemi']"> {{itm?.ownerShip}}</div>
+                    </div>   
+                </div>       
+            </div>
+            </div>
+        </div>
+    </div>
+    </div>
 </div>
+<div class="bg-[#F7F7F7] p-5 rounded-2xl space-y-2">
+    <div class="flex flex-row items-center space-x-2">
+        <div><img src="../../../../../assets/Icons/Personal Details.svg"></div>
+        <div class="font-['GilroySemi']">Asset Distribution</div>
+    </div>
+    <div *ngIf="step3AssetData.length ==0" class="font-['GilroySemi'] text-center sm:text-lg">No asset distribution data found</div>
+    <div *ngIf="step3AssetData.length !=0" class=" flex flex-row space-y-1 w-full" >
+
+            <app-select-box
+            class="w-full"
+            [key]="keyAssets"
+            [listItem]="step3AssetData"
+            [classes]="classes"
+            avtarType="image"
+            [memberListShare]="allAssetsBeneficiary"
+            [memberShareList]="true"
+            [addItemToggle]="false"
+            >
+        </app-select-box>
+        
+    </div>
+</div>
+<div class="bg-[#F7F7F7] p-5 rounded-2xl space-y-2">
+    <div class="flex flex-row items-center space-x-2">
+        <div><img src="../../../../../assets/Icons/Personal Details.svg"></div>
+        <div class="font-['GilroySemi']"> Distribute Residual Asset</div>
+    </div>
+    <div *ngIf="!step4ResidualAssets" class="font-['GilroySemi'] text-center sm:text-lg">No distributed residual asset data found</div>
+    <div *ngIf="step4ResidualAssets" class=" flex flex-row space-y-1 w-full" >
+        
+        
+        <app-select-box
+        [attr.disabled]="true"
+        class="w-full"
+        [shareToggle]="true"
+        [key]="keydistributeAssets"
+        [selectedItems]="step4ResidualAssets"
+        [listItem]="step4ResidualAssets"
+        [classes]="classes"
+        [addItemToggle]="false"
+        >
+        </app-select-box>
+
+    </div>
+</div>
+<div class="bg-[#F7F7F7] p-5 rounded-2xl space-y-2">
+    <div class="flex flex-row items-center space-x-2">
+        <div><img src="../../../../../assets/Icons/Personal Details.svg"></div>
+        <div class="font-['GilroySemi']">Clauses</div>
+    </div>
+    <div class="font-['GilroyBold'] text-lg">Additional Clauses</div>
+    <div class=" flex flex-row space-y-1 w-full" >
  
+        <app-list-clause></app-list-clause>
+    </div>
+</div>
+<div class="flex flex-row w-full sm:w-5/12 md:w-4/12 lg:w-4/12 space-x-3">
+    <div class=" w-1/2 " *ngIf="id === ''" >
+        <app-button
+          padding="px-3 py-3"
+          (myMethod)="onCreateWill()"
+          value="Save"
+          id="submitButtonId"
+        ></app-button>
+      </div>
+    <div class=" w-1/2 " *ngIf="id !== ''" >
+        <app-button
+          padding="px-3 py-3"
+          (myMethod)="onUpdateWill()"
+          value="Update"
+          id="submitButtonId"
+        ></app-button>
+      </div>
+    <div class=" w-1/2 " *ngIf="id === ''" >
+        <app-button
+          padding="px-3 py-3"
+          (myMethod)="onEditClick(1)"
+          value="Edit"
+          id="submitButtonId"
+        ></app-button>
+      </div>
+</div>
+
  
 
- <app-clauses></app-clauses>
 
 </div>

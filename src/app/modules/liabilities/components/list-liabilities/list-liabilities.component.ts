@@ -100,7 +100,12 @@ export class ListLiabilitiesComponent implements OnInit {
       );
     }
   }
-
+  focusMethod() {
+    this.showSearch=!this.showSearch;
+    setTimeout(() => {
+      document.getElementById("mySearchField").focus();    
+    }, 0);
+  }
   ngOnInit(): void {
     this.spinner.start();
     this.searchForm.valueChanges.pipe(debounceTime( 200 )  ).subscribe((e) => {

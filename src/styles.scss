@@ -166,6 +166,7 @@ body{
 }
 .errors {
   font-size: 12px;
+  font-family: 'GilroySemi';
 }
 .createMember_btn {
   background: #ff6782 0% 0% no-repeat padding-box;
@@ -495,6 +496,11 @@ border-radius: 10px;
 .members.ng-select.ng-select-opened>.ng-select-container {
   
   background: #f7f7f7;
+}
+.reviewColor.ng-select.ng-select-single .ng-select-container{
+  background: #EFEFEF !important;
+  height: 36px !important;
+  border-radius: 14px !important;
 }
 .members.ng-select.ng-select-single .ng-select-container{
   background: #f7f7f7;

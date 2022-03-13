@@ -132,31 +132,31 @@ export class AppointExecutorComponent implements OnInit {
     // console.log(this.appointExecutorForm.value.replacement_executor_type);
   }
   selectMemberGuardian(value) {
-    let guardianId: Array<any> = this.appointExecutorForm.value.addGuardianExecutor;
-    if (guardianId.includes(value)) {
-      guardianId.splice(guardianId.indexOf(value), 1);
-    } else {
-      guardianId.push(value);
-    }
-    this.selectedGuardian = guardianId;
+    // let guardianId: Array<any> = this.appointExecutorForm.value.addGuardianExecutor;
+    // if (guardianId.includes(value)) {
+    //   guardianId.splice(guardianId.indexOf(value), 1);
+    // } else {
+    //   guardianId.push(value);
+    // }
+    // this.selectedGuardian = guardianId;
     this.appointExecutorForm.patchValue({
-      addGuardianExecutor: guardianId,
+      addGuardianExecutor: value,
     });
   }
   selectReplacementMemberGuardian(value) {
-    let slectedReplacementGuardian: Array<any> =
-      this.appointExecutorForm.value.addGuardianReplacementExecutor;
-    if (slectedReplacementGuardian.includes(value)) {
-      slectedReplacementGuardian.splice(
-        slectedReplacementGuardian.indexOf(value),
-        1
-      );
-    } else {
-      slectedReplacementGuardian.push(value);
-    }
-    this.slectedReplacementGuardian = slectedReplacementGuardian;
+    // let slectedReplacementGuardian: Array<any> =
+    //   this.appointExecutorForm.value.addGuardianReplacementExecutor;
+    // if (slectedReplacementGuardian.includes(value)) {
+    //   slectedReplacementGuardian.splice(
+    //     slectedReplacementGuardian.indexOf(value),
+    //     1
+    //   );
+    // } else {
+    //   slectedReplacementGuardian.push(value);
+    // }
+    // this.slectedReplacementGuardian = slectedReplacementGuardian;
     this.appointExecutorForm.patchValue({
-      addGuardianReplacementExecutor: slectedReplacementGuardian,
+      addGuardianReplacementExecutor: value,
     });
   }
   onClickNext() {

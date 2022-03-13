@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { UserService } from 'src/app/services/user.service';
+import { WillService } from 'src/app/services/will.service';
 import { environment } from 'src/environments/environment.prod';
 import { HeaderService } from '../../../services/header.service';
 import { ToastrService } from '../../services/toastr.service';
@@ -17,12 +18,16 @@ export class HeaderComponent implements OnInit {
   defaultMale = '../../../../assets/Image/male.png';
   defaultFemale = '../../../../assets/Image/female.png';
   toggleModal: boolean = false;
+  latestWillId:'';
+  latestWillData=[];
   constructor(
     public router: Router,
     public _headerServ: HeaderService,
     private _userServ: UserService,
     private spinner: NgxUiLoaderService,
     private toastr: ToastrService,
+    private _route:Router,
+    private _willServices: WillService,
   ) {
     this._headerServ.username.subscribe((name) => {
       this.username = name;
@@ -34,6 +39,7 @@ export class HeaderComponent implements OnInit {
   }
   latestWill() {
     console.log('latest Will');
+    this._route.navigate([`will/createWill`], { queryParams:{id:this.latestWillId}});
   }
 
   ngOnInit(): void {
@@ -64,5 +70,18 @@ export class HeaderComponent implements OnInit {
       this.spinner.stop();
       this.toastr.message("Error Getting User Data!!",false);
     });
+    this._willServices.getAllWill().subscribe(
+      (result) => {
+        this.spinner.stop();
+        this.latestWillData = result.data.users[result.data.users.length-1];
+        this.latestWillId=this.latestWillData['_id'];
+        console.log(this.latestWillData);
+        console.log(this.latestWillId);
+        this._willServices.latestWillId.next(this.latestWillData['_id']);
+      },
+      (err) => {
+        this.spinner.stop();
+      }
+    );
   }
 }

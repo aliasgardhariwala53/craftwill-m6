@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { errorHandler } from 'src/app/helper/formerror.helper';
 import { AssetsService } from 'src/app/services/assets.service';
@@ -6,6 +7,7 @@ import { LiabilitiesService } from 'src/app/services/liabilities.service';
 import { MembersService } from 'src/app/services/members.service';
 import { TrustService } from 'src/app/services/trust.service';
 import { UserService } from 'src/app/services/user.service';
+import { WillService } from 'src/app/services/will.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
 @Component({
   selector: 'app-my-will',
@@ -13,15 +15,18 @@ import { ToastrService } from 'src/app/shared/services/toastr.service';
   styleUrls: ['./my-will.component.scss']
 })
 export class MyWillComponent implements OnInit {
-  allAssetsData;
-  allLiabilitiesData;
+  allAssetsData=[];
+  allLiabilitiesData=[];
   alltrustData = [];
+  latestWillId='';
   constructor(
     private liabilitiesServices: LiabilitiesService,
     private assetsServices: AssetsService,
     private trustServices: TrustService,
     private spinner: NgxUiLoaderService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private _route: Router,
+    private _willServices: WillService,
   ) { }
   tableHeadingsLiabilities= [
     'Name of the Liabilities',
@@ -71,10 +76,15 @@ export class MyWillComponent implements OnInit {
     console.log(value);
   }
 
-
+  currentWill(){
+    this._route.navigate(['/will/createWill'], {
+      queryParams: { id: this.latestWillId}});
+  }
   ngOnInit(): void {
     this.spinner.start();
-
+    this._willServices.latestWillId.subscribe((id) => {
+      this.latestWillId = id;
+    });
     this.liabilitiesServices.getAllLiabilities().subscribe((result) => {
       this.spinner.stop();
       this.allLiabilitiesData = result.data.map((items, i) => {

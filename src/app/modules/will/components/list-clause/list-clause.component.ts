@@ -40,6 +40,18 @@ expertise=''
       this.recommendedAdvisorData=value;
 
     });
+    this._willServices.finalWordsData.subscribe((value) => {
+      console.log(value);
+      this.finalWordsData=value;
+    });
+    this._willServices.translationData.subscribe((value) => {
+      console.log(value);
+      this.translationData=value;
+    });
+    this._willServices.customClauseData.subscribe((value) => {
+      console.log(value);
+      this.customClauseData=value;
+    });
   }
 
 }

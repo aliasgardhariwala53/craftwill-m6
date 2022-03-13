@@ -128,13 +128,15 @@ onAddItem(){
     this._route.navigate([`${this.addItemRoute}`], { queryParams:{y:'private'}});
     return;
   }
+
   this._route.navigate([this.addItemRoute]);
 }
 
 getShortName(obj) { 
-  const name =obj[Object.keys(obj)[0]];
-  if (name) {
-    return name.split(' ').map(n => n[0]).join('').toUpperCase().substr(0,2);;
+  const name =obj[Object.keys(obj)[0]] ;
+
+  if (name && typeof(name)=='string') {
+    return name?.split(' ')?.map(n => n[0])?.join('')?.toUpperCase()?.substr(0,2);
   } else {
     return "AA"
   }
@@ -147,7 +149,7 @@ drop(event: CdkDragDrop<string[]>) {
 }
 
 shareDisplay(_id){
- return this.selectedItems?.find((el)=>el._id===_id)?.share;
+ return this.selectedItems?.find((el)=>el._id===_id)?.share || this.listItem?.find((el)=>el._id===_id)?.share;
 }
 ngOnChanges(changes: SimpleChanges) {
   

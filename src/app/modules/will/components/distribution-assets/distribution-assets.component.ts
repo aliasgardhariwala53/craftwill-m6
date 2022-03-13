@@ -71,10 +71,10 @@ export class DistributionAssetsComponent implements OnInit {
   classes = ['font-bold', 'font-bold', 'text-sm'];
   assetsData = [];
   selectAssets(value) {
-    console.log(value);
+    // console.log(value);
     let memberData = this.allAssetsBeneficiary.filter(o1 => value.some(o2 => o1.assetId === o2._id));
-    console.log(this.allAssetsBeneficiary);
-    console.log(memberData);
+    // console.log(this.allAssetsBeneficiary);
+    // console.log(memberData);
     this.step3AssetData=value;
     const assets=value.map((el)=>{
       const data =memberData.filter((i)=>i.assetId===el._id);
@@ -84,7 +84,7 @@ export class DistributionAssetsComponent implements OnInit {
       assets: assets,
     });
 
-    console.log(this.distributeAssetsForm.value.assets);
+    // console.log(this.distributeAssetsForm.value.assets);
   }
 
   //liabilities
@@ -92,18 +92,12 @@ export class DistributionAssetsComponent implements OnInit {
   LiabilitiesData = [];
 
   selectLiabilities(value) {
-    let liabilitiesId: Array<any> =
-      this.distributeAssetsForm.value.liabilities;
-    if (liabilitiesId?.includes(value)) {
-      liabilitiesId.splice(liabilitiesId.indexOf(value), 1);
-    } else {
-      liabilitiesId?.push(value);
-    }
+
     this.distributeAssetsForm.patchValue({
-      liabilities: liabilitiesId,
+      liabilities: value,
     });
 
-    console.log(this.distributeAssetsForm.value.assets);
+    // console.log(this.distributeAssetsForm.value.liabilities);
   }
 
   //trust
@@ -121,15 +115,17 @@ export class DistributionAssetsComponent implements OnInit {
       trust: trustId,
     });
 
-    console.log(this.distributeAssetsForm.value.assets);
+    // console.log(this.distributeAssetsForm.value.assets);
   }
   onClickNext(){
     this.onClickNextBtn.emit(4)
+    // console.log(this.distributeAssetsForm.value);
+    
     this._willServices.step3.next(this.distributeAssetsForm.value);
     this._willServices.step3AssetData.next(this.step3AssetData);
   }
   onUpdateAssets(value){
-  console.log(value);
+  // console.log(value);
 
   }
   ngOnInit(): void {
@@ -139,17 +135,17 @@ export class DistributionAssetsComponent implements OnInit {
       
     });
     this._willServices.allTrustAdditionalData.subscribe((value) => {
-      console.log(value);
+      // console.log(value);
       this.allTrustAdditionalData =value;
       
     });
     this._willServices.step3.subscribe((step3Data) => {
-      console.log(step3Data);
+      // console.log(step3Data);
       this.distributeAssetsForm.setValue(step3Data);
 
     });
     this._willServices.step3AssetData.subscribe((step3AssetData) => {
-      console.log(step3AssetData);
+      // console.log(step3AssetData);
       this.step3AssetData=step3AssetData;
 
     });
@@ -178,9 +174,12 @@ export class DistributionAssetsComponent implements OnInit {
 
     this.liabilitiesServices.getAllLiabilities().subscribe(
       (result) => {
+        console.log(result);
+        
         this.spinner.stop();
         this.LiabilitiesData = result.data.map((items, i) => {
-          return {
+          // console.log(items);
+          const obj ={
             loanName:
               this.liabilitiesServices.getLiabilitiesData(items)?.loanName,
             loanProvider:
@@ -188,12 +187,20 @@ export class DistributionAssetsComponent implements OnInit {
             loanNumber:
               this.liabilitiesServices.getLiabilitiesData(items)
                 ?.loan_Id_Number,
-            current_Outstanding_Amount: items.current_Outstanding_Amount,
-            type: items.type,
-            _id: items._id,
-            actionRoute:
+              current_Outstanding_Amount: items?.current_Outstanding_Amount,
+              type: items?.type,
+              _id: items?._id,
+              actionRoute:
               this.liabilitiesServices.getLiabilitiesData(items)?.actionRoute,
           };
+          if (items.type==="securedLoan") {
+            obj['assetId'] =items?.securedLoan?.addAssets;
+          }else if(items.type==="privateDept"){
+            obj['lender'] = items?.privateDept?.lender;
+          }
+          console.log(obj);
+          
+          return obj;
         });
       },
       (err) => {

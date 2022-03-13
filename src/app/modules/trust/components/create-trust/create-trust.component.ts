@@ -394,6 +394,12 @@ export class CreateTrustComponent implements OnInit,OnChanges {
         this.fromCreateWill = y;
         console.log(this.fromCreateWill);
       }
+      if (y === 'myWill') {
+        this.backRouteLink = '/will/myWills';
+        this.forwardRouteLink = '/will/myWills';
+        this.fromCreateWill = y;
+        console.log(this.fromCreateWill);
+      }
     });
     this.memberServices.getMembers().subscribe(
       (result) => {

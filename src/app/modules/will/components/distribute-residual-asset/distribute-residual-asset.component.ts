@@ -80,7 +80,7 @@ export class DistributeResidualAssetComponent implements OnInit {
     }
     this.slectedResidualMembers = residualMemberId;
     this.distributeResidualAssetsForm.patchValue({
-      residualMemberId: residualMemberId,
+      residualMemberId: value,
     });
     console.log(this.distributeResidualAssetsForm.value.residualMemberId);
 

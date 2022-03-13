@@ -47,6 +47,8 @@
         class="md:hidden"></app-button>
 
     </div>
+<div *ngIf="fromCreateWill === 'will'"  class="flex flex-col">
+
 
     <div class="flex flex-col bg-[#F7F7F7] p-2 sm:p-5 rounded-2xl space-y-5">
       <div class="flex flex-col-reverse sm:flex-row justify-between">
@@ -352,7 +354,7 @@
         </div>
       </div>
       <div *ngIf="this.TrustForm.value.fallBackType === 'custom'" class="w-full">
-<textarea formControlName="descriptionFallback" placeholder="Custom Trust Fallback......." class="w-full p-3 rounded-2xl focus:outline-none"></textarea>
+      <textarea formControlName="descriptionFallback" placeholder="Custom Trust Fallback......." class="w-full p-3 rounded-2xl focus:outline-none"></textarea>
       </div>
 
     </div>
@@ -386,6 +388,7 @@
         <textarea formControlName="additionalClauses" placeholder="Additional Clauses...." class="w-full p-3 rounded-2xl focus:outline-none"></textarea>
       </div>
     </div>
+</div>    
   </form>
   <div *ngIf="fromCreateWill === 'will'" class="  sm:block sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
     <app-button (myMethod)="onUpdateTrust()" value="Save" id="submitButtonId" [arrow]="true"></app-button>

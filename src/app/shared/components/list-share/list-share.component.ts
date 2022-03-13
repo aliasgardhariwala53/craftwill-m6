@@ -33,7 +33,7 @@ export class ListShareComponent implements OnInit {
   }
   ngOnInit(): void {
 
-    console.log(this.memberListShare);
+    // console.log(this.memberListShare);
 
     
   }

@@ -98,7 +98,7 @@ forwardRouteLink="/liabilities";
     }
     this.spinner.start();
     const formvalue = {...this.PrivateDebtForm.value, memberId: this.PrivateDebtForm.value.memberId.map(el =>{
-      if (el._id) {
+      if (el?._id) {
         return el?._id
         
       }
@@ -111,6 +111,9 @@ forwardRouteLink="/liabilities";
       privateDept: formvalue,
       type: 'privateDept',
     };
+    console.log(formvalue);
+    console.log(privateDebtData);
+    
     this.liabilitiesServices.addLiabilities(privateDebtData).subscribe(
       (result) => {
         this.spinner.stop();
@@ -134,20 +137,23 @@ forwardRouteLink="/liabilities";
   onUpdatePrivateDept() {
     this.spinner.start();
     const formvalue = {...this.PrivateDebtForm.value, memberId: this.PrivateDebtForm.value.memberId.map(el =>{
-      if (el._id) {
+      if (el?._id) {
         return el?._id
         
       }
       return el;
     } 
     )}
-    const privateDeptData = {
+
+    const privateDebtData = {
       current_Outstanding_Amount:
         this.PrivateDebtForm.value.current_Outstanding_Amount,
-      privateDept: this.PrivateDebtForm.value,
+      privateDept: formvalue,
       type: 'privateDept',
     };
-    this.liabilitiesServices.updateLiabilities(privateDeptData, this.id).subscribe(
+    console.log(formvalue);
+    console.log(privateDebtData);
+    this.liabilitiesServices.updateLiabilities(privateDebtData, this.id).subscribe(
       (result) => {
         this.spinner.stop();
         if (result.success) {
@@ -187,6 +193,7 @@ forwardRouteLink="/liabilities";
         }
         return null;
       });
+      console.log(this.PrivateDebtForm.value);
       console.log(this.slectedList);
     });
   }
@@ -202,8 +209,14 @@ forwardRouteLink="/liabilities";
  this.forwardRouteLink="/will/createWill";  
         }
       }
-if (y==='will') {
+    if (y==='will') {
         this.backRouteLink="/will/createWill";   
+        this.fromCreateWill = y;
+        console.log(this.fromCreateWill);
+      }
+      if (y === 'myWill') {
+        this.backRouteLink = '/will/myWills';
+        this.forwardRouteLink = '/will/myWills';
         this.fromCreateWill = y;
         console.log(this.fromCreateWill);
       }

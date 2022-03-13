@@ -11,7 +11,7 @@
             type="text"
             placeholder="ID Number"
             formControlName="id_Number"
-            class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#F7F7F7] w-[100%] px-2 sm:px-4 py-2 form-control rounded-[14px] focus:outline-none"
+            class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#EFEFEF] w-[100%] px-2 sm:px-4 py-2 form-control rounded-[14px] focus:outline-none"
           />
         </div>
 
@@ -25,10 +25,13 @@
             >Id Type</label
           >
           <ng-select
-            class="custom-selector members w-full"
+            [ngClass]="{'members': reviewDisable}"
+            class="custom-selector reviewColor w-full"
             placeholder="{{ 'Select ID Type' }}"
             [items]="idList"
             formControlName="id_Type"
+            addTagText="Add New Id Type:"
+            [addTag]="true"
           >
           </ng-select>
         </div>
@@ -46,7 +49,7 @@
             type="text"
             placeholder="Full Name as per ID"
             formControlName="fullName"
-            class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#F7F7F7] w-[100%] px-2 sm:px-4 py-2 form-control rounded-[14px] focus:outline-none"
+            class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#EFEFEF] w-[100%] px-2 sm:px-4 py-2 form-control rounded-[14px] focus:outline-none"
           />
         </div>
 
@@ -60,7 +63,8 @@
             >Gender</label
           >
           <ng-select
-            class="custom-selector members w-full"
+          [ngClass]="{'members': reviewDisable}"
+            class="custom-selector  reviewColor w-full"
             placeholder="Gender"
             [items]="genderList"
             formControlName="gender"
@@ -69,7 +73,7 @@
         </div>
 
         <div class="text-red-500 errors mx-2">
-          {{ formErrors.id_Number }}
+          {{ formErrors.gender }}
         </div>
       </div>
       <div class="w-full">
@@ -80,11 +84,10 @@
           <input
             type="text"
             placeholder="E-mail address"
-            [readonly]="true"
             [ngClass]="{ input_not_edit: true }"
-            [attr.disabled]
+            
             formControlName="email"
-            class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#F7F7F7] w-[100%] px-2 sm:px-4 py-2 form-control rounded-[14px] focus:outline-none"
+            class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#EFEFEF] w-[100%] px-2 sm:px-4 py-2 form-control rounded-[14px] focus:outline-none"
           />
         </div>
 
@@ -106,7 +109,7 @@
             type="text"
             placeholder="Floor Number"
             formControlName="floorNumber"
-            class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#F7F7F7] w-[100%] px-2 sm:px-4 py-2 form-control rounded-[14px] focus:outline-none"
+            class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#EFEFEF] w-[100%] px-2 sm:px-4 py-2 form-control rounded-[14px] focus:outline-none"
           />
         </div>
 
@@ -123,7 +126,7 @@
             type="text"
             placeholder="Unit Number"
             formControlName="unitNumber"
-            class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#F7F7F7] w-[100%] px-2 sm:px-4 py-2 form-control rounded-[14px] focus:outline-none"
+            class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#EFEFEF] w-[100%] px-2 sm:px-4 py-2 form-control rounded-[14px] focus:outline-none"
           />
         </div>
 
@@ -140,7 +143,7 @@
             type="text"
             placeholder="Postal Code"
             formControlName="postalCode"
-            class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#F7F7F7] w-[100%] px-2 sm:px-4 py-2 form-control rounded-[14px] focus:outline-none"
+            class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#EFEFEF] w-[100%] px-2 sm:px-4 py-2 form-control rounded-[14px] focus:outline-none"
           />
         </div>
         <div class="text-red-500 errors mx-2">
@@ -156,7 +159,7 @@
             type="text"
             placeholder="Street Name"
             formControlName="streetName"
-            class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#F7F7F7] w-[100%] px-2 sm:px-4 py-2 form-control rounded-[14px] focus:outline-none"
+            class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#EFEFEF] w-[100%] px-2 sm:px-4 py-2 form-control rounded-[14px] focus:outline-none"
           />
         </div>
 
@@ -166,12 +169,12 @@
       </div>
     </div>
     <div
-      class="flex flex-col w-full md:w-4/12 lg:w-[20%]  p-4 items-center rounded-3xl bg-[#F7F7F7] "
+      class="flex flex-col w-full md:w-4/12 lg:w-[20%]  p-4 items-center rounded-3xl bg-[#EFEFEF] "
     >
-      <div class="w-full font-['GilroyBold'] text-sm md:text-base text-left py-1">
+      <div class="w-full font-['GilroyBold'] text-sm md:text-base text-center py-1">
         Asset Scope
       </div>
-      <div class="flex w-full  justify-between  items-center py-1">
+      <div class="flex w-full justify-around  items-center py-1">
         <input
           type="radio"
           formControlName="assetScope"
@@ -195,7 +198,7 @@
         {{ formErrors.assetScope }}
       </div>
     </div>
-    <div class=" sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
+    <div *ngIf="!reviewDisable" class=" sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
       <app-button  (myMethod)="onClickNext()" value="Appoint Executor" id="submitButtonId"></app-button>
     </div>
   </form>

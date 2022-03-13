@@ -21,6 +21,10 @@ export class TableComponent implements OnInit {
 
   onClickActionButton(Item){
     this.actionButton.emit(Item._id);
+    if (this._route.url=='/will/myWills') {
+      this._route.navigate([`${Item.actionRoute}`], { queryParams:{id:Item._id,y:'myWill'}});
+      return;
+    }
     this._route.navigate([`${Item.actionRoute}`], { queryParams:{id:Item._id}})
   }
   getShortName(fullName) { 

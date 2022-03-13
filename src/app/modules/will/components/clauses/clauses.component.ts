@@ -17,7 +17,7 @@ export class ClausesComponent implements OnInit {
   @Output() onClickNextBtn = new EventEmitter();
   toggleModalTutorial:boolean=false;
   showClauseModal:boolean=false;
-  clauseType:string='';
+  clauseType:string='clause1';
   delayType:string='delay1';
   translateType:string='';
   memberData = [];
@@ -42,39 +42,48 @@ export class ClausesComponent implements OnInit {
    clauseForm: FormGroup;
    advisorForm: FormGroup;
    createForm() {
-    this.clauseForm = this._fb.group({
-      assetId: [[], [Validators.required]],
-      liabilitiesId: [[], [Validators.required]],
-      trustId: [[], [Validators.required]],
-    });
-    this.clauseForm.valueChanges.subscribe(() => {
-      this.formErrors = valueChanges(
-        this.clauseForm,
-        { ...this.formErrors },
-        this.formErrorMessages
-      );
-    });
+
 //advisor group
 this.advisorForm =this._fb.group({
-  advisorName : [],
-  contactNumber : [],
-  expertise : [],
+  advisorName : ['',[Validators.required,
+    Validators.pattern('[a-zA-Z ]*'),
+    Validators.maxLength(24),
+  ]],
+  contactNumber : ['', [Validators.required, Validators.pattern('^[0-9]*$'),Validators.minLength(10), Validators.maxLength(12)]],
+  expertise : [,[Validators.required]],
   advisorId:[] 
+});
+this.advisorForm.valueChanges.subscribe(() => {
+  this.formErrors = valueChanges(
+    this.advisorForm,
+    { ...this.formErrors },
+    this.formErrorMessages
+  );
 });
 
   }
   formErrors = {
     trustId: '',
+    advisorName: '',
+    contactNumber: '',
+    expertise: '',
   };
   formErrorMessages = {
-    assetId: {
-      required: 'Please Select Asset',
+
+    advisorName: {
+      required: 'Please add advisor Name',
+      pattern: 'Advisor Name is Required',
+      maxlength: 'Invalid Name',
     },
-    liabilitiesId: {
-      required: 'Please Select Liabilities',
+    contactNumber: {
+      required: 'Please add contact number',
+      pattern: 'Only numberic value allowed',
+      maxlength: 'Invalid Number',
+      minlength: 'Min length should be 10',
     },
-    trustId: {
-      required: 'Please Select Trust',
+    expertise: {
+      required: 'Please Select Expertise',
+      pattern: 'Expertise is Required',
     },
   };
   onSelectClause(){
@@ -117,7 +126,7 @@ this.advisorForm =this._fb.group({
   onSaveDelayPayout(){
     this.onbackClause.emit(this.clauseType);
     this.viewClause="listClause"
-    this.clauseType="";
+    // this.clauseType="";
   const data={
     slectedDelayMember:this.slectedDelayMember,
     delayType:this.delayType,
@@ -129,28 +138,49 @@ this.advisorForm =this._fb.group({
 
 
   onSaveAdvisor(){
+    if ( this.advisorForm.invalid) {
+      console.log('is 2');
+      this.advisorForm.markAllAsTouched();
+      this.formErrors = valueChanges(
+        this.advisorForm,
+        { ...this.formErrors },
+        this.formErrorMessages
+      );
+      return;
+    }
     this.onbackClause.emit(this.clauseType);
     this.viewClause="listClause"
-    this.clauseType="";
+    // this.clauseType="";
     console.log(this.advisorForm.value);
     
-    this.allAdvisorArray.push([...this.advisorForm.value]);
+    this.allAdvisorArray.push(this.advisorForm.value);
     this._willServices.recommendedAdvisorData.next(this.allAdvisorArray);
+    this.advisorForm.reset();
   }
+  finalWordsForm =new FormControl('')
   onSaveFinalWord(){
+
     this.onbackClause.emit(this.clauseType);
     this.viewClause="listClause"
-    this.clauseType="";
-  }
-  onSaveCustomClause(){
-    this.onbackClause.emit(this.clauseType);
-    this.viewClause="listClause"
-    this.clauseType="";
+    // this.clauseType="";
+    console.log(this.finalWordsForm.value);
+    this._willServices.finalWordsData.next(this.finalWordsForm.value);
+    this.finalWordsForm.reset();
   }
   onSaveTranslation(){
     this.onbackClause.emit(this.clauseType);
     this.viewClause="listClause"
-    this.clauseType="";
+    // this.clauseType="";
+    this._willServices.translationData.next(this.translateType);
+    
+  }
+  customClauseForm =new FormControl('')
+  onSaveCustomClause(){
+    this.onbackClause.emit(this.clauseType);
+    this.viewClause="listClause"
+    // this.clauseType="";
+    this._willServices.customClauseData.next(this.customClauseForm.value);
+    this.customClauseForm.reset();
   }
   onClickContinue(){
     this.setPageInfo();
@@ -159,13 +189,33 @@ this.advisorForm =this._fb.group({
   }
   onClickNext() {
     this.onClickNextBtn.emit(6);
-    this._willServices.step5.next(this.clauseForm.value);
+    const clauses = {
+      additionalClauses : {
+          delayed_payout : {
+              beneficiaryManagedBy : this.delayType,
+              appointBeneficiaries :this.slectedDelayMember,
+          },
+          recommendedAdvisor : this.allAdvisorArray,
+          finalWords : this.finalWordsForm.value,
+          translation :this.translateType,
+          customClause : this.customClauseForm.value ,
+ 
+      }
+    }
+    this._willServices.step5.next(clauses);
   }
   ngOnInit(): void {
+    this.viewClause="listClause";
+    
     this.createForm() 
-    this._willServices.step5.subscribe((step5Data) => {
-      console.log(step5Data);
-      this.clauseForm.setValue(step5Data);
+    this._willServices.step5.subscribe((step5data) => {
+      const value =step5data['additionalClauses'];
+      this.delayType=value['delayed_payout']['beneficiaryManagedBy'];
+      this.slectedDelayMember=value['delayed_payout']['appointBeneficiaries'];
+      this.allAdvisorArray=value['recommendedAdvisor'];
+      this.finalWordsForm.patchValue(value['finalWords']);
+      this.translateType=value['translation'];
+      this.customClauseForm.patchValue(value);
     });
     this.memberServices.getMembers().subscribe(
       (result) => {
@@ -203,6 +253,18 @@ this.advisorForm =this._fb.group({
     this._willServices.recommendedAdvisorData.subscribe((value) => {
       console.log(value);
       this.allAdvisorArray=value;
+    });
+    this._willServices.finalWordsData.subscribe((value) => {
+      console.log(value);
+      this.finalWordsForm.patchValue(value);
+    });
+    this._willServices.translationData.subscribe((value) => {
+      console.log(value);
+      this.translateType=value;
+    });
+    this._willServices.customClauseData.subscribe((value) => {
+      console.log(value);
+      this.customClauseForm.patchValue(value);
     });
   }
 

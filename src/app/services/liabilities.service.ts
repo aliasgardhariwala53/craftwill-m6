@@ -32,7 +32,6 @@ export class LiabilitiesService {
         data.loan_Id_Number = item.privateDept.loan_Id_Number || '---';
         data.loanName = 'Private Dept';
         data.actionRoute = 'liabilities/privateDebt';
-
         return data;
         break;
       case 'securedLoan':

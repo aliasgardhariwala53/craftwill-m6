@@ -156,11 +156,12 @@ export class SecuredLoanComponent implements OnInit {
   onUpdateSecuredLoan(){
     this.spinner.start();
     const formvalue = {...this.SecuredLoan.value, assetId: this.SecuredLoan.value.assetId.map(el =>{
-      if (el._id) {
+      if (el?._id) {
         return el?._id
         
+      }else{
+        return el;
       }
-      return el;
     } 
     )}
     console.log(formvalue);
@@ -188,10 +189,12 @@ export class SecuredLoanComponent implements OnInit {
     this.spinner.start();
     this.liabilitiesServices.getAllLiabilities().subscribe((result) => {
       this.spinner.stop();
-      console.log(result);
+      console.log(result)
       
       const data=result.data.filter((item,i)=>{
         if (item._id===id) {
+          console.log(item);
+          
           const {securedLoan,current_Outstanding_Amount} = item;
           this.SecuredLoan.patchValue({
             loanName: securedLoan?.loanName,
@@ -207,6 +210,8 @@ export class SecuredLoanComponent implements OnInit {
           this.selectedAssetsId=securedLoan.addAssets.map((el)=>{
             return { _id:el};
           });
+          console.log(this.selectedAssetsId);
+          
           return securedLoan;
         }
         return null;
@@ -227,6 +232,12 @@ export class SecuredLoanComponent implements OnInit {
         if (x) {
           this.backRouteLink="/will/createWill";      
  this.forwardRouteLink="/will/createWill";  
+        }
+        if (y === 'myWill') {
+          this.backRouteLink = '/will/myWills';
+          this.forwardRouteLink = '/will/myWills';
+          this.fromCreateWill = y;
+          console.log(this.fromCreateWill);
         }
       }
     })

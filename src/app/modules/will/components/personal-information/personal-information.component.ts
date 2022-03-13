@@ -1,5 +1,5 @@
-import { Component, OnInit, Output,EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit, Output,EventEmitter, Input } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { valueChanges } from 'src/app/helper/formerror.helper';
 import { WillService } from 'src/app/services/will.service';
 
@@ -9,6 +9,7 @@ import { WillService } from 'src/app/services/will.service';
   styleUrls: ['./personal-information.component.scss']
 })
 export class PersonalInformationComponent implements OnInit {
+  @Input() reviewDisable=false;
   @Output() onClickNextBtn = new EventEmitter();
   constructor(private _fb:FormBuilder,private _willServices: WillService) {
    
@@ -21,16 +22,22 @@ export class PersonalInformationComponent implements OnInit {
   step=1;
   createForm() {
     this.userInfo = this._fb.group({
-      id_Number: [],
-      id_Type: [],
-      fullName: [''],
-      gender: [],
-      email: [''],
-      floorNumber: [''],
-      unitNumber: [''],
-      streetName: [''],
-      postalCode: [''],
-      assetScope: ['Singapore'],
+      id_Number: ['',[Validators.required,
+        Validators.pattern('[a-zA-Z0-9]*'),
+        Validators.maxLength(24),
+      ]],
+      id_Type: [ ,Validators.required],
+      fullName: ['',Validators.required],
+      gender: [, [Validators.required]],
+      email: ['', [
+        Validators.required,
+        Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
+      ],],
+      floorNumber: ['', [Validators.required, Validators.maxLength(12)]],
+      unitNumber: ['', [Validators.required, Validators.maxLength(12)]],
+      streetName: ['',[Validators.required] ],
+      postalCode: ['', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.maxLength(12)]],
+      assetScope: ['singapore',Validators.required],
     });
 
     this.userInfo.valueChanges.subscribe(() => {
@@ -56,6 +63,16 @@ export class PersonalInformationComponent implements OnInit {
 
   };
   onClickNext(){
+        if (this.userInfo.invalid) {
+      console.log('is 2');
+      this.userInfo.markAllAsTouched();
+      this.formErrors = valueChanges(
+        this.userInfo,
+        { ...this.formErrors },
+        this.formErrorMessages
+      );
+      return;
+    }
     this.onClickNextBtn.emit(2);
     this._willServices.step1.next(this.userInfo.value);
   }
@@ -97,6 +114,9 @@ export class PersonalInformationComponent implements OnInit {
   };
   ngOnInit(): void {
     this.createForm();
+    if (this.reviewDisable) {
+      this.userInfo.disable();
+    }
     this._willServices.step1.subscribe((step1Data) => {
       console.log(step1Data);
       this.userInfo.setValue(step1Data);

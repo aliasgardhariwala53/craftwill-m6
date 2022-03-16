@@ -4,6 +4,7 @@ import { AuthGuard } from 'src/app/guards/auth.guard';
 import { ProfileComponent } from './components/profile/profile.component';
 import { SubscriptionComponent } from './components/subscription/subscription.component';
 import { HomeComponent } from './home.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component'
 
 const routes: Routes = [
   {
@@ -11,8 +12,11 @@ const routes: Routes = [
     canActivate:[AuthGuard],
     component:HomeComponent,
     children:[
-   
- 
+      {
+        path:"",
+        canActivate:[AuthGuard],
+         component:DashboardComponent,
+       },
       {
        path:"profile",
        canActivate:[AuthGuard],

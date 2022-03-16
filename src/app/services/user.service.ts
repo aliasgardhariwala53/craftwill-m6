@@ -34,7 +34,7 @@ export class UserService {
 
 
   paymentApi(obj) {
-    return this._httpServe.post(environment.serverUrl + 'subscription/payment', obj);
+    return this._httpServe.post(environment.serverUrl + 'subscription/stripePayment', obj);
   }
 
 

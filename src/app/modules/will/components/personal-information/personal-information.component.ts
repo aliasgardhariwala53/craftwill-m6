@@ -78,36 +78,36 @@ export class PersonalInformationComponent implements OnInit {
   }
   formErrorMessages = {
     id_Type: {
-      required: 'Id Type is Required',
+      required: 'Id Type is required',
     },
     id_Number: {
-      required: 'Id Number is Required',
+      required: 'Id Number is required',
     },
     gender: {
-      required: 'Gender is Required',
+      required: 'Gender is required',
     },
     fullName: {
-      required: 'FullName is Required',
+      required: 'Full name is required',
     },
     email: {
-      required: 'Email is Required',
-      pattern: 'Valid email is Required',
+      required: 'Email is required',
+      pattern: 'Valid email is required',
     },
     password: {
-      required: 'Password is Required',
+      required: 'Password is required',
       minlength: 'Minimum length of password must be 6',
     },
     floorNumber: {
-      required: 'Floor Number is Required',
+      required: 'Floor Number is required',
     },
     unitNumber: {
-      required: 'Unit Number is Required',
+      required: 'Unit Number is required',
     },
     streetName: {
-      required: 'Street Name is Required',
+      required: 'Street Name is required',
     },
     postalCode: {
-      required: 'Postal Code is Required',
+      required: 'Postal Code is required',
       // pattern: 'Please Enter valid numeric value',
     },
 

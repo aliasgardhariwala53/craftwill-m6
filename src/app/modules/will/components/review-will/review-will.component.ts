@@ -131,6 +131,7 @@ export class ReviewWillComponent implements OnInit, OnChanges {
           // this.accountDetails.reset();
           this.toastr.message('Will Created Successfully....', true);
           this._route.navigate(['/will/pastWills']);
+          this._willServices.currentStep.next(1);
         }
       },
       (err) => {
@@ -169,6 +170,7 @@ export class ReviewWillComponent implements OnInit, OnChanges {
   
           this.toastr.message('Will Updated Successfully....', true);
           this._route.navigate(['/will/pastWills']);
+          this._willServices.currentStep.next(1);
         }
       },
       (err) => {

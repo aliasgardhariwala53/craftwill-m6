@@ -35,7 +35,7 @@ export class SubscriptionComponent implements OnInit {
 
   selectPlan(type, duration){
       console.log(type, duration)
-      this.obj = {'planPrice': type,
+      this.obj = {'planPrice': parseFloat(type),
                    'pricePlan' : duration}
   }
 

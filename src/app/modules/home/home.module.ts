@@ -15,13 +15,15 @@ import { SubscriptionComponent } from './components/subscription/subscription.co
 import { NgSelectModule } from '@ng-select/ng-select';
 import { PaymentComponent } from './components/subscription/payment/payment.component';
 import { NgChartsModule } from 'ng2-charts';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
     HomeComponent,
     ProfileComponent,
     SubscriptionComponent,
-    PaymentComponent
+    PaymentComponent,
+    DashboardComponent
   ],
   imports: [
     CommonModule,

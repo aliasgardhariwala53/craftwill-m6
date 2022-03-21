@@ -8,9 +8,15 @@ import {
   StripeElementsOptions,
 } from '@stripe/stripe-js';
 
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+
+
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
+import { ToastrService } from 'src/app/shared/services/toastr.service';
+import { resetFakeAsyncZone } from '@angular/core/testing';
+
 
 @Component({
   selector: 'app-payment',
@@ -62,7 +68,11 @@ export class PaymentComponent implements OnInit, OnChanges {
   constructor(
     private fb: FormBuilder,
     private stripeService: StripeService,
-    private userService: UserService
+    private userService: UserService,
+    private toastr: ToastrService,
+    private spinner: NgxUiLoaderService
+
+
   ) {}
 
   ngOnInit() {
@@ -79,6 +89,7 @@ export class PaymentComponent implements OnInit, OnChanges {
   asdf = '';
 
   createToken(): void {
+    this.spinner.start();
     const name = this.stripeTest.get('name').value;
     this.stripeService
       .createToken(this.paymentElement.element, { name })
@@ -104,6 +115,16 @@ export class PaymentComponent implements OnInit, OnChanges {
     };
     this.userService.paymentApi(body).subscribe((result) => {
       console.log(result);
+
+      if(result.status == "succeeded"){
+        this.spinner.stop();
+        this.toastr.message('Payment Success!!!', true);
+        this.stripeTest.reset();
+      }
+      else{
+        this.spinner.stop();
+        this.toastr.message('Something wrong!!!', false);
+      }
     });
 
     console.log(body);

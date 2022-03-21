@@ -3,7 +3,7 @@
         <div *ngIf="delayPayoutData" class="flex flex-col bg-[#F4F4F4] rounded-2xl p-5 space-y-3 ">
             <div class="font-['gilroysemi']">I Direct that my gifts to the delayed payout beneficiaries Shall be managed
                 by me</div>
-            <div class="flex flex-row w-fit space-x-3">
+            <div class="flex flex-col sm:flex-row w-full sm:w-fit sm:space-x-3 space-y-3  sm:space-y-0 justify-center items-center">
                 <div class="flex justify-between items-center p-4 bg-[#fff] rounded-xl w-full">
                     <input type="radio" id="delay1" value="delay1"  class="mx-1 radioCustom" [disabled]="delayType==='delay2'" [checked]="delayType==='delay1'"/>
                     <label class="mx-1 font-['gilroysemi'] text-base w-max" for="delay1">Executors (Default)</label>
@@ -21,13 +21,14 @@
             <div class="text-[#000] font-['GilroySemi'] text-lg mb-2">
                 Select and add beneficiary
             </div>
-            <div>
+            <div class=" max-h-[50vh] overflow-auto">
                 <app-select-box [key]="key" 
                     [listItem]="appointBeneficiaries" 
                      [classes]="classes"
                      avtarType="name"
                      [addItemToggle]="false"
                      [actionToggle]="false"
+                     [disableSelect]="true"
                     >
                 </app-select-box>
             </div>

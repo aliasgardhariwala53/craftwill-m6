@@ -15,7 +15,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NgxUiLoaderConfig, NgxUiLoaderModule } from "ngx-ui-loader";
 import { TestComponent } from './test/test.component';
-import { NgChartsModule } from 'ng2-charts';
+import { NgChartsModule  } from 'ng2-charts';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   "bgsColor": "red",
@@ -61,7 +61,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     ToastrModule.forRoot(), // ToastrModule added
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
     NgxUiLoaderModule,
-    
+    NgChartsModule 
  
   ],
   schemas:[CUSTOM_ELEMENTS_SCHEMA ],

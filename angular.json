@@ -35,6 +35,9 @@
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "chart.js"
             ]
           },
           "configurations": {

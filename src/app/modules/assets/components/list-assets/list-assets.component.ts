@@ -125,14 +125,14 @@ export class ListAssetsComponent implements OnInit {
     }, 0);
   }
   public barChartData1 = {
-    labels: ['Paul', 'Charlie', 'John', 'Shimon','Mayur','Julie','Tarun','Neha', 'Deepak' , 'Vivek' , 'Sandy' , 'lovely'],
+    labels: ['Liquid A ', 'Liquid B'],
     datasets: [{
       label: 'My First dataset',
       backgroundColor: '#00C5E9',
-      borderRadius: 50,
+      borderRadius: 40,
       barPercentage: 0.4,
       borderColor: '#00C5E9',
-      data: [40,40,40,40,40,40,40,40,40,40,40,40],
+      data: [40,40],
     }],
 
   };
@@ -140,12 +140,14 @@ export class ListAssetsComponent implements OnInit {
     
     scales: {
       x: {
-        min: 10
+      min:0
       },
       y: {
+        min: 2,
       }
     },
     plugins: {
+      
       legend: {
         display: false,
       },

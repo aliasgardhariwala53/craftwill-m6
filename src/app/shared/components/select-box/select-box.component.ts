@@ -52,7 +52,7 @@ sharePercentage(e, itemId){
   if (parseInt(e.target.value)>100) {
     this.shareValue=100;
     return;
-  } else if(parseInt(e.target.value)<0){
+  } else if(parseInt(e.target.value) < 0){
     this.shareValue=0;
     return;
   }else{

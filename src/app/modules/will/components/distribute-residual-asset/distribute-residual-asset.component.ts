@@ -53,7 +53,7 @@ export class DistributeResidualAssetComponent implements OnInit {
         this.formErrorMessages
       );
     });
-    this.distributeResidualAssetsForm.get("guardianExecutor").valueChanges.subscribe(selectedValue => {
+    this.distributeResidualAssetsForm.get("fallbackMemberId")?.valueChanges.subscribe(selectedValue => {
       console.log(selectedValue);
       this.memberDataFallbackReplacement=this.memberData.filter(el => {
         return !selectedValue?.find(element => {

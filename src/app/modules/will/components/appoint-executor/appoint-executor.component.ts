@@ -24,6 +24,8 @@ export class AppointExecutorComponent implements OnInit {
   }
   appointExecutorForm: FormGroup;
   memberData = [];
+  memberDataExecutor = [];
+  memberDataGuardianExecutor = [];
   guardianType = 'guardian1';
   slectedExecutor = [];
   slectedReplacementExecutor = [];
@@ -34,6 +36,8 @@ export class AppointExecutorComponent implements OnInit {
   toggleUpdateModal = false;
   toggleModalTutorial = false;
   editToggle = false;
+
+  memberDataEditBox=[];
   listType = [
     {
       id: 1,
@@ -57,42 +61,93 @@ export class AppointExecutorComponent implements OnInit {
         '/assets/Icons/joint.svg',
     },
   ];
-  // primaryExecutor = this.listType[0].name;
-  // replaceExecutor = this.listType[0].name;
-  // replaceGuardian = this.listType[0].name;
-  // appointGuardian = this.listType[0].name;
   key = ['fullname', 'Relationship'];
   classes = ['font-bold', 'font-bold', 'text-sm'];
   createForm() {
     this.appointExecutorForm = this._fb.group({
        ///Appoint Primary Executor
       primary_executor_type: ['sole', [Validators.required]],
-      addPrimaryExecutor: [[]],
+      primaryExecutors: [[]],
     /// Appoint Replacement Executor
       replacement_executor_type: ['sole', [Validators.required]],
-      addReplacementExecutor: [[], [Validators.required]],
+      replacementExecutors: [[], [Validators.required]],
 
     /// Appoint Guardian
       guardian_type: ['guardian1', [Validators.required]],
 
       guardian_executor_type: ['sole'],
-      addGuardianExecutor: [[]],
+      guardianExecutor: [[]],
    /// Appoint Replacement Guardian
       guardian_replacement_executor_type: ['sole'],
-      addGuardianReplacementExecutor: [[]],
+      guardianReplacementExecutor: [[]],
 
-      // executorId: [[], [Validators.required]],
-      // replacementExecutorId: [[], [Validators.required]],
-      // guardianId: [[], [Validators.required]],
-      // replacementGuardianId: [[], [Validators.required]],
+
     });
     this.appointExecutorForm.valueChanges.subscribe(() => {
       this.formErrors = valueChanges(
+     
         this.appointExecutorForm,
         { ...this.formErrors },
         this.formErrorMessages
       );
+
     });
+    this.appointExecutorForm.get("primary_executor_type").valueChanges.subscribe(selectedValue => {
+      console.log(selectedValue);
+      if(selectedValue==='sole'){
+
+        this.selectedItemFromEdit =this.appointExecutorForm.value.primaryExecutors.slice(0,1);
+        this.deletedItemsInArray =this.appointExecutorForm.value.primaryExecutors.slice(0,1);
+        this.appointExecutorForm.patchValue({
+          primaryExecutors:this.appointExecutorForm.value.primaryExecutors.slice(0,1)
+        })
+      }
+    })
+    this.appointExecutorForm.get("replacement_executor_type").valueChanges.subscribe(selectedValue => {
+      console.log(selectedValue);
+      if(selectedValue==='sole'){
+
+        this.appointExecutorForm.patchValue({
+          replacementExecutors:this.appointExecutorForm.value.replacementExecutors.slice(0,1)
+        })
+      }
+    })
+    this.appointExecutorForm.get("guardian_executor_type").valueChanges.subscribe(selectedValue => {
+      console.log(selectedValue);
+      if(selectedValue==='sole'){
+
+        this.appointExecutorForm.patchValue({
+          guardianExecutor:this.appointExecutorForm.value.guardianExecutor.slice(0,1)
+        })
+      }
+    })
+    this.appointExecutorForm.get("guardian_replacement_executor_type").valueChanges.subscribe(selectedValue => {
+      console.log(selectedValue);
+      if(selectedValue==='sole'){
+
+        this.appointExecutorForm.patchValue({
+          guardianReplacementExecutor:this.appointExecutorForm.value.guardianReplacementExecutor.slice(0,1)
+        })
+      }
+    })
+    this.appointExecutorForm.get("primaryExecutors").valueChanges.subscribe(selectedValue => {
+      console.log(selectedValue);
+      this.memberDataExecutor=this.memberData.filter(el => {
+        return !selectedValue?.find(element => {
+           return element._id === el._id;
+        });
+     });
+      
+    })
+    this.appointExecutorForm.get("guardianExecutor").valueChanges.subscribe(selectedValue => {
+      console.log(selectedValue);
+      this.memberDataGuardianExecutor=this.memberData.filter(el => {
+        return !selectedValue?.find(element => {
+           return element._id === el._id;
+        });
+     });
+      
+    })
   }
   formErrors = {
     executorId: '',
@@ -111,28 +166,28 @@ export class AppointExecutorComponent implements OnInit {
     this.deletedItemsInArray=value;
         console.log(value);
         this.appointExecutorForm.patchValue({
-          addPrimaryExecutor:value,
+          primaryExecutors:value,
         })
-        console.log(this.appointExecutorForm.value.addPrimaryExecutor);     
+        console.log(this.appointExecutorForm.value.primaryExecutors);     
   }
   selectMemberExecutor(value) {
     this.selectedItemFromEdit=value;
     this.deletedItemsInArray=value;
     this.appointExecutorForm.patchValue({
-      addPrimaryExecutor: this.selectedItemFromEdit
+      primaryExecutors: this.selectedItemFromEdit
     });
-    console.log(this.appointExecutorForm.value.addPrimaryExecutor);  
+    console.log(this.appointExecutorForm.value.primaryExecutors);  
        
   }
   selectMemberReplacementExecutor(value) {
     console.log(value);
     this.appointExecutorForm.patchValue({
-      addReplacementExecutor: value,
+      replacementExecutors: value,
     });
     // console.log(this.appointExecutorForm.value.replacement_executor_type);
   }
   selectMemberGuardian(value) {
-    // let guardianId: Array<any> = this.appointExecutorForm.value.addGuardianExecutor;
+    // let guardianId: Array<any> = this.appointExecutorForm.value.guardianExecutor;
     // if (guardianId.includes(value)) {
     //   guardianId.splice(guardianId.indexOf(value), 1);
     // } else {
@@ -140,12 +195,26 @@ export class AppointExecutorComponent implements OnInit {
     // }
     // this.selectedGuardian = guardianId;
     this.appointExecutorForm.patchValue({
-      addGuardianExecutor: value,
+      guardianExecutor: value,
     });
   }
+  mergeById (a1, a2) { 
+    console.log(a1, 'a1', a2 ,'a2');
+    
+    return a1?.map(itm => ({
+         ...a2?.find((item) => (item?._id === itm?._id) && item),
+         ...itm
+     }))};
+  filterById (a1, a2) { 
+    console.log(a1, 'a1', a2 ,'a2');
+    return a1?.filter((el)=>{
+         return !a2?.includes((el2)=>el2._id === el._id)
+    
+  });
+};
   selectReplacementMemberGuardian(value) {
     // let slectedReplacementGuardian: Array<any> =
-    //   this.appointExecutorForm.value.addGuardianReplacementExecutor;
+    //   this.appointExecutorForm.value.guardianReplacementExecutor;
     // if (slectedReplacementGuardian.includes(value)) {
     //   slectedReplacementGuardian.splice(
     //     slectedReplacementGuardian.indexOf(value),
@@ -156,7 +225,7 @@ export class AppointExecutorComponent implements OnInit {
     // }
     // this.slectedReplacementGuardian = slectedReplacementGuardian;
     this.appointExecutorForm.patchValue({
-      addGuardianReplacementExecutor: value,
+      guardianReplacementExecutor: value,
     });
   }
   onClickNext() {
@@ -188,18 +257,30 @@ export class AppointExecutorComponent implements OnInit {
             actionRoute: 'members/createmembers',
           };
         });
+        this.memberDataExecutor=this.memberData;
+        this.memberDataGuardianExecutor=this.memberData;
         // console.log(this.allMemberData);
+        this._willServices.step2.subscribe((step2Data) => {
+          console.log(step2Data['primaryExecutors']);
+          this.appointExecutorForm.patchValue(step2Data);
+          this.selectedItemFromEdit=step2Data['primaryExecutors'];
+          this.memberDataEditBox =  this.filterById(this.memberData,step2Data['primaryExecutors']);
+          this.selectedItemFromEdit=this.mergeById(step2Data['primaryExecutors'],this.memberData);
+          console.log(this.selectedItemFromEdit);
+        });
+        this.memberDataEditBox =  this.filterById(this.memberData,this.appointExecutorForm.value.primaryExecutors);
+        this.selectedItemFromEdit=this.mergeById(this.appointExecutorForm.value.primaryExecutors,this.memberData);
+        this.deletedItemsInArray=this.selectedItemFromEdit;
+        console.log(this.deletedItemsInArray);
+
+       
       },
       (err) => {
         this.spinner.stop();
         this.toastr.message('Error Getting Members data !!', false);
       }
     );
-    this._willServices.step2.subscribe((step2Data) => {
-      console.log(step2Data);
-      this.appointExecutorForm.setValue(step2Data);
-    });
-    this.selectedItemFromEdit=this.appointExecutorForm.value.addPrimaryExecutor;
+
 
   }
 }

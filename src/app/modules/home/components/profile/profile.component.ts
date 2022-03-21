@@ -1,5 +1,6 @@
 import { Component, createPlatform, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import * as moment from 'moment';
 import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import {
@@ -37,6 +38,7 @@ export class ProfileComponent implements OnInit {
   genderList = ['Male', 'Female', 'Other'];
   defaultMale = '../../../../../assets/Image/male.png';
   defaultFemale = '../../../../../assets/Image/female.png';
+
   createForm() {
     this.userInfo = this._fb.group({
       fullName: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
@@ -159,6 +161,7 @@ export class ProfileComponent implements OnInit {
     private toastr: ToastrService,
     private spinner: NgxUiLoaderService
   ) {}
+min_date ;
 
   DataURIToBlob(dataURI: string) {
     const splitDataURI = dataURI.split(',');
@@ -386,6 +389,8 @@ export class ProfileComponent implements OnInit {
   }
   ngOnInit(): void {
     this.createForm();
+    this.min_date = moment().subtract(18, 'years').format('YYYY-MM-DD');
+    
     this.spinner.start();
     this._userServ.getProfile().subscribe(
       (result) => {

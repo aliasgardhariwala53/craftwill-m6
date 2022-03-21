@@ -9,15 +9,17 @@ export class EditSelectBoxComponent implements OnInit {
   @Input() allItems;
   @Input() itemsfiltered;
   @Input() addItemTitle='';
+  @Input() selectionType='sole';
   @Input() deletedItemBySelectMobile;
   @Output() getSelectedList=new EventEmitter;
   constructor() { }
   selectedItem=[];
   colorArray=[];
   ngOnInit(): void {
-    this.selectedItem = this.allItems.filter(e => this.deletedItemBySelectMobile.indexOf(e) !== -1);
+    console.log(this.selectedItem);
+    this.selectedItem = this.deletedItemBySelectMobile;
     this.colorArray=this.selectedItem.map((el)=>el._id);
-    // console.log(this.selectedItem);
+    console.log(this.selectedItem);
     console.log(this.deletedItemBySelectMobile);
     console.log(this.allItems);
   }
@@ -32,7 +34,17 @@ export class EditSelectBoxComponent implements OnInit {
   }
 
   onSelectItem(value){
-
+    if(this.selectionType==='sole'){
+      let selectedObj = this.allItems.filter((el) => el._id === value);
+      this.selectedItem=[];
+      this.selectedItem.push(...selectedObj);
+    
+      this.getSelectedList.emit(this.selectedItem);
+      this.colorArray=this.selectedItem.map((el)=>el._id)
+        console.log(this.selectedItem);
+        this.checkId(value)
+      return ;
+    }
     let selectedObj = this.allItems.filter((el) => el._id === value);
     const myItem = this.selectedItem.findIndex((el) => el._id === value);
     console.log(myItem);

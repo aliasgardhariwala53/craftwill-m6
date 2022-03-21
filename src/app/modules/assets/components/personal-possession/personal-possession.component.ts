@@ -24,6 +24,7 @@ export class PersonalPossessionComponent implements OnInit {
   responseMessage: string;
   backRouteLink = '/assets';
   forwardRouteLink = '/assets';
+  totalShareMessage= false;
   toggleModalTutorial: boolean;
   allAssetsBeneficiary = [];
   assetsBeneficiary = [];
@@ -44,6 +45,7 @@ export class PersonalPossessionComponent implements OnInit {
   slectedResidualMembers = [];
   GiftBenificiary = [];
   shareData = [];
+  wid='';
   createForm() {
     this.personalPossessionForm = this._fb.group({
       Name: ['', [Validators.required,Validators.pattern('^[a-zA-Z ]*$')]],
@@ -93,10 +95,30 @@ export class PersonalPossessionComponent implements OnInit {
         { ...this.formErrors },
         this.formErrorMessages
       );
-      console.log('invalid');
+        console.log('invalid');
 
       return;
     }
+  var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+    console.log(totalShare);
+    console.log(this.assetsBeneficiary);
+    console.log(this.allAssetsBeneficiary);
+
+    if(totalShare != 100){
+      this.totalShareMessage = true;
+      return ;
+    }
+    this.totalShareMessage = false;
+    var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+    console.log(totalShare);
+    console.log(this.assetsBeneficiary);
+    console.log(this.allAssetsBeneficiary);
+
+    if(totalShare != 100 && this.fromCreateWill === 'will'){
+      this.totalShareMessage = true;
+      return ;
+    }
+    this.totalShareMessage = false;
     this.spinner.start();
     const possessionData = {
       country: this.personalPossessionForm.value.country,
@@ -132,6 +154,16 @@ export class PersonalPossessionComponent implements OnInit {
   }
 
   onUpdatePossessionData() {
+    var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+    console.log(totalShare);
+    console.log(this.assetsBeneficiary);
+    console.log(this.allAssetsBeneficiary);
+
+    if(totalShare != 100 && this.fromCreateWill === 'will'){
+      this.totalShareMessage = true;
+      return ;
+    }
+    this.totalShareMessage = false;
     this.spinner.start();
     const possessionData = {
       country: this.personalPossessionForm.value.country,
@@ -145,13 +177,13 @@ export class PersonalPossessionComponent implements OnInit {
         this.spinner.stop();
         if (result.success) {
           const myItem = this.allAssetsBeneficiary.findIndex(
-            (el) => el.type === 'personalPossession'
+            (el) => el.assetId === this.id
           );
           if (myItem === -1) {
             this.allAssetsBeneficiary.push(...this.assetsBeneficiary);
           } else {
             this.allAssetsBeneficiary = this.allAssetsBeneficiary.filter(
-              (el) => el.type !== 'personalPossession'
+              (el) => el.assetId !== this.id
             );
             this.allAssetsBeneficiary = [
               ...this.allAssetsBeneficiary,
@@ -162,6 +194,10 @@ export class PersonalPossessionComponent implements OnInit {
 
           this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
           this.personalPossessionForm.reset();
+          if (this.wid !== '') {
+            this._route.navigate([`${this.forwardRouteLink}`], { queryParams:{wid:this.wid}});
+            return;
+          }
           this._route.navigate([this.forwardRouteLink]);
         }
 
@@ -205,19 +241,13 @@ export class PersonalPossessionComponent implements OnInit {
     console.log(value);
 
     this.assetsBeneficiary = value.map((el) => {
-      return { ...el, type: 'personalPossession' };
+      return { ...el, assetId: this.id  };
     });
     console.log(this.assetsBeneficiary);
   }
   ngOnInit(): void {
-    this._willServices.assetsBeneficiary.subscribe((value) => {
-      this.allAssetsBeneficiary = value;
-      console.log('assetsBeneficiary', value);
-      this.slectedResidualMembers = this.allAssetsBeneficiary?.filter(
-        (el) => el.type === 'personalPossession'
-      );
-    });
-    this.route.queryParams.subscribe(({ id, x, y }) => {
+
+    this.route.queryParams.subscribe(({ id, x, y,wid }) => {
       if (id) {
         this.id = id;
         this.getdata(id);
@@ -230,6 +260,7 @@ export class PersonalPossessionComponent implements OnInit {
         this.backRouteLink = '/will/createWill';
         this.forwardRouteLink = '/will/createWill';
         this.fromCreateWill = y;
+        this.wid=wid
         console.log(this.fromCreateWill);
       }
       if (y === 'secure') {
@@ -271,6 +302,16 @@ if (y === 'myWill') {
         this.toastr.message('Error Getting Members data !!', false);
       }
     );
+    this._willServices.assetsBeneficiary.subscribe((value) => {
+      this.allAssetsBeneficiary = value;
+      console.log('assetsBeneficiary', value);
+      this.slectedResidualMembers = this.allAssetsBeneficiary?.filter(
+        (el) => el.assetId === this.id
+      );
+      this.assetsBeneficiary = this.allAssetsBeneficiary?.filter(
+        (el) =>  el.assetId === this.id
+      );
+    });
     this.createForm();
   }
 }

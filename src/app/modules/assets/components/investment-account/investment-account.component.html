@@ -1,6 +1,6 @@
 
 <div class="flex flex-col px-8 py-4 space-y-2   overflow-auto h-[100vh] md:h-[90vh] lg:h-[80vh]">
-  <app-header-toolbar routerlink="{{backRouteLink}}" pagetitle="Investment Account" ></app-header-toolbar>
+  <app-header-toolbar     [wid]="wid" routerlink="{{backRouteLink}}" pagetitle="Investment Account" ></app-header-toolbar>
 
   <form
   method="POST"
@@ -82,7 +82,7 @@
     {{ formErrors.specifyOwnershipType }}
   </div>
 </div>
-<div *ngIf="id =='' " class=" sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
+<div *ngIf="id == '' && fromCreateWill !== 'will'" class=" sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
 
   <app-button (myMethod)="addinvestmentAccount()" value="Add Policy" id="submitButtonId"></app-button>
 </div>
@@ -95,6 +95,8 @@
     <div>
       <app-select-box
       [shareToggle]="true"
+      [actionToggle]="false"
+      [addItemToggle]="false"
       [key]="key"
       [listItem]="memberData"
       [selectedItems]="slectedResidualMembers"
@@ -185,10 +187,19 @@
     >
   </div>
 </div>
-<div *ngIf="fromCreateWill === 'will'" class="md:w-2/12 w-full mt-3">
+  <div *ngIf="totalShareMessage" class="text-red text-xl font-['GilroySemi'] text-center w-full my-1 animate-pulse ">Total share percentage of selected Members Must be 100</div>
+<div *ngIf="id != '' && fromCreateWill === 'will'" class="md:w-2/12 w-full mt-3">
   <app-button
     [arrow]="true"
     (myMethod)="onUpdateInvestment()"
+    padding="px-5 py-3 "
+    value="Save"
+  ></app-button>
+</div>
+<div *ngIf="id == '' && fromCreateWill === 'will'" class="md:w-2/12 w-full mt-3">
+  <app-button
+    [arrow]="true"
+    (myMethod)="addinvestmentAccount()"
     padding="px-5 py-3 "
     value="Save"
   ></app-button>

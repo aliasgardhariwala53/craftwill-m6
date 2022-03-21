@@ -30,7 +30,9 @@ export class HeaderComponent implements OnInit {
     private _willServices: WillService,
   ) {
     this._headerServ.username.subscribe((name) => {
-      this.username = name;
+      this.username = name.split(' ')
+   .map(w => w[0].toUpperCase() + w.substring(1).toLowerCase())
+   .join(' ');
     });
   }
   key = ['willType', 'date'];
@@ -48,7 +50,10 @@ export class HeaderComponent implements OnInit {
     });
     this._userServ.getProfile().subscribe((result) => {
       this.spinner.stop();
-      this.username = result.data.fullName;
+      this.username = result.data.fullName.split(' ')
+   .map(w => w[0].toUpperCase() + w.substring(1).toLowerCase())
+   .join(' ');
+
       const setImageHandler = (result) => {
         if ((result.data.gender === 'male' || result.data.gender === 'other') && !result.data.profileImage) {
           this.imageSrc = this.defaultMale;
@@ -73,8 +78,8 @@ export class HeaderComponent implements OnInit {
     this._willServices.getAllWill().subscribe(
       (result) => {
         this.spinner.stop();
-        this.latestWillData = result.data.users[result.data.users.length-1];
-        this.latestWillId=this.latestWillData['_id'];
+        this.latestWillData = result.data?.users[result.data.users.length-1];
+        this.latestWillId=this.latestWillData['_id'] ?this.latestWillData['_id']: '';
         console.log(this.latestWillData);
         console.log(this.latestWillId);
         this._willServices.latestWillId.next(this.latestWillData['_id']);

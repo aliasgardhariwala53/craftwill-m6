@@ -22,6 +22,7 @@ export class BusinessComponent implements OnInit {
   responseMessage: string;
   backRouteLink = '/assets';
   forwardRouteLink = '/assets';
+  totalShareMessage= false;
   id: string = '';
   fromCreateWill: string;
   memberData = [];
@@ -51,6 +52,7 @@ export class BusinessComponent implements OnInit {
   classes = ['font-bold', 'font-bold', 'text-sm'];
   GiftBenificiary = [];
   shareData = [];
+  wid='';
   createForm() {
     this.businessForm = this._fb.group({
       businessName: ['', [Validators.required]],
@@ -102,10 +104,30 @@ export class BusinessComponent implements OnInit {
         { ...this.formErrors },
         this.formErrorMessages
       );
-      console.log('invalid');
+        console.log('invalid');
 
       return;
     }
+  var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+    console.log(totalShare);
+    console.log(this.assetsBeneficiary);
+    console.log(this.allAssetsBeneficiary);
+
+    if(totalShare != 100){
+      this.totalShareMessage = true;
+      return ;
+    }
+    this.totalShareMessage = false;
+    var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+    console.log(totalShare);
+    console.log(this.assetsBeneficiary);
+    console.log(this.allAssetsBeneficiary);
+
+    if(totalShare != 100 && this.fromCreateWill === 'will'){
+      this.totalShareMessage = true;
+      return ;
+    }
+    this.totalShareMessage = false;
     this.spinner.start();
     const businessData = {
       country: this.businessForm.value.country,
@@ -144,11 +166,21 @@ export class BusinessComponent implements OnInit {
     console.log(value);
 
     this.assetsBeneficiary = value.map((el) => {
-      return { ...el, type: 'business' };
+      return { ...el, assetId: this.id };
     });
     console.log(this.assetsBeneficiary);
   }
   onUpdateBusiness() {
+    var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+    console.log(totalShare);
+    console.log(this.assetsBeneficiary);
+    console.log(this.allAssetsBeneficiary);
+
+    if(totalShare != 100 && this.fromCreateWill === 'will'){
+      this.totalShareMessage = true;
+      return ;
+    }
+    this.totalShareMessage = false;
     this.spinner.start();
     const businessData = {
       country: this.businessForm.value.country,
@@ -160,17 +192,21 @@ export class BusinessComponent implements OnInit {
       (result) => {
         this.spinner.stop();
         if (result.success) {
-          const myItem=this.allAssetsBeneficiary.findIndex((el)=>el.type==='business');
+          const myItem=this.allAssetsBeneficiary.findIndex((el)=> el.assetId === this.id);
           if (myItem===-1) {
             this.allAssetsBeneficiary.push(...this.assetsBeneficiary);
           } else {
-            this.allAssetsBeneficiary=this.allAssetsBeneficiary.filter((el)=>el.type !=='business');
+            this.allAssetsBeneficiary=this.allAssetsBeneficiary.filter((el)=>el.assetId !== this.id);
             this.allAssetsBeneficiary=[...this.allAssetsBeneficiary,...this.assetsBeneficiary]
           }
           console.log(this.allAssetsBeneficiary);
           
           this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
           this.businessForm.reset();
+          if (this.wid !== '') {
+            this._route.navigate([`${this.forwardRouteLink}`], { queryParams:{wid:this.wid}});
+            return;
+          }
           this._route.navigate([this.forwardRouteLink]);
         }
 
@@ -214,14 +250,8 @@ export class BusinessComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.previousRoute);
-    this._willServices.assetsBeneficiary.subscribe((value) => {
-      this.allAssetsBeneficiary = value;
-      console.log('assetsBeneficiary', value);
-      this.slectedResidualMembers = this.allAssetsBeneficiary?.filter(
-        (el) => el.type === 'business'
-      );
-    });
-    this.route.queryParams.subscribe(({ id, x, y }) => {
+
+    this.route.queryParams.subscribe(({ id, x, y,wid }) => {
       if (id) {
         this.id = id;
         this.getdata(id);
@@ -235,6 +265,8 @@ export class BusinessComponent implements OnInit {
         this.forwardRouteLink = '/will/createWill';
         this.fromCreateWill = y;
         console.log(this.fromCreateWill);
+        this.wid=wid
+        console.log(this.wid);
       }
       if (y === 'secure') {
         this.backRouteLink = '/liabilities/securedLoan';
@@ -275,6 +307,17 @@ if (y === 'myWill') {
         this.toastr.message('Error Getting Members data !!', false);
       }
     );
+    this._willServices.assetsBeneficiary.subscribe((value) => {
+      this.allAssetsBeneficiary = value;
+      console.log('assetsBeneficiary', value);
+      this.slectedResidualMembers = this.allAssetsBeneficiary?.filter(
+        (el) =>  el.assetId === this.id
+      );
+     this.assetsBeneficiary = this.allAssetsBeneficiary?.filter(
+        (el) =>  el.assetId === this.id
+      );
+      
+    });
     this.createForm();
   }
 }

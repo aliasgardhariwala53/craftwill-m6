@@ -87,7 +87,19 @@
       <app-button  value="Create New Assets" routelink="/assets/createAssets"></app-button>
     </div>
   </div>
+<!-- canvas -->
 
+<canvas
+      baseChart
+      [data]="barChartData1"
+      [options]="barChartOptions1"
+      [type]="'bar'"
+      width="100"
+      height="25"
+    >
+    </canvas>
+
+<!-- canvas -->
   <app-table [tableHeadings]="tableHeadings" avtarType="image" (actionButton)="onClickAction($event)" class="h-[85%] sm:h-[95%]" [tableData]="allAssetsinOne"
     [keys]="tableKeys" [classes]="classes" emptyTableMessage="No Assets Found">
   </app-table>

@@ -11,6 +11,7 @@ export class CreateAssetsComponent implements OnInit {
   routepath:string="";
   backRouteLink="/assets"
   fromCreateWill:string;
+  wid='';
   toggleModalTutorial: boolean=false;
   constructor(private routeTo:Router,
     private route: ActivatedRoute) { }
@@ -26,6 +27,10 @@ export class CreateAssetsComponent implements OnInit {
         return;
       }
       if (this.fromCreateWill==='will') {
+        if (this.wid !== '') {
+          this.routeTo.navigate([`/assets/${this.routepath}`], { queryParams:{y:'will',wid:this.wid}});
+          return;
+        }
         this.routeTo.navigate([`/assets/${this.routepath}`],{queryParams:{y:'will'}});
       } else if(this.fromCreateWill==='secure'){
         this.routeTo.navigate([`/assets/${this.routepath}`],{queryParams:{y:'secure'}});
@@ -37,11 +42,12 @@ export class CreateAssetsComponent implements OnInit {
       
     }
   ngOnInit(): void {
-    this.route.queryParams.subscribe(({ id, x,y }) => {
+    this.route.queryParams.subscribe(({ id, x,y ,wid}) => {
 
 if (y==='will') {
         this.backRouteLink="/will/createWill"; 
         this.fromCreateWill = y;  
+        this.wid=wid;
       }
 if (y==='secure') {
         this.backRouteLink="/liabilities/securedLoan"; 

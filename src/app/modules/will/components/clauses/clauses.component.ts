@@ -18,10 +18,10 @@ export class ClausesComponent implements OnInit {
   toggleModalTutorial:boolean=false;
   showClauseModal:boolean=false;
   clauseType:string='clause1';
-  delayType:string='delay1';
+  beneficiaryManagedBy:string='delay1';
   translateType:string='';
   memberData = [];
-  slectedDelayMember = [];
+  appointBeneficiaries = [];
   key = ['fullname', 'Relationship'];
   classes = ['font-bold', 'font-bold', 'text-sm'];
   expertiseList=['Investment Advisor','Financial Advisor','Legal Advisor','Tax Advisor','Business Advisor','Others']
@@ -90,7 +90,7 @@ this.advisorForm.valueChanges.subscribe(() => {
 
   }
   selectMemberDelayPayout(value) {
-    this.slectedDelayMember=value;
+    this.appointBeneficiaries=value;
   }
   onUpdate(value) {}
   setPageInfo(){
@@ -127,9 +127,9 @@ this.advisorForm.valueChanges.subscribe(() => {
     this.onbackClause.emit(this.clauseType);
     this.viewClause="listClause"
     // this.clauseType="";
-  const data={
-    slectedDelayMember:this.slectedDelayMember,
-    delayType:this.delayType,
+  const data= this.appointBeneficiaries.length ===0 ?null:{
+    appointBeneficiaries:this.appointBeneficiaries,
+    beneficiaryManagedBy:this.beneficiaryManagedBy,
   }
   console.log(data);
   
@@ -165,7 +165,7 @@ this.advisorForm.valueChanges.subscribe(() => {
     // this.clauseType="";
     console.log(this.finalWordsForm.value);
     this._willServices.finalWordsData.next(this.finalWordsForm.value);
-    this.finalWordsForm.reset();
+    
   }
   onSaveTranslation(){
     this.onbackClause.emit(this.clauseType);
@@ -180,7 +180,7 @@ this.advisorForm.valueChanges.subscribe(() => {
     this.viewClause="listClause"
     // this.clauseType="";
     this._willServices.customClauseData.next(this.customClauseForm.value);
-    this.customClauseForm.reset();
+ 
   }
   onClickContinue(){
     this.setPageInfo();
@@ -191,9 +191,16 @@ this.advisorForm.valueChanges.subscribe(() => {
     this.onClickNextBtn.emit(6);
     const clauses = {
       additionalClauses : {
-          delayed_payout : {
-              beneficiaryManagedBy : this.delayType,
-              appointBeneficiaries :this.slectedDelayMember,
+          delayed_payout : this.appointBeneficiaries.length === 0 ? null : {
+              beneficiaryManagedBy : this.beneficiaryManagedBy,
+              appointBeneficiaries :this.appointBeneficiaries.map(el =>{
+                if (el._id) {
+                  return el?._id
+                  
+                }
+                return el;
+              } 
+              ),
           },
           recommendedAdvisor : this.allAdvisorArray,
           finalWords : this.finalWordsForm.value,
@@ -208,15 +215,7 @@ this.advisorForm.valueChanges.subscribe(() => {
     this.viewClause="listClause";
     
     this.createForm() 
-    this._willServices.step5.subscribe((step5data) => {
-      const value =step5data['additionalClauses'];
-      this.delayType=value['delayed_payout']['beneficiaryManagedBy'];
-      this.slectedDelayMember=value['delayed_payout']['appointBeneficiaries'];
-      this.allAdvisorArray=value['recommendedAdvisor'];
-      this.finalWordsForm.patchValue(value['finalWords']);
-      this.translateType=value['translation'];
-      this.customClauseForm.patchValue(value);
-    });
+
     this.memberServices.getMembers().subscribe(
       (result) => {
         // console.log(result.data);
@@ -247,8 +246,16 @@ this.advisorForm.valueChanges.subscribe(() => {
     this._willServices.delayPayoutData.subscribe((value) => {
       console.log(value);
       
-      this.delayType=value['delayType'];
-      this.slectedDelayMember=value['slectedDelayMember'];
+      this.beneficiaryManagedBy=value?.beneficiaryManagedBy || 'delay1';
+      console.log( this.beneficiaryManagedBy);
+      
+      this.appointBeneficiaries=value?.appointBeneficiaries.map((el)=>{
+        if (el._id) {
+          return el
+          
+        }
+        return {_id:el};
+      }) || [];
     });
     this._willServices.recommendedAdvisorData.subscribe((value) => {
       console.log(value);
@@ -265,6 +272,22 @@ this.advisorForm.valueChanges.subscribe(() => {
     this._willServices.customClauseData.subscribe((value) => {
       console.log(value);
       this.customClauseForm.patchValue(value);
+    });
+    this._willServices.step5.subscribe((value) => {
+      console.log(value);
+      if(value['additionalClauses']){
+        
+        const { delayed_payout,recommendedAdvisor,finalWords,translation,customClause} =value['additionalClauses'];
+        console.log(delayed_payout,recommendedAdvisor,finalWords,translation,customClause);
+        
+    this._willServices.delayPayoutData.next(delayed_payout);
+    this._willServices.recommendedAdvisorData.next(recommendedAdvisor);
+    this._willServices.finalWordsData.next(finalWords);
+    this._willServices.translationData.next(translation);
+    this._willServices.customClauseData.next(customClause);
+        console.log(value);
+      }
+      return;
     });
   }
 

@@ -22,6 +22,7 @@ import { ClickOutsideModule } from 'ng-click-outside';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { OtherAssetsComponent } from './components/other-assets/other-assets.component';
+import { NgChartsModule } from 'ng2-charts';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import { OtherAssetsComponent } from './components/other-assets/other-assets.com
     HttpClientModule,
     ClickOutsideModule,
     NgxSpinnerModule,
-    NgSelectModule
+    NgSelectModule,
+    NgChartsModule,
   ]
 })
 export class AssetsModule { }

@@ -8,6 +8,7 @@ import { ToastrService } from 'src/app/shared/services/toastr.service';
 import { errorHandler } from 'src/app/helper/formerror.helper';
 import { AssetsService } from 'src/app/services/assets.service';
 import { debounce, debounceTime, delay } from 'rxjs';
+import { ChartType } from 'chart.js';
 @Component({
   selector: 'app-list-assets',
   templateUrl: './list-assets.component.html',
@@ -123,6 +124,41 @@ export class ListAssetsComponent implements OnInit {
       document.getElementById("mySearchField").focus();    
     }, 0);
   }
+  public barChartData1 = {
+    labels: ['Paul', 'Charlie', 'John', 'Shimon','Mayur','Julie','Tarun','Neha', 'Deepak' , 'Vivek' , 'Sandy' , 'lovely'],
+    datasets: [{
+      label: 'My First dataset',
+      backgroundColor: '#00C5E9',
+      borderRadius: 50,
+      barPercentage: 0.4,
+      borderColor: '#00C5E9',
+      data: [40,40,40,40,40,40,40,40,40,40,40,40],
+    }],
+
+  };
+  public barChartOptions1 = {
+    
+    scales: {
+      x: {
+        min: 10
+      },
+      y: {
+      }
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+
+      // datalabels: {
+      //   anchor: 'end',
+      //   align: 'end'
+      // }
+    },
+    display: true ,
+    lineWidth: 5,
+  };
+  public barChartType = 'horizontalBar';
   ngOnInit(): void {
     this.spinner.start();
     this.searchForm.valueChanges.pipe(debounceTime( 200 )  ).subscribe((e) => {

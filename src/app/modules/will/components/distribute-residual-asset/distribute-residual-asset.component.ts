@@ -25,6 +25,7 @@ export class DistributeResidualAssetComponent implements OnInit {
   }
   fallbackType: string = 'terminate';
   memberData = [];
+  memberDataFallbackReplacement = [];
   slectedResidualMembers = [];
   slectedFallbackMembers = [];
   slectedFallbackReplaceMembers = [];
@@ -32,10 +33,11 @@ export class DistributeResidualAssetComponent implements OnInit {
   distributeResidualAssetsForm: FormGroup;
   key = ['fullname', 'Relationship'];
   classes = ['font-bold', 'font-bold', 'text-sm'];
+  totalShareToggle= false;
+  totalShareMessage= "";
   createForm() {
     this.distributeResidualAssetsForm = this._fb.group({
-      specifyResidualAssetBenificiary:[[]],
-      residualMemberId:[[],[Validators.required]],
+      specifyResidualAssetBenificiary:[[],[Validators.required]],
 
       trustType:['terminate',[Validators.required]],
       //terminate
@@ -51,6 +53,15 @@ export class DistributeResidualAssetComponent implements OnInit {
         this.formErrorMessages
       );
     });
+    this.distributeResidualAssetsForm.get("guardianExecutor").valueChanges.subscribe(selectedValue => {
+      console.log(selectedValue);
+      this.memberDataFallbackReplacement=this.memberData.filter(el => {
+        return !selectedValue?.find(element => {
+           return element._id === el._id;
+        });
+     });
+      
+    })
   }
   formErrors = {
     executorId:'',
@@ -71,48 +82,28 @@ export class DistributeResidualAssetComponent implements OnInit {
   }
 
   selectResidualAssetsMember(value) {
-    console.log(value);
-    let residualMemberId: Array<any> = this.distributeResidualAssetsForm.value.residualMemberId;
-    if (residualMemberId.includes(value)) {
-      residualMemberId.splice(residualMemberId.indexOf(value), 1);
-    } else {
-      residualMemberId.push(value);
-    }
-    this.slectedResidualMembers = residualMemberId;
     this.distributeResidualAssetsForm.patchValue({
-      residualMemberId: value,
+      specifyResidualAssetBenificiary: value,
     });
-    console.log(this.distributeResidualAssetsForm.value.residualMemberId);
+    console.log(this.distributeResidualAssetsForm.value.specifyResidualAssetBenificiary);
 
     
   }
   selectFallbackMember(value) {
     console.log(value);
-    
-    let fallbackMemberId: Array<any> = this.distributeResidualAssetsForm.value.fallbackMemberId;
-    if (fallbackMemberId.includes(value)) {
-      fallbackMemberId.splice(fallbackMemberId.indexOf(value), 1);
-    } else {
-      fallbackMemberId.push(value);
-    }
-    this.slectedFallbackMembers = fallbackMemberId;
+
+    this.slectedFallbackMembers = value;
     this.distributeResidualAssetsForm.patchValue({
-      fallbackMemberId: fallbackMemberId,
+      fallbackMemberId: value,
     });
     console.log(this.distributeResidualAssetsForm.value.fallbackMemberId);
   }
   slecteFallbackReplaceMember(value) {
     console.log(value);
-    
-    let fallbackReplaceMemberId: Array<any> = this.distributeResidualAssetsForm.value.fallbackReplacementMemberId;
-    if (fallbackReplaceMemberId.includes(value)) {
-      fallbackReplaceMemberId.splice(fallbackReplaceMemberId.indexOf(value), 1);
-    } else {
-      fallbackReplaceMemberId.push(value);
-    }
-    this.slectedFallbackMembers = fallbackReplaceMemberId;
+
+    this.slectedFallbackMembers = value;
     this.distributeResidualAssetsForm.patchValue({
-      fallbackReplacementMemberId: fallbackReplaceMemberId,
+      fallbackReplacementMemberId: value,
     });
     console.log(this.distributeResidualAssetsForm.value.fallbackReplacementMemberId);
   }
@@ -122,14 +113,63 @@ export class DistributeResidualAssetComponent implements OnInit {
     this.splitToggle=!this.splitToggle;
   }
   onClickNext(){
+    var totalShare = this.distributeResidualAssetsForm.value.specifyResidualAssetBenificiary?.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+
+    if(totalShare != 100){
+      this.totalShareToggle = true;
+      this.totalShareMessage="Total share percentage of selected residual assets beneficiaries must be 100";
+      return ;
+    }
+    var totalShareTrustFallback = this.distributeResidualAssetsForm.value.fallbackMemberId?.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+
+    if(totalShareTrustFallback != 100 && this.distributeResidualAssetsForm.value.trustType==='terminate'){
+      this.totalShareToggle = true;
+      this.totalShareMessage="Total share percentage of trust fallback must be 100";
+      return ;
+    }
+    var totalShareTrustFallbackReplacement = this.distributeResidualAssetsForm.value.fallbackReplacementMemberId?.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+
+    if(totalShareTrustFallbackReplacement != 100 && this.distributeResidualAssetsForm.value.customType==='custom1'){
+      this.totalShareToggle = true;
+      this.totalShareMessage="Total share percentage of replacement trust beneficiaries must be 100";
+      return ;
+    }
+    this.totalShareToggle = false;
+    this.totalShareMessage="";
     this.onClickNextBtn.emit(5)
-    this._willServices.step4.next(this.distributeResidualAssetsForm.value);
+    const data ={
+      specifyResidualAssetBenificiary:this.distributeResidualAssetsForm.value.specifyResidualAssetBenificiary,
+      trustFallback :{
+        trustType:this.distributeResidualAssetsForm.value.trustType,
+        customType:this.distributeResidualAssetsForm.value.customType,
+        memberData:this.distributeResidualAssetsForm.value.trustType==='terminate'?this.distributeResidualAssetsForm.value.fallbackMemberId:(this.distributeResidualAssetsForm.value.customType==='custom1'?this.distributeResidualAssetsForm.value.fallbackReplacementMemberId:null)
+      }
+    }
+console.log(data);
+
+    this._willServices.step4.next(data);
+  }
+  mergeBy_Id(a1, a2) {
+    return a1.map((itm) => ({
+      ...a2.find((item) => item._id === itm._id && item),
+      ...itm,
+    }));
   }
   ngOnInit(): void {
     this.createForm();
     this._willServices.step4.subscribe((step4Data) => {
       console.log(step4Data);
-      this.distributeResidualAssetsForm.setValue(step4Data);
+      
+      this.distributeResidualAssetsForm.patchValue(
+        {
+          specifyResidualAssetBenificiary:step4Data['specifyResidualAssetBenificiary'] || [],
+          trustType:step4Data['trustFallback']?.trustType || 'terminate',
+          customType:step4Data['trustFallback']?.customType || '',
+          fallbackMemberId:step4Data['trustFallback']?.trustType==='terminate'?step4Data['trustFallback']?.memberData||[]:[],
+          fallbackReplacementMemberId:step4Data['trustFallback']?.trustType==='custom'?step4Data['trustFallback']?.memberData || []:[],
+        }
+      );
+      console.log(step4Data);
     });
     this.memberServices.getMembers().subscribe(
       (result) => {
@@ -151,6 +191,7 @@ export class DistributeResidualAssetComponent implements OnInit {
             actionRoute: 'members/createmembers',
           };
         });
+        this.memberDataFallbackReplacement=this.memberData;
         // console.log(this.allMemberData);
       },
       (err) => {

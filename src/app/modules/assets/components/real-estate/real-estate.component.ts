@@ -25,10 +25,11 @@ export class RealEstateComponent implements OnInit {
   responseMessage: string;
   backRouteLink = '/assets';
   forwardRouteLink = '/assets';
+  totalShareMessage= false;
   allAssetsBeneficiary = [];
   assetsBeneficiary = [];
   toggleModalTutorial: boolean;
-
+  wid='';
   constructor(
     private _fb: FormBuilder,
     private assetsServices: AssetsService,
@@ -88,10 +89,30 @@ export class RealEstateComponent implements OnInit {
         { ...this.formErrors },
         this.formErrorMessages
       );
-      console.log('invalid');
+        console.log('invalid');
 
       return;
     }
+  var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+    console.log(totalShare);
+    console.log(this.assetsBeneficiary);
+    console.log(this.allAssetsBeneficiary);
+
+    if(totalShare != 100){
+      this.totalShareMessage = true;
+      return ;
+    }
+    this.totalShareMessage = false;
+    var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+    console.log(totalShare);
+    console.log(this.assetsBeneficiary);
+    console.log(this.allAssetsBeneficiary);
+
+    if(totalShare != 100 && this.fromCreateWill === 'will'){
+      this.totalShareMessage = true;
+      return ;
+    }
+    this.totalShareMessage = false;
     this.spinner.start();
     const realEstateData = {
       country: this.realEstateForm.value.country,
@@ -127,6 +148,16 @@ export class RealEstateComponent implements OnInit {
   }
 
   onUpdateRealEstate() {
+    var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+    console.log(totalShare);
+    console.log(this.assetsBeneficiary);
+    console.log(this.allAssetsBeneficiary);
+
+    if(totalShare != 100 && this.fromCreateWill === 'will'){
+      this.totalShareMessage = true;
+      return ;
+    }
+    this.totalShareMessage = false;
     this.spinner.start();
     const realEstateData = {
       country: this.realEstateForm.value.country,
@@ -146,12 +177,14 @@ export class RealEstateComponent implements OnInit {
             this.allAssetsBeneficiary=[...this.allAssetsBeneficiary,...this.assetsBeneficiary]
           }
           console.log(this.allAssetsBeneficiary);
-          
-       if (this.fromCreateWill==='will') {         
+             
             this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
-          }
+       
           this.realEstateForm.reset();
-
+          if (this.wid !== '') {
+            this._route.navigate([`${this.forwardRouteLink}`], { queryParams:{wid:this.wid}});
+            return;
+          }
           this._route.navigate([this.forwardRouteLink]);
         }
 
@@ -197,7 +230,7 @@ export class RealEstateComponent implements OnInit {
   }
   ngOnInit(): void {
 
-    this.route.queryParams.subscribe(({ id, x, y }) => {
+    this.route.queryParams.subscribe(({ id, x, y ,wid}) => {
       if (id) {
         this.id = id;
         this.getdata(id);
@@ -209,6 +242,7 @@ export class RealEstateComponent implements OnInit {
         this.backRouteLink = '/will/createWill';
         this.forwardRouteLink = '/will/createWill';
         this.fromCreateWill = y;
+        this.wid=wid
         console.log(this.fromCreateWill);
       }
       if (y === 'secure') {
@@ -226,7 +260,12 @@ if (y === 'myWill') {
     this._willServices.assetsBeneficiary.subscribe((value) => {
       this.allAssetsBeneficiary=value;
       console.log("assetsBeneficiary",value);
-      this.slectedResidualMembers=this.allAssetsBeneficiary?.filter((el)=>el.assetId===this.id);
+      this.slectedResidualMembers = this.allAssetsBeneficiary?.filter(
+        (el) =>  el.assetId === this.id
+      );
+     this.assetsBeneficiary = this.allAssetsBeneficiary?.filter(
+        (el) =>  el.assetId === this.id
+      );
    
     });
     this.memberServices.getMembers().subscribe(

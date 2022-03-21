@@ -31,6 +31,7 @@ export class OtherAssetsComponent implements OnInit {
   responseMessage: string;
   backRouteLink = '/assets';
   forwardRouteLink = '/assets';
+  totalShareMessage= false;
 
   previousRoute: string;
   id: string = '';
@@ -38,7 +39,7 @@ export class OtherAssetsComponent implements OnInit {
   currentUrl: string;
   fromCreateWill: string;
   memberData = [];
-
+  wid='';
   slectedResidualMembers = [];
   allAssetsBeneficiary = [];
   assetsResidualType: string;
@@ -106,10 +107,30 @@ export class OtherAssetsComponent implements OnInit {
         { ...this.formErrors },
         this.formErrorMessages
       );
-      console.log('invalid');
+        console.log('invalid');
 
       return;
     }
+  var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+    console.log(totalShare);
+    console.log(this.assetsBeneficiary);
+    console.log(this.allAssetsBeneficiary);
+
+    if(totalShare != 100){
+      this.totalShareMessage = true;
+      return ;
+    }
+    this.totalShareMessage = false;
+    var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+    console.log(totalShare);
+    console.log(this.assetsBeneficiary);
+    console.log(this.allAssetsBeneficiary);
+
+    if(totalShare != 100 && this.fromCreateWill === 'will'){
+      this.totalShareMessage = true;
+      return ;
+    }
+    this.totalShareMessage = false;
     this.spinner.start();
     const otherAssetsData = {
       otherAssets: this.OtherAssetsForm.value,
@@ -149,6 +170,16 @@ export class OtherAssetsComponent implements OnInit {
     console.log(this.assetsBeneficiary);
   }
   onUpdateOtherAssets() {
+    var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+    console.log(totalShare);
+    console.log(this.assetsBeneficiary);
+    console.log(this.allAssetsBeneficiary);
+
+    if(totalShare != 100 && this.fromCreateWill === 'will'){
+      this.totalShareMessage = true;
+      return ;
+    }
+    this.totalShareMessage = false;
     this.spinner.start();
     const otherAssetsData = {
       otherAssets: this.OtherAssetsForm.value,
@@ -183,6 +214,10 @@ export class OtherAssetsComponent implements OnInit {
 
           this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
           this.OtherAssetsForm.reset();
+          if (this.wid !== '') {
+            this._route.navigate([`${this.forwardRouteLink}`], { queryParams:{wid:this.wid}});
+            return;
+          }
           this._route.navigate([this.forwardRouteLink]);
         }
         this.toastr.message(result.message, result.success);
@@ -214,7 +249,7 @@ export class OtherAssetsComponent implements OnInit {
   }
   ngOnInit(): void {
     this.createForm();
-    this.route.queryParams.subscribe(({ id, x, y }) => {
+    this.route.queryParams.subscribe(({ id, x, y,wid }) => {
       if (id) {
         this.id = id;
         this.getdata(id);
@@ -227,6 +262,7 @@ export class OtherAssetsComponent implements OnInit {
         this.backRouteLink = '/will/createWill';
         this.forwardRouteLink = '/will/createWill';
         this.fromCreateWill = y;
+        this.wid=wid
         // console.log(this.fromCreateWill);
       }
       if (y === 'secure') {
@@ -246,6 +282,9 @@ if (y === 'myWill') {
       console.log('assetsBeneficiary', value);
       this.slectedResidualMembers = this.allAssetsBeneficiary?.filter(
         (el) => el.assetId === this.id
+      );
+      this.assetsBeneficiary = this.allAssetsBeneficiary?.filter(
+        (el) =>  el.assetId === this.id
       );
     });
 

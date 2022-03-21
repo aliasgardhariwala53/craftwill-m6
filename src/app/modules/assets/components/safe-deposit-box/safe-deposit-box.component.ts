@@ -25,6 +25,7 @@ export class SafeDepositBoxComponent implements OnInit {
   responseMessage: string;
   backRouteLink = '/assets';
   forwardRouteLink = '/assets';
+  totalShareMessage= false;
 
   toggleModalTutorial: boolean;
   constructor(
@@ -45,6 +46,7 @@ export class SafeDepositBoxComponent implements OnInit {
   assetsBeneficiary = [];
   GiftBenificiary = [];
   shareData = [];
+  wid='';
   createForm() {
     this.safeDepositboxForm = this._fb.group({
       safe_Box_Location: ['', [Validators.required]],
@@ -93,10 +95,30 @@ export class SafeDepositBoxComponent implements OnInit {
         { ...this.formErrors },
         this.formErrorMessages
       );
-      console.log('invalid');
+        console.log('invalid');
 
       return;
     }
+  var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+    console.log(totalShare);
+    console.log(this.assetsBeneficiary);
+    console.log(this.allAssetsBeneficiary);
+
+    if(totalShare != 100){
+      this.totalShareMessage = true;
+      return ;
+    }
+    this.totalShareMessage = false;
+    var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+    console.log(totalShare);
+    console.log(this.assetsBeneficiary);
+    console.log(this.allAssetsBeneficiary);
+
+    if(totalShare != 100 && this.fromCreateWill === 'will'){
+      this.totalShareMessage = true;
+      return ;
+    }
+    this.totalShareMessage = false;
     this.spinner.start();
     const safeDepositData = {
       country: this.safeDepositboxForm.value.country,
@@ -131,6 +153,16 @@ export class SafeDepositBoxComponent implements OnInit {
   }
 
   onUpdateSafeDepositBox() {
+    var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+    console.log(totalShare);
+    console.log(this.assetsBeneficiary);
+    console.log(this.allAssetsBeneficiary);
+
+    if(totalShare != 100 && this.fromCreateWill === 'will'){
+      this.totalShareMessage = true;
+      return ;
+    }
+    this.totalShareMessage = false;
     this.spinner.start();
     const safeDepositData = {
       country: this.safeDepositboxForm.value.country,
@@ -142,18 +174,21 @@ export class SafeDepositBoxComponent implements OnInit {
       (result) => {
         this.spinner.stop();
         if (result.success) {
-          const myItem=this.allAssetsBeneficiary.findIndex((el)=>el.type==='safeDepositBox');
+          const myItem=this.allAssetsBeneficiary.findIndex((el)=> el.assetId === this.id);
           if (myItem===-1) {
             this.allAssetsBeneficiary.push(...this.assetsBeneficiary);
           } else {
-            this.allAssetsBeneficiary=this.allAssetsBeneficiary.filter((el)=>el.type !=='safeDepositBox');
+            this.allAssetsBeneficiary=this.allAssetsBeneficiary.filter((el)=>el.assetId !== this.id);
             this.allAssetsBeneficiary=[...this.allAssetsBeneficiary,...this.assetsBeneficiary]
           }
           console.log(this.allAssetsBeneficiary);
           
           this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
           this.safeDepositboxForm.reset();
-
+          if (this.wid !== '') {
+            this._route.navigate([`${this.forwardRouteLink}`], { queryParams:{wid:this.wid}});
+            return;
+          }
           this._route.navigate([this.forwardRouteLink]);
         }
 
@@ -169,7 +204,7 @@ export class SafeDepositBoxComponent implements OnInit {
     console.log(value);
 
     this.assetsBeneficiary = value.map((el) => {
-      return { ...el, type: 'safeDepositBox' };
+      return { ...el, assetId: this.id };
     });
     console.log(this.assetsBeneficiary);
   }
@@ -199,18 +234,12 @@ export class SafeDepositBoxComponent implements OnInit {
         this.spinner.stop();
         this.toastr.message(errorHandler(err), false);
       }
-    );
+    );1
   }
 
   ngOnInit(): void {
-    this._willServices.assetsBeneficiary.subscribe((value) => {
-      this.allAssetsBeneficiary = value;
-      console.log('assetsBeneficiary', value);
-      this.slectedResidualMembers = this.allAssetsBeneficiary?.filter(
-        (el) => el.type === 'safeDepositBox'
-      );
-    });
-    this.route.queryParams.subscribe(({ id, x, y }) => {
+
+    this.route.queryParams.subscribe(({ id, x, y ,wid}) => {
       if (id) {
         this.id = id;
         this.getdata(id);
@@ -224,6 +253,9 @@ export class SafeDepositBoxComponent implements OnInit {
         this.forwardRouteLink = '/will/createWill';
         this.fromCreateWill = y;
         console.log(this.fromCreateWill);
+        this.wid=wid
+        console.log(this.wid);
+        
       }
       if (y === 'secure') {
         this.backRouteLink = '/liabilities/securedLoan';
@@ -235,6 +267,7 @@ if (y === 'myWill') {
         this.forwardRouteLink = '/will/myWills';
         this.fromCreateWill = y;
         console.log(this.fromCreateWill);
+        
       }
     });
     this.memberServices.getMembers().subscribe(
@@ -264,6 +297,15 @@ if (y === 'myWill') {
         this.toastr.message('Error Getting Members data !!', false);
       }
     );
+    this._willServices.assetsBeneficiary.subscribe((value) => {
+      this.allAssetsBeneficiary = value;
+
+      console.log('assetsBeneficiary', value);
+      this.slectedResidualMembers = this.allAssetsBeneficiary?.filter(
+        (el) =>  el.assetId === this.id
+      );
+    });
+
     this.createForm();
   }
 }

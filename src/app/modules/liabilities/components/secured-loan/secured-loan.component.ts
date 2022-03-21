@@ -24,6 +24,7 @@ export class SecuredLoanComponent implements OnInit {
   id: string='';
   fromCreateWill: string;
   selectedAssetsId=[];
+  wid='';
   toggleModalTutorial: boolean=false;
   constructor(
     private _fb: FormBuilder,
@@ -141,6 +142,10 @@ export class SecuredLoanComponent implements OnInit {
       if (result.success) {
         this.SecuredLoan.reset();
          if (this.fromCreateWill==='will') {
+          if (this.wid !== '') {
+            this._route.navigate([`${this.forwardRouteLink}`], { queryParams:{y:'will',wid:this.wid}});
+            return;
+          }
             this._route.navigate(['/liabilities/liabilitiesSuccess'],{queryParams:{y:'will'}});
           } else {
             this._route.navigate(['/liabilities/liabilitiesSuccess']);
@@ -176,6 +181,10 @@ export class SecuredLoanComponent implements OnInit {
       this.spinner.stop();
       if (result.success) {
         this.SecuredLoan.reset();
+        if (this.wid !== '') {
+          this._route.navigate([`${this.forwardRouteLink}`], { queryParams:{wid:this.wid}});
+          return;
+        }
         this._route.navigate([this.forwardRouteLink]);
       }
      
@@ -225,7 +234,7 @@ export class SecuredLoanComponent implements OnInit {
 
   ngOnInit(): void {
     this.spinner.start();
-    this.route.queryParams.subscribe(({id,x,y})=>{
+    this.route.queryParams.subscribe(({id,x,y,wid})=>{
      if (id) {
         this.id = id;
         this.getdata(id);
@@ -239,6 +248,15 @@ export class SecuredLoanComponent implements OnInit {
           this.fromCreateWill = y;
           console.log(this.fromCreateWill);
         }
+        
+      }
+      if (y === 'will') {
+        this.backRouteLink = '/will/createWill';
+        this.forwardRouteLink = '/will/createWill';
+        this.fromCreateWill = y;
+        // console.log(this.fromCreateWill);
+        this.wid=wid
+        console.log(this.wid);
       }
     })
     this.createForm();

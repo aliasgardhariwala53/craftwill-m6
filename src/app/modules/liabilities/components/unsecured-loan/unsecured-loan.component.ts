@@ -19,6 +19,7 @@ export class UnsecuredLoanComponent implements OnInit {
   backRouteLink="/liabilities";
 forwardRouteLink="/liabilities";
   toggleModalTutorial: boolean=false;
+  wid='';
   constructor(
     private _fb: FormBuilder,
     private liabilitiesServices: LiabilitiesService,
@@ -105,6 +106,10 @@ forwardRouteLink="/liabilities";
       if (result.success) {
         this.UnSecuredLoan.reset();
          if (this.fromCreateWill==='will') {
+          if (this.wid !== '') {
+            this._route.navigate([`${this.forwardRouteLink}`], { queryParams:{y:'will',wid:this.wid}});
+            return;
+          }
             this._route.navigate(['/liabilities/liabilitiesSuccess'],{queryParams:{y:'will'}});
           } else {
             this._route.navigate(['/liabilities/liabilitiesSuccess']);
@@ -128,6 +133,10 @@ forwardRouteLink="/liabilities";
       this.spinner.stop();
       if (result.success) {
         this.UnSecuredLoan.reset();
+        if (this.wid !== '') {
+          this._route.navigate([`${this.forwardRouteLink}`], { queryParams:{y:'will',wid:this.wid}});
+          return;
+        }
         this._route.navigate([this.forwardRouteLink]);
       }
      
@@ -170,7 +179,7 @@ forwardRouteLink="/liabilities";
   }
   ngOnInit(): void {
     this.createForm();
-    this.route.queryParams.subscribe(({id,x,y})=>{
+    this.route.queryParams.subscribe(({id,x,y,wid})=>{
      if (id) {
         this.id = id;
         this.getdata(id);
@@ -179,10 +188,13 @@ forwardRouteLink="/liabilities";
  this.forwardRouteLink="/will/createWill";  
         }
       }
-if (y==='will') {
-        this.backRouteLink="/will/createWill";   
+      if (y === 'will') {
+        this.backRouteLink = '/will/createWill';
+        this.forwardRouteLink = '/will/createWill';
         this.fromCreateWill = y;
-        console.log(this.fromCreateWill);
+        // console.log(this.fromCreateWill);
+        this.wid=wid
+        console.log(this.wid);
       }
       if (y === 'myWill') {
         this.backRouteLink = '/will/myWills';

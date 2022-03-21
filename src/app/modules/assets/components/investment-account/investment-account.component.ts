@@ -24,6 +24,7 @@ export class InvestmentAccountComponent implements OnInit {
   responseMessage: string;
   backRouteLink = '/assets';
   forwardRouteLink = '/assets';
+  totalShareMessage= false;
 
   toggleModalTutorial: boolean;
   memberData = [];
@@ -45,6 +46,7 @@ export class InvestmentAccountComponent implements OnInit {
   slectedResidualMembers = [];
   GiftBenificiary = [];
   shareData = [];
+  wid='';
   createForm() {
     this.InvestmentAccountUser = this._fb.group({
       accountName: ['', [Validators.required,Validators.pattern('^[a-zA-Z ]*$')]],
@@ -95,10 +97,20 @@ export class InvestmentAccountComponent implements OnInit {
         { ...this.formErrors },
         this.formErrorMessages
       );
-      console.log('invalid');
+        console.log('invalid');
 
       return;
     }
+  var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+    console.log(totalShare);
+    console.log(this.assetsBeneficiary);
+    console.log(this.allAssetsBeneficiary);
+
+    if(totalShare != 100){
+      this.totalShareMessage = true;
+      return ;
+    }
+    this.totalShareMessage = false;
     this.spinner.start();
     const InvestmentData = {
       country: this.InvestmentAccountUser.value.country,
@@ -161,12 +173,14 @@ export class InvestmentAccountComponent implements OnInit {
             ];
           }
           console.log(this.allAssetsBeneficiary);
-
-       if (this.fromCreateWill==='will') {         
+      
             this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
-          }
+   
           this.InvestmentAccountUser.reset();
-
+          if (this.wid !== '') {
+            this._route.navigate([`${this.forwardRouteLink}`], { queryParams:{wid:this.wid}});
+            return;
+          }
           this._route.navigate([this.forwardRouteLink]);
         }
 
@@ -212,13 +226,8 @@ export class InvestmentAccountComponent implements OnInit {
     console.log(this.assetsBeneficiary);
   }
   ngOnInit(): void {
-    this._willServices.assetsBeneficiary.subscribe((value) => {
-      this.allAssetsBeneficiary=value;
-      console.log("assetsBeneficiary",value);
-      this.slectedResidualMembers=this.allAssetsBeneficiary?.filter((el)=>el.assetId===this.id);
-   
-    });
-    this.route.queryParams.subscribe(({ id, x, y }) => {
+
+    this.route.queryParams.subscribe(({ id, x, y,wid }) => {
       if (id) {
         this.id = id;
         this.getdata(id);
@@ -231,6 +240,8 @@ export class InvestmentAccountComponent implements OnInit {
         this.backRouteLink = '/will/createWill';
         this.forwardRouteLink = '/will/createWill';
         this.fromCreateWill = y;
+        this.wid=wid
+        console.log(this.wid);
         console.log(this.fromCreateWill);
       }
       if (y === 'secure') {
@@ -272,6 +283,17 @@ if (y === 'myWill') {
         this.toastr.message('Error Getting Members data !!', false);
       }
     );
+    this._willServices.assetsBeneficiary.subscribe((value) => {
+      this.allAssetsBeneficiary=value;
+      console.log("assetsBeneficiary",value);
+      this.slectedResidualMembers = this.allAssetsBeneficiary?.filter(
+        (el) =>  el.assetId === this.id
+      );
+     this.assetsBeneficiary = this.allAssetsBeneficiary?.filter(
+        (el) =>  el.assetId === this.id
+      );
+   
+    });
     this.createForm();
   }
 }

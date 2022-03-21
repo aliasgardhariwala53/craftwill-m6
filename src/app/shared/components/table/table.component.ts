@@ -25,6 +25,10 @@ export class TableComponent implements OnInit {
       this._route.navigate([`${Item.actionRoute}`], { queryParams:{id:Item._id,y:'myWill'}});
       return;
     }
+    if (this._route.url=='/will/pastWills') {
+      this._route.navigate([`${Item.actionRoute}`], { queryParams:{wid:Item._id,y:'myWill'}});
+      return;
+    }
     this._route.navigate([`${Item.actionRoute}`], { queryParams:{id:Item._id}})
   }
   getShortName(fullName) { 

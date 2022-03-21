@@ -32,8 +32,11 @@
           >
         </div>
 
-        <div class="font-['gilroysemi'] text-xs text-[#A2A2A2] mt-1 ml-1">
+        <div *ngIf="!this.payoutForm.value.sourceOfPayout" class="font-['gilroysemi'] text-xs text-[#A2A2A2] mt-1 ml-1">
           Trust Assets/ Previous Year’s Profit / Payout Fund
+        </div>
+        <div *ngIf="this.payoutForm.value.sourceOfPayout" class="font-['gilroysemi'] text-xs text-[#A2A2A2] mt-1 ml-8">
+          {{this.payoutForm.value.sourceOfPayout}}
         </div>
       </div>
       <div class="flex flex-col px-4 py-3 bg-[#F4F4F4] rounded-2xl w-full">
@@ -50,8 +53,11 @@
           >
         </div>
 
-        <div class="font-['gilroysemi'] text-xs text-[#A2A2A2] mt-1 ml-1">
+        <div *ngIf="!this.payoutForm.value.denominationOfPayout" class="font-['gilroysemi'] text-xs text-[#A2A2A2] mt-1 ml-1">
           Absolute Value $ or Percentage %
+        </div>
+        <div *ngIf="this.payoutForm.value.denominationOfPayout" class="font-['gilroysemi'] text-xs text-[#A2A2A2] mt-1 ml-8">
+          {{this.payoutForm.value.denominationOfPayout}}
         </div>
       </div>
       <div class="flex flex-col px-4 py-3 bg-[#F4F4F4] rounded-2xl w-full">
@@ -68,8 +74,11 @@
           >
         </div>
 
-        <div class="font-['gilroysemi'] text-xs text-[#A2A2A2] mt-1 ml-1">
+        <div *ngIf="!this.payoutForm.value.frequencyOfPayout" class="font-['gilroysemi'] text-xs text-[#A2A2A2] mt-1 ml-1">
           Weekly / Monthly / Quarterly / Half-Yearly / Yearly
+        </div>
+        <div *ngIf="this.payoutForm.value.frequencyOfPayout" class="font-['gilroysemi'] text-xs text-[#A2A2A2] mt-1 ml-8">
+          {{this.payoutForm.value.frequencyOfPayout==='custom'? this.payoutForm.value.textAreaFrequencyOfPayout:this.payoutForm.value.frequencyOfPayout}}
         </div>
       </div>
       <div class="flex flex-col px-4 py-3 bg-[#F4F4F4] rounded-2xl w-full">
@@ -86,8 +95,20 @@
           >
         </div>
 
-        <div class="font-['gilroysemi'] text-xs text-[#A2A2A2] mt-1 ml-1">
+        <div  *ngIf="!this.payoutForm.value.conditionsOfPayout1 && !this.payoutForm.value.conditionsOfPayout2 && !this.payoutForm.value.conditionsOfPayout3 &&!this.payoutForm.value.conditionsOfPayout4" class="font-['gilroysemi'] text-xs text-[#A2A2A2] mt-1 ml-1">
           If the beneficiary is below 21 years old.
+        </div>
+        <div *ngIf="this.payoutForm.value.conditionsOfPayout1" class="font-['gilroysemi'] text-xs text-[#A2A2A2] mt-1 ml-8">
+          When beneficiary turns {{this.payoutForm.value.ifBenificiaryTurns}} year Old.
+        </div>
+        <div *ngIf="this.payoutForm.value.conditionsOfPayout2" class="font-['gilroysemi'] text-xs text-[#A2A2A2] mt-1 ml-8">
+          Beneficiary attains {{this.payoutForm.value.ifBenificiaryAttains}}
+        </div>
+        <div *ngIf="this.payoutForm.value.conditionsOfPayout3" class="font-['gilroysemi'] text-xs text-[#A2A2A2] mt-1 ml-8">
+          If beneficiary is {{this.payoutForm.value.ifBenificiaryIs}}
+        </div>
+        <div *ngIf="this.payoutForm.value.conditionsOfPayout4" class="font-['gilroysemi'] text-xs text-[#A2A2A2] mt-1 ml-8">
+          CustomField : {{this.payoutForm.value.customField}}
         </div>
       </div>
       <div class="flex flex-col px-4 py-3 bg-[#F4F4F4] rounded-2xl w-full">
@@ -95,6 +116,7 @@
           <input
             type="radio"
             value="p5"
+            [checked]="this.payoutForm.value.purposeOfPayout"
             formControlName="payout_type"
             id="p5"
             class="mx-1 radioCustom"
@@ -104,8 +126,11 @@
           >
         </div>
 
-        <div class="font-['gilroysemi'] text-xs text-[#A2A2A2] mt-1 ml-1">
+        <div *ngIf="!this.payoutForm.value.purposeOfPayout" class="font-['gilroysemi'] text-xs text-[#A2A2A2] mt-1 ml-1">
           If the beneficiary is below 21 years old.
+        </div>
+        <div *ngIf="this.payoutForm.value.purposeOfPayout" class="font-['gilroysemi'] text-xs text-[#A2A2A2] mt-1 ml-8">
+          {{this.payoutForm.value.purposeOfPayout}}
         </div>
       </div>
     </div>

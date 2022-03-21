@@ -28,7 +28,8 @@ export class MoterVehicleComponent implements OnInit {
   responseMessage: string;
   backRouteLink = '/assets';
   forwardRouteLink = '/assets';
-
+  totalShareMessage= false;
+  wid='';
   toggleModalTutorial: boolean;
   constructor(
     private _fb: FormBuilder,
@@ -95,10 +96,30 @@ export class MoterVehicleComponent implements OnInit {
         { ...this.formErrors },
         this.formErrorMessages
       );
-      console.log('invalid');
+        console.log('invalid');
 
       return;
     }
+  var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+    console.log(totalShare);
+    console.log(this.assetsBeneficiary);
+    console.log(this.allAssetsBeneficiary);
+
+    if(totalShare != 100){
+      this.totalShareMessage = true;
+      return ;
+    }
+    this.totalShareMessage = false;
+    var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+    console.log(totalShare);
+    console.log(this.assetsBeneficiary);
+    console.log(this.allAssetsBeneficiary);
+
+    if(totalShare != 100 && this.fromCreateWill === 'will'){
+      this.totalShareMessage = true;
+      return ;
+    }
+    this.totalShareMessage = false;
     this.spinner.start();
     const VehicletData = {
       country: this.vehicleForm.value.country,
@@ -133,6 +154,16 @@ export class MoterVehicleComponent implements OnInit {
   }
 
   onUpdateMotorVehicle() {
+    var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+    console.log(totalShare);
+    console.log(this.assetsBeneficiary);
+    console.log(this.allAssetsBeneficiary);
+
+    if(totalShare != 100 && this.fromCreateWill === 'will'){
+      this.totalShareMessage = true;
+      return ;
+    }
+    this.totalShareMessage = false;
     this.spinner.start();
     const VehicletData = {
       country: this.vehicleForm.value.country,
@@ -159,11 +190,14 @@ export class MoterVehicleComponent implements OnInit {
             ];
           }
           console.log(this.allAssetsBeneficiary);
-
-       if (this.fromCreateWill==='will') {         
+    
             this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
-          }
+      
           this.vehicleForm.reset();
+          if (this.wid !== '') {
+            this._route.navigate([`${this.forwardRouteLink}`], { queryParams:{wid:this.wid}});
+            return;
+          }
           this._route.navigate([this.forwardRouteLink]);
         }
 
@@ -211,7 +245,7 @@ export class MoterVehicleComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.route.queryParams.subscribe(({ id, x, y }) => {
+    this.route.queryParams.subscribe(({ id, x, y,wid }) => {
       if (id) {
         this.id = id;
         this.getdata(id);
@@ -224,6 +258,8 @@ export class MoterVehicleComponent implements OnInit {
         this.backRouteLink = '/will/createWill';
         this.forwardRouteLink = '/will/createWill';
         this.fromCreateWill = y;
+        this.wid=wid
+        console.log(this.wid);
         console.log(this.fromCreateWill);
       }
       if (y === 'secure') {
@@ -241,7 +277,12 @@ if (y === 'myWill') {
     this._willServices.assetsBeneficiary.subscribe((value) => {
       this.allAssetsBeneficiary=value;
       console.log("assetsBeneficiary",value);
-      this.slectedResidualMembers=this.allAssetsBeneficiary?.filter((el)=>el.assetId===this.id);
+      this.slectedResidualMembers = this.allAssetsBeneficiary?.filter(
+        (el) =>  el.assetId === this.id
+      );
+     this.assetsBeneficiary = this.allAssetsBeneficiary?.filter(
+        (el) =>  el.assetId === this.id
+      );
    
     });
     this.memberServices.getMembers().subscribe(

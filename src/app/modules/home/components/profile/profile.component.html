@@ -108,7 +108,7 @@
           <div class="w-full">
             <div class="input-group1">
               <label class="input_label text-sm sm:text-base font-[GilroySemi]">Date of Birth</label>
-              <input type="date" placeholder="Date of Birth" [ngClass]="{ input_bg: inputState }"
+              <input type="date" placeholder="Date of Birth" [ngClass]="{ input_bg: inputState }" [max]="min_date"
                 [attr.disabled]="inputState ? '' : null" [ngStyle]="{ cursor: inputState ? 'not-allowed' : 'default' }"
                 formControlName="dob"
                 class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#F0F0F0] w-[100%] px-2 sm:px-4 py-2  form-control rounded-[14px]  focus:outline-none" />

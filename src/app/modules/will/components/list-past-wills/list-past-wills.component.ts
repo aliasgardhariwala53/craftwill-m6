@@ -36,6 +36,7 @@ export class ListPastWillsComponent implements OnInit {
     ]
 
     onClickAction(value){
+      this._willServices.globalReload.next(true);
       console.log(value);
       
     }

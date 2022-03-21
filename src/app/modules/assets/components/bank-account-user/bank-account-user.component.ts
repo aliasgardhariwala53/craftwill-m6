@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   ActivatedRoute,
   NavigationEnd,
@@ -17,6 +17,7 @@ import { WillService } from 'src/app/services/will.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
 import { shareItemsHandler } from 'src/app/shared/utils/common-function';
 import { countries } from 'src/app/shared/utils/countries-store';
+import { nodeModuleNameResolver } from 'typescript';
 
 @Component({
   selector: 'app-bank-account-user',
@@ -29,17 +30,19 @@ export class BankAccountUserComponent implements OnInit {
   responseMessage: string;
   backRouteLink = '/assets';
   forwardRouteLink = '/assets';
-
+  totalShareMessage= false;
   previousRoute: string;
   id: string = '';
   previousUrl: string;
   currentUrl: string;
   fromCreateWill: string;
   memberData = [];
-
+  totalShare=0;
   slectedResidualMembers = [];
   allAssetsBeneficiary = [];
-  assetsResidualType: string;
+  allassetsResidualType = [];
+  oneAssetsResidualType = [];
+  assetsResidualType = new FormControl('');
   toggleModalTutorial: boolean;
   constructor(
     private _fb: FormBuilder,
@@ -61,6 +64,7 @@ export class BankAccountUserComponent implements OnInit {
   classes = ['font-bold', 'font-bold', 'text-sm'];
   GiftBenificiary = [];
   shareData = [];
+  wid='';
   createForm() {
     this.BankAccountUser = this._fb.group({
       bankname: ['', [Validators.required,Validators.pattern('^[a-zA-Z ]*$')]],
@@ -80,6 +84,7 @@ export class BankAccountUserComponent implements OnInit {
       );
     });
   }
+
   formErrors = {
     bankname: '',
     accountNumber: '',
@@ -111,6 +116,29 @@ export class BankAccountUserComponent implements OnInit {
     },
   };
   assetsBeneficiary = [];
+
+  addextras(){
+    const myItem = this.allAssetsBeneficiary.findIndex(
+      (el) => el.assetId === this.id
+    );
+
+
+
+    if (myItem === -1) {
+      this.allAssetsBeneficiary.push(...this.assetsBeneficiary);
+    } else {
+      this.allAssetsBeneficiary = this.allAssetsBeneficiary.filter(
+        (el) => el.assetId !== this.id
+      );
+      this.allAssetsBeneficiary = [
+        ...this.allAssetsBeneficiary,
+        ...this.assetsBeneficiary,
+        
+      ];
+    }
+    this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
+    this._willServices.assetsResidualType.next(this.allassetsResidualType);
+  }
   addBankAccount() {
     console.log(this.BankAccountUser);
 
@@ -125,6 +153,26 @@ export class BankAccountUserComponent implements OnInit {
 
       return;
     }
+    var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+    console.log(totalShare);
+    console.log(this.assetsBeneficiary);
+    console.log(this.allAssetsBeneficiary);
+
+    if(totalShare != 100){
+      this.totalShareMessage = true;
+      return ;
+    }
+    this.totalShareMessage = false;
+    var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+    console.log(totalShare);
+    console.log(this.assetsBeneficiary);
+    console.log(this.allAssetsBeneficiary);
+
+    if(totalShare != 100 && this.fromCreateWill === 'will'){
+      this.totalShareMessage = true;
+      return ;
+    }
+    this.totalShareMessage = false;
     this.spinner.start();
     const bankAccountData = {
       country: this.BankAccountUser.value.country,
@@ -137,6 +185,7 @@ export class BankAccountUserComponent implements OnInit {
         this.spinner.stop();
         this.toastr.message(result.message, result.success);
         if (result.success) {
+          this.addextras();
           this.BankAccountUser.reset();
           if (this.fromCreateWill === 'will') {
             this._route.navigate(['/assets/assetsuccess'], {
@@ -166,43 +215,35 @@ export class BankAccountUserComponent implements OnInit {
     console.log(this.assetsBeneficiary);
   }
   onUpdateBank() {
+
+    var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+    console.log(totalShare);
+    console.log(this.assetsBeneficiary);
+    console.log(this.allAssetsBeneficiary);
+
+    if(totalShare != 100 && this.fromCreateWill === 'will'){
+      this.totalShareMessage = true;
+      return ;
+    }
+    this.totalShareMessage = false;
     this.spinner.start();
     const bankAccountData = {
       specifyOwnershipType: this.BankAccountUser.value.specifyOwnershipType,
       country: this.BankAccountUser.value.country,
       bankAccount: this.BankAccountUser.value,
       type: 'bankAccount',
-      ifBenificiaryNotSurvive: this.assetsResidualType,
     };
     this.assetsServices.updateAssets(bankAccountData, this.id).subscribe(
       (result) => {
         this.spinner.stop();
         if (result.success) {
-          const myItem = this.allAssetsBeneficiary.findIndex(
-            (el) => el.assetId === this.id
-          );
-          if (myItem === -1) {
-            this.allAssetsBeneficiary.push(...this.assetsBeneficiary);
-          } else {
-            // this.allAssetsBeneficiary= this.allAssetsBeneficiary.map((el)=>{
-            //   if(el.assetId===this.id){
-            //     return this.assetsBeneficiary
-            //   }else{
-            //     return el;
-            //   }
-            // })
-            this.allAssetsBeneficiary = this.allAssetsBeneficiary.filter(
-              (el) => el.assetId !== this.id
-            );
-            this.allAssetsBeneficiary = [
-              ...this.allAssetsBeneficiary,
-              ...this.assetsBeneficiary,
-            ];
-          }
-          console.log(this.allAssetsBeneficiary);
+          this.addextras();
 
-          this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
           this.BankAccountUser.reset();
+          if (this.wid !== '') {
+            this._route.navigate([`${this.forwardRouteLink}`], { queryParams:{wid:this.wid}});
+            return;
+          }
           this._route.navigate([this.forwardRouteLink]);
         }
         this.toastr.message(result.message, result.success);
@@ -236,8 +277,9 @@ export class BankAccountUserComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+
     this.createForm();
-    this.route.queryParams.subscribe(({ id, x, y }) => {
+    this.route.queryParams.subscribe(({ id, x, y ,wid}) => {
       if (id) {
         this.id = id;
         this.getdata(id);
@@ -251,6 +293,8 @@ export class BankAccountUserComponent implements OnInit {
         this.forwardRouteLink = '/will/createWill';
         this.fromCreateWill = y;
         // console.log(this.fromCreateWill);
+        this.wid=wid
+        console.log(this.wid);
       }
       if (y === 'secure') {
         this.backRouteLink = '/liabilities/securedLoan';
@@ -264,13 +308,7 @@ if (y === 'myWill') {
         console.log(this.fromCreateWill);
       }
     });
-    this._willServices.assetsBeneficiary.subscribe((value) => {
-      this.allAssetsBeneficiary = value;
-      console.log('assetsBeneficiary', value);
-      this.slectedResidualMembers = this.allAssetsBeneficiary?.filter(
-        (el) => el.assetId === this.id
-      );
-    });
+
 
     this.memberServices.getMembers().subscribe(
       (result) => {
@@ -298,5 +336,19 @@ if (y === 'myWill') {
         this.toastr.message('Error Getting Members data !!', false);
       }
     );
+    this._willServices.assetsBeneficiary.subscribe((value) => {
+      this.allAssetsBeneficiary = value;
+
+      console.log('assetsBeneficiary', value);
+      this.slectedResidualMembers = this.allAssetsBeneficiary?.filter(
+        (el) =>  el.assetId === this.id
+      );
+      this.assetsBeneficiary = this.allAssetsBeneficiary?.filter(
+        (el) =>  el.assetId === this.id
+      );
+      console.log('slectedResidualMembers', this.slectedResidualMembers);
+    });
+
+
   }
 }

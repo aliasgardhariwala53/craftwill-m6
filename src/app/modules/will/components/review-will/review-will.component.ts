@@ -28,17 +28,17 @@ export class ReviewWillComponent implements OnInit, OnChanges {
   step5;
 
   list;
-  id;
+  wid='';
   // step 2
   primary_executor_type;
   replacement_executor_type;
-  addPrimaryExecutor;
-  addReplacementExecutor;
+  primaryExecutors;
+  replacementExecutors;
   //
   guardian_executor_type;
   guardian_replacement_executor_type;
-  addGuardianExecutor;
-  addGuardianReplacementExecutor;
+  guardianExecutor;
+  guardianReplacementExecutor;
   //
 
   // step-3
@@ -75,26 +75,42 @@ export class ReviewWillComponent implements OnInit, OnChanges {
       ...itm,
     }));
   }
+  mergeBy_Id(a1, a2) {
+    return a1?.map((itm) => ({
+      ...a2?.find((item) => item._id === itm._id && item),
+      ...itm,
+    }));
+  }
   ngOnChanges(changes: SimpleChanges): void {
     console.log(this.step3lender);
     console.log(this.step3liabilities);
     this.step3lender = this.step3liabilities['lender'];
   }
   idMapper(arr){
-        return arr.map((el)=>el._id);
+        return arr?.map((el)=>el?._id);
+  }
+  shareMapper(arr){
+    return arr?.map((el)=>({
+      member:el?._id,
+      specifyShares:el?.share,
+    }))
   }
   onCreateWill() {
-    console.log();
+    console.log("created will callll");
+    console.log(this.step3);
+    
     const obj = {
       ...this.step1,
       ...this.step2,
-      addPrimaryExecutor:this.idMapper(this.step2.addPrimaryExecutor),
-      addReplacementExecutor:this.idMapper(this.step2.addReplacementExecutor),
-      addGuardianExecutor:this.idMapper(this.step2.addGuardianExecutor),
-      addGuardianReplacementExecutor:this.idMapper(this.step2.addGuardianReplacementExecutor),
+      primaryExecutors:this.idMapper(this.step2.primaryExecutors),
+      replacementExecutors:this.idMapper(this.step2.replacementExecutors),
+      guardianExecutor:this.idMapper(this.step2.guardianExecutor),
+      guardianReplacementExecutor:this.idMapper(this.step2.guardianReplacementExecutor),
       ...this.step3,
+      liabilitiesData:this.idMapper(this.step3.liabilitiesData),
       ...this.step4,
-      ...this.step5,
+      specifyResidualAssetBenificiary:this.shareMapper(this.step4.specifyResidualAssetBenificiary) ,
+      clauses:this.step5,
     };
     this._willServices.createWill(obj).subscribe(
       (result) => {
@@ -127,15 +143,16 @@ export class ReviewWillComponent implements OnInit, OnChanges {
     const obj = {
       ...this.step1,
       ...this.step2,
-      addPrimaryExecutor:this.idMapper(this.step2.addPrimaryExecutor),
-      addReplacementExecutor:this.idMapper(this.step2.addReplacementExecutor),
-      addGuardianExecutor:this.idMapper(this.step2.addGuardianExecutor),
-      addGuardianReplacementExecutor:this.idMapper(this.step2.addGuardianReplacementExecutor),
+      primaryExecutors:this.idMapper(this.step2.primaryExecutors),
+      replacementExecutors:this.idMapper(this.step2.replacementExecutors),
+      guardianExecutor:this.idMapper(this.step2.guardianExecutor),
+      guardianReplacementExecutor:this.idMapper(this.step2.guardianReplacementExecutor),
       ...this.step3,
       ...this.step4,
-      ...this.step5,
+      specifyResidualAssetBenificiary:this.shareMapper(this.step4.specifyResidualAssetBenificiary) ,
+      clauses:this.step5,
     };
-    this._willServices.updateWill(obj,this.id).subscribe(
+    this._willServices.updateWill(obj,this.wid).subscribe(
       (result) => {
         this.spinner.stop();
         this.toastr.message(result.message, result.success);
@@ -156,9 +173,9 @@ export class ReviewWillComponent implements OnInit, OnChanges {
     );
   }
   ngOnInit(): void {
-    this.route.queryParams.subscribe(({ id}) => {
-      if (id) {
-        this.id = id;
+    this.route.queryParams.subscribe(({ wid}) => {
+      if (wid) {
+        this.wid = wid;
       }
      
     });
@@ -166,15 +183,15 @@ export class ReviewWillComponent implements OnInit, OnChanges {
       console.log(step2Data);
       this.primary_executor_type = step2Data['primary_executor_type'];
       this.replacement_executor_type = step2Data['replacement_executor_type'];
-      this.addPrimaryExecutor = step2Data['addPrimaryExecutor'];
-      this.addReplacementExecutor = step2Data['addReplacementExecutor'];
+      this.primaryExecutors = step2Data['primaryExecutors'];
+      this.replacementExecutors = step2Data['replacementExecutors'];
 
       this.guardian_executor_type = step2Data['guardian_executor_type'];
       this.guardian_replacement_executor_type =
       step2Data['guardian_replacement_executor_type'];
-      this.addGuardianExecutor = step2Data['addGuardianExecutor'];
-      this.addGuardianReplacementExecutor =
-        step2Data['addGuardianReplacementExecutor'];
+      this.guardianExecutor = step2Data['guardianExecutor'];
+      this.guardianReplacementExecutor =
+        step2Data['guardianReplacementExecutor'];
     });
     this.assetsServices.getAssets().subscribe(
       (result) => {
@@ -237,9 +254,12 @@ export class ReviewWillComponent implements OnInit, OnChanges {
                 return newData;
               });
             });
-            console.log(this.step3liabilities);
-
-            console.log(this.step3lender);
+            this._willServices.step4.subscribe((step4) => {
+              this.step4ResidualAssets = this.mergeBy_Id(step4['specifyResidualAssetBenificiary'],this.memberData)  || [];
+              console.log(step4);
+              console.log(this.step4ResidualAssets);
+            });
+   
           },
           (err) => {
             this.spinner.stop();
@@ -258,6 +278,7 @@ export class ReviewWillComponent implements OnInit, OnChanges {
       this.step3AssetData = step3AssetData;
       console.log(this.step3AssetData);
     });
+    
 
     combineLatest(
       this._willServices.step1,
@@ -266,12 +287,14 @@ export class ReviewWillComponent implements OnInit, OnChanges {
       this._willServices.step4,
       this._willServices.step5
     ).subscribe(([step1, step2, step3, step4, step5]) => {
-      this.step4ResidualAssets = step4['residualMemberId'];
+     
+      
       this.step1 = step1;
       this.step2 = step2;
       this.step3 = step3;
       this.step4 = step4;
       this.step5 = step5;
+console.log(step4);
 
       console.log(step1, step2, step3, step4, step5);
     });

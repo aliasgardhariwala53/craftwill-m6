@@ -3,8 +3,8 @@
 >
   <app-header-toolbar
     routerlink="{{backRouteLink}}"
-    routerlink=" "
     pagetitle="Add Bank Account"
+    [wid]="wid"
   ></app-header-toolbar>
 
   <form method="POST" [formGroup]="BankAccountUser">
@@ -100,7 +100,7 @@
         {{ formErrors.specifyOwnershipType }}
       </div>
     </div>
-    <div *ngIf="id == ''" class="sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
+    <div *ngIf="id == '' && fromCreateWill !== 'will'" class="sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
       <app-button
         (myMethod)="addBankAccount()"
         value="Add Bank Account"
@@ -114,12 +114,13 @@
         id="submitButtonId" 
       ></app-button>
     </div>
-
     <div *ngIf="fromCreateWill === 'will'">
       <div class="flex flex-col bg-[#f7f7f7] rounded-2xl p-4">
         <div>
           <app-select-box
             [shareToggle]="true"
+            [actionToggle]="false"
+            [addItemToggle]="false"
             [key]="key"
             [listItem]="memberData"
             [selectedItems]="slectedResidualMembers"
@@ -133,6 +134,7 @@
           </app-select-box>
         </div>
       </div>
+      
     </div>
   </form>
     <div *ngIf="fromCreateWill === 'will'" class="bg-[#F7F7F7] my-4 space-y-2 py-3 px-5 rounded-2xl ">
@@ -159,7 +161,7 @@
         <input
           type="radio"
           value="Add to Residuary Estate"
-          [(ngModel)]="assetsResidualType"
+        formControlName="assetsResidualType"
           id="assetsResidual1"
           class="mx-1 radioCustom"
         />
@@ -174,7 +176,7 @@
           type="radio"
           id="assetsResidual2"
           value="Give to replacement beneficiaries (Required to specify replacement beneficiaries)"
-          [(ngModel)]="assetsResidualType"
+          formControlName="assetsResidualType"
           class="mx-1 radioCustom"
         />
         <label class="mx-1 font-['gilroysemi'] text-base md:text-lg w-full" for="assetsResidual2"
@@ -188,7 +190,7 @@
           type="radio"
           id="assetsResidual3"
           value="Children of beneficiar(ies)"
-          [(ngModel)]="assetsResidualType"
+          formControlName="assetsResidualType"
           class="mx-1 radioCustom"
         />
         <label class="mx-1 font-['gilroysemi'] text-base md:text-lg w-full" for="assetsResidual3"
@@ -202,7 +204,7 @@
           type="radio"
           id="assetsResidual4"
           value="Surviving beneficiaries to split proportionately"
-          [(ngModel)]="assetsResidualType"
+          formControlName="assetsResidualType"
           class="mx-1 radioCustom"
         />
         <label class="mx-1 font-['gilroysemi'] text-base md:text-lg w-full" for="assetsResidual4"
@@ -210,10 +212,19 @@
         >
       </div>
     </div>
-    <div *ngIf="fromCreateWill === 'will'" class="md:w-2/12 w-full mt-3">
+    <div *ngIf="totalShareMessage" class="text-red text-xl font-['GilroySemi'] text-center w-full my-1 animate-pulse ">Total share percentage of selected Members Must be 100</div>
+    <div *ngIf="id != '' && fromCreateWill === 'will'" class="md:w-2/12 w-full mt-3">
       <app-button
         [arrow]="true"
         (myMethod)="onUpdateBank()"
+        padding="px-5 py-3 "
+        value="Save"
+      ></app-button>
+    </div>
+    <div *ngIf="id == '' && fromCreateWill === 'will'" class="md:w-2/12 w-full mt-3">
+      <app-button
+        [arrow]="true"
+        (myMethod)="addBankAccount()"
         padding="px-5 py-3 "
         value="Save"
       ></app-button>

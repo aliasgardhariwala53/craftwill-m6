@@ -25,7 +25,7 @@ export class PrivateDebtComponent implements OnInit {
 forwardRouteLink="/liabilities";
   PrivateDebtForm: FormGroup;
   responseMessage: string;
-
+  wid='';
   constructor(
     private _fb: FormBuilder,
     private liabilitiesServices: LiabilitiesService,
@@ -120,6 +120,10 @@ forwardRouteLink="/liabilities";
         if (result.success) {
           this.PrivateDebtForm.reset();
            if (this.fromCreateWill==='will') {
+            if (this.wid !== '') {
+              this._route.navigate([`${this.forwardRouteLink}`], { queryParams:{wid:this.wid}});
+              return;
+            }
             this._route.navigate(['/liabilities/liabilitiesSuccess'],{queryParams:{y:'will'}});
           } else {
             this._route.navigate(['/liabilities/liabilitiesSuccess']);
@@ -158,6 +162,10 @@ forwardRouteLink="/liabilities";
         this.spinner.stop();
         if (result.success) {
           this.PrivateDebtForm.reset();
+          if (this.wid !== '') {
+            this._route.navigate([`${this.forwardRouteLink}`], { queryParams:{wid:this.wid}});
+            return;
+          }
           this._route.navigate([this.forwardRouteLink]);
         }
         this.toastr.message(result.message, result.success);
@@ -200,7 +208,7 @@ forwardRouteLink="/liabilities";
 
   ngOnInit(): void {
     this.spinner.start();
-     this.route.queryParams.subscribe(({id,x,y})=>{
+     this.route.queryParams.subscribe(({id,x,y,wid})=>{
      if (id) {
         this.id = id;
         this.getdata(id);
@@ -210,9 +218,12 @@ forwardRouteLink="/liabilities";
         }
       }
     if (y==='will') {
-        this.backRouteLink="/will/createWill";   
+        this.backRouteLink="/will/createWill"; 
+        this.forwardRouteLink = '/will/createWill';  
         this.fromCreateWill = y;
         console.log(this.fromCreateWill);
+        this.wid=wid
+        console.log(this.wid);
       }
       if (y === 'myWill') {
         this.backRouteLink = '/will/myWills';

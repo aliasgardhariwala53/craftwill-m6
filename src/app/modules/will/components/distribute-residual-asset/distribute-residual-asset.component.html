@@ -31,7 +31,7 @@
           [shareToggle]="true"
           [key]="key"
           [listItem]="memberData"
-          [selectedItems]="this.distributeResidualAssetsForm.value.residualMemberId"
+          [selectedItems]="this.distributeResidualAssetsForm.value.specifyResidualAssetBenificiary"
           addItemRoute="members/createmembers"
           [classes]="classes"
           (onSelectId)="selectResidualAssetsMember($event)"
@@ -205,7 +205,7 @@
         <app-select-box
           [shareToggle]="true"
           [key]="key"
-          [listItem]="memberData"
+          [listItem]="memberDataFallbackReplacement"
           [selectedItems]="this.distributeResidualAssetsForm.value.fallbackReplacementMemberId"
           addItemRoute="members/createmembers"
           [classes]="classes"
@@ -217,6 +217,7 @@
         </app-select-box>
       </div>
     </div>
+    <div *ngIf="totalShareToggle" class="text-red text-base sm:text-lg font-['GilroySemi'] text-left w-full my-1 animate-pulse ">{{totalShareMessage}}</div>
     <div class="sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
       <app-button
         [arrow]="true"

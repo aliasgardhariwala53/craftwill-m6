@@ -95,7 +95,7 @@ export class ResetComponent implements OnInit {
       },(err)=>{
         this.spinner.stop();
         this.toastr.message("Something Went Wrong!!!",false);
-          });
+      });
   }
 
   ngOnInit(): void {

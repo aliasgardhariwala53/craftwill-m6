@@ -4,6 +4,7 @@
   <app-header-toolbar
     routerlink="{{ backRouteLink }}"
     pagetitle="Add Real Estate"
+    [wid]="wid"
   ></app-header-toolbar>
 
   <form method="POST" [formGroup]="realEstateForm">
@@ -70,7 +71,7 @@
         {{ formErrors.specifyOwnershipType }}
       </div>
     </div>
-    <div *ngIf="id == ''" class="sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
+    <div *ngIf="id == '' && fromCreateWill !== 'will'" class="sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
       <app-button
         (myMethod)="addRealEstatet()"
         value="Add Real Estate"
@@ -78,7 +79,7 @@
       ></app-button>
     </div>
     <div
-      *ngIf="id !== '' && fromCreateWill !== 'will'"
+    *ngIf="id !== '' && fromCreateWill !== 'will'"
       class="sm:w-6/12 md:w-4/12 lg:w-2/12 my-4"
     >
       <app-button
@@ -92,6 +93,8 @@
         <div>
           <app-select-box
           [shareToggle]="true"
+          [actionToggle]="false"
+          [addItemToggle]="false"
           [key]="key"
           [listItem]="memberData"
           [selectedItems]="slectedResidualMembers"
@@ -195,10 +198,19 @@
       >
     </div>
   </div>
-  <div *ngIf="fromCreateWill === 'will'" class="md:w-2/12 w-full mt-3">
+    <div *ngIf="totalShareMessage" class="text-red text-xl font-['GilroySemi'] text-center w-full my-1 animate-pulse ">Total share percentage of selected Members Must be 100</div>
+<div *ngIf="id != '' && fromCreateWill === 'will'" class="md:w-2/12 w-full mt-3">
     <app-button
       [arrow]="true"
       (myMethod)="onUpdateRealEstate()"
+      padding="px-5 py-3 "
+      value="Save"
+    ></app-button>
+  </div>
+  <div *ngIf="id == '' && fromCreateWill === 'will'" class="md:w-2/12 w-full mt-3">
+    <app-button
+      [arrow]="true"
+      (myMethod)="addRealEstatet()"
       padding="px-5 py-3 "
       value="Save"
     ></app-button>

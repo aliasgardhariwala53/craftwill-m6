@@ -5,6 +5,7 @@ import { valueChanges } from 'src/app/helper/formerror.helper';
 import { WillService } from 'src/app/services/will.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MembersService } from 'src/app/services/members.service';
 @Component({
   selector: 'app-create-will',
   templateUrl: './create-will.component.html',
@@ -19,11 +20,15 @@ export class CreateWillComponent implements OnInit {
      private spinner: NgxUiLoaderService,
      private route: ActivatedRoute,
      private _route: Router,
+     private memberServices: MembersService,
     ) { }
-    id;
+    wid;
+    globalReload;
   pageTitle='Personal Information';
   viewClause="listClause";
-  step=6;
+  step=1;
+  memberData=[];
+  step3Data={};
   setPageInfo(){
     switch (this.step) {
       case 1:
@@ -53,11 +58,23 @@ export class CreateWillComponent implements OnInit {
     this.step+=1;
     this.setPageInfo()
     console.log(value);
-    
+    this._willServices.currentStep.next(this.step);
   }
   onbackClause(value){
   this.viewClause=value;  
   }
+  
+  idMapperToObj(arr){
+    return arr.map((el)=>({
+      _id:el
+    }));
+}
+mergeBy_Id(a1, a2) {
+  return a1.map((itm) => ({
+    ...a2.find((item) => item._id === itm._id && item),
+    ...itm,
+  }));
+}
   back(){
     if (this.step<=1) {
       this._route.navigate([`will/myWills`])
@@ -68,26 +85,35 @@ export class CreateWillComponent implements OnInit {
       return;
     }
     this.step=this.step-1;
+    this._willServices.currentStep.next(this.step);
     this.setPageInfo();
   }
   onEdit(e){
     this.step=e;
     this.setPageInfo()
+    this._willServices.currentStep.next(this.step);
   }
   ngOnInit(): void {
-    this.spinner.start();
-    this.route.queryParams.subscribe(({ id, x, y }) => {
-      if (id) {
-        this.id = id;
+    // this.spinner.start();
+    this.route.queryParams.subscribe(({ wid, x, y }) => {
+      if (wid) {
+        this.wid = wid;
  
       }
     });
+    this._willServices.currentStep.subscribe((value) => {
+      this.step=value;
+    this.setPageInfo()
+    });
+  if(this._willServices.globalReload.getValue() && this.wid ){
+
     this._willServices.getAllWill().subscribe(
       (result) => {
         this.spinner.stop();
-        this.willData = result.data.users.filter((el)=>el._id === this.id)[0];
-        console.log(this.willData);
-        const {  id_Type,
+        console.log("result",result);
+        
+        this.willData = result.data.users.filter((el)=>el._id === this.wid)[0];
+        const {  id_Type='',
           id_Number,
           gender,
           fullName,
@@ -98,23 +124,21 @@ export class CreateWillComponent implements OnInit {
           postalCode,
           assetScope,
           primary_executor_type,
-  addPrimaryExecutor,
+  primaryExecutors,
   replacement_executor_type,
-  addReplacementExecutor,
+  replacementExecutors,
   guardian_type,
   guardian_executor_type,
-  addGuardianExecutor,
+  guardianExecutor,
   guardian_replacement_executor_type,
-  addGuardianReplacementExecutor,
-  liabilities,
+  guardianReplacementExecutor,
+  liabilitiesData,
 assets,
 trust,
 specifyResidualAssetBenificiary,
-residualMemberId,
-trustType,
-fallbackMemberId,
-customType,
-fallbackReplacementMemberId,clauses} =this.willData;
+trustFallback,clauses} =this.willData;
+console.log(assets);
+
 const step1 ={
   id_Type,
   id_Number,
@@ -129,35 +153,60 @@ const step1 ={
 }
 const step2 ={
   primary_executor_type,
-  addPrimaryExecutor,
+  primaryExecutors:this.idMapperToObj(primaryExecutors),
   replacement_executor_type,
-  addReplacementExecutor,
+  replacementExecutors:this.idMapperToObj(replacementExecutors),
   guardian_type,
   guardian_executor_type,
-  addGuardianExecutor,
+  guardianExecutor:this.idMapperToObj(guardianExecutor),
   guardian_replacement_executor_type,
-  addGuardianReplacementExecutor,
+  guardianReplacementExecutor:this.idMapperToObj(guardianReplacementExecutor),
 
 }
 console.log(step2);
 
 const step3 ={
-  liabilities,
+  liabilitiesData:this.idMapperToObj(liabilitiesData),
 assets,
-trust,
+trust:trust.map((el)=>({_id:el.trustData})),
 }
+this._willServices.allTrustAdditionalData.next(trust);
+const payout =trust.map((el)=>el.payouts)
+console.log(payout.flat());
+this._willServices.allpayoutTrust.next(payout.flat());
 console.log(step3);
-
+this.step3Data =step3;
 const step4 ={
-  specifyResidualAssetBenificiary,
-  residualMemberId,
-  trustType,
-  fallbackMemberId,
-  customType,
-  fallbackReplacementMemberId,
+  specifyResidualAssetBenificiary:specifyResidualAssetBenificiary.map((el)=>({_id:el?.member,share:el?.specifyShares})),
+  trustFallback,
 }
 const step5 ={
   ...clauses
+}
+console.log(step4);
+
+const newStep3 =step3['assets']?.map((el)=>({_id:el?.assetData})) || null;
+this._willServices.step3AssetData.next(newStep3);
+
+
+// sttep3 assets meber function
+    let assetsBeneficiary = []
+const getData =this.step3Data['assets'].map((item)=>{
+      console.log(this.memberData);
+      
+      return {...item.membersData.map((el)=>{
+        const temp = {
+          assetId:item.assetData,
+          _id:el.member,
+          share:el.specify_Shares,
+        }
+        assetsBeneficiary.push(temp)
+        return temp;
+      })}
+});
+    console.log(assetsBeneficiary);
+if (this._willServices.assetsBeneficiary.getValue().length==0) {
+   this._willServices.assetsBeneficiary.next(assetsBeneficiary);
 }
         this._willServices.step1.next(step1);
         this._willServices.step2.next(step2);
@@ -170,6 +219,9 @@ const step5 ={
         this.spinner.stop();
       }
     );
+    this._willServices.globalReload.next(false);
+  }
+
   }
 
 }

@@ -23,6 +23,9 @@ export class SelectBoxComponent implements OnInit {
 @Input() dragToggle:boolean=false;
 @Input() memberShareList:boolean=false;
 @Input() imageUrl='../../../../assets/Icons/DP.svg';
+@Input() disableSelect:boolean = false;
+@Input() selectionType = '';
+
 @Output() onSelectId=new EventEmitter;
 @Output() onAddNewItem=new EventEmitter;
 @Output() onDeleteHandler=new EventEmitter;
@@ -37,11 +40,15 @@ shareIdInputArray=[];
 shareValue=0;
 colorArray=[];
 shareMemberList=[];
-constructor(private _route:Router,private currentUrl:ActivatedRoute) { 
+constructor(private _route:Router,private route: ActivatedRoute,) { 
 }
-
+wid='';
 
 sharePercentage(e, itemId){
+
+  if(this.disableSelect){
+    return;
+  }
   if (parseInt(e.target.value)>100) {
     this.shareValue=100;
     return;
@@ -68,9 +75,23 @@ sharePercentage(e, itemId){
   
     this.shareIdInputArray = [...newarr];
   }
- this.onSelectId.emit(this.mergeById( this.selectedItem,this.shareIdInputArray));
- console.log(this.mergeById( this.selectedItem,this.shareIdInputArray));
+ this.onSelectId.emit(this.mergeOny( this.selectedItem,this.shareIdInputArray));
+ console.log(this.mergeOny( this.selectedItem,this.shareIdInputArray));
+ console.log(this.selectedItem);
+ console.log(this.shareIdInputArray);
  
+}
+mergeOny(a1,a2){
+  return a1.map((item)=>{
+    if (a2.findIndex((el) => el._id === item._id) !== -1) {
+      
+      return {
+        ...item,
+        share:a2.find((el) => (el._id === item._id))?.share,
+      }
+    }
+    else return item;
+  });
 }
  mergeById (a1, a2) { 
    return a1.map(itm => ({
@@ -82,9 +103,16 @@ clicl(value){
   
 }
 onClickActionButton(Item){
-  
+  if(this.disableSelect){
+    return;
+  }
   this.actionButton.emit(Item._id);
-  if (this._route.url=='/will/createWill') {
+  if (this._route.url.startsWith('/will/createWill')) {
+    if(this.wid !==''){
+
+      this._route.navigate([`${Item.actionRoute}`], { queryParams:{id:Item._id,y:'will',wid:this.wid}});
+      return;
+    }
     this._route.navigate([`${Item.actionRoute}`], { queryParams:{id:Item._id,y:'will'}});
     return;
   }
@@ -92,10 +120,25 @@ onClickActionButton(Item){
   
 }
 onSelectItem(value){
-  let selectedObj = this.listItem.filter((el) => el._id === value);
-  const myItem = this.selectedItem.findIndex((el) => el._id === value);
+
+  if(this.disableSelect){
+    return;
+  }
+  if(this.selectionType==='sole'){
+    let selectedObj = this.listItem.filter((el) => el._id === value);
+    this.selectedItem=[];
+    this.selectedItem.push(...selectedObj);
+  
+    this.onSelectId.emit(this.selectedItem);
+    this.colorArray=this.selectedItem.map((el)=>el._id)
+      console.log(this.selectedItem);
+      this.checkId(value)
+    return ;
+  }
+  let selectedObj = this.listItem?.filter((el) => el._id === value);
+  const myItem = this.selectedItem?.findIndex((el) => el._id === value);
   if (myItem !== -1) {
-    this.selectedItem =this.selectedItem.filter((el) => el._id !== value);
+    this.selectedItem =this.selectedItem?.filter((el) => el._id !== value);
     this.onSelectId.emit(this.mergeById( this.selectedItem,this.shareIdInputArray));
     
   } else { 
@@ -116,7 +159,12 @@ delete(index: any) {
   this.listItem.splice(index,1);
 }
 onAddItem(){
-  if (this._route.url=='/will/createWill') {
+  if (this._route.url.startsWith('/will/createWill')) {
+    if(this.wid !==''){
+
+      this._route.navigate([`${this.addItemRoute}`], { queryParams:{y:'will',wid:this.wid}});
+      return;
+    }
     this._route.navigate([`${this.addItemRoute}`], { queryParams:{y:'will'}});
     return;
   }
@@ -143,20 +191,23 @@ getShortName(obj) {
  
 }
 drop(event: CdkDragDrop<string[]>) {
+  if(this.disableSelect){
+    return;
+  }
   moveItemInArray(this.listItem, event.previousIndex, event.currentIndex);
   // console.log(this.selectedItem);
   
 }
 
 shareDisplay(_id){
- return this.selectedItems?.find((el)=>el._id===_id)?.share || this.listItem?.find((el)=>el._id===_id)?.share;
+ return (this.selectedItems?.find((el)=>el._id===_id)?.share || this.listItem?.find((el)=>el._id===_id)?.share) > 100 ? 100 : (this.selectedItems?.find((el)=>el._id===_id)?.share || this.listItem?.find((el)=>el._id===_id)?.share) ;
 }
 ngOnChanges(changes: SimpleChanges) {
   
   // console.log(changes);
   this.shareMemberList= this.memberListShare;
   this.selectedItem = this.selectedItems;
-  this.colorArray=this.selectedItem.map((el)=>el._id);
+  this.colorArray=this.selectedItem?.map((el)=>el._id);
   console.log(this.selectedItem);
   
 }
@@ -164,6 +215,10 @@ ngOnChanges(changes: SimpleChanges) {
 ngOnInit(): void {
   // console.log(this.memberListShare);
   
+  this.route.queryParams.subscribe(({ wid }) => {
+    if (wid) {
+      this.wid = wid;
+    }});
   if (this._route.url==='/will/createWill') {
     this.currentRoute=this._route.url
   }

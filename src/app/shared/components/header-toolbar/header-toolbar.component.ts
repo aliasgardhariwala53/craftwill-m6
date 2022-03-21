@@ -12,6 +12,9 @@ export class HeaderToolbarComponent implements OnInit {
   @Input() routerlink:string;
   @Input() showpagetitle:boolean;
   @Input() showSearchbar:boolean;
+  @Input() y;
+  @Input() wid;
+  @Input() x;
   @Input() showbackbutton:boolean;
   @Input() headerMenuIcon:boolean=false;
   @Input() notificatioIcon:boolean=false;
@@ -25,6 +28,16 @@ export class HeaderToolbarComponent implements OnInit {
 
   routeTo(){
     if (this.routerlink) {
+ if (this.y || this.x || this.wid) {
+   this.route.navigate([`${this.routerlink}`], { queryParams: {
+     wid: this.wid?this.wid:null,
+     y: this.y?this.y:null,
+     x: this.x?this.x:null,
+   }
+   });
+   return;
+ }
+  
       this.route.navigate([this.routerlink]);
     }
     

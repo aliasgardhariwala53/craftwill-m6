@@ -28,7 +28,7 @@ export class ListShareComponent implements OnInit {
   
     // console.log(changes);
     // console.log(this.memberListShare);
-    this.allAssetsBeneficiary=this.memberListShare.filter((el)=>el.assetId===this._id);
+    this.allAssetsBeneficiary=this.memberListShare?.filter((el)=>el.assetId===this._id);
     
   }
   ngOnInit(): void {

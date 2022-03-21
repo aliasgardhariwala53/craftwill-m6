@@ -13,6 +13,7 @@ export class SelectPayoutComponent implements OnInit {
   @Input() classes;
   @Input() keyOfPayoutMember;
   @Input() classesOfPayoutMember;
+  @Input() disableSelect=false;
   @Input() dragToggle:boolean=true;
   @Input() togglePayoutDetail:boolean=true;
   @Input() selectedItems:Array<any>=[];
@@ -24,6 +25,9 @@ export class SelectPayoutComponent implements OnInit {
   displayMembers=[];
   constructor() { }
 drop(event: CdkDragDrop<string[]>) {
+  if(this.disableSelect){
+    return;
+  }
   moveItemInArray(this.listItem, event.previousIndex, event.currentIndex);
   // console.log(this.selectedItem);
   
@@ -43,6 +47,9 @@ mergeById (a1, a2) {
        ...itm
    }))};
 onSelectItem(value){
+  if(this.disableSelect){
+    return;
+  }
   let selectedObj = this.listItem.filter((el) => el._id === value);
   const myItem = this.selectedItem.findIndex((el) => el._id === value);
   if (myItem !== -1) {

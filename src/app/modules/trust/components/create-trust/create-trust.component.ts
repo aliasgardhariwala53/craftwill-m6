@@ -35,7 +35,7 @@ export class CreateTrustComponent implements OnInit,OnChanges {
   toggleModalTutorial: boolean = false;
   payoutToggle: boolean = false;
   editToggle: boolean = false;
-
+  wid='';
   allpayoutTrust=[];
   listType = [
     {
@@ -64,6 +64,7 @@ export class CreateTrustComponent implements OnInit,OnChanges {
   classesOfPayoutMember = ['font-bold', 'font-bold', 'text-sm'];
 
   memberData = [];
+  memberDataRepelacementTrustee = [];
   slectedPrimaryTrustee = [];
   slectedReplacementTrustee = [];
   powerChecked = false;
@@ -133,10 +134,10 @@ export class CreateTrustComponent implements OnInit,OnChanges {
       description: ['', [Validators.required]],
       _id: [''],
       primaryTrusteeMember: [[]],
-      primaryTrusteeOwnership: ['Sole'],
+      primaryTrusteeOwnership: ['sole'],
 
       repelacementTrusteeMember : [[]],
-      repelacementTrusteeOwnership :['Sole'],
+      repelacementTrusteeOwnership :['sole'],
       trusteePower: this._fb.array([]),
 
       memberDataTrustfallback:[],
@@ -154,6 +155,32 @@ export class CreateTrustComponent implements OnInit,OnChanges {
     this.TrusteePower.valueChanges.subscribe(() => {
       this.onClickIndividualCheckBox();
     });
+    this.TrustForm.get("primaryTrusteeOwnership").valueChanges.subscribe(selectedValue => {
+      console.log(selectedValue);
+      if(selectedValue==='sole'){
+        this.TrustForm.patchValue({
+          primaryTrusteeMember:this.TrustForm.value.primaryTrusteeMember.slice(0,1)
+        })
+      }
+    })
+    this.TrustForm.get("repelacementTrusteeOwnership").valueChanges.subscribe(selectedValue => {
+      console.log(selectedValue);
+      if(selectedValue==='sole'){
+
+        this.TrustForm.patchValue({
+          repelacementTrusteeMember:this.TrustForm.value.repelacementTrusteeMember.slice(0,1)
+        })
+      }
+    })
+    this.TrustForm.get("primaryTrusteeMember").valueChanges.subscribe(selectedValue => {
+      console.log(selectedValue);
+      this.memberDataRepelacementTrustee=this.memberData.filter(el => {
+        return !selectedValue?.find(element => {
+           return element._id === el._id;
+        });
+     });
+      
+    })
   }
   formErrors = {
     trustName: '',
@@ -211,6 +238,10 @@ export class CreateTrustComponent implements OnInit,OnChanges {
         if (result.success) {
           this.TrustForm.reset();
           if (this.fromCreateWill === 'will') {
+            if (this.wid !== '') {
+              this._route.navigate([`${this.forwardRouteLink}`], { queryParams:{y: 'will',wid:this.wid}});
+              return;
+            }
             this._route.navigate(['/trust/succesTrust'], {
               queryParams: { y: 'will' },
             });
@@ -251,30 +282,47 @@ export class CreateTrustComponent implements OnInit,OnChanges {
       (result) => {
         this.spinner.stop();
         if (result.success) {
-          this.allpayoutTrust = this.allpayoutTrust.filter((el) => el._id!== this.id);
+          console.log(this.allpayoutTrust);
+          
+          this.allpayoutTrust = this.allpayoutTrust?.filter((el) => el.trustId!== this.id);
           this.allpayoutTrust=[...this.allpayoutTrust,...this.payoutList]
           this._willServices.allpayoutTrust.next(this.allpayoutTrust);
-          const trust = {
+          const trust = { 
             trustData: this.id,
             addTrust: {
               appointPrimaryTrustee: {
                 specifyOwnershipType: this.TrustForm.value.primaryTrusteeOwnership,
-                trustMembers: this.TrustForm.value.primaryTrusteeMember,
+                trustMembers: this.TrustForm.value.primaryTrusteeMember.map((el)=>{
+                  if(el._id){
+                   return el._id;
+                  }
+                  return el;
+                }),
               },
               appointReplacementTrustee: {
                 specifyOwnershipType: this.TrustForm.value.repelacementTrusteeOwnership,
-                trustMembers: this.TrustForm.value.repelacementTrusteeMember,
+                trustMembers: this.TrustForm.value.repelacementTrusteeMember.map((el)=>{
+                  if(el._id){
+                   return el._id;
+                  }
+                  return el;
+                }),
               },
-              specifyTrusteePowers: this.trustPowerArray.map((el) => el.name),
+              specifyTrusteePowers: JSON.stringify(this.trustPowerArray.map((el) => el.name)),
             },
             assets:{},
             payouts:this.payoutList,
             trustFallback :{
-              memberData:this.TrustForm.value.fallBackType==='terminate'?this.TrustForm.value.memberDataTrustfallback:null,
-              fallBackType :this.TrustForm.value.fallBackType,
-              description :this.TrustForm.value.fallBackType==='custom'?this.TrustForm.value.descriptionFallback:null,
+              memberData:this.TrustForm.value.fallBackType==='terminate'?this.TrustForm.value.memberDataTrustfallback?.map((el)=>{
+                if(el._id){
+                 return el._id;
+                }
+                return el;
+              }):null,
+              fallBackType :this.TrustForm.value?.fallBackType,
+              description :this.TrustForm.value?.fallBackType==='custom'?this.TrustForm.value.descriptionFallback:null,
             },
-            additionalClauses :this.TrustForm.value.additionalClauses,
+            additionalClauses :this.TrustForm.value?.additionalClauses,
 
           };
           this.trustAdditionalData={...trust}
@@ -284,6 +332,10 @@ export class CreateTrustComponent implements OnInit,OnChanges {
           console.log('trust', this.allTrustAdditionalData);
           this._willServices.allTrustAdditionalData.next(this.allTrustAdditionalData);
           this.TrustForm.reset();
+          if (this.wid !== '') {
+            this._route.navigate([`${this.forwardRouteLink}`], { queryParams:{wid:this.wid}});
+            return;
+          }
           this._route.navigate([this.forwardRouteLink]);
         }
 
@@ -352,12 +404,12 @@ export class CreateTrustComponent implements OnInit,OnChanges {
   }
   onSavePayout(value){
     this.currentPayoutObj={
-      _id:this.id,
-      ...value,
+      trustId:this.id,
+      addAPayout:value,
     }
     this.payoutList.push(this.currentPayoutObj);
     this.payoutList=this.payoutList.map((el,i)=>{
-      return {...el,payoutNo:`Payouts ${i+1}`}
+      return {...el,...el?.addAPayout,payoutNo:`Payouts ${i+1}`}
     });
  console.log(this.payoutList);
  
@@ -372,15 +424,11 @@ export class CreateTrustComponent implements OnInit,OnChanges {
     this.createForm();
     
     
-    this._willServices.allpayoutTrust.subscribe((value) => {
-      this.allpayoutTrust=value;
-      this.payoutList = value.filter((el) => el._id === this.id);
-      console.log(value);
-    });
+
     this.options.map((el) => {
       this.TrusteePower.push(this.createItem(el));
     });
-    this.route.queryParams.subscribe(({ id, x, y }) => {
+    this.route.queryParams.subscribe(({ id, x, y ,wid}) => {
       if (id) {
         this.id = id;
         this.getdata(id);
@@ -393,6 +441,7 @@ export class CreateTrustComponent implements OnInit,OnChanges {
         this.forwardRouteLink = '/will/createWill';
         this.fromCreateWill = y;
         console.log(this.fromCreateWill);
+        this.wid=wid;
       }
       if (y === 'myWill') {
         this.backRouteLink = '/will/myWills';
@@ -421,6 +470,7 @@ export class CreateTrustComponent implements OnInit,OnChanges {
             actionRoute: 'members/createmembers',
           };
         });
+        this.memberDataRepelacementTrustee=this.memberData;
         // console.log(this.allMemberData);
       },
       (err) => {
@@ -428,26 +478,52 @@ export class CreateTrustComponent implements OnInit,OnChanges {
         this.toastr.message('Error Getting Members data !!', false);
       }
     );
-    
+    this._willServices.allpayoutTrust.subscribe((value) => {
+      this.allpayoutTrust=[...value];
+      const dataPayout = [...value.filter((el) => el.trustId === this.id)];
+      console.log(this.payoutList);
+      console.log(dataPayout);
+      this.payoutList.push(...dataPayout.map((el) => ({trustId:el?.trustId,...el?.addAPayout})));
+      console.log(value);
+      console.log(this.payoutList);
+    });
     this._willServices.allTrustAdditionalData.subscribe((value) => {
       this.allTrustAdditionalData=value;
       this.trustAdditionalData = (value.filter((el) => el.trustData === this.id))[0];
       const data = (value.filter((el) => el.trustData === this.id))[0];
       console.log(this.trustAdditionalData);
-      this.TrustForm.patchValue({
-        primaryTrusteeOwnership:data.addTrust.appointPrimaryTrustee.specifyOwnershipType,
-        primaryTrusteeMember: data.addTrust.appointPrimaryTrustee.trustMembers,
-        repelacementTrusteeOwnership :data.addTrust.appointReplacementTrustee.specifyOwnershipType,
-        repelacementTrusteeMember: data.addTrust.appointReplacementTrustee.trustMembers,
-        trusteePower: data.addTrust.specifyTrusteePowers,
-  
-        memberDataTrustfallback:data.trustFallback.memberData,
-        fallBackType:data.trustFallback.fallBackType,
-        descriptionFallback:data.trustFallback.description,
-        additionalClauses:data.additionalClauses,
-      })
-      this.selectedItemFromEdit=data.trustFallback.memberData;
-      this.payoutList=data.payouts;
+      if(this.trustAdditionalData){
+
+        this.TrustForm.patchValue({
+          primaryTrusteeOwnership:data?.addTrust?.appointPrimaryTrustee?.specifyOwnershipType,
+          primaryTrusteeMember: data?.addTrust?.appointPrimaryTrustee?.trustMembers?.map((el)=>{
+            if(el._id){
+              return el;
+            }
+            return {_id:el}
+          }),
+          repelacementTrusteeOwnership :data?.addTrust?.appointReplacementTrustee?.specifyOwnershipType,
+          repelacementTrusteeMember: data?.addTrust?.appointReplacementTrustee?.trustMembers?.map((el)=>{
+            if(el._id){
+              return el;
+            }
+            return {_id:el}
+          }),
+          // trusteePower: data?.addTrust?.specifyTrusteePowers,
+    
+          memberDataTrustfallback:data?.trustFallback?.memberData?.map((el)=>{
+            if(el._id){
+              return el;
+            }
+            return {_id:el}
+          }),
+          fallBackType:data?.trustFallback?.fallBackType,
+          descriptionFallback:data?.trustFallback?.description,
+          additionalClauses:data?.additionalClauses,
+        })
+        this.selectedItemFromEdit=data?.trustFallback?.memberData;
+        
+      }
       console.log(this.TrustForm.value);
     });
   }

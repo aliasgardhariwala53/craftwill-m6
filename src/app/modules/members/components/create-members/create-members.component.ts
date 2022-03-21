@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as moment from 'moment';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { errorHandler, valueChanges } from 'src/app/helper/formerror.helper';
 import { MembersService } from 'src/app/services/members.service';
@@ -16,6 +17,7 @@ import { UserService } from '../../../../services/user.service';
     '../../../../app.component.scss',
   ],
 })
+
 export class CreateMembersComponent implements OnInit {
   memberType: string = 'person';
   personForm: FormGroup;
@@ -28,6 +30,7 @@ export class CreateMembersComponent implements OnInit {
   genderList = ['Male', 'Female', 'Other'];
   relationshipList = ['Brother', 'Sister','Father','Mother'];
   id: string = '';
+  max_date;
   constructor(
     private _fb: FormBuilder,
     private membersServices: MembersService,
@@ -50,7 +53,7 @@ export class CreateMembersComponent implements OnInit {
       streetName: ['', Validators.required],
       postalCode: ['', [Validators.required, Validators.pattern('^[0-9]*$') , Validators.maxLength(12)]],
       id_country: [, Validators.required],
-      dob: ['', Validators.required],
+      dob: [, Validators.required],
       Relationship: [, Validators.required],
     });
     this.organisationForm = this._fb.group({
@@ -317,6 +320,7 @@ export class CreateMembersComponent implements OnInit {
         });
   }
   ngOnInit(): void {
+    this.max_date = moment().subtract(18, 'years').format('YYYY-MM-DD');
     this.route.queryParams.subscribe(({ id,x,y }) => {
      if (id) {
         this.id = id;

@@ -8,6 +8,8 @@ import { HttpService } from './http.service';
 })
 export class WillService {
   constructor(private _httpservices : HttpService) {}
+  globalReload = new BehaviorSubject(true);
+  currentStep = new BehaviorSubject(1);
   step1 = new BehaviorSubject({});
   step2 = new BehaviorSubject({});
   step3 = new BehaviorSubject({});
@@ -15,8 +17,11 @@ export class WillService {
   step5 = new BehaviorSubject({});
 
   assetsBeneficiary = new BehaviorSubject([]);
+  assetsResidualType = new BehaviorSubject(null);
+
 // step 3
   step3AssetData = new BehaviorSubject([]);
+
   //trust
   allTrustAdditionalData = new BehaviorSubject([]);
   step3TrustData = new BehaviorSubject([]);
@@ -32,6 +37,7 @@ export class WillService {
  latestWillId= new BehaviorSubject(null);
 
 
+ memberdata = new BehaviorSubject(null);
 
  createWill(obj){
   return this._httpservices.post(environment.serverUrl +"will/storeWill",obj);

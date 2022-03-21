@@ -43,7 +43,7 @@ export class UserService {
   }
 
   dashboardGraph(obj) {
-    return this._httpServe.post(environment.serverUrl + 'statics', obj);
+    return this._httpServe.get(environment.serverUrl + 'statics');
   }
 
 

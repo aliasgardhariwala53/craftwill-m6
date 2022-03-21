@@ -109,10 +109,11 @@
       <div class="max-h-[50vh] overflow-auto drag-boundary">
         <app-select-box
           [key]="key"
-          [listItem]="memberData"
+          [listItem]="memberDataExecutor"
           [selectedItems]="
-            this.appointExecutorForm.value.addReplacementExecutor
+            this.appointExecutorForm.value.replacementExecutors
           "
+          [actionToggle]="false"
           addItemRoute="members/createmembers"
           [classes]="classes"
           [dragToggle]="true"
@@ -121,6 +122,7 @@
           avtarType="name"
           imageUrl="../../../../../assets/Icons/Bank Account.svg"
           addItemTitle="Add Executor"
+          [selectionType]="this.appointExecutorForm.value.replacement_executor_type"
         >
         </app-select-box>
       </div>
@@ -225,8 +227,9 @@
                 [key]="key"
                 [listItem]="memberData"
                 [selectedItems]="
-                  this.appointExecutorForm.value.addGuardianExecutor
+                  this.appointExecutorForm.value.guardianExecutor
                 "
+                [actionToggle]="false"
                 addItemRoute="members/createmembers"
                 [classes]="classes"
                 (onSelectId)="selectMemberGuardian($event)"
@@ -234,6 +237,7 @@
                 avtarType="name"
                 imageUrl="../../../../../assets/Icons/Bank Account.svg"
                 addItemTitle="Add Executor"
+                [selectionType]="this.appointExecutorForm.value.guardian_executor_type"
               >
               </app-select-box>
             </div>
@@ -288,10 +292,11 @@
             <div class="max-h-[50vh] overflow-auto">
               <app-select-box
                 [key]="key"
-                [listItem]="memberData"
+                [listItem]="memberDataGuardianExecutor"
                 [selectedItems]="
-                  this.appointExecutorForm.value.addGuardianReplacementExecutor
+                  this.appointExecutorForm.value.guardianReplacementExecutor
                 "
+                [actionToggle]="false"
                 addItemRoute="members/createmembers"
                 [classes]="classes"
                 (onSelectId)="selectReplacementMemberGuardian($event)"
@@ -299,6 +304,7 @@
                 avtarType="name"
                 imageUrl="../../../../../assets/Icons/Bank Account.svg"
                 addItemTitle="Add Guardian"
+                [selectionType]="this.appointExecutorForm.value.guardian_replacement_executor_type"
               >
               </app-select-box>
             </div>
@@ -331,10 +337,11 @@
         
         (backButtonHandler)="editToggle = false"
       ></app-header-toolbar>
-      <div class="max-h-[90vh] overflow-auto">
+      <div class="max-h-[75vh] overflow-auto">
         <app-edit-select-box
-          [allItems]="memberData"
+          [allItems]="memberDataEditBox"
           (getSelectedList)="selectMemberExecutor($event)"
+          [selectionType]="this.appointExecutorForm.value.primary_executor_type"
           [deletedItemBySelectMobile]="deletedItemsInArray"
           addItemTitle="Add Executor"
         >

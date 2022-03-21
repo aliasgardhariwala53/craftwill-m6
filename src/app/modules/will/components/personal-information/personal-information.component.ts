@@ -119,7 +119,7 @@ export class PersonalInformationComponent implements OnInit {
     }
     this._willServices.step1.subscribe((step1Data) => {
       console.log(step1Data);
-      this.userInfo.setValue(step1Data);
+      this.userInfo.patchValue(step1Data);
     });
   }
 

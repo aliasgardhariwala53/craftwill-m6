@@ -5,6 +5,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { errorHandler, valueChanges } from 'src/app/helper/formerror.helper';
 import { AssetsService } from 'src/app/services/assets.service';
 import { LiabilitiesService } from 'src/app/services/liabilities.service';
+import { MembersService } from 'src/app/services/members.service';
 import { TrustService } from 'src/app/services/trust.service';
 import { WillService } from 'src/app/services/will.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
@@ -26,7 +27,8 @@ export class DistributionAssetsComponent implements OnInit {
     private liabilitiesServices: LiabilitiesService,
     private trustServices: TrustService,
     private toastr: ToastrService,
-    private _willServices: WillService
+    private _willServices: WillService,
+    private memberServices: MembersService,
   ) {
     
   }
@@ -35,7 +37,7 @@ export class DistributionAssetsComponent implements OnInit {
   createForm() {
     this.distributeAssetsForm = this._fb.group({
           /// Liabilities
-      liabilities: [[], [Validators.required]],
+      liabilitiesData: [[], [Validators.required]],
           ///Assets
       assets: [[], [Validators.required]],
 ///trust
@@ -50,7 +52,7 @@ export class DistributionAssetsComponent implements OnInit {
     });
   }
   formErrors = {
-    liabilities: '',
+    liabilitiesData: '',
     assets: '',
     trust: '',
   };
@@ -58,28 +60,58 @@ export class DistributionAssetsComponent implements OnInit {
     assets: {
       required: 'Please Select Asset',
     },
-    liabilities: {
+    liabilitiesData: {
       required: 'Please Select Liabilities',
     },
     trust: {
       required: 'Please Select Trust',
     },
   };
-
+  memberData=[];
+  mergeById(a1, a2) {
+    return a1.map((itm) => ({
+      ...a2.find((item) => item === itm._id && item),
+      ...itm,
+    }));
+  }
+  mergeBy_Id(a1, a2) {
+    return a1.map((itm) => ({
+      ...a2.find((item) => item._id === itm._id && item),
+      ...itm,
+    }));
+  }
+  mergeBy_Id_trustData(a1, a2) {
+    return a1.map((itm) => ({
+      ...a2.find((item) => item.trustData === itm._id && item),
+      ...itm,
+      trustData:itm._id
+    }));
+  }
+  
   //assets
   keyAssets = ['nameofAssets', 'uniqueNumber'];
   classes = ['font-bold', 'font-bold', 'text-sm'];
   assetsData = [];
+  
   selectAssets(value) {
-    // console.log(value);
-    let memberData = this.allAssetsBeneficiary.filter(o1 => value.some(o2 => o1.assetId === o2._id));
-    // console.log(this.allAssetsBeneficiary);
-    // console.log(memberData);
+    console.log(value);
+    
+    console.log(this.allAssetsBeneficiary);
+    let memberData = this.allAssetsBeneficiary.filter(o1 => value.some(o2 => o2._id === o1.assetId));
+    console.table("memberre tabala",memberData);
     this.step3AssetData=value;
+    console.log(this.step3AssetData);
     const assets=value.map((el)=>{
-      const data =memberData.filter((i)=>i.assetId===el._id);
-    return {assetData:el._id,memberData:data}
+      let data =memberData.filter((i)=>i.assetId===el._id);
+     data= data.map((el2)=>({
+        member: el2._id,
+        specify_Shares: el2.share
+      }))
+      console.log(data);
+    return {assetData:el._id,membersData:data}
     })
+    console.log(assets);
+    
     this.distributeAssetsForm.patchValue({
       assets: assets,
     });
@@ -89,12 +121,12 @@ export class DistributionAssetsComponent implements OnInit {
 
   //liabilities
   KeysLiability = ['loanName', 'loanProvider'];
-  LiabilitiesData = [];
+  allLiabilitiesData = [];
 
   selectLiabilities(value) {
 
     this.distributeAssetsForm.patchValue({
-      liabilities: value,
+      liabilitiesData: value,
     });
 
     // console.log(this.distributeAssetsForm.value.liabilities);
@@ -104,23 +136,25 @@ export class DistributionAssetsComponent implements OnInit {
   trustData = [];
   KeysTrust = ['trustName', 'ownerShipType'];
   selectTrust(value) {
-    let trustId: Array<any> =
-      this.distributeAssetsForm.value.trust;
-    if (trustId?.includes(value)) {
-      trustId.splice(trustId.indexOf(value), 1);
-    } else {
-      trustId?.push(value);
-    }
     this.distributeAssetsForm.patchValue({
-      trust: trustId,
+      trust: value,
     });
 
-    // console.log(this.distributeAssetsForm.value.assets);
+    console.log(this.distributeAssetsForm.value.trust);
   }
   onClickNext(){
     this.onClickNextBtn.emit(4)
-    // console.log(this.distributeAssetsForm.value);
+    console.log(this.step3AssetData);
+    console.log(this.distributeAssetsForm.value.trust);
+    console.log(this.allTrustAdditionalData);
+    const trustIdData = this.mergeBy_Id_trustData(this.distributeAssetsForm.value.trust,this.allTrustAdditionalData); 
     
+    
+    this.distributeAssetsForm.patchValue({
+      trust: trustIdData,
+    });
+    console.log(trustIdData);
+    this.step3AssetData= this.mergeBy_Id(this.step3AssetData,this.assetsData)
     this._willServices.step3.next(this.distributeAssetsForm.value);
     this._willServices.step3AssetData.next(this.step3AssetData);
   }
@@ -130,26 +164,64 @@ export class DistributionAssetsComponent implements OnInit {
   }
   ngOnInit(): void {
     this.createForm();
-    this._willServices.assetsBeneficiary.subscribe((value) => {
+        this._willServices.assetsBeneficiary.subscribe((value) => {
       this.allAssetsBeneficiary=value;
+      console.log(value);
       
     });
+    this.memberServices.getMembers().subscribe(
+      (result) => {
+        // console.log(result.data);
+        this.spinner.stop();
+        this.memberData = result.data.map((items, i) => {
+          // console.log(items);
+          return {
+            fullname: this.memberServices.getMembersData(items).fullname,
+            Relationship:
+              this.memberServices.getMembersData(items).Relationship,
+            gender: this.memberServices.getMembersData(items).gender,
+            id_number: this.memberServices.getMembersData(items).id_number,
+            id_type: this.memberServices.getMembersData(items).id_type,
+            dob: this.memberServices.getMembersData(items).dob,
+            type: items.type,
+            _id: items._id,
+            actionRoute: 'members/createmembers',
+          };
+        });
+      
+        console.log(this._willServices.assetsBeneficiary.getValue());
+          this.allAssetsBeneficiary=this.mergeBy_Id(this._willServices.assetsBeneficiary.getValue(), this.memberData);
+          console.log(this.allAssetsBeneficiary);
+          
+
+        this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
+        console.log(this.allAssetsBeneficiary);
+      },
+      (err) => {
+        this.spinner.stop();
+        this.toastr.message('Error Getting Members data !!', false);
+      }
+    );  
+
+
     this._willServices.allTrustAdditionalData.subscribe((value) => {
-      // console.log(value);
+      console.log(value);
       this.allTrustAdditionalData =value;
       
     });
-    this._willServices.step3.subscribe((step3Data) => {
-      // console.log(step3Data);
-      this.distributeAssetsForm.setValue(step3Data);
 
-    });
     this._willServices.step3AssetData.subscribe((step3AssetData) => {
       // console.log(step3AssetData);
       this.step3AssetData=step3AssetData;
 
     });
+    this._willServices.step3.subscribe((step3Data) => {
+      console.log(step3Data);
+      this.distributeAssetsForm.patchValue(step3Data);
 
+      console.log(step3Data['aaset']);
+      console.log(step3Data['trust']);
+    });
     this.assetsServices.getAssets().subscribe(
       (result) => {
         this.spinner.stop();
@@ -177,7 +249,7 @@ export class DistributionAssetsComponent implements OnInit {
         console.log(result);
         
         this.spinner.stop();
-        this.LiabilitiesData = result.data.map((items, i) => {
+        this.allLiabilitiesData = result.data.map((items, i) => {
           // console.log(items);
           const obj ={
             loanName:

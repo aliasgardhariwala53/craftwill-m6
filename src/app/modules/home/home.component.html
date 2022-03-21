@@ -4,7 +4,7 @@
 <div class="px-8 py-8 overflow-auto h-full">
   <p class="text-xl font-bold">Home</p>
   <div class="grid grid-cols-1 md:grid-cols-4 md:gap-6 gap-y-4 mb-4">
-    <div
+        <div
       class="bg-black-vector rounded-3xl custom-shadow flex items-center justify-center py-4 px-5"
     >
       <div>
@@ -13,9 +13,7 @@
           $ {{ totalNetWorth }}
         </p>
       </div>
-    </div>
-    <div class="col-span-2">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        </div>
         <div
           class="bg-white rounded-3xl custom-shadow flex items-center md:justify-center justify-start py-5 px-5"
         >
@@ -65,8 +63,7 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
+   
 
   <p class="text-xl font-bold">Statics</p>
 
@@ -75,6 +72,7 @@
       baseChart
       [data]="barChartData"
       [options]="barChartOptions"
+      chartType="horizontalBar"
       [type]="'bar'"
       width="100"
       height="25"

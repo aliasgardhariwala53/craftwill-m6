@@ -79,10 +79,10 @@ export class HeaderComponent implements OnInit {
       (result) => {
         this.spinner.stop();
         this.latestWillData = result.data?.users[result.data.users.length-1]?.DATE ;
-        this.latestWillId=this.latestWillData['_id'] ?this.latestWillData['_id']: '';
+        this.latestWillId=result.data?.users[result.data.users.length-1]?._id || '';
         console.log(this.latestWillData);
         console.log(this.latestWillId);
-        this._willServices.latestWillId.next(this.latestWillData['_id']);
+        this._willServices.latestWillId.next(result.data?.users[result.data.users.length-1]?._id);
       },
       (err) => {
         this.spinner.stop();

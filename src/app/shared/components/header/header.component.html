@@ -303,7 +303,7 @@
 
         <div class="text-sm mx-1">Guide Me</div>
       </div>
-      <div  (click)="latestWill()"
+      <div  (click)="latestWill()" *ngIf="this.latestWillId !== '' "
         class="flex flex-row rounded-xl items-center py-1 cursor-pointer border-2 border-[#E0E0E0]"
         [routerLink]="['/will/myWills']" routerLinkActive="router-link-active">
         <div class="mx-2">
@@ -316,7 +316,7 @@
           </svg>
           
         </div>
-        <div>
+        <div  >
           <div class="text-xs">latest Will</div>
           <div class="text-xs">{{latestWillData? latestWillData:'No Will Data'}}</div>
         </div>

@@ -184,7 +184,7 @@ export class ListAssetsComponent implements OnInit {
               label: 'Liquid',
               backgroundColor: ['#00C5E9','#FFCB67'],
               borderWidth: 0,
-              barThickness:50,
+              barThickness:40,
             },
           ],
         },

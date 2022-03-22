@@ -94,7 +94,7 @@ mergeBy_Id(a1, a2) {
     this._willServices.currentStep.next(this.step);
   }
   ngOnInit(): void {
-    // this.spinner.start();
+    
     this.route.queryParams.subscribe(({ wid, x, y }) => {
       if (wid) {
         this.wid = wid;
@@ -106,7 +106,7 @@ mergeBy_Id(a1, a2) {
     this.setPageInfo()
     });
   if(this._willServices.globalReload.getValue() && this.wid ){
-
+    this.spinner.start();
     this._willServices.getAllWill().subscribe(
       (result) => {
         this.spinner.stop();

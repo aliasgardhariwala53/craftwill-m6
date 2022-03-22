@@ -19,6 +19,9 @@ export class AssetsService {
   filterAssets(obj){
     return this._httpServe.post(environment.serverUrl + "filterAssets",obj);
   }
+  liquidity(){
+    return this._httpServe.get(environment.serverUrl + "findDataCount");
+  }
   getAssetsData(item) {
     let data = {
       name: '',

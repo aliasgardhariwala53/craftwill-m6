@@ -236,10 +236,12 @@ export class AppointExecutorComponent implements OnInit {
   onUpdate(value) {}
   ngOnInit(): void {
     this.createForm();
+    this.spinner.start();
     this.memberServices.getMembers().subscribe(
       (result) => {
-        // console.log(result.data);
         this.spinner.stop();
+        // console.log(result.data);
+       
         this.memberData = result.data.map((items, i) => {
           // console.log(items);
 

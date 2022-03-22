@@ -157,6 +157,7 @@ console.log(data);
   }
   ngOnInit(): void {
     this.createForm();
+    this.spinner.start();
     this._willServices.step4.subscribe((step4Data) => {
       console.log(step4Data);
       

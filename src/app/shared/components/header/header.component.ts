@@ -78,7 +78,7 @@ export class HeaderComponent implements OnInit {
     this._willServices.getAllWill().subscribe(
       (result) => {
         this.spinner.stop();
-        this.latestWillData = result.data?.users[result.data.users.length-1];
+        this.latestWillData = result.data?.users[result.data.users.length-1]?.DATE ;
         this.latestWillId=this.latestWillData['_id'] ?this.latestWillData['_id']: '';
         console.log(this.latestWillData);
         console.log(this.latestWillId);

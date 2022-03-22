@@ -215,7 +215,7 @@ this.advisorForm.valueChanges.subscribe(() => {
     this.viewClause="listClause";
     
     this.createForm() 
-
+    this.spinner.start();
     this.memberServices.getMembers().subscribe(
       (result) => {
         // console.log(result.data);

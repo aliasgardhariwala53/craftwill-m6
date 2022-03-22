@@ -197,6 +197,7 @@ export class ReviewWillComponent implements OnInit, OnChanges {
     return this.mergeById(this.memberData,arr);
   }
   ngOnInit(): void {
+    this.spinner.start();
     this.route.queryParams.subscribe(({ wid}) => {
       if (wid) {
         this.wid = wid;

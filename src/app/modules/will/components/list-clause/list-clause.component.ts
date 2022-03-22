@@ -1,40 +1,48 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { MembersService } from 'src/app/services/members.service';
 import { WillService } from 'src/app/services/will.service';
 
 @Component({
   selector: 'app-list-clause',
   templateUrl: './list-clause.component.html',
-  styleUrls: ['./list-clause.component.scss']
+  styleUrls: ['./list-clause.component.scss'],
 })
 export class ListClauseComponent implements OnInit {
-  memberData=[];
-delayPayoutData;
- recommendedAdvisorData=[];
+  memberData = [];
+  delayPayoutData;
+  recommendedAdvisorData = [];
   finalWordsData;
- translationData;
+  translationData;
   customClauseData;
-// 1
-appointBeneficiaries=[];
+  // 1
+  appointBeneficiaries = [];
   key = ['fullname', 'Relationship'];
   classes = ['font-bold', 'font-bold', 'text-sm'];
-  delayType='';
+  delayType = '';
 
-//2
-advisorName=''
-contactNumber=''
-expertise=''
+  //2
+  advisorName = '';
+  contactNumber = '';
+  expertise = '';
 
-// 3
-  constructor(private _willServices: WillService,   private memberServices: MembersService) { }
-mergeById(a1, a2) {
-  return a1.map((itm) => ({
-    ...a2.find((item) => item._id === itm._id ),
-  }));
-}
+  // 3
+  constructor(
+    private _willServices: WillService,
+    private memberServices: MembersService,
+    private spinner: NgxUiLoaderService
+  ) {}
+  mergeById(a1, a2) {
+    return a1.map((itm) => ({
+      ...a2.find((item) => item._id === itm._id),
+    }));
+  }
   ngOnInit(): void {
+    this.spinner.start();
+
     this.memberServices.getMembers().subscribe(
       (result) => {
+        this.spinner.stop();
         this.memberData = result.data.map((items, i) => {
           console.log(items);
 
@@ -53,46 +61,40 @@ mergeById(a1, a2) {
         });
         // console.log(this.allMemberData);
         this._willServices.delayPayoutData.subscribe((value) => {
-          this.delayPayoutData=value;
+          this.delayPayoutData = value;
           console.log(value);
-          
-          this.delayType=value?.beneficiaryManagedBy;
-          this.appointBeneficiaries =value?.appointBeneficiaries.map(el =>{
+
+          this.delayType = value?.beneficiaryManagedBy;
+          (this.appointBeneficiaries = value?.appointBeneficiaries.map((el) => {
             if (el._id) {
-              return el
-              
+              return el;
             }
-            return {_id:el};
-          } 
-          ),
-          this.appointBeneficiaries=this.mergeById( this.appointBeneficiaries ,this.memberData) || [];
+            return { _id: el };
+          })),
+            (this.appointBeneficiaries =
+              this.mergeById(this.appointBeneficiaries, this.memberData) || []);
           console.log(this.appointBeneficiaries);
-          
         });
       },
-      (err) => {
-      }
+      (err) => {}
     );
 
     this._willServices.recommendedAdvisorData.subscribe((value) => {
       console.log(value);
-      
-      this.recommendedAdvisorData=value;
 
+      this.recommendedAdvisorData = value;
     });
     this._willServices.finalWordsData.subscribe((value) => {
       console.log(value);
-      this.finalWordsData=value;
+      this.finalWordsData = value;
     });
     this._willServices.translationData.subscribe((value) => {
       console.log(value);
-      this.translationData=value;
+      this.translationData = value;
     });
     this._willServices.customClauseData.subscribe((value) => {
       console.log(value);
-      this.customClauseData=value;
+      this.customClauseData = value;
     });
-
   }
-
 }

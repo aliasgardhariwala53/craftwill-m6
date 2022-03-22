@@ -124,6 +124,7 @@ export class ListAssetsComponent implements OnInit {
       document.getElementById("mySearchField").focus();    
     }, 0);
   }
+  arrayData;
   public barChartData1 = {
     labels: ['Liquid A ', 'Liquid B'],
     datasets: [{
@@ -132,37 +133,43 @@ export class ListAssetsComponent implements OnInit {
       borderRadius: 40,
       barPercentage: 0.4,
       borderColor: '#00C5E9',
-      data: [40,40],
+      data: [0,13],
     }],
 
   };
   public barChartOptions1 = {
-    
     scales: {
-      x: {
-      min:0
-      },
+      x: {},
       y: {
-        min: 2,
-      }
+        min: 0,
+      },
     },
     plugins: {
-      
       legend: {
         display: false,
       },
-
-      // datalabels: {
-      //   anchor: 'end',
-      //   align: 'end'
-      // }
     },
-    display: true ,
+    display: false,
     lineWidth: 5,
+    responsive: true,
   };
   public barChartType = 'horizontalBar';
+  
+
+
+  GraphData() {
+    this.assetsServices.liquidity().subscribe((result) => {
+      this.spinner.stop();
+      const dataarray = [result?.iliquidCount,result?.liquidCount];
+      this.barChartData1.datasets[0].data=[...dataarray];
+      console.log(result);
+      console.log(this.barChartData1.datasets[0].data);
+      console.log(dataarray);
+    });
+  }
   ngOnInit(): void {
     this.spinner.start();
+    this.GraphData(); 
     this.searchForm.valueChanges.pipe(debounceTime( 200 )  ).subscribe((e) => {
       console.log(e);
       this.onChangehandler();

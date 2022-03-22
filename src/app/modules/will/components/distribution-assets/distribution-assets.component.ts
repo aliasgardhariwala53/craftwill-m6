@@ -164,6 +164,7 @@ export class DistributionAssetsComponent implements OnInit {
   }
   ngOnInit(): void {
     this.createForm();
+    this.spinner.start();
         this._willServices.assetsBeneficiary.subscribe((value) => {
       this.allAssetsBeneficiary=value;
       console.log(value);

@@ -66,7 +66,7 @@ sharePercentage(e, itemId){
     })
   }
   else {
-     const newarr= this.shareIdInputArray.map((el)=>{
+     const newarr= this.shareIdInputArray?.map((el)=>{
       if (el._id === itemId) {
         return {...el,share:this.shareValue};
       }
@@ -82,20 +82,20 @@ sharePercentage(e, itemId){
  
 }
 mergeOny(a1,a2){
-  return a1.map((item)=>{
-    if (a2.findIndex((el) => el._id === item._id) !== -1) {
+  return a1?.map((item)=>{
+    if (a2?.findIndex((el) => el?._id === item?._id) !== -1) {
       
       return {
         ...item,
-        share:a2.find((el) => (el._id === item._id))?.share,
+        share:a2?.find((el) => (el?._id === item?._id))?.share,
       }
     }
     else return item;
   });
 }
  mergeById (a1, a2) { 
-   return a1.map(itm => ({
-        ...a2.find((item) => (item._id === itm._id) && item),
+   return a1?.map(itm => ({
+        ...a2?.find((item) => (item?._id === itm?._id) && item),
         ...itm
     }))};
 clicl(value){
@@ -130,7 +130,7 @@ onSelectItem(value){
     this.selectedItem.push(...selectedObj);
   
     this.onSelectId.emit(this.selectedItem);
-    this.colorArray=this.selectedItem.map((el)=>el._id)
+    this.colorArray=this.selectedItem?.map((el)=>el._id)
       console.log(this.selectedItem);
       this.checkId(value)
     return ;
@@ -145,7 +145,7 @@ onSelectItem(value){
   this.selectedItem.push(...selectedObj);
   this.onSelectId.emit(this.mergeById( this.selectedItem,this.shareIdInputArray));
   }
-  this.colorArray=this.selectedItem.map((el)=>el._id)
+  this.colorArray=this.selectedItem?.map((el)=>el._id)
   console.log(this.mergeById( this.selectedItem,this.shareIdInputArray));
   this.checkId(value);
   

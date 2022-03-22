@@ -5,6 +5,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { MembersService } from 'src/app/services/members.service';
 import { valueChanges } from 'src/app/helper/formerror.helper';
 import { WillService } from 'src/app/services/will.service';
+import { splitHandlerCall } from 'src/app/shared/utils/common-function';
 
 @Component({
   selector: 'app-distribute-residual-asset',
@@ -55,12 +56,12 @@ export class DistributeResidualAssetComponent implements OnInit {
     });
     this.distributeResidualAssetsForm.get("fallbackMemberId")?.valueChanges.subscribe(selectedValue => {
       console.log(selectedValue);
+   
       this.memberDataFallbackReplacement=this.memberData.filter(el => {
         return !selectedValue?.find(element => {
            return element._id === el._id;
         });
      });
-      
     })
   }
   formErrors = {
@@ -111,11 +112,21 @@ export class DistributeResidualAssetComponent implements OnInit {
   splitToggle:boolean=false;
   splitHandler(){
     this.splitToggle=!this.splitToggle;
+    if (this.distributeResidualAssetsForm.value.trustType==='terminate') {
+      this.distributeResidualAssetsForm.patchValue({
+        fallbackMemberId:splitHandlerCall(this.distributeResidualAssetsForm.value.fallbackMemberId),
+      })
+    }
+    if (this.distributeResidualAssetsForm.value.trustType==='custom1') {
+      this.distributeResidualAssetsForm.patchValue({
+        fallbackReplacementMemberId:splitHandlerCall(this.distributeResidualAssetsForm.value.fallbackReplacementMemberId),
+      })
+    }
   }
   onClickNext(){
     var totalShare = this.distributeResidualAssetsForm.value.specifyResidualAssetBenificiary?.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
 
-    if(totalShare != 100){
+    if(!(totalShare >= 99.5 &&  totalShare <= 100.99)){
       this.totalShareToggle = true;
       this.totalShareMessage="Total share percentage of selected residual assets beneficiaries must be 100";
       return ;

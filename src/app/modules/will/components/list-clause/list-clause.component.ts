@@ -33,8 +33,8 @@ export class ListClauseComponent implements OnInit {
     private spinner: NgxUiLoaderService
   ) {}
   mergeById(a1, a2) {
-    return a1.map((itm) => ({
-      ...a2.find((item) => item._id === itm._id),
+    return a1?.map((itm) => ({
+      ...a2?.find((item) => item._id === itm._id),
     }));
   }
   ngOnInit(): void {

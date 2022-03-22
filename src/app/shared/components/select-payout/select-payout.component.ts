@@ -23,6 +23,7 @@ export class SelectPayoutComponent implements OnInit {
   @Output() onClickAddPayout=new EventEmitter;
   shareIdInputArray=[];
   displayMembers=[];
+  allAppointMembers=[];
   constructor() { }
 drop(event: CdkDragDrop<string[]>) {
   if(this.disableSelect){
@@ -76,9 +77,20 @@ checkId(id){
 onAddItem(){
   this.onClickAddPayout.emit();
 }
+benificiary=true;
+x;
+memberhadler(trustId,i){
+  console.log(this.allAppointMembers);
+  
+  this.x=this.allAppointMembers.filter((el)=>(el?.trustId === trustId))[i];
+  // this.benificiary=(x?.ifBenificiaryAttains===x?.ifBenificiaryIs===x?.customField===x?.ifBenificiaryTurns==='');
+  this.benificiary=this.x?.ifBenificiaryAttains==="" && this.x?.ifBenificiaryIs==="" && this.x?.customField==="" && this.x?.ifBenificiaryTurns==="";
+  return this.allAppointMembers.filter((el)=>el?.trustId === trustId)[i]?.appointBenificiaries;
+}
 ngOnChanges(changes: SimpleChanges) {
   this.selectedItem = this.selectedItems;
-  this.displayMembers = this.listItem?.filter((el)=>el?.appointBenificiaries)
+  this.allAppointMembers = this.listItem;
+ 
   console.log(this.listItem);
 }
   ngOnInit(): void {

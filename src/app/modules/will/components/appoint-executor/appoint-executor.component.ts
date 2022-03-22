@@ -213,17 +213,6 @@ export class AppointExecutorComponent implements OnInit {
   });
 };
   selectReplacementMemberGuardian(value) {
-    // let slectedReplacementGuardian: Array<any> =
-    //   this.appointExecutorForm.value.guardianReplacementExecutor;
-    // if (slectedReplacementGuardian.includes(value)) {
-    //   slectedReplacementGuardian.splice(
-    //     slectedReplacementGuardian.indexOf(value),
-    //     1
-    //   );
-    // } else {
-    //   slectedReplacementGuardian.push(value);
-    // }
-    // this.slectedReplacementGuardian = slectedReplacementGuardian;
     this.appointExecutorForm.patchValue({
       guardianReplacementExecutor: value,
     });

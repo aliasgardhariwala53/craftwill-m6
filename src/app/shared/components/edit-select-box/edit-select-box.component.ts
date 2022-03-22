@@ -9,7 +9,7 @@ export class EditSelectBoxComponent implements OnInit {
   @Input() allItems;
   @Input() itemsfiltered;
   @Input() addItemTitle='';
-  @Input() selectionType='sole';
+  @Input() selectionType='';
   @Input() deletedItemBySelectMobile;
   @Output() getSelectedList=new EventEmitter;
   constructor() { }

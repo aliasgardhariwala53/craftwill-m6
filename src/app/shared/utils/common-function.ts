@@ -13,6 +13,17 @@ export const  shareItemsHandler=(sharesObj,id,shareNewObj,type) =>{
     }  
     return shareNewObj;
 }
+
+export const splitHandlerCall=(arr)=>{
+  const totalShare = arr?.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+  const count = arr.length;
+   const dividedValue=Math.round((totalShare/count + Number.EPSILON) * 100) / 100
+return arr.map((el)=>({
+...el,
+share:dividedValue
+
+}))
+}
 // export const nextServiceHandler=(allData=,type,typeData)=>{
 //   const myItem=allData?.findIndex((el)=>el.type===type);
 //   if (myItem===-1) {

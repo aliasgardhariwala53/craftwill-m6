@@ -8,7 +8,7 @@ import { ToastrService } from 'src/app/shared/services/toastr.service';
 import { errorHandler } from 'src/app/helper/formerror.helper';
 import { AssetsService } from 'src/app/services/assets.service';
 import { debounce, debounceTime, delay } from 'rxjs';
-import { ChartType } from 'chart.js';
+import { Chart, registerables } from 'chart.js';
 @Component({
   selector: 'app-list-assets',
   templateUrl: './list-assets.component.html',
@@ -57,11 +57,16 @@ export class ListAssetsComponent implements OnInit {
   ];
   ownershipFilter = ['Sole', 'joint'];
   countryFilter = ['india'];
+
+  result: any;
+  coinPrice: any;
+  liquidData=[];
+  chart: any = [];
   constructor(
     private assetsServices: AssetsService,
     private spinner: NgxUiLoaderService,
     private toastr: ToastrService
-  ) {}
+  ) {Chart.register(...registerables);}
   public countries: any = countries;
   onChangehandler() {
     console.log(this.searchForm.value);
@@ -125,51 +130,12 @@ export class ListAssetsComponent implements OnInit {
     }, 0);
   }
   arrayData;
-  public barChartData1 = {
-    labels: ['Liquid A ', 'Liquid B'],
-    datasets: [{
-      label: 'My First dataset',
-      backgroundColor: '#00C5E9',
-      borderRadius: 40,
-      barPercentage: 0.4,
-      borderColor: '#00C5E9',
-      data: [0,13],
-    }],
-
-  };
-  public barChartOptions1 = {
-    scales: {
-      x: {},
-      y: {
-        min: 0,
-      },
-    },
-    plugins: {
-      legend: {
-        display: false,
-      },
-    },
-    display: false,
-    lineWidth: 5,
-    responsive: true,
-  };
-  public barChartType = 'horizontalBar';
-  
 
 
-  GraphData() {
-    this.assetsServices.liquidity().subscribe((result) => {
-      this.spinner.stop();
-      const dataarray = [result?.iliquidCount,result?.liquidCount];
-      this.barChartData1.datasets[0].data=[...dataarray];
-      console.log(result);
-      console.log(this.barChartData1.datasets[0].data);
-      console.log(dataarray);
-    });
-  }
+
+
   ngOnInit(): void {
     this.spinner.start();
-    this.GraphData(); 
     this.searchForm.valueChanges.pipe(debounceTime( 200 )  ).subscribe((e) => {
       console.log(e);
       this.onChangehandler();
@@ -195,5 +161,39 @@ export class ListAssetsComponent implements OnInit {
         this.spinner.stop();
       }
     );
+    this.assetsServices.liquidity().subscribe((res) => {
+      this.spinner.stop();
+      this.result = res;
+      // this.coinPrice = this.result.data.coins.map((coins: any) => coins.price);
+      this.liquidData[0] = this.result?.liquidCount;
+      this.liquidData[1] = this.result?.iliquidCount;
+      // console.log(this.coinPrice);
+      console.log(this.result);
+ 
+
+      this.chart = new Chart('canvas', {
+        type: 'bar',
+        data: {
+          labels: ['Liquid A ', 'Liquid B'],
+          datasets: [
+            {
+              indexAxis:'y',
+              borderRadius: 10,
+              data: this.liquidData,
+              borderColor: ['#00C5E9','#FFCB67'],
+              label: 'Liquid',
+              backgroundColor: ['#00C5E9','#FFCB67'],
+              borderWidth: 0,
+              barThickness:50,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+         maintainAspectRatio: false,
+          
+        },
+      });
+    });
   }
 }

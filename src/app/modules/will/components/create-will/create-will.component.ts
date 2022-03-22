@@ -171,7 +171,7 @@ assets,
 trust:trust.map((el)=>({_id:el.trustData})),
 }
 this._willServices.allTrustAdditionalData.next(trust);
-const payout =trust.map((el)=>el.payouts)
+const payout =trust.map((el)=>el.payouts);
 console.log(payout.flat());
 this._willServices.allpayoutTrust.next(payout.flat());
 console.log(step3);

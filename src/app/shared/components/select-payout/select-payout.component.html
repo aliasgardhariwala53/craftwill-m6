@@ -49,27 +49,27 @@
          
                     <div class="flex flex-col space-y-2 w-[inherit]" >
                         
-                        <div [ngClass]="{ 'bg-[#ffc4cf] text-white': colorArray?.includes(item._id) }" class=" bg-[#EAEAEA] py-3 px-5 rounded-2xl text-[#000]" *ngFor="let key of key; let i = index">
-                            <div class="text-xs text-[#000]">{{key.name}}</div>
+                        <div [ngClass]="{ 'bg-[#ffc4cf] text-white': colorArray?.includes(item._id) }" class=" bg-[#EAEAEA] py-3 px-5 rounded-2xl text-[#000] font-['GilroySemi']" *ngFor="let key of key; let i = index">
+                            <div class="text-xs text-[#000] ">{{key.name}}</div>
                             <div *ngIf="i!==4" class="bg-[#fff] px-3 py-2 rounded-2xl font-['GilroySemi'] text-[#000] mt-1 ">{{ item[key.value]  || "---"}}</div>
                             <div *ngIf="i==4">
                                 <div class="bg-[#fff] p-3 rounded-2xl font-['GilroySemi'] text-[#000] mt-1" >
           
-                                    <div class="font-['GilroySemi'] text-[#000] mt-1 text-xs">* If Benificiary Attains {{item[key.value]?.ifBenificiaryAttains}}</div>
-                                    <div class="font-['GilroySemi'] text-[#000] mt-1 text-xs">* If Benificiary Is {{item[key.value]?.ifBenificiaryIs}}</div>
-                                    <div class="font-['GilroySemi'] text-[#000] mt-1 text-xs">* If Benificiary Turns {{item[key.value]?.ifBenificiaryTurns }}</div>
-                                    <div class="font-['GilroySemi'] text-[#000] mt-1 text-xs">* {{item[key.value]?.customField}}</div>
+                                    <div *ngIf="item[key.value]?.ifBenificiaryAttains" class="font-['GilroySemi'] text-[#000] mt-1 text-xs">* If Benificiary Attains {{item[key.value]?.ifBenificiaryAttains}}</div>
+                                    <div *ngIf="item[key.value]?.ifBenificiaryIs" class="font-['GilroySemi'] text-[#000] mt-1 text-xs">* If Benificiary Is {{item[key.value]?.ifBenificiaryIs}}</div>
+                                    <div *ngIf="item[key.value]?.ifBenificiaryTurns" class="font-['GilroySemi'] text-[#000] mt-1 text-xs">* If Benificiary Turns {{item[key.value]?.ifBenificiaryTurns }}</div>
+                                    <div *ngIf="item[key.value]?.customField" class="font-['GilroySemi'] text-[#000] mt-1 text-xs">* {{item[key.value]?.customField}}</div>
                                 </div>
                             </div>
                         </div>
-                       <div *ngFor="let member of displayMembers">
-                           <div class="bg-[#fff] flex flex-row">
-                            <div class="rounded-full bg-blue-300 font-extrabold w-[40px] p-2 text-center">
-                                {{ getShortName(item) || "AA" }}    
+                       <div  class="max-h-[200px] overflow-auto space-y-1">
+                           <div *ngFor="let member of memberhadler(item?.trustId,i)" class="bg-[#fff] flex flex-row space-x-2 items-center rounded-xl border-2  p-1 border-[#EAEAEA] shadow-lg">
+                            <div class="rounded-full bg-blue-300 font-extrabold w-[40px] h-[40px] p-2 text-center">
+                                {{ getShortName(member) || "AA" }}    
                             </div>
                                 <div class="flex flex-col">
-                                    <div>{{member.fullname || ''}}</div>
-                                    <div>{{member.Relationship || ''}}</div>
+                                    <div class="font-['GilroySemi']">{{member.fullname}}</div>
+                                    <div class="font-['GilroySemi']">{{member.Relationship || ''}}</div>
                                 </div>
                            </div>
                        </div>

@@ -107,10 +107,14 @@ else{
     );
   }
 emailMessage=false;
+forgetMessage=false;
   ngOnInit(): void {
-    this.route.queryParams.subscribe(({ en }) => {
+    this.route.queryParams.subscribe(({ en,fm }) => {
       if (en==="true") {
         this.emailMessage=true;
+      }
+      if (fm==="true") {
+        this.forgetMessage=true;
       }
       
     });

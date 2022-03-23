@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { errorHandler, valueChanges } from 'src/app/helper/formerror.helper';
 import { AuthservicesService } from 'src/app/services/authservices.service';
@@ -14,7 +15,7 @@ import { ToastrService } from 'src/app/shared/services/toastr.service';
 
 export class ForgetComponent implements OnInit {
 
-  constructor(private _authServ :AuthservicesService, private _fb :FormBuilder,private spinner:NgxUiLoaderService,private toastr: ToastrService) { }
+  constructor(private _authServ :AuthservicesService, private _router: Router, private _fb :FormBuilder,private spinner:NgxUiLoaderService,private toastr: ToastrService) { }
 
   forgotForm :FormGroup;
   message : string;
@@ -53,6 +54,7 @@ export class ForgetComponent implements OnInit {
     this._authServ.forgotPassword(this.forgotForm.value).subscribe((result)=>{
       this.spinner.stop();
       if (result.success) {
+        this._router.navigate(['/'], { queryParams:{fm:"true"}});
         this.forgotForm.reset();
       }
       this.toastr.message(result.message,result.success);

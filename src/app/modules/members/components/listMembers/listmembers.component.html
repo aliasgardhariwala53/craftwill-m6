@@ -1,3 +1,5 @@
+<div class="h-[90%] overflow-auto">
+
 <div class="flex flex-col mx-8 md:my-8 md:hidden">
 
   <app-header-toolbar routerlink="{{backRouteLink}}" pagetitle="Members" ></app-header-toolbar>
@@ -7,7 +9,7 @@
 </div>
 
 
-<div class="flex flex-col px-8 mt-12 md:mt-5 pt-0 pb-4 h-[100vh] md:h-[80vh] top-40 ">
+<div class="flex flex-col px-8 md:mt-5 pt-0 pb-4 h-[71vh] md:h-[80vh] top-40">
   <div class="flex flex-row items-center w-full  ">
     <div class="hidden md:block w-1/12 font-extrabold text-xl ml-3">Members</div>
     <div class="w-3/12 hidden md:flex items-center dropdown cursor-pointer font-semibold ">
@@ -45,7 +47,7 @@
         </div>
       </app-dropdown>
     </div>
-    <div class="w-full left-0 px-8 md:px-0 md:w-4/12 flex items-center fixed md:static top-40 space-x-2">
+    <div class="w-full left-0  md:px-0 md:w-4/12 flex items-center static top-40 space-x-2">
       <input id="mySearchField"  [ngClass]="{'md:hidden': !showSearch}" type="search"
         class="w-[96%] px-4 py-3 sm:py-2 bg-[#f7f7f7] form-control  rounded-[10px] md:rounded-3xl form-control outline-none font-['GilroyBold']"
         placeholder="Search" [formControl]="searchForm">
@@ -74,13 +76,14 @@
     </div>
   </div>
 
-  <app-table class="h-[60%] sm:h-[95%]" [tableHeadings]='tableHeadings' actionRoute="members/createmembers" (actionButton)="onClickAction($event)"
+  <app-table class="overflow-scroll" [tableHeadings]='tableHeadings' actionRoute="members/createmembers" (actionButton)="onClickAction($event)"
     [tableData]='allMemberData' [keys]='tableKeys' [classes]="classes" emptyTableMessage="No members Found"></app-table>
-  <div class="absolute md:hidden left-0 right-0 bottom-1 w-[87%] m-auto bg-white ">
+  <div class="md:hidden left-0 right-0 bottom-1 w-full m-auto bg-white">
 
     <app-button [plus]="true" value="Create New Member" routelink="/members/createmembers" class="md:hidden"
       margin="my-1"></app-button>
   </div>
+</div>
 </div>
 
 

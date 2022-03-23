@@ -43,9 +43,9 @@ export class MyWillComponent implements OnInit {
 
   tableDataLiabilities = [];
   classesLiabilities = [
-    'w-10/12 m-0 sm:w-7/12 break-words capitalize ',
-    'w-10/12 m-0 sm:w-1/12 break-words capitalize text',
-    'w-[9%] break-words hidden sm:flex ',
+    'w-10/12 m-0 sm:w-5/12 break-words capitalize ',
+    'w-10/12 m-0 sm:w-2/12 break-words capitalize text',
+    'w-2/12 break-words hidden sm:flex ',
     'w-2/12 break-words hidden sm:flex ',
   ];
   tableHeadingsAssets = [

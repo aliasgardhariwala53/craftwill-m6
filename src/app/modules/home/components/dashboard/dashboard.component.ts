@@ -20,6 +20,8 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
+  @ViewChild('chartOne') chartOne: BaseChartDirective;
+  @ViewChild('chartTwo') chartTwo: BaseChartDirective;
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
   constructor(
     private _userServ: UserService,
@@ -35,12 +37,13 @@ export class DashboardComponent implements OnInit {
   totalAssetsInTrust: any;
   assetStats: any = [40, 40, 40, 40, 40, 40, 40, 40, 40, 40];
   liablityStats: any = [40, 40, 40, 40, 40, 40, 40, 40, 40, 40];
+  assetsDistribution: any = [50, 40, 60, 40, 40, 40, 40, 40, 40, 40];
 
   public barChartOptions = {
     scales: {
       x: {},
       y: {
-        min: 10,
+        min: 0,
       },
     },
     plugins: {
@@ -57,25 +60,25 @@ export class DashboardComponent implements OnInit {
     lineWidth: 5,
     responsive: true,
   };
-
+  labelData=[];
   public barChartData = {
     labels: [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'Aug',
-      'Sept',
-      'Oct',
-      'Nov',
-      'Dec',
+      'Paul',
+      'Charlie',
+      'John',
+      'Shimon',
+      'Mayur',
+      'Julie',
+      'Tarun',
+      'Neha',
+      'Deepak',
+      'Vivek',
+      'Sandy',
+      'lovely',
     ],
     datasets: [
       {
-        label: 'Statics',
+        label: 'Assets',
         backgroundColor: '#00C5E9',
         borderRadius: 50,
         barPercentage: 0.4,
@@ -84,7 +87,7 @@ export class DashboardComponent implements OnInit {
         data: this.assetStats,
       },
       {
-        label: 'Statics',
+        label: 'Liabilities',
         backgroundColor: '#FFCB67',
         borderColor: '#FFCB67',
         borderRadius: 50,
@@ -98,7 +101,7 @@ export class DashboardComponent implements OnInit {
     scales: {
       x: {},
       y: {
-        min: 10,
+        min: 0,
       },
     },
     plugins: {
@@ -133,7 +136,7 @@ export class DashboardComponent implements OnInit {
         borderRadius: 50,
         barPercentage: 0.4,
         borderColor: '#00C5E9',
-        data: [40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40],
+        data: this.assetsDistribution,
       },
     ],
   };
@@ -153,19 +156,78 @@ export class DashboardComponent implements OnInit {
     this._userServ.dashboardGraph('"monthNumber": 12').subscribe((result) => {
       this.spinner.stop();
       this.quickStats = result;
-      console.log(this.quickStats);
-      this.assetStats = result.assetStats.data;
-      this.liablityStats = result.liabilitiesStats.data;
-      this.barChartData.datasets[0].data = [this.assetStats];
-      this.barChartData.datasets[1].data = [this.liablityStats];
-      this.chart.chart.update();
+      
+      console.log(this.quickStats.data);
+      
+      const newData=Object.keys(this.quickStats.data).map((el)=>{
+        console.log(el);
+        const month =el.split('-')[0].toLowerCase();
+        const year =el.split('-')[1];
+      return  {month,year,value:this.quickStats.data[el]+6}
+      })
+      console.log(newData);
+      this.labelData=newData.map((el)=>el.month);
+      this.assetStats=newData.map((el)=>el.value);
+      this.liablityStats =newData.map((el)=>el.value);
+      console.log(newData.map((el)=>el.value));
+      this.barChartData.labels=this.labelData;
+      this.barChartData.datasets[0] = { ...this.barChartData.datasets[0], data: newData.map((el)=>el.value)};
+      const newDataTwo = {
+        labels: [],
+        datasets: []
+      };
+      newDataTwo.labels= newData.map((el)=>el.month);
+      newDataTwo.datasets[0] = { ...this.barChartData.datasets, label: 'Assets',
+      backgroundColor: '#00C5E9',
+      borderRadius: 50,
+      barPercentage: 0.4,
+      borderColor: '#00C5E9', data: newData.map((el)=>el.value)};
+      newDataTwo.datasets[1] = {...this.barChartData.datasets, label: 'Liabilities',
+      backgroundColor: '#FFCB67',
+      borderColor: '#FFCB67',
+      borderRadius: 50,
+      barPercentage: 0.4,data: newData.map((el)=>el.value)};
+        this.barChartData = newDataTwo;
+      this.chartOne.chart.render();
     });
   }
+    GraphData2() {
+      this._userServ.dashboardGraph('"monthNumber": 12').subscribe((result) => {
+        this.spinner.stop();
+        this.quickStats = result;
+        
+        console.log(this.quickStats.data);
+        
+        const newData=Object.keys(this.quickStats.data).map((el)=>{
+          console.log(el);
+          const month =el.split('-')[0].toLowerCase();
+          const year =el.split('-')[1];
+        return  {month,year,value:this.quickStats.data[el]}
+        })
+        console.log(newData);
+        this.labelData=newData.map((el)=>el.month);
+        this.assetsDistribution =newData.map((el)=>el.value);
+        console.log(newData.map((el)=>el.value));
+        const newDataTwo = {
+          labels: [],
+          datasets: []
+        };
+        newDataTwo.labels= newData.map((el)=>el.month);
+        newDataTwo.datasets[0] = { ...this.barChartData1.datasets,label: 'Distribution Rate',
+        backgroundColor: '#00C5E9',
+        borderRadius: 50,
+        barPercentage: 0.4,
+        borderColor: '#00C5E9', data: newData.map((el)=>el.value)};
+        this.barChartData1 = newDataTwo;
+        this.chartTwo.chart.render();
+      });
+    }
 
   ngOnInit(): void {
     this.spinner.start();
     this.QuickStats();
     this.GraphData();
+    this.GraphData2();
 
     this.route.queryParams.subscribe(({ profile }) => {
       if (profile === 'true') {

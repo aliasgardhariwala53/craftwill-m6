@@ -78,11 +78,11 @@ export class ListAssetsComponent implements OnInit {
     this.allAssetsinOne = this.allAssetsData.map((items) => {
       for (const property in items) {
         console.log(items[property]);
-        if(items[property].toString().toLowerCase().includes(this.searchForm.value.toLowerCase())){
+        if(items[property]?.toString()?.toLowerCase()?.includes(this.searchForm.value?.toLowerCase())){
           return items
         }
       }
-    }).filter(items => items!== undefined);
+    })?.filter(items => items!== undefined);
     console.log(this.allAssetsinOne);
   }
   onFilterHandler(value) {
@@ -174,14 +174,14 @@ export class ListAssetsComponent implements OnInit {
       this.chart = new Chart('canvas', {
         type: 'bar',
         data: {
-          labels: ['Liquid A ', 'Liquid B'],
+          labels: ['Liquid', 'iliquid'],
           datasets: [
             {
               indexAxis:'y',
               borderRadius: 10,
               data: this.liquidData,
               borderColor: ['#00C5E9','#FFCB67'],
-              label: 'Liquid',
+              label: '',
               backgroundColor: ['#00C5E9','#FFCB67'],
               borderWidth: 0,
               barThickness:40,

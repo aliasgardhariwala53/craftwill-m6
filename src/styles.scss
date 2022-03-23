@@ -649,3 +649,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   -o-user-select: none;
   user-select: none;
 }
+
+input {
+  -webkit-user-select: text; /* Chrome, Opera, Safari */
+  -moz-user-select: text; /* Firefox 2+ */
+  -ms-user-select: text; /* IE 10+ */
+  user-select: text; /* Standard syntax */
+}

@@ -99,16 +99,7 @@ export class IntellectualPropertyComponent implements OnInit {
 
       return;
     }
-  var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
-    console.log(totalShare);
-    console.log(this.assetsBeneficiary);
-    console.log(this.allAssetsBeneficiary);
 
-    if(totalShare != 100){
-      this.totalShareMessage = true;
-      return ;
-    }
-    this.totalShareMessage = false;
     var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
     console.log(totalShare);
     console.log(this.assetsBeneficiary);

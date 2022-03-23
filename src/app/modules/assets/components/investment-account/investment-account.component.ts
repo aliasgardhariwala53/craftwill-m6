@@ -106,7 +106,7 @@ export class InvestmentAccountComponent implements OnInit {
     console.log(this.assetsBeneficiary);
     console.log(this.allAssetsBeneficiary);
 
-    if(totalShare != 100){
+    if(totalShare != 100 && this.fromCreateWill === 'will'){
       this.totalShareMessage = true;
       return ;
     }

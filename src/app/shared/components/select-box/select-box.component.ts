@@ -62,13 +62,13 @@ sharePercentage(e, itemId){
   if(myItem === -1) {
     this.shareIdInputArray.push({
       _id: itemId,
-      share: this.shareValue
+      share: this.shareValue || 0
     })
   }
   else {
      const newarr= this.shareIdInputArray?.map((el)=>{
       if (el._id === itemId) {
-        return {...el,share:this.shareValue};
+        return {...el,share:this.shareValue || 0};
       }
       return el;
       });
@@ -200,7 +200,7 @@ drop(event: CdkDragDrop<string[]>) {
 }
 
 shareDisplay(_id){
- return (this.selectedItems?.find((el)=>el._id===_id)?.share || this.listItem?.find((el)=>el._id===_id)?.share) > 100 ? 100 : (this.selectedItems?.find((el)=>el._id===_id)?.share || this.listItem?.find((el)=>el._id===_id)?.share) ;
+ return (this.selectedItems?.find((el)=>el._id===_id)?.share || this.listItem?.find((el)=>el._id===_id)?.share) > 100 ? 100 : (this.selectedItems?.find((el)=>el._id===_id)?.share || this.listItem?.find((el)=>el._id===_id)?.share) || 0 ;
 }
 ngOnChanges(changes: SimpleChanges) {
   

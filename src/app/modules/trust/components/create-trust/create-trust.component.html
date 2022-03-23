@@ -393,8 +393,8 @@
             </app-button>
           </div>
         </div>
-        <div class="flex flex-row justify-between my-4">
-          <div class="flex w-fit mt-1 justify-evenly ml-0 items-center">
+        <div class="flex flex-col-reverse sm:flex-row justify-between mb-4 sm:my-4">
+          <div class="flex w-full sm:w-fit mt-1 justify-evenly ml-0 items-center">
             <input
               type="radio"
               value="terminate"
@@ -423,7 +423,7 @@
           >
             <div
               [ngClass]="{ 'text-[#FF6782]': splitToggle }"
-              class="w-fit cursor-pointer"
+              class="w-fit cursor-pointer ml-auto sm:m-auto"
             >
               <svg
                 (click)="splitHandler()"
@@ -441,7 +441,7 @@
                 />
               </svg>
             </div>
-            <div class="font-['GilroySemi']">Split Equally</div>
+            <div class="font-['GilroySemi']  m-auto">Split Equally</div>
           </div>
         </div>
         <div

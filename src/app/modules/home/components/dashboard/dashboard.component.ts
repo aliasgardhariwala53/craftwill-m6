@@ -4,6 +4,7 @@ import {
   OnInit,
   ViewChild,
   SimpleChanges,
+  HostListener,
 } from '@angular/core';
 import { ChartData, ChartDataset } from 'chart.js';
 import { environment } from 'src/environments/environment';
@@ -112,8 +113,9 @@ export class DashboardComponent implements OnInit {
     display: false,
     lineWidth: 5,
     responsive: true,
+    maintainAspectRatio: false,
   };
-
+  heightChart1;
   public barChartData1 = {
     labels: [
       'Paul',
@@ -151,7 +153,16 @@ export class DashboardComponent implements OnInit {
       this.totalAssetsInTrust = result.totalAssetsInTrust.amount;
     });
   }
-
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    console.log(window.innerWidth);
+    if(window.innerWidth>578){
+      let data = null;
+      data =25;
+      this.heightChart1=data;
+      console.log(this.heightChart1);
+    }
+  }
   GraphData() {
     this._userServ.dashboardGraph('"monthNumber": 12').subscribe((result) => {
       this.spinner.stop();

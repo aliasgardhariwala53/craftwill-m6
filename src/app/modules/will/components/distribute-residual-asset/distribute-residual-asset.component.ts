@@ -124,21 +124,22 @@ export class DistributeResidualAssetComponent implements OnInit {
     }
   }
   onClickNext(){
-    var totalShare = this.distributeResidualAssetsForm.value.specifyResidualAssetBenificiary?.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+    var totalShare = this.distributeResidualAssetsForm.value.specifyResidualAssetBenificiary?.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
+console.log(totalShare);
 
     if(!(totalShare >= 99.5 &&  totalShare <= 100.99)){
       this.totalShareToggle = true;
       this.totalShareMessage="Total share percentage of selected residual assets beneficiaries must be 100";
       return ;
     }
-    var totalShareTrustFallback = this.distributeResidualAssetsForm.value.fallbackMemberId?.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+    var totalShareTrustFallback = this.distributeResidualAssetsForm.value.fallbackMemberId?.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
 
     if(totalShareTrustFallback != 100 && this.distributeResidualAssetsForm.value.trustType==='terminate'){
       this.totalShareToggle = true;
       this.totalShareMessage="Total share percentage of trust fallback must be 100";
       return ;
     }
-    var totalShareTrustFallbackReplacement = this.distributeResidualAssetsForm.value.fallbackReplacementMemberId?.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+    var totalShareTrustFallbackReplacement = this.distributeResidualAssetsForm.value.fallbackReplacementMemberId?.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
 
     if(totalShareTrustFallbackReplacement != 100 && this.distributeResidualAssetsForm.value.customType==='custom1'){
       this.totalShareToggle = true;

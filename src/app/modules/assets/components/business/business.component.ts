@@ -109,7 +109,7 @@ export class BusinessComponent implements OnInit {
       return;
     }
 
-    var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+    var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
     console.log(totalShare);
     console.log(this.assetsBeneficiary);
     console.log(this.allAssetsBeneficiary);
@@ -162,7 +162,7 @@ export class BusinessComponent implements OnInit {
     console.log(this.assetsBeneficiary);
   }
   onUpdateBusiness() {
-    var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+    var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
     console.log(totalShare);
     console.log(this.assetsBeneficiary);
     console.log(this.allAssetsBeneficiary);

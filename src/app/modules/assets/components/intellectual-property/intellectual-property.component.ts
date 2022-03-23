@@ -100,7 +100,7 @@ export class IntellectualPropertyComponent implements OnInit {
       return;
     }
 
-    var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+    var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
     console.log(totalShare);
     console.log(this.assetsBeneficiary);
     console.log(this.allAssetsBeneficiary);
@@ -145,7 +145,7 @@ export class IntellectualPropertyComponent implements OnInit {
   }
 
   onUpdateIntellectualProperty() {
-    var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+    var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
     console.log(totalShare);
     console.log(this.assetsBeneficiary);
     console.log(this.allAssetsBeneficiary);

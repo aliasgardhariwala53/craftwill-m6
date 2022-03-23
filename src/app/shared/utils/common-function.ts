@@ -15,9 +15,9 @@ export const  shareItemsHandler=(sharesObj,id,shareNewObj,type) =>{
 }
 
 export const splitHandlerCall=(arr)=>{
-  const totalShare = arr?.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+  const totalShare = arr?.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
   const count = arr.length;
-   const dividedValue=Math.round((totalShare/count + Number.EPSILON) * 100) / 100
+   const dividedValue=Math.round((100/count + Number.EPSILON) * 100) / 100
 return arr.map((el)=>({
 ...el,
 share:dividedValue

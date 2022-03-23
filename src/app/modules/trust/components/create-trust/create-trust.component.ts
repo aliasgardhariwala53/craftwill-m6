@@ -218,6 +218,9 @@ export class CreateTrustComponent implements OnInit,OnChanges {
     this.splitToggle=!this.splitToggle;
     this.selectedItemFromEdit= splitHandlerCall(this.selectedItemFromEdit);
     this.deletedMemberTrustfallback= splitHandlerCall(this.selectedItemFromEdit);
+    this.TrustForm.patchValue({
+      memberDataTrustfallback: this.selectedItemFromEdit
+    });
   }
   addTrustForm() {
 
@@ -234,7 +237,7 @@ export class CreateTrustComponent implements OnInit,OnChanges {
       console.log('invalid');
       return;
     }
-    var totalShare = this.selectedItemFromEdit?.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+    var totalShare = this.selectedItemFromEdit?.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
 
     if(!(totalShare >= 99.5 &&  totalShare <= 100.99)){
       this.totalShareToggle = true;
@@ -294,7 +297,7 @@ export class CreateTrustComponent implements OnInit,OnChanges {
     }))
   }
   onUpdateTrust() {
-    var totalShare = this.selectedItemFromEdit?.map((el)=>Number(el.share)).reduce((prev,curr)=>prev+curr,0);
+    var totalShare = this.selectedItemFromEdit?.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
     console.log(totalShare);
 
     if(!(totalShare >= 99.5 &&  totalShare <= 100.99)){

@@ -161,7 +161,7 @@
         <input
           type="radio"
           value="Add to Residuary Estate"
-        formControlName="assetsResidualType"
+        [formControl]="assetsResidualTypeForm"
           id="assetsResidual1"
           class="mx-1 radioCustom"
         />
@@ -176,7 +176,7 @@
           type="radio"
           id="assetsResidual2"
           value="Give to replacement beneficiaries (Required to specify replacement beneficiaries)"
-          formControlName="assetsResidualType"
+          [formControl]="assetsResidualTypeForm"
           class="mx-1 radioCustom"
         />
         <label class="mx-1 font-['gilroysemi'] text-base md:text-lg w-full" for="assetsResidual2"
@@ -190,7 +190,7 @@
           type="radio"
           id="assetsResidual3"
           value="Children of beneficiar(ies)"
-          formControlName="assetsResidualType"
+          [formControl]="assetsResidualTypeForm"
           class="mx-1 radioCustom"
         />
         <label class="mx-1 font-['gilroysemi'] text-base md:text-lg w-full" for="assetsResidual3"
@@ -204,7 +204,7 @@
           type="radio"
           id="assetsResidual4"
           value="Surviving beneficiaries to split proportionately"
-          formControlName="assetsResidualType"
+          [formControl]="assetsResidualTypeForm"
           class="mx-1 radioCustom"
         />
         <label class="mx-1 font-['gilroysemi'] text-base md:text-lg w-full" for="assetsResidual4"

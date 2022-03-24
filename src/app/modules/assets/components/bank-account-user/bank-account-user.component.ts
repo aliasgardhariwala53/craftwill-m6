@@ -41,8 +41,9 @@ export class BankAccountUserComponent implements OnInit {
   slectedResidualMembers = [];
   allAssetsBeneficiary = [];
   allassetsResidualType = [];
+  assetsResidualType = {};
   oneAssetsResidualType = [];
-  assetsResidualType = new FormControl('');
+  assetsResidualTypeForm = new FormControl('');
   toggleModalTutorial: boolean;
   constructor(
     private _fb: FormBuilder,
@@ -118,14 +119,21 @@ export class BankAccountUserComponent implements OnInit {
   assetsBeneficiary = [];
 
   addextras(){
-    const myItem = this.allAssetsBeneficiary.findIndex(
+    this.assetsResidualType ={
+      assetId:this.id,
+      value:this.assetsResidualTypeForm.value,
+    }
+    const myItem = this.allAssetsBeneficiary?.findIndex(
+      (el) => el.assetId === this.id
+    );
+    const myItemResidual = this.allassetsResidualType?.findIndex(
       (el) => el.assetId === this.id
     );
 
 
 
     if (myItem === -1) {
-      this.allAssetsBeneficiary.push(...this.assetsBeneficiary);
+      this.allAssetsBeneficiary?.push(...this.assetsBeneficiary);
     } else {
       this.allAssetsBeneficiary = this.allAssetsBeneficiary.filter(
         (el) => el.assetId !== this.id
@@ -136,7 +144,23 @@ export class BankAccountUserComponent implements OnInit {
         
       ];
     }
+    if (myItemResidual === -1) {
+      this.allassetsResidualType?.push(this.assetsResidualType);
+    } else {
+      this.allassetsResidualType = this.allassetsResidualType?.filter(
+        (el) => el.assetId !== this.id
+      );
+      this.allassetsResidualType = [
+        ...this.allassetsResidualType,
+        this.assetsResidualType,
+        
+      ];
+    }
+    console.log(this.allAssetsBeneficiary);
+    console.log(this.allassetsResidualType);
+    
     this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
+    
     this._willServices.assetsResidualType.next(this.allassetsResidualType);
   }
   addBankAccount() {
@@ -330,8 +354,6 @@ if (y === 'myWill') {
     );
     this._willServices.assetsBeneficiary.subscribe((value) => {
       this.allAssetsBeneficiary = value;
-
-      console.log('assetsBeneficiary', value);
       this.slectedResidualMembers = this.allAssetsBeneficiary?.filter(
         (el) =>  el.assetId === this.id
       );
@@ -339,6 +361,15 @@ if (y === 'myWill') {
         (el) =>  el.assetId === this.id
       );
       console.log('slectedResidualMembers', this.slectedResidualMembers);
+    });
+    this._willServices.assetsResidualType.subscribe((value1) => {
+      this.allassetsResidualType = value1;
+      this.assetsResidualTypeForm.patchValue(this.allassetsResidualType?.find(
+        (el) =>  el.assetId === this.id
+      )?.value);
+      console.log(this.assetsResidualTypeForm.value);
+      console.log(value1);
+      
     });
 
 

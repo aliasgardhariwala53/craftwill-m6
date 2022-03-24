@@ -17,7 +17,7 @@ export class WillService {
   step5 = new BehaviorSubject({});
 
   assetsBeneficiary = new BehaviorSubject([]);
-  assetsResidualType = new BehaviorSubject(null);
+  assetsResidualType = new BehaviorSubject([]);
 
 // step 3
   step3AssetData = new BehaviorSubject([]);

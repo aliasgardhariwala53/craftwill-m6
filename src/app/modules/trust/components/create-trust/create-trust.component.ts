@@ -239,7 +239,7 @@ export class CreateTrustComponent implements OnInit,OnChanges {
     }
     var totalShare = this.selectedItemFromEdit?.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
 
-    if(!(totalShare >= 99.5 &&  totalShare <= 100.99)){
+    if(!(totalShare >= 99.5 &&  totalShare <= 100.99) && this.fromCreateWill === 'will'){
       this.totalShareToggle = true;
       this.totalShareMessage="Total share percentage of selected Trust Fallback executors must be 100";
       return ;
@@ -300,7 +300,7 @@ export class CreateTrustComponent implements OnInit,OnChanges {
     var totalShare = this.selectedItemFromEdit?.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
     console.log(totalShare);
 
-    if(!(totalShare >= 99.5 &&  totalShare <= 100.99)){
+    if(!(totalShare >= 99.5 &&  totalShare <= 100.99) && this.fromCreateWill === 'will'){
       this.totalShareToggle = true;
       this.totalShareMessage="Total share percentage of selected Trust Fallback executors must be 100";
       return ;

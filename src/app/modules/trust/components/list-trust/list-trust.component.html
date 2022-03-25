@@ -66,7 +66,7 @@
     </div>
   </div>
 
-  <app-table class="overflow-scroll" [tableHeadings]="tableHeadings" actionRoute="trust/createTrust" (actionButton)="onClickAction($event)"
+  <app-table [viewAction]="true" (deleteItem)="deleteItemHandler($event)" class="overflow-scroll" [tableHeadings]="tableHeadings" actionRoute="trust/createTrust" (actionButton)="onClickAction($event)"
     [tableData]="alltrustData" [keys]="tableKeys" [classes]="classes" emptyTableMessage="No Trust Data Found">
   </app-table>
   <div class=" md:hidden left-0 right-0 bottom-1 w-full m-auto bg-white">

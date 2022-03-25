@@ -53,6 +53,25 @@ export class ListTrustComponent implements OnInit {
       }
     }).filter(items => items!== undefined);
   }
+  deleteItemHandler(item) {
+    this.spinner.start();
+    this.trustServices.deleteTrust(item._id).subscribe(
+      (result) => {
+        console.log(result);
+        this.spinner.stop();
+        if (result.success == true) {
+          this.trustData = this.trustData.filter((el) => el._id !== item._id);
+          this.alltrustData = this.trustData;
+          this.toastr.message('Trust Deleted', true);
+        }
+      },
+      (err) => {
+        console.log(err);
+        this.spinner.stop();
+        this.toastr.message('Error deleting trust data !!', false);
+      }
+    );
+  }
   onFilterHandler(value) {
     this.spinner.start();
     console.log('helllooo', value);

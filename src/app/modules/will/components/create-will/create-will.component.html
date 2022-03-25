@@ -4,12 +4,12 @@
     pagetitle="{{pageTitle}}"
   ></app-header-toolbar>
   <div>
-      <app-progress-bar [step]="step" (onClickStep)="onEdit($event)"></app-progress-bar>
+      <app-progress-bar [step]="step" (onClickStep)="onEdit($event)" [disableStep]="readOnly"></app-progress-bar>
   </div>
- <app-personal-information *ngIf="step===1" (onClickNextBtn)="next($event)"></app-personal-information>
+ <app-personal-information *ngIf="step===1" (onClickNextBtn)="next($event)" ></app-personal-information>
  <app-appoint-executor *ngIf="step===2" (onClickNextBtn)="next($event)"></app-appoint-executor>
  <app-distribution-assets *ngIf="step===3" (onClickNextBtn)="next($event)"></app-distribution-assets>
  <app-distribute-residual-asset *ngIf="step===4" (onClickNextBtn)="next($event)"></app-distribute-residual-asset>
  <app-clauses [viewClause]="viewClause" (onbackClause)="onbackClause($event)" *ngIf="step===5" (onClickNextBtn)="next($event)"></app-clauses>
- <app-review-will  *ngIf="step===6" (onEdit)="onEdit($event)"></app-review-will>
+ <app-review-will  *ngIf="step===6" (onEdit)="onEdit($event)" [readOnly]="readOnly"></app-review-will>
 </div>

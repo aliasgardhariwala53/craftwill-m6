@@ -1,5 +1,5 @@
 <div
-  class="flex flex-col px-8 py-4 space-y-2 overflow-auto h-[100vh] md:h-[90vh] lg:h-[80vh]"
+  class="flex flex-col px-8 py-4 space-y-2 overflow-auto h-[90%]"
 >
   <app-header-toolbar
     [wid]="wid"
@@ -14,14 +14,14 @@
       >
         <div class="form-group">
           <div class="input-group1">
-            <label class="input_label text-sm ml-1">
+            <label class="input_label text-sm ml-1 font-[GilroySemi]">
               Name this Testamentary Trust</label
             >
             <input
               type="text"
               placeholder="Testamentary Trust"
               formControlName="trustName"
-              class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#F0F0F0] w-[100%] px-2 sm:px-4 py-2 form-control rounded-[14px] focus:outline-none"
+              class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#F0F0F0] w-[100%] px-2 mt-1 sm:px-4 py-2 form-control rounded-[14px] focus:outline-none"
             />
           </div>
 
@@ -34,12 +34,12 @@
       <div class="sm:w-1/2">
         <div class="form-group">
           <div class="input-group1">
-            <label class="input_label text-sm ml-1">Description</label>
+            <label class="input_label text-sm ml-1 font-[GilroySemi]">Description</label>
             <textarea
               type="text"
               placeholder="Description"
               formControlName="description"
-              class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#F0F0F0] w-[100%] px-2 sm:px-4 py-2 form-control rounded-[14px] focus:outline-none"
+              class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#F0F0F0] mt-1 w-[100%] px-2 sm:px-4 py-2 form-control rounded-[14px] focus:outline-none"
             ></textarea>
           </div>
 
@@ -62,7 +62,7 @@
     </div>
     <div
       *ngIf="id !== '' && fromCreateWill !== 'will'"
-      class="hidden sm:block sm:w-6/12 md:w-4/12 lg:w-2/12 my-4"
+      class="sm:block sm:w-6/12 md:w-4/12 lg:w-2/12 my-4"
     >
       <app-button
         (myMethod)="onUpdateTrust()"

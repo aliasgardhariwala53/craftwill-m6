@@ -18,7 +18,7 @@ export class HttpService {
   update(url:string, obj: object):Observable<any>{
     return this._http.put<any>(url, obj);
   }
-  delete(url:string, id:string):Observable<any>{
+  delete(url:string):Observable<any>{
     return this._http.delete<any>(url);
   }
 }

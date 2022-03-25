@@ -29,6 +29,7 @@ export class CreateWillComponent implements OnInit {
   step=1;
   memberData=[];
   step3Data={};
+  readOnly=false;
   setPageInfo(){
     switch (this.step) {
       case 1:
@@ -76,6 +77,10 @@ mergeBy_Id(a1, a2) {
   }));
 }
   back(){
+    if(this.readOnly){
+      this._route.navigate([`will/myWills`])
+      return;
+    }
     if (this.step<=1) {
       this._route.navigate([`will/myWills`])
       return;
@@ -94,24 +99,31 @@ mergeBy_Id(a1, a2) {
     this._willServices.currentStep.next(this.step);
   }
   ngOnInit(): void {
-    
-    this.route.queryParams.subscribe(({ wid, x, y }) => {
-      if (wid) {
-        this.wid = wid;
- 
-      }
-    });
     this._willServices.currentStep.subscribe((value) => {
       this.step=value;
     this.setPageInfo()
     });
+    this.route.queryParams.subscribe(({ wid, x, y,re }) => {
+      if (wid) {
+        this.wid = wid;
+ 
+      }
+      if(re==='true'){
+this.readOnly=true;
+this.step =6;
+      }
+    });
+
   if(this._willServices.globalReload.getValue() && this.wid ){
     this.spinner.start();
     this._willServices.getAllWill().subscribe(
       (result) => {
         this.spinner.stop();
         console.log("result",result);
-        
+        if (result.data.users.length > 0 ) {
+          this._willServices.willpresent.next(true);
+        }
+
         this.willData = result.data.users.filter((el)=>el._id === this.wid)[0];
         const {  id_Type='',
           id_Number,

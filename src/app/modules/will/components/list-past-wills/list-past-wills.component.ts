@@ -17,13 +17,19 @@ export class ListPastWillsComponent implements OnInit {
   allWillData=[];
   pastWillData=[];
   displayWilldata=[];
+  latestWilldata=[];
   constructor(private _userServ:UserService,
      private _willServices: WillService,
     private _router: Router,
     private toastr: ToastrService,
     private spinner: NgxUiLoaderService) { }
   tableHeadings = [
-    'File Version',
+    'Past Versions',
+    'Date & Time',
+
+  ];
+  tableHeadingslatest = [
+    'Latest Version',
     'Date & Time',
 
   ];
@@ -62,22 +68,48 @@ export class ListPastWillsComponent implements OnInit {
         document.getElementById("mySearchField").focus();    
       }, 0);
     }
+    version(arr){
+      let x=0;
+      let y=0;
+     return arr?.map((el,i)=>{
+       y++;
+       if (i%10 === 0) {
+         x++;
+         y=0;
+         return `${x}.${y}`
+       }
+       return `${x}.${y}`
+     })
+    }
   ngOnInit(): void {
+    this.spinner.start();
     this.searchForm.valueChanges.pipe(debounceTime( 200 )  ).subscribe((e) => {
       console.log(e);
       this.onChangehandler();
     });
     this._willServices.getAllWill().subscribe(
       (result) => {
-        this.spinner.stop();
+        
+        if (result.data.users.length > 0 ) {
+          this._willServices.willpresent.next(true);
+          console.log(result.data.users.length);
+          console.log(this._willServices.willpresent.getValue());
+          
+        }
+        const versionArray=this.version(result.data.users);
         this.allWillData = result.data.users.map((items, i) => {
           console.log(items.willName);
           console.log(items);
           return {
-           ...items,image:'../../../../../assets/Icons/latestVersion.svg',actionRoute:'will/createWill'
+           ...items,image:'../../../../../assets/Icons/latestVersion.svg',actionRoute:'will/createWill',willName:`My will Version ${versionArray[i]}`
           };
         });
         this.displayWilldata = [...this.allWillData];
+        this.displayWilldata = this.displayWilldata.reverse();
+        this.latestWilldata = [this.displayWilldata[0]];
+        this.displayWilldata = this.displayWilldata.filter((el,i)=>i!==0);
+        
+        this.spinner.stop();
       },
       (err) => {
         this.spinner.stop();

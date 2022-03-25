@@ -19,6 +19,9 @@ export class MembersService {
   updateMembers(obj,id){
     return this._httpServe.update(`${environment.serverUrl}updateMember/${id}`,obj);
   }
+  deleteMember(id){
+    return this._httpServe.delete(`${environment.serverUrl}deleteMemberById/${id}`);
+  }
   getMembersData(item) {
     let data = {
       fullname: '',

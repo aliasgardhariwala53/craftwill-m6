@@ -50,7 +50,7 @@ export class MoterVehicleComponent implements OnInit {
   createForm() {
     this.vehicleForm = this._fb.group({
       CarModel: ['', [Validators.required]],
-      plateNo: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+      plateNo: ['', [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(8)]],
       country: [, [Validators.required]],
       SpecifyOwnershipType: ['', [Validators.required]],
     });
@@ -75,7 +75,7 @@ export class MoterVehicleComponent implements OnInit {
     },
     plateNo: {
       required: 'Plate No  is Required',
-
+      maxlength: 'Please Enter Valid plate Number',
       pattern: 'Only numeric values allowed',
     },
     country: {

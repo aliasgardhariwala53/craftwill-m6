@@ -19,4 +19,7 @@ export class TrustService {
   filterTrust(obj){
     return this._httpServe.post(environment.serverUrl + "trust/filterTrust",obj);
   }
+  deleteTrust(id){
+    return this._httpServe.delete(`${environment.serverUrl}deleteAssetsById/${id}`);
+  }
 }

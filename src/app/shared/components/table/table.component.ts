@@ -16,20 +16,54 @@ export class TableComponent implements OnInit {
   @Input() avtarType='name';
   @Input() emptyTableMessage = '';
   @Input() actionRoute = '';
+  @Input() actionList = true;
+  @Input() headerToggle = true;
+  @Input() viewAction = true;
+  @Input() editAction = true;
+  @Input() deleteAction = true;
   @Output() actionButton = new EventEmitter();
+  @Output() deleteItem = new EventEmitter();
   constructor(private _route:Router) { }
-
+  toggleModalTutorial: boolean = false;
+  deletbtn = 'deletbtn';
+  selectedItem;
   onClickActionButton(Item){
+ 
     this.actionButton.emit(Item._id);
+    // if (this._route.url=='/will/myWills') {
+    //   this._route.navigate([`${Item.actionRoute}`], { queryParams:{id:Item._id,y:'myWill'}});
+    //   return;
+    // }
     if (this._route.url=='/will/myWills') {
-      this._route.navigate([`${Item.actionRoute}`], { queryParams:{id:Item._id,y:'myWill'}});
-      return;
-    }
-    if (this._route.url=='/will/pastWills') {
       this._route.navigate([`${Item.actionRoute}`], { queryParams:{wid:Item._id,y:'myWill'}});
       return;
     }
     this._route.navigate([`${Item.actionRoute}`], { queryParams:{id:Item._id}})
+  }
+  onDeleteHandler(Item){
+    this.toggleModalTutorial=true;
+    this.selectedItem = Item;
+  }
+  onClickViewButton(Item){
+    this.actionButton.emit(Item._id);
+    // if (this._route.url=='/will/myWills') {
+    //   this._route.navigate([`${Item.actionRoute}`], { queryParams:{id:Item._id,re:'true',y:'myWill'}});
+    //   return;
+    // }
+    if (this._route.url=='/will/myWills') {
+      this._route.navigate([`${Item.actionRoute}`], { queryParams:{wid:Item._id,re:'true',y:'myWill'}});
+      return;
+    }
+    this._route.navigate([`${Item.actionRoute}`], { queryParams:{id:Item._id,re:'true'}})
+  }
+  onDelete(){
+    this.deleteItem.emit(this.selectedItem);
+    this.selectedItem=null;
+    this.toggleModalTutorial=false;
+  }
+  onCancelDelete(){
+    this.toggleModalTutorial=false;
+    this.selectedItem=null;
   }
   getShortName(fullName) { 
     console.log(fullName);

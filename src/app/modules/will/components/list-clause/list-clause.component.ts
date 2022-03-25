@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { MembersService } from 'src/app/services/members.service';
 import { WillService } from 'src/app/services/will.service';
@@ -9,6 +9,8 @@ import { WillService } from 'src/app/services/will.service';
   styleUrls: ['./list-clause.component.scss'],
 })
 export class ListClauseComponent implements OnInit {
+  @Output() editClauseHandler =new EventEmitter();
+  @Output() editAdvisorHandler =new EventEmitter();
   memberData = [];
   delayPayoutData;
   recommendedAdvisorData = [];
@@ -36,6 +38,12 @@ export class ListClauseComponent implements OnInit {
     return a1?.map((itm) => ({
       ...a2?.find((item) => item._id === itm._id),
     }));
+  }
+  editClause(num){
+this.editClauseHandler.emit(num);
+  }
+  editAdvisor(item){
+    this.editAdvisorHandler.emit(item);
   }
   ngOnInit(): void {
     this.spinner.start();

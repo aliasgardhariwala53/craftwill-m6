@@ -1,9 +1,9 @@
-<div class="flex flex-col px-8  sm:mt-5 pt-3 sm:pt-4 pb-4 h-[80vh] sm:h-[80vh] top-40 ">
+<div class="flex flex-col px-8   pt-3 sm:pt-4 pb-4 h-[80vh] sm:h-[80vh] top-40 ">
   <div class="flex flex-col sm:flex-row w-full ">
     <div class="w-full sm:w-1/5">
       <app-header-toolbar
-      routerlink="will/createWill"
-      pagetitle="Past Versions"
+      routerlink="/home"
+      pagetitle="Will Versions"
     ></app-header-toolbar>
 
     </div>
@@ -15,8 +15,11 @@
     <div (click)="focusMethod()" class="ml-auto w-4/12   sm:w-fit items-center hidden md:flex cursor-pointer "><img class="ml-auto h-[38px] w-[38px]" src='../../../../../assets/Icons/Group 4361.svg'></div>
     </div>
   </div>
-    
-    <app-table class="h-[85%] sm:h-[95%]" [tableHeadings]='tableHeadings' avtarType="image" (actionButton)="onClickAction($event)"  [tableData]='displayWilldata' [keys]='tableKeys' [classes]="classes" emptyTableMessage="No will Versions Found"></app-table>
+  
+  <div class="font-['GilroySemi'] sm:hidden text-lg mt-1">Latest Version</div>
+    <app-table class="h-fit" [tableHeadings]='tableHeadingslatest' avtarType="image" (actionButton)="onClickAction($event)"  [tableData]='latestWilldata' [keys]='tableKeys' [classes]="classes" emptyTableMessage="No will Versions Found"></app-table>
+    <div class="font-['GilroySemi'] sm:hidden text-lg mt-1">Past Versions</div>
+    <app-table [viewAction]="true" [editAction]="false" [deleteAction]="false" class="h-[75%] sm:h-[69%]" [tableHeadings]='tableHeadings' avtarType="image" (actionButton)="onClickAction($event)"  [tableData]='displayWilldata' [keys]='tableKeys' [classes]="classes" emptyTableMessage="No will Versions Found"></app-table>
 
 
 </div>

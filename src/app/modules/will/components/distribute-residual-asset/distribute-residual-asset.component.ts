@@ -6,6 +6,7 @@ import { MembersService } from 'src/app/services/members.service';
 import { valueChanges } from 'src/app/helper/formerror.helper';
 import { WillService } from 'src/app/services/will.service';
 import { splitHandlerCall } from 'src/app/shared/utils/common-function';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-distribute-residual-asset',
@@ -167,6 +168,11 @@ console.log(data);
       ...itm,
     }));
   }
+  getAge(value) {
+    const data = moment().diff(moment(value, 'YYYY-MM-DD'), 'years');
+    console.log(data);
+    return data;
+  }
   ngOnInit(): void {
     this.createForm();
     this.spinner.start();
@@ -204,6 +210,11 @@ console.log(data);
             actionRoute: 'members/createmembers',
           };
         });
+        // ?.filter((el) => {
+        //   console.log(el.dob);
+        //   console.log(this.getAge(el.dob));
+        //   return this.getAge(el.dob) > 20;
+        // });
         this.memberDataFallbackReplacement=this.memberData;
         // console.log(this.allMemberData);
       },

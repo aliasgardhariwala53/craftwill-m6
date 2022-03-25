@@ -17,8 +17,8 @@ export class ListmembersComponent implements OnInit {
   toggleModal: boolean;
   toggleModalTutorial: boolean = false;
   showSearch: boolean = false;
-  backRouteLink="/home";   
-  fromCreateWill:string;   
+  backRouteLink = '/home';
+  fromCreateWill: string;
   MemberData = [];
   organisationData = [];
   allMemberData = [];
@@ -32,7 +32,7 @@ export class ListmembersComponent implements OnInit {
     private memberServices: MembersService,
     private spinner: NgxUiLoaderService,
     private toastr: ToastrService,
-    private route: ActivatedRoute,
+    private route: ActivatedRoute
   ) {}
 
   tableHeadings = [
@@ -73,11 +73,35 @@ export class ListmembersComponent implements OnInit {
     this.allMemberData = this.MemberData.map((items) => {
       for (const property in items) {
         console.log(items[property]);
-        if(items[property].toString().toLowerCase().includes(this.searchForm.value.toLowerCase())){
-          return items
+        if (
+          items[property]
+            .toString()
+            .toLowerCase()
+            .includes(this.searchForm.value.toLowerCase())
+        ) {
+          return items;
         }
       }
-    }).filter(items => items!== undefined);
+    }).filter((items) => items !== undefined);
+  }
+  deleteItemHandler(item) {
+    this.spinner.start();
+    this.memberServices.deleteMember(item._id).subscribe(
+      (result) => {
+        console.log(result);
+        this.spinner.stop();
+        if (result.success == true) {
+          this.MemberData = this.MemberData.filter((el) => el._id !== item._id);
+          this.allMemberData = this.MemberData;
+          this.toastr.message('Member Deleted', true);
+        }
+      },
+      (err) => {
+        console.log(err);
+        this.spinner.stop();
+        this.toastr.message('Error deleting Members data !!', false);
+      }
+    );
   }
   onFilterHandler(value) {
     this.spinner.start();
@@ -107,14 +131,14 @@ export class ListmembersComponent implements OnInit {
     }
   }
   focusMethod() {
-    this.showSearch=!this.showSearch;
+    this.showSearch = !this.showSearch;
     setTimeout(() => {
-      document.getElementById("mySearchField").focus();    
+      document.getElementById('mySearchField').focus();
     }, 0);
   }
   ngOnInit(): void {
     this.spinner.start();
-    this.searchForm.valueChanges.pipe(debounceTime( 200 )  ).subscribe((e) => {
+    this.searchForm.valueChanges.pipe(debounceTime(200)).subscribe((e) => {
       console.log(e);
       this.onChangehandler();
     });
@@ -127,7 +151,8 @@ export class ListmembersComponent implements OnInit {
 
           return {
             fullname: this.memberServices.getMembersData(items).fullname,
-            Relationship: this.memberServices.getMembersData(items).Relationship,
+            Relationship:
+              this.memberServices.getMembersData(items).Relationship,
             gender: this.memberServices.getMembersData(items).gender,
             id_number: this.memberServices.getMembersData(items).id_number,
             id_type: this.memberServices.getMembersData(items).id_type,

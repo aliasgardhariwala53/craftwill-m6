@@ -8,7 +8,7 @@
     </div>
     <div class="flex flex-row rounded-2xl bg-black justify-around items-center p-3 px-5 sm:hidden">
       <div  class="flex flex-col space-y-1 ">
-        <div [routerLink]="['/will/pastWills']" routerLinkActive="router-link-active"  class="rounded-full bg-[#00242a] text-white flex justify-center items-center p-2 w-10 h-10 m-auto cursor-pointer">
+        <div [routerLink]="['/will/myWills']" routerLinkActive="router-link-active"  class="rounded-full bg-[#00242a] text-white flex justify-center items-center p-2 w-10 h-10 m-auto cursor-pointer">
           <svg xmlns="http://www.w3.org/2000/svg"  class=" fill-white " width="22.754" height="25" viewBox="0 0 22.754 26">
             <g id="Group_3690" data-name="Group 3690" transform="translate(-14.949 -13.72)">
               <g id="Group_3865" data-name="Group 3865" transform="translate(14.949 13.72)">
@@ -26,7 +26,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg> 
         </div>
-        <div class="text-white font-['GilroySemi'] text-center text-xs sm:text-lg">Create Will</div>
+        <div *ngIf="!willpresent" class="text-white font-['GilroySemi'] text-center text-xs sm:text-lg">Create Will</div>
       </div>
       <div (click)="currentWill()" class="flex flex-col space-y-1 ">
         <div class="rounded-full bg-[#00242a] text-white flex justify-center items-center p-2 w-10 h-10 m-auto cursor-pointer">
@@ -45,7 +45,7 @@
     </div>
     <div class="text-left w-full font-['GilroyBold'] text-xl mt-4 mb-2">Liabilities</div>
     <div class="bg-[#F7F7F7] rounded-3xl px-5 pt-3 pb-5 max-h-[50vh]">
-        <app-table
+        <app-table [viewAction]="true"
         [tableHeadings]="tableHeadingsLiabilities"
         actionRoute="trust/createTrust"
         (actionButton)="onClickAction($event)"
@@ -57,7 +57,7 @@
   </div>
     <div class="text-left w-full font-['GilroyBold'] text-xl mt-4 mb-2">Assets</div>
     <div class="bg-[#F7F7F7] rounded-3xl px-5 pt-3 pb-5 max-h-[50vh]">
-    <app-table
+    <app-table [viewAction]="true"
       [tableHeadings]="tableHeadingsAssets"
       avtarType="image"
       actionRoute="trust/createTrust"
@@ -71,7 +71,7 @@
   </div>
     <div class="text-left w-full font-['GilroyBold'] text-xl mt-4 mb-2">Trust</div>
     <div class="bg-[#F7F7F7] rounded-3xl px-5 pt-3 pb-5 max-h-[50vh]">
-        <app-table
+        <app-table [viewAction]="true"
         [tableHeadings]="tableHeadingsTrust"
         actionRoute="trust/createTrust"
         (actionButton)="onClickAction($event)"

@@ -131,9 +131,9 @@ export class CreateMembersComponent implements OnInit {
       required: 'Street Name is Required',
     },
     postalCode: {
-      required: 'Postal Code is Required',
-      maxlength: 'Invalid Number ',
+      required: 'Postal Code is required',
       pattern: 'Please Enter valid numeric value',
+      maxlength: 'Please Enter Valid postal code',
     },
     Relationship: {
       required: 'Relationship is Required',
@@ -320,7 +320,7 @@ export class CreateMembersComponent implements OnInit {
         });
   }
   ngOnInit(): void {
-    this.max_date = moment().subtract(18, 'years').format('YYYY-MM-DD');
+    this.max_date = moment().format('YYYY-MM-DD');
     this.route.queryParams.subscribe(({ id,x,y }) => {
      if (id) {
         this.id = id;

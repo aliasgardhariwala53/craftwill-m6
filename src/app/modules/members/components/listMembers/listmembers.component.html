@@ -76,7 +76,7 @@
     </div>
   </div>
 
-  <app-table class="overflow-scroll" [tableHeadings]='tableHeadings' actionRoute="members/createmembers" (actionButton)="onClickAction($event)"
+  <app-table [viewAction]="true" (deleteItem)="deleteItemHandler($event)" class="overflow-scroll" [tableHeadings]='tableHeadings' actionRoute="members/createmembers" (actionButton)="onClickAction($event)"
     [tableData]='allMemberData' [keys]='tableKeys' [classes]="classes" emptyTableMessage="No members Found"></app-table>
   <div class="md:hidden left-0 right-0 bottom-1 w-full m-auto bg-white">
 

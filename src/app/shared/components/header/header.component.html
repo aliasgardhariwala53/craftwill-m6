@@ -325,9 +325,9 @@
         </div>
       </div>
 
-      <div  class="border-r-2 border-[#E0E0E0] h-[80%]"></div>
+      <div *ngIf="router.url !== '/will/myWills' && router.url !== '/will/createWill'" class="border-r-2 border-[#E0E0E0] h-[80%]"></div>
 
-      <div *ngIf="router.url !== '/will/myWills'"
+      <div *ngIf="router.url !== '/will/myWills' && router.url !== '/will/createWill'"
         class="flex flex-row bg-red rounded-xl py-1 px-4 items-center cursor-pointer w-[140px] h-[44px]"
         [routerLink]="['/will/myWills']" routerLinkActive="router-link-active">
         <div class="mr-1">
@@ -336,8 +336,10 @@
         <div class="text-sm mx-1">My Will</div>
       </div>
 
-      <div *ngIf="router.url === '/will/myWills'" class="flex flex-row rounded-xl items-center py-1 cursor-pointer"
-        [routerLink]="['/will/pastWills']" routerLinkActive="router-link-active">
+      <div *ngIf="router.url === '/will/createWill'" class="border-r-2 border-[#E0E0E0] h-[80%]"></div>
+
+      <div *ngIf="router.url === '/will/createWill'" class="flex flex-row rounded-xl items-center py-1 cursor-pointer"
+        [routerLink]="['/will/myWills']" routerLinkActive="router-link-active">
         <div class="mx-2">
           <svg xmlns="http://www.w3.org/2000/svg" width="22.754" height="26" viewBox="0 0 22.754 26">
             <g id="Group_3690" data-name="Group 3690" transform="translate(-14.949 -13.72)">
@@ -349,6 +351,10 @@
           </svg>
         </div>
         <div class="text-sm mx-1">Past Versions</div>
+      </div>
+      <div *ngIf="router.url === '/will/myWills'  && !willpresent" class="border-r-2 border-[#E0E0E0] h-[80%]"></div>
+        <div *ngIf="router.url === '/will/myWills'  && !willpresent" class="hidden sm:flex">
+          <app-button padding="px-5 py-2 "  value="Create Will " routelink="/will/createWill"></app-button>
       </div>
 
  

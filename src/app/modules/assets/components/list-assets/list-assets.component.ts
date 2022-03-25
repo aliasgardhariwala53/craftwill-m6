@@ -131,7 +131,25 @@ export class ListAssetsComponent implements OnInit {
   }
   arrayData;
 
-
+  deleteItemHandler(item) {
+    this.spinner.start();
+    this.assetsServices.deleteAssets(item._id).subscribe(
+      (result) => {
+        console.log(result);
+        this.spinner.stop();
+        if (result.success == true) {
+          this.allAssetsData = this.allAssetsData.filter((el) => el._id !== item._id);
+          this.allAssetsinOne = this.allAssetsData;
+          this.toastr.message('Member Deleted', true);
+        }
+      },
+      (err) => {
+        console.log(err);
+        this.spinner.stop();
+        this.toastr.message('Error deleting Members data !!', false);
+      }
+    );
+  }
 
 
   ngOnInit(): void {
@@ -191,7 +209,18 @@ export class ListAssetsComponent implements OnInit {
         options: {
           responsive: true,
          maintainAspectRatio: false,
-          
+         plugins: {
+          legend: {
+            display: false
+          }
+        },
+        // scales: {
+        //   x: {
+        //     grid: {
+        //       display: false
+        //     }
+        //   }
+        // }
         },
       });
     });

@@ -19,6 +19,7 @@ export class MyWillComponent implements OnInit {
   allLiabilitiesData=[];
   alltrustData = [];
   latestWillId='';
+  willpresent=false;
   constructor(
     private liabilitiesServices: LiabilitiesService,
     private assetsServices: AssetsService,
@@ -82,6 +83,9 @@ export class MyWillComponent implements OnInit {
   }
   ngOnInit(): void {
     this.spinner.start();
+    this._willServices.willpresent.subscribe((result)=>{
+      this.willpresent=result;
+    });
     this._willServices.latestWillId.subscribe((id) => {
       this.latestWillId = id;
     });

@@ -160,9 +160,9 @@ export class SignupComponent implements OnInit {
       required: 'Street Name is Required',
     },
     postalCode: {
-      required: 'Postal Code is Required',
+      required: 'Postal Code is required',
       pattern: 'Please Enter valid numeric value',
-      maxlength: 'Invalid Number ',
+      maxlength: 'Please Enter Valid postal code',
     },
   };
   submit() {

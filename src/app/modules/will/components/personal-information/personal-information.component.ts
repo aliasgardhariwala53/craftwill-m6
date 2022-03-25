@@ -27,7 +27,7 @@ export class PersonalInformationComponent implements OnInit {
         Validators.maxLength(24),
       ]],
       id_Type: [ ,Validators.required],
-      fullName: ['',Validators.required],
+      fullName: ['',[Validators.required,Validators.maxLength(64)]],
       gender: [, [Validators.required]],
       email: ['', [
         Validators.required,
@@ -82,12 +82,15 @@ export class PersonalInformationComponent implements OnInit {
     },
     id_Number: {
       required: 'Id Number is required',
+      maxlength: 'Please Enter Valid Id number',
+      pattern: 'Invalid Id number',
     },
     gender: {
       required: 'Gender is required',
     },
     fullName: {
       required: 'Full name is required',
+      maxlength: 'Please Enter Valid name',
     },
     email: {
       required: 'Email is required',
@@ -99,16 +102,19 @@ export class PersonalInformationComponent implements OnInit {
     },
     floorNumber: {
       required: 'Floor Number is required',
+      maxlength: 'Please Enter Valid floor Number',
     },
     unitNumber: {
       required: 'Unit Number is required',
+      maxlength: 'Please Enter Valid unit Number',
     },
     streetName: {
       required: 'Street Name is required',
     },
     postalCode: {
       required: 'Postal Code is required',
-      // pattern: 'Please Enter valid numeric value',
+      pattern: 'Please Enter valid numeric value',
+      maxlength: 'Please Enter Valid postal code',
     },
 
   };

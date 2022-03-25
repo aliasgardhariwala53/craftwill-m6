@@ -22,6 +22,9 @@ export class AssetsService {
   liquidity(){
     return this._httpServe.get(environment.serverUrl + "findDataCount");
   }
+  deleteAssets(id){
+    return this._httpServe.delete(`${environment.serverUrl}deleteAssetById/${id}`);
+  }
   getAssetsData(item) {
     let data = {
       name: '',

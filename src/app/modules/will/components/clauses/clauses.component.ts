@@ -5,6 +5,7 @@ import { MembersService } from 'src/app/services/members.service';
 import { WillService } from 'src/app/services/will.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { valueChanges } from 'src/app/helper/formerror.helper';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-clauses',
@@ -27,7 +28,7 @@ export class ClausesComponent implements OnInit {
   expertiseList=['Investment Advisor','Financial Advisor','Legal Advisor','Tax Advisor','Business Advisor','Others']
   pageTitle:string='Additional Clauses';
   backRouteStep;
-
+  advisorUpdate=false;
 
   constructor(
     private memberServices: MembersService,
@@ -92,6 +93,15 @@ this.advisorForm.valueChanges.subscribe(() => {
   selectMemberDelayPayout(value) {
     this.appointBeneficiaries=value;
   }
+addClause(){
+  this.showClauseModal = true;
+  this.advisorForm.reset();
+  // this.finalWordsForm.reset();
+  // this.customClauseForm.reset();
+  // this.translateType='';
+  // this.appointBeneficiaries=[];
+  // this.beneficiaryManagedBy='delay1';
+}
   onUpdate(value) {}
   setPageInfo(){
     this.onbackClause.emit(this.clauseType);
@@ -151,12 +161,43 @@ this.advisorForm.valueChanges.subscribe(() => {
     this.onbackClause.emit(this.clauseType);
     this.viewClause="listClause"
     // this.clauseType="";
+    const totallength=this.allAdvisorArray.length;
+    this.advisorForm.patchValue({
+      advisorId:totallength 
+    })
     console.log(this.advisorForm.value);
     
     this.allAdvisorArray.push(this.advisorForm.value);
     this._willServices.recommendedAdvisorData.next(this.allAdvisorArray);
     this.advisorForm.reset();
   }
+  onUpdateAdvisor(){
+    console.log(this.allAdvisorArray);
+    console.log(this.advisorForm.value);
+    this.allAdvisorArray = this.allAdvisorArray.map(ad => {
+      if(ad.advisorId === this.advisorForm.value.advisorId){
+        return this.advisorForm.value
+      }
+      else {
+        return ad
+      }
+    })
+    this._willServices.recommendedAdvisorData.next(this.allAdvisorArray);
+    this.viewClause="listClause"
+    this.advisorUpdate=false;
+    this.advisorForm.reset();
+  }
+  onClickEditAdvisor(item){
+    console.log(item);
+    this.advisorUpdate=true;
+    this.clauseType = 'clause2';
+        this.onClickContinue();
+    const edit =this.allAdvisorArray?.find((el)=>el.advisorId===item.advisorId);
+    console.log(this.allAdvisorArray);
+    
+    this.advisorForm.patchValue({...item});
+  }
+
   finalWordsForm =new FormControl('')
   onSaveFinalWord(){
 
@@ -165,14 +206,14 @@ this.advisorForm.valueChanges.subscribe(() => {
     // this.clauseType="";
     console.log(this.finalWordsForm.value);
     this._willServices.finalWordsData.next(this.finalWordsForm.value);
-    
+    this.finalWordsForm.reset();
   }
   onSaveTranslation(){
     this.onbackClause.emit(this.clauseType);
     this.viewClause="listClause"
     // this.clauseType="";
     this._willServices.translationData.next(this.translateType);
-    
+    this.translateType='';
   }
   customClauseForm =new FormControl('')
   onSaveCustomClause(){
@@ -180,13 +221,40 @@ this.advisorForm.valueChanges.subscribe(() => {
     this.viewClause="listClause"
     // this.clauseType="";
     this._willServices.customClauseData.next(this.customClauseForm.value);
- 
+    this.customClauseForm.reset();
   }
   onClickContinue(){
     this.setPageInfo();
     console.log(this.clauseType);
     this.showClauseModal=false;
   }
+  editClause(num){
+    switch (num) {
+      case 1:
+        this.clauseType = 'clause1';
+        this.onClickContinue();
+        break;
+      case 2:
+        this.clauseType = 'clause2';
+        this.onClickContinue();
+        break;
+      case 3:
+        this.clauseType = 'clause3';
+        this.onClickContinue();
+        break;
+      case 4:
+        this.clauseType = 'clause4';
+        this.onClickContinue();
+        break;
+      case 5:
+        this.clauseType = 'clause5';
+        this.onClickContinue();
+        break;
+    
+      default:
+        break;
+    }
+      }
   onClickNext() {
     this.onClickNextBtn.emit(6);
     const clauses = {
@@ -210,6 +278,11 @@ this.advisorForm.valueChanges.subscribe(() => {
       }
     }
     this._willServices.step5.next(clauses);
+  }
+  getAge(value) {
+    const data = moment().diff(moment(value, 'YYYY-MM-DD'), 'years');
+    console.log(data);
+    return data;
   }
   ngOnInit(): void {
     this.viewClause="listClause";
@@ -236,6 +309,11 @@ this.advisorForm.valueChanges.subscribe(() => {
             actionRoute: 'members/createmembers',
           };
         });
+        // ?.filter((el) => {
+        //   console.log(el.dob);
+        //   console.log(this.getAge(el.dob));
+        //   return this.getAge(el.dob) > 20;
+        // });;
         // console.log(this.allMemberData);
       },
       (err) => {

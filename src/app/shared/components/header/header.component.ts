@@ -43,13 +43,17 @@ export class HeaderComponent implements OnInit {
     console.log('latest Will');
     this._route.navigate([`will/createWill`], { queryParams:{id:this.latestWillId}});
   }
-
+  willpresent=false;
   ngOnInit(): void {
+    this.spinner.start();
+    this._willServices.willpresent.subscribe((result)=>{
+      this.willpresent=result;
+    });
     this._headerServ.image.subscribe((image) => {
       this.imageSrc = image;
     });
     this._userServ.getProfile().subscribe((result) => {
-      this.spinner.stop();
+      
       this.username = result.data.fullName.split(' ')
    .map(w => w[0].toUpperCase() + w.substring(1).toLowerCase())
    .join(' ');
@@ -77,16 +81,18 @@ export class HeaderComponent implements OnInit {
     });
     this._willServices.getAllWill().subscribe(
       (result) => {
-        this.spinner.stop();
+        
         this.latestWillData = result.data?.users[result.data.users.length-1]?.DATE ;
         this.latestWillId=result.data?.users[result.data.users.length-1]?._id || '';
         console.log(this.latestWillData);
         console.log(this.latestWillId);
         this._willServices.latestWillId.next(result.data?.users[result.data.users.length-1]?._id);
+        this.spinner.stop();
       },
       (err) => {
         this.spinner.stop();
       }
     );
+
   }
 }

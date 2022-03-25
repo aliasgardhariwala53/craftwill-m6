@@ -44,7 +44,8 @@ export class ProfileComponent implements OnInit {
       fullName: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
       email: [''],
       id_type: ['', Validators.required],
-      id_number: ['', Validators.required],
+      id_number: ['', [Validators.required ,Validators.pattern('[a-zA-Z0-9]*'),
+      Validators.maxLength(24),]],
       gender: [''],
       floorNumber: ['', [Validators.required, Validators.maxLength(12)]],
       unitNumber: ['', [Validators.required, Validators.maxLength(12)]],
@@ -138,9 +139,9 @@ export class ProfileComponent implements OnInit {
       required: 'Street Name is Required',
     },
     postalCode: {
-      required: 'Postal Code is Required',
+      required: 'Postal Code is required',
       pattern: 'Please Enter valid numeric value',
-      maxlength: 'Invalid Number ',
+      maxlength: 'Please Enter Valid postal code',
     },
     newPassword: {
       required: 'New Password is Required',

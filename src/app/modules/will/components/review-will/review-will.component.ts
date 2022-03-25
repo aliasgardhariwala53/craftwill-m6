@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  Input,
   OnChanges,
   OnInit,
   Output,
@@ -21,6 +22,7 @@ import { ToastrService } from 'src/app/shared/services/toastr.service';
   styleUrls: ['./review-will.component.scss'],
 })
 export class ReviewWillComponent implements OnInit, OnChanges {
+  @Input() readOnly= false;
   @Output() onEdit = new EventEmitter();
   step1;
   step2;
@@ -130,7 +132,7 @@ export class ReviewWillComponent implements OnInit, OnChanges {
           // this.addressDetails.reset();
           // this.accountDetails.reset();
           this.toastr.message('Will Created Successfully....', true);
-          this._route.navigate(['/will/pastWills']);
+          this._route.navigate(['/will/myWills']);
           this._willServices.currentStep.next(1);
         }
       },
@@ -169,7 +171,7 @@ export class ReviewWillComponent implements OnInit, OnChanges {
           this._willServices.step5.next({});
   
           this.toastr.message('Will Updated Successfully....', true);
-          this._route.navigate(['/will/pastWills']);
+          this._route.navigate(['/will/myWills']);
           this._willServices.currentStep.next(1);
         }
       },
@@ -196,8 +198,12 @@ export class ReviewWillComponent implements OnInit, OnChanges {
   memberHandler(arr){
     return this.mergeById(this.memberData,arr);
   }
+  willpresent=false;
   ngOnInit(): void {
     this.spinner.start();
+    this._willServices.willpresent.subscribe((result)=>{
+      this.willpresent=result;
+    });
     this.route.queryParams.subscribe(({ wid}) => {
       if (wid) {
         this.wid = wid;

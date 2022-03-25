@@ -65,6 +65,25 @@ export class ListLiabilitiesComponent implements OnInit {
       }
     }).filter(items => items!== undefined);
   }
+  deleteItemHandler(item) {
+    this.spinner.start();
+    this.liabilitiesServices.deleteLiability(item._id).subscribe(
+      (result) => {
+        console.log(result);
+        this.spinner.stop();
+        if (result.success == true) {
+          this.LiabilitiesData = this.LiabilitiesData.filter((el) => el._id !== item._id);
+          this.allLiabilities = this.LiabilitiesData;
+          this.toastr.message('Liability Deleted', true);
+        }
+      },
+      (err) => {
+        console.log(err);
+        this.spinner.stop();
+        this.toastr.message('Error deleting Liability data !!', false);
+      }
+    );
+  }
   onFilterHandler(value) {
     this.spinner.start();
     console.log('helllooo', value);

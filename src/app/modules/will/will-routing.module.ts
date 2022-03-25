@@ -24,7 +24,7 @@ const routes: Routes = [
       {
         path:"myWills",
         canActivate:[AuthGuard],
-        component:MyWillComponent,
+        component:ListPastWillsComponent,
       },
       {
         path:"pastWills",

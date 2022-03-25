@@ -104,7 +104,7 @@
 
     </div>
 <!-- canvas -->
-  <app-table [tableHeadings]="tableHeadings" avtarType="image" (actionButton)="onClickAction($event)" class="overflow-scroll" [tableData]="allAssetsinOne"
+  <app-table [viewAction]="true" (deleteItem)="deleteItemHandler($event)" [tableHeadings]="tableHeadings" avtarType="image" (actionButton)="onClickAction($event)" class="overflow-scroll" [tableData]="allAssetsinOne"
     [keys]="tableKeys" [classes]="classes" emptyTableMessage="No Assets Found">
   </app-table>
   <div class=" md:hidden left-0 right-0 bottom-0 bg-white w-full m-auto">

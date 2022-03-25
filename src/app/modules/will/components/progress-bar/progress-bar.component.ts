@@ -9,6 +9,7 @@ import { WillService } from 'src/app/services/will.service';
 })
 export class ProgressBarComponent implements OnInit {
   @Input() step=1;
+  @Input() disableStep=false;
   @Output() onClickStep = new EventEmitter();
   constructor(private _willServices: WillService) { }
    arr = new Array(6);
@@ -18,6 +19,9 @@ export class ProgressBarComponent implements OnInit {
    step4;
    step5;
    onClickSteps(e){
+    if (this.disableStep) {
+      return;
+    }
      if ( Object.keys(this.step1 ===  this.step2 === this.step3 === this.step4 === this.step5).length === 0 && e === 6) {
        return;
      }

@@ -170,7 +170,7 @@ export class DashboardComponent implements OnInit {
       
       console.log(this.quickStats.data);
       
-      const newData=Object.keys(this.quickStats.data).map((el)=>{
+      const newData=Object.keys(this.quickStats.data)?.map((el)=>{
         console.log(el);
         const month =el.split('-')[0].toLowerCase();
         const year =el.split('-')[1];
@@ -209,10 +209,10 @@ export class DashboardComponent implements OnInit {
         
         console.log(this.quickStats.data);
         
-        const newData=Object.keys(this.quickStats.data).map((el)=>{
+        const newData=Object.keys(this.quickStats.data)?.map((el)=>{
           console.log(el);
-          const month =el.split('-')[0].toLowerCase();
-          const year =el.split('-')[1];
+          const month =el?.split('-')[0]?.toLowerCase();
+          const year =el?.split('-')[1];
         return  {month,year,value:this.quickStats.data[el]}
         })
         console.log(newData);

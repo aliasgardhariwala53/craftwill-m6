@@ -170,7 +170,7 @@
     </div>
 </div>
 <div class="flex flex-row w-full sm:w-5/12 md:w-4/12 lg:w-4/12 space-x-3">
-    <div class=" w-1/2 " *ngIf="wid === ''" >
+    <div class=" w-1/2 " *ngIf="wid === '' && !willpresent && !readOnly" >
         <app-button
           padding="px-3 py-3"
           (myMethod)="onCreateWill()"
@@ -178,15 +178,15 @@
           id="submitButtonId"
         ></app-button>
       </div>
-    <div class=" w-1/2 " *ngIf="wid !== ''" >
+    <div class=" w-1/2 " *ngIf="wid !== '' && willpresent" >
         <app-button
           padding="px-3 py-3"
-          (myMethod)="onUpdateWill()"
+          (myMethod)="onCreateWill()"
           value="Update"
           id="submitButtonId"
         ></app-button>
       </div>
-    <div class=" w-1/2 " *ngIf="wid === ''" >
+    <div class=" w-1/2 " *ngIf="wid === '' && !willpresent && !readOnly" >
         <app-button
           padding="px-3 py-3"
           (myMethod)="onEditClick(1)"

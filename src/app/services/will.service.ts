@@ -9,6 +9,7 @@ import { HttpService } from './http.service';
 export class WillService {
   constructor(private _httpservices : HttpService) {}
   globalReload = new BehaviorSubject(true);
+  willpresent = new BehaviorSubject(false);
   currentStep = new BehaviorSubject(1);
   step1 = new BehaviorSubject({});
   step2 = new BehaviorSubject({});

@@ -1,8 +1,8 @@
-<span class="relative inline-block group z-20">
+<span class="{{positon}} inline-block group z-20">
     <ng-content select='[button]'></ng-content>
     <div
       [ngClass]="open ? '' : 'hidden'"
-      class="bg-white absolute z-10  mt-2 {{width}} -right-4 rounded-xl dropdown-shadow focus:outline-none text-center">
+      class="bg-white absolute z-10 {{margin}} {{width}} -right-4 rounded-xl dropdown-shadow focus:outline-none text-center">
       <ng-content select='[options]'></ng-content>
     </div>
   </span>

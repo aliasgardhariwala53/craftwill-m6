@@ -13,6 +13,8 @@ export class DropdownComponent implements OnInit {
   @Input() primary = false;
   @Input() changeSelected = true;
   @Input() list = [];
+  @Input() positon = 'relative';
+  @Input() margin = 'mt-2';
   @Input() width = "min-w-[200px]";
   @Output() handleSelect = new EventEmitter();
 

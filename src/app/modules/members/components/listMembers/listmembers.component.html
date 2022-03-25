@@ -1,4 +1,4 @@
-<div class="h-[90%] overflow-auto">
+<div class="h-[92%] overflow-auto">
 
 <div class="flex flex-col mx-8 md:my-8 md:hidden">
 
@@ -9,7 +9,7 @@
 </div>
 
 
-<div class="flex flex-col px-8 md:mt-5 pt-0 pb-4 h-[71vh] md:h-[80vh] top-40">
+<div class="flex flex-col px-8 md:mt-5 pt-0 pb-4 min-h-[90%]  top-40">
   <div class="flex flex-row items-center w-full  ">
     <div class="hidden md:block w-1/12 font-extrabold text-xl ml-3">Members</div>
     <div class="w-3/12 hidden md:flex items-center dropdown cursor-pointer font-semibold ">
@@ -76,9 +76,9 @@
     </div>
   </div>
 
-  <app-table [viewAction]="true" (deleteItem)="deleteItemHandler($event)" class="overflow-scroll" [tableHeadings]='tableHeadings' actionRoute="members/createmembers" (actionButton)="onClickAction($event)"
+  <app-table [viewAction]="true" (deleteItem)="deleteItemHandler($event)" class="overflow-scroll h-[71vh]" [tableHeadings]='tableHeadings' actionRoute="members/createmembers" (actionButton)="onClickAction($event)"
     [tableData]='allMemberData' [keys]='tableKeys' [classes]="classes" emptyTableMessage="No members Found"></app-table>
-  <div class="md:hidden left-0 right-0 bottom-1 w-full m-auto bg-white">
+  <div class="md:hidden left-0 right-0 bottom-1 w-full mt-auto bg-white">
 
     <app-button [plus]="true" value="Create New Member" routelink="/members/createmembers" class="md:hidden"
       margin="my-1"></app-button>

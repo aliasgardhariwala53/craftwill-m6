@@ -172,32 +172,32 @@ export class DashboardComponent implements OnInit {
       
       const newData=Object.keys(this.quickStats.data)?.map((el)=>{
         console.log(el);
-        const month =el.split('-')[0].toLowerCase();
-        const year =el.split('-')[1];
+        const month =el?.split('-')[0].toLowerCase();
+        const year =el?.split('-')[1];
       return  {month,year,value:this.quickStats.data[el]+6}
       })
       console.log(newData);
-      this.labelData=newData.map((el)=>el.month);
-      this.assetStats=newData.map((el)=>el.value);
-      this.liablityStats =newData.map((el)=>el.value);
-      console.log(newData.map((el)=>el.value));
+      this.labelData=newData?.map((el)=>el.month);
+      this.assetStats=newData?.map((el)=>el.value);
+      this.liablityStats =newData?.map((el)=>el.value);
+      console.log(newData?.map((el)=>el.value));
       this.barChartData.labels=this.labelData;
-      this.barChartData.datasets[0] = { ...this.barChartData.datasets[0], data: newData.map((el)=>el.value)};
+      this.barChartData.datasets[0] = { ...this.barChartData.datasets[0], data: newData?.map((el)=>el?.value)};
       const newDataTwo = {
         labels: [],
         datasets: []
       };
-      newDataTwo.labels= newData.map((el)=>el.month);
+      newDataTwo.labels= newData?.map((el)=>el.month);
       newDataTwo.datasets[0] = { ...this.barChartData.datasets, label: 'Assets',
       backgroundColor: '#00C5E9',
       borderRadius: 50,
       barPercentage: 0.4,
-      borderColor: '#00C5E9', data: newData.map((el)=>el.value)};
+      borderColor: '#00C5E9', data: newData?.map((el)=>el.value)};
       newDataTwo.datasets[1] = {...this.barChartData.datasets, label: 'Liabilities',
       backgroundColor: '#FFCB67',
       borderColor: '#FFCB67',
       borderRadius: 50,
-      barPercentage: 0.4,data: newData.map((el)=>el.value)};
+      barPercentage: 0.4,data: newData?.map((el)=>el.value)};
         this.barChartData = newDataTwo;
       this.chartOne.chart.render();
     });
@@ -209,16 +209,16 @@ export class DashboardComponent implements OnInit {
         
         console.log(this.quickStats.data);
         
-        const newData=Object.keys(this.quickStats.data)?.map((el)=>{
+        const newData=Object?.keys(this.quickStats.data)?.map((el)=>{
           console.log(el);
           const month =el?.split('-')[0]?.toLowerCase();
           const year =el?.split('-')[1];
         return  {month,year,value:this.quickStats.data[el]}
         })
         console.log(newData);
-        this.labelData=newData.map((el)=>el.month);
-        this.assetsDistribution =newData.map((el)=>el.value);
-        console.log(newData.map((el)=>el.value));
+        this.labelData=newData?.map((el)=>el.month);
+        this.assetsDistribution =newData?.map((el)=>el.value);
+        console.log(newData?.map((el)=>el.value));
         const newDataTwo = {
           labels: [],
           datasets: []

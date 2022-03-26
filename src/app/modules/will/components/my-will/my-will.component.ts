@@ -127,7 +127,7 @@ export class MyWillComponent implements OnInit {
         this.trustServices.getTrust().subscribe((result) => {
           this.spinner.stop();
     
-          this.alltrustData = result.data.users.map((items, i) => {
+          this.alltrustData = result.data.map((items, i) => {
             return {
               trustName: items.trustName,
               ownerShipType: 'sole',
@@ -135,6 +135,8 @@ export class MyWillComponent implements OnInit {
               actionRoute: 'trust/createTrust',
             };
           });
+          console.log(this.alltrustData);
+          
         },(err)=>{
           this.spinner.stop();
           this.toastr.message(errorHandler(err),false);

@@ -120,11 +120,11 @@ this.step =6;
       (result) => {
         this.spinner.stop();
         console.log("result",result);
-        if (result.data.users.length > 0 ) {
+        if (result.data.length > 0 ) {
           this._willServices.willpresent.next(true);
         }
 
-        this.willData = result.data.users.filter((el)=>el._id === this.wid)[0];
+        this.willData = result.data.filter((el)=>el._id === this.wid)[0];
         const {  id_Type='',
           id_Number,
           gender,

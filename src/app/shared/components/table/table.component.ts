@@ -1,4 +1,4 @@
-import { Component, OnInit,Input, Output ,EventEmitter} from '@angular/core';
+import { Component, OnInit,Input, Output ,EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
 import { Router } from '@angular/router';
 
 
@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, OnChanges {
   @Input() tableHeadings;
   @Input() tableData = [];
   @Input() classes ;
@@ -77,6 +77,11 @@ export class TableComponent implements OnInit {
   }
   ngOnInit(): void {
     console.log(this.classes);
+    
+  }
+  
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
     
   }
 

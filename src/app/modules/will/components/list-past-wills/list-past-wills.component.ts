@@ -90,14 +90,14 @@ export class ListPastWillsComponent implements OnInit {
     this._willServices.getAllWill().subscribe(
       (result) => {
         
-        if (result.data.users.length > 0 ) {
+        if (result.data.length > 0 ) {
           this._willServices.willpresent.next(true);
-          console.log(result.data.users.length);
+          console.log(result.data?.length);
           console.log(this._willServices.willpresent.getValue());
           
         }
-        const versionArray=this.version(result.data.users);
-        this.allWillData = result.data.users.map((items, i) => {
+        const versionArray=this.version(result?.data);
+        this.allWillData = result.data?.map((items, i) => {
           console.log(items.willName);
           console.log(items);
           return {
@@ -106,7 +106,7 @@ export class ListPastWillsComponent implements OnInit {
         });
         this.displayWilldata = [...this.allWillData];
         this.displayWilldata = this.displayWilldata.reverse();
-        this.latestWilldata = [this.displayWilldata[0]];
+        this.latestWilldata = this.displayWilldata.length > 0 ?[this.displayWilldata[0]] : [];
         this.displayWilldata = this.displayWilldata.filter((el,i)=>i!==0);
         
         this.spinner.stop();

@@ -81,13 +81,15 @@ export class HeaderComponent implements OnInit {
     });
     this._willServices.getAllWill().subscribe(
       (result) => {
-        
-        this.latestWillData = result.data?.users[result.data.users.length-1]?.DATE ;
-        this.latestWillId=result.data?.users[result.data.users.length-1]?._id || '';
+        if(result.data.length > 0){
+        this.latestWillData = result.data[result.data.length-1]?.DATE ;
+        this.latestWillId=result.data[result.data.length-1]?._id || '';
         console.log(this.latestWillData);
         console.log(this.latestWillId);
-        this._willServices.latestWillId.next(result.data?.users[result.data.users.length-1]?._id);
+        this._willServices.latestWillId.next(result.data[result.data.length-1]?._id);
+        }
         this.spinner.stop();
+        
       },
       (err) => {
         this.spinner.stop();

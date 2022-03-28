@@ -73,7 +73,7 @@
         class="ml-auto h-[38px] w-[38px]" src='../../../../../assets/Icons/Group 4361.svg'></div>
     <div class="w-12/12 md:w-fit justify-end hidden md:flex text-base text-center">
       <app-button value="Create New Member" routelink="/members/createmembers"></app-button>
-    </div>
+    </div> 
   </div>
 
   <app-table [viewAction]="false" (deleteItem)="deleteItemHandler($event)" class="overflow-scroll h-[71vh]" [tableHeadings]='tableHeadings' actionRoute="members/createmembers" (actionButton)="onClickAction($event)"

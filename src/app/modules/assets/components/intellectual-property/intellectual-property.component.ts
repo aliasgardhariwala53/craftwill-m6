@@ -49,7 +49,7 @@ export class IntellectualPropertyComponent implements OnInit {
   wid='';
   createForm() {
     this.IntellectualPropertyForm = this._fb.group({
-      ip_Name: ['', [Validators.required]],
+      ip_Name: ['', [Validators.required,Validators.pattern('^[a-zA-Z ]*$')],Validators.maxLength(32)],
       ip_No: ['', [Validators.pattern('^[0-9]*$'), Validators.maxLength(20)]],
       country: [, [Validators.required]],
       SpecifyOwnershipType: ['', [Validators.required]],
@@ -71,18 +71,20 @@ export class IntellectualPropertyComponent implements OnInit {
 
   formErrorMessages = {
     ip_Name: {
-      required: 'Ip Name  is Required',
+      required: 'Ip name  is required.',
+      pattern: 'Invalid Ip name',
+      maxlength: 'Word limit Exceed..',
     },
     ip_No: {
       pattern: 'Only numeric values allowed',
-      maxlength: 'Please Enter Valid Number',
+      maxlength: 'Please enter valid number',
     },
     country: {
-      required: 'Country is Required',
+      required: 'Country is required.',
     },
 
     SpecifyOwnershipType: {
-      required: 'Ownership is Required',
+      required: 'Ownership is required.',
     },
   };
   addProperty() {

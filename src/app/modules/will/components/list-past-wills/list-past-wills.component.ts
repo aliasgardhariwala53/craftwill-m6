@@ -81,6 +81,29 @@ export class ListPastWillsComponent implements OnInit {
        return `${x}.${y}`
      })
     }
+    deleteItemHandler(item) {
+      this.spinner.start();
+      this._willServices.deleteWill(item._id).subscribe(
+        (result) => {
+          console.log(result);
+          this.spinner.stop();
+          if (result.success == true) {
+            this.allWillData = this.allWillData.filter((el) => el._id !== item._id);
+    
+            this.toastr.message('Will Deleted', true);
+            this.displayWilldata = [...this.allWillData];
+        this.displayWilldata = this.displayWilldata.reverse();
+        this.latestWilldata = this.displayWilldata.length > 0 ?[this.displayWilldata[0]] : [];
+        this.displayWilldata = this.displayWilldata.filter((el,i)=>i!==0);
+          }
+        },
+        (err) => {
+          console.log(err);
+          this.spinner.stop();
+          this.toastr.message('Error deleting Will data !!', false);
+        }
+      );
+    }
   ngOnInit(): void {
     this.spinner.start();
     this.searchForm.valueChanges.pipe(debounceTime( 200 )  ).subscribe((e) => {

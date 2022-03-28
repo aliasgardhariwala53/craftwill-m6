@@ -68,7 +68,7 @@ export class BankAccountUserComponent implements OnInit {
   wid='';
   createForm() {
     this.BankAccountUser = this._fb.group({
-      bankname: ['', [Validators.required,Validators.pattern('^[a-zA-Z ]*$')]],
+      bankname: ['', [Validators.required,Validators.pattern('^[a-zA-Z ]*$'),Validators.maxLength(32)]],
       accountNumber: [
         '',
         [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(20)],
@@ -96,24 +96,25 @@ export class BankAccountUserComponent implements OnInit {
 
   formErrorMessages = {
     bankname: {
-      required: 'Bank Name is Required',
-      pattern: 'Invalid Name',
+      required: 'Bank name is required.',
+      pattern: 'Invalid bank Name',
+      maxlength: 'Word limit Exceed..',
     },
     accountNumber: {
-      required: 'Account Number is Required',
-      maxlength: 'Please Enter Valid Number',
+      required: 'Account number is required.',
+      maxlength: 'Please enter valid number',
       
       pattern: 'Only numeric values allowed',
     },
     country: {
-      required: 'Country is Required',
+      required: 'Country is required.',
     },
     estimateValue: {
-      required: 'Estimate Value is Required',
-      maxlength: 'Please Enter Valid Number',
+      required: 'Estimate value is required.',
+      maxlength: 'Please enter valid number',
     },
     specifyOwnershipType: {
-      required: 'Ownership is Required',
+      required: 'Ownership is required.',
     },
   };
   assetsBeneficiary = [];

@@ -133,8 +133,8 @@ export class CreateTrustComponent implements OnInit,OnChanges {
   ];
   createForm() {
     this.TrustForm = this._fb.group({
-      trustName: ['', [Validators.required]],
-      description: ['', [Validators.required]],
+      trustName: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'),Validators.maxLength(32)]],
+      description: ['', [Validators.required,Validators.maxLength(100)]],
       _id: [''],
       primaryTrusteeMember: [[]],
       primaryTrusteeOwnership: ['sole'],
@@ -192,11 +192,14 @@ export class CreateTrustComponent implements OnInit,OnChanges {
 
   formErrorMessages = {
     trustName: {
-      required: 'Trust Name is Required',
+      required: 'Trust name is required.',
+      maxlength: 'Word limit Exceed..',
+      pattern: 'Please enter valid name',
     },
 
     description: {
-      required: 'Description is Required',
+      required: 'Description is required.',
+      maxlength: 'Word limit Exceed..',
     },
   };
   onSelectPowers(e) {

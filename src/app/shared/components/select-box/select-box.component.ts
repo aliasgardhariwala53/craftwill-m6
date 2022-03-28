@@ -25,6 +25,7 @@ export class SelectBoxComponent implements OnInit {
 @Input() imageUrl='../../../../assets/Icons/DP.svg';
 @Input() disableSelect:boolean = false;
 @Input() selectionType = '';
+@Input() NoItemMessage = '';
 
 @Output() onSelectId=new EventEmitter;
 @Output() onAddNewItem=new EventEmitter;

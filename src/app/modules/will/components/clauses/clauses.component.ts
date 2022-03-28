@@ -73,7 +73,7 @@ this.advisorForm.valueChanges.subscribe(() => {
 
     advisorName: {
       required: 'Please add advisor Name',
-      pattern: 'Advisor Name is Required',
+      pattern: 'Advisor Name is required.',
       maxlength: 'Invalid Name',
     },
     contactNumber: {
@@ -84,7 +84,7 @@ this.advisorForm.valueChanges.subscribe(() => {
     },
     expertise: {
       required: 'Please Select Expertise',
-      pattern: 'Expertise is Required',
+      pattern: 'Expertise is required.',
     },
   };
   onSelectClause(){

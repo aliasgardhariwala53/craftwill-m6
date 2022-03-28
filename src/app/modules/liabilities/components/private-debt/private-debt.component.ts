@@ -38,9 +38,9 @@ forwardRouteLink="/liabilities";
 
   createForm() {
     this.PrivateDebtForm = this._fb.group({
-      dept_Name: ['', [Validators.required]],
+      dept_Name: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'),Validators.maxLength(32)]],
       current_Outstanding_Amount: ['', [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(16)]],
-      description: ['', [Validators.required]],
+      description: ['', [Validators.required,Validators.maxLength(100)]],
       memberId: [[], [Validators.required]],
     });
     this.PrivateDebtForm.valueChanges.subscribe(() => {
@@ -60,15 +60,18 @@ forwardRouteLink="/liabilities";
 
   formErrorMessages = {
     dept_Name: {
-      required: 'Dept Name is Required',
+      required: 'Dept Name is required.',
+      maxlength: 'Word limit Exceed..',
+      pattern: 'Please enter valid name',
     },
     current_Outstanding_Amount: {
-      required: 'Current Outstanding Amount is Required',
+      required: 'Current Outstanding Amount is required.',
       pattern: 'Only numeric values allowed',
       maxlength: 'Please Enter Valid Number',
     },
     description: {
-      required: 'Description is Required',
+      required: 'Description is required.',
+      maxlength: 'Word limit Exceed..',
     },
     memberId: {
       required: 'Please Select Members',

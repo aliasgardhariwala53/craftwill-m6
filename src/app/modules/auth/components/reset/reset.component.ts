@@ -55,12 +55,12 @@ export class ResetComponent implements OnInit {
 
   formErrorMessages = {
     password: {
-      required: 'New Password is Required',
+      required: 'New Password is required.',
       minlength: 'Minimum length must be 6',
       maxlength: 'Password Not Allowed',
     },
     newPassword: {
-      required: 'Confirm Password is Required',
+      required: 'Confirm Password is required.',
       minlength: 'Minimum length must be 6',
       matching: 'New Password and confirm password should be same',
     },

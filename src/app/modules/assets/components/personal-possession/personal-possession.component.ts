@@ -48,7 +48,7 @@ export class PersonalPossessionComponent implements OnInit {
   wid='';
   createForm() {
     this.personalPossessionForm = this._fb.group({
-      Name: ['', [Validators.required,Validators.pattern('^[a-zA-Z ]*$')]],
+      Name: ['', [Validators.required,Validators.pattern('^[a-zA-Z ]*$'),Validators.maxLength(32)]],
       id_No: ['', [Validators.pattern('^[0-9]*$'),Validators.maxLength(32)]],
       country: [, [Validators.required]],
       specifyOwnershipType: ['', [Validators.required]],
@@ -70,19 +70,20 @@ export class PersonalPossessionComponent implements OnInit {
 
   formErrorMessages = {
     Name: {
-      required: 'Name  is Required',
-      pattern: 'Please Enter Valid Name',
+      required: 'Name  is required.',
+      pattern: 'Please Enter valid Name',
+      maxlength: 'Word limit Exceed..',
     },
     id_No: {
       pattern: 'Only numeric values allowed',
       maxlength: 'Please Enter Valid Number',
     },
     country: {
-      required: 'Country is Required',
+      required: 'Country is required.',
     },
 
     specifyOwnershipType: {
-      required: 'Ownership is Required',
+      required: 'Ownership is required.',
     },
   };
   addPossession() {

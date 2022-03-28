@@ -50,4 +50,7 @@ getAllWill(){
 updateWill(obj,id){
   return this._httpservices.update(`${environment.serverUrl}will/updateWill/${id}`,obj);
 }
+deleteWill(id){
+  return this._httpservices.delete(`${environment.serverUrl}will/deleteWillById/${id}`);
+}
 }

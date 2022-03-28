@@ -204,10 +204,11 @@ export class ReviewWillComponent implements OnInit, OnChanges {
     this._willServices.willpresent.subscribe((result)=>{
       this.willpresent=result;
     });
-    this.route.queryParams.subscribe(({ wid}) => {
+    this.route.queryParams.subscribe(({ wid,re}) => {
       if (wid) {
         this.wid = wid;
       }
+
      
     });
 

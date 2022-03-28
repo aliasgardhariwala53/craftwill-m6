@@ -153,53 +153,64 @@ export class DashboardComponent implements OnInit {
       this.totalAssetsInTrust = result.totalAssetsInTrust.amount;
     });
   }
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    console.log(window.innerWidth);
-    if(window.innerWidth>578){
-      let data = null;
-      data =25;
-      this.heightChart1=data;
-      console.log(this.heightChart1);
-    }
-  }
+  // @HostListener('window:resize', ['$event'])
+  // onResize(event) {
+  //   console.log(window.innerWidth);
+  //   if(window.innerWidth>578){
+  //     let data = null;
+  //     data =25;
+  //     this.heightChart1=data;
+  //     console.log(this.heightChart1);
+  //   }
+  // }
   GraphData() {
     this._userServ.dashboardGraph('"monthNumber": 12').subscribe((result) => {
       this.spinner.stop();
       this.quickStats = result;
       
-      console.log(this.quickStats.data);
+      console.log(this.quickStats);
       
-      const newData=Object.keys(this.quickStats.data)?.map((el)=>{
+      const newDataAssets=Object.keys(this.quickStats?.assets)?.map((el)=>{
         console.log(el);
         const month =el?.split('-')[0].toLowerCase();
         const year =el?.split('-')[1];
-      return  {month,year,value:this.quickStats.data[el]+6}
+      return  {month,year,value:this.quickStats.assets[el]}
       })
-      console.log(newData);
-      this.labelData=newData?.map((el)=>el.month);
-      this.assetStats=newData?.map((el)=>el.value);
-      this.liablityStats =newData?.map((el)=>el.value);
-      console.log(newData?.map((el)=>el.value));
+      const newDataLiability=Object.keys(this.quickStats?.liabilities)?.map((el)=>{
+        console.log(el);
+        const month =el?.split('-')[0].toLowerCase();
+        const year =el?.split('-')[1];
+      return  {month,year,value:this.quickStats.liabilities[el]}
+      })
+      console.log(newDataAssets);
+      this.labelData=result.assets?.map((el)=>el.month);
+      this.assetStats=newDataAssets?.map((el)=>el.value);
+      this.liablityStats =newDataLiability?.map((el)=>el.value);
+
+      console.log(newDataAssets?.map((el)=>el.value));
+      console.log(newDataLiability?.map((el)=>el.value));
       this.barChartData.labels=this.labelData;
-      this.barChartData.datasets[0] = { ...this.barChartData.datasets[0], data: newData?.map((el)=>el?.value)};
+      this.barChartData.datasets[0] = { ...this.barChartData.datasets[0], data: this.assetStats};
       const newDataTwo = {
         labels: [],
         datasets: []
       };
-      newDataTwo.labels= newData?.map((el)=>el.month);
+      newDataTwo.labels= newDataAssets?.map((el)=>el.month);
       newDataTwo.datasets[0] = { ...this.barChartData.datasets, label: 'Assets',
       backgroundColor: '#00C5E9',
       borderRadius: 50,
       barPercentage: 0.4,
-      borderColor: '#00C5E9', data: newData?.map((el)=>el.value)};
+      borderColor: '#00C5E9',
+       data: this.assetStats};
+
       newDataTwo.datasets[1] = {...this.barChartData.datasets, label: 'Liabilities',
       backgroundColor: '#FFCB67',
       borderColor: '#FFCB67',
       borderRadius: 50,
-      barPercentage: 0.4,data: newData?.map((el)=>el.value)};
+      barPercentage: 0.4,
+      data: this.liablityStats?.map((el)=>el.value)};
         this.barChartData = newDataTwo;
-      this.chartOne.chart.render();
+      this.chartOne.chart?.render();
     });
   }
     GraphData2() {
@@ -209,7 +220,7 @@ export class DashboardComponent implements OnInit {
         
         console.log(this.quickStats.data);
         
-        const newData=Object?.keys(this.quickStats.data)?.map((el)=>{
+        const newData=Object?.keys(this.quickStats?.data || {})?.map((el)=>{
           console.log(el);
           const month =el?.split('-')[0]?.toLowerCase();
           const year =el?.split('-')[1];
@@ -223,14 +234,14 @@ export class DashboardComponent implements OnInit {
           labels: [],
           datasets: []
         };
-        newDataTwo.labels= newData.map((el)=>el.month);
+        newDataTwo.labels= newData?.map((el)=>el.month);
         newDataTwo.datasets[0] = { ...this.barChartData1.datasets,label: 'Distribution Rate',
         backgroundColor: '#00C5E9',
         borderRadius: 50,
         barPercentage: 0.4,
-        borderColor: '#00C5E9', data: newData.map((el)=>el.value)};
+        borderColor: '#00C5E9', data: newData?.map((el)=>el.value)};
         this.barChartData1 = newDataTwo;
-        this.chartTwo.chart.render();
+        this.chartTwo.chart?.render();
       });
     }
 

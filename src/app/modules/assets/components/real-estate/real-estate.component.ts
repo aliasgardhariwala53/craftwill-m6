@@ -69,14 +69,14 @@ export class RealEstateComponent implements OnInit {
 
   formErrorMessages = {
     address: {
-      required: 'Address is Required',
+      required: 'Address is required.',
     },
     country: {
-      required: 'Country is Required',
+      required: 'Country is required.',
     },
 
     specifyOwnershipType: {
-      required: 'Ownership is Required',
+      required: 'Ownership is required.',
     },
   };
   addRealEstatet() {

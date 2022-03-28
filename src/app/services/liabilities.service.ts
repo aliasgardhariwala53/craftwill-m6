@@ -20,7 +20,7 @@ export class LiabilitiesService {
     return this._httpServe.get(environment.serverUrl + "getLiabilities");
   }
   deleteLiability(id){
-    return this._httpServe.delete(`${environment.serverUrl}deleteAssetsById/${id}`);
+    return this._httpServe.delete(`${environment.serverUrl}deleteLiabilitiesById/${id}`);
   }
   getLiabilitiesData(item) {
     let data = {

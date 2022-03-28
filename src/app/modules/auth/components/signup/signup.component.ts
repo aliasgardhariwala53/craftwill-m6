@@ -76,8 +76,8 @@ export class SignupComponent implements OnInit {
       }
     );
     this.addressDetails = this._fb.group({
-      floorNumber: ['', [ Validators.maxLength(12)]],
-      unitNumber: ['', [ Validators.maxLength(12)]],
+      floorNumber: ['', [ Validators.maxLength(6)]],
+      unitNumber: ['', [ Validators.maxLength(6)]],
       streetName: ['' ],
       postalCode: ['', [ Validators.pattern('^[0-9]*$'), Validators.maxLength(12)]],
     });
@@ -120,47 +120,47 @@ export class SignupComponent implements OnInit {
 
   formErrorMessages = {
     id_type: {
-      required: 'Id Type is Required',
+      required: 'Id Type is required.',
     },
     id_number: {
-      required: 'Id Number is Required',
+      required: 'Id Number is required.',
       pattern: 'Invalid Id Number',
       maxlength: 'Invalid Id Number',
     },
     gender: {
-      required: 'Gender is Required',
+      required: 'Gender is required.',
     },
     fullName: {
-      required: 'Full Name is Required',
+      required: 'Full Name is required.',
       pattern: 'Invalid Name',
       maxlength: 'Invalid Name',
     },
     email: {
-      required: 'Email is Required',
-      pattern: 'Valid email is Required',
+      required: 'Email is required.',
+      pattern: 'Please enter valid email address.For example johndoe@domain.com ',
     },
     password: {
-      required: 'Password is Required',
+      required: 'Password is required.',
       minlength: 'Minimum length of password must be 6',
       maxlength: 'Password Not Allowed',
     },
     confirmPassword: {
-      required: 'Confirm Password is Required',
+      required: 'Confirm Password is required.',
       matching: 'Password not matched',
     },
     floorNumber: {
-      required: 'Floor Number is Required',
+      required: 'Floor Number is required.',
       maxlength: 'Invalid Number ',
     },
     unitNumber: {
-      required: 'Unit Number is Required',
+      required: 'Unit Number is required.',
       maxlength: 'Invalid Number ',
     },
     streetName: {
-      required: 'Street Name is Required',
+      required: 'Street Name is required.',
     },
     postalCode: {
-      required: 'Postal Code is required',
+      required: 'Postal Code is required.',
       pattern: 'Please Enter valid numeric value',
       maxlength: 'Please Enter Valid postal code',
     },

@@ -1,4 +1,4 @@
-import { Component, createPlatform, OnInit } from '@angular/core';
+import { Component, createPlatform, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
@@ -21,6 +21,8 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./profile.component.scss', '../../../../app.component.scss'],
 })
 export class ProfileComponent implements OnInit {
+  @ViewChild('x')
+  public x:ElementRef ;
   public countries: any = countries;
   profileData;
   userInfo: FormGroup;
@@ -32,7 +34,7 @@ export class ProfileComponent implements OnInit {
   showImageUpload: boolean = false;
   toggleModalTutorial: boolean = false;
   croppedImage: any = '';
-  imageSrc: string = '';
+  imageSrc: string = '../../../../../assets/Image/whiteimage.png';
   showRemoveButton: boolean = true;
   userImage: string = 'uploads/1641650621550Capture.PNG';
   genderList = ['Male', 'Female', 'Other'];
@@ -41,15 +43,15 @@ export class ProfileComponent implements OnInit {
 
   createForm() {
     this.userInfo = this._fb.group({
-      fullName: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
+      fullName: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'),Validators.maxLength(32)]],
       email: [''],
       id_type: ['', Validators.required],
       id_number: ['', [Validators.required ,Validators.pattern('[a-zA-Z0-9]*'),
       Validators.maxLength(24),]],
       gender: [''],
-      floorNumber: ['', [Validators.required, Validators.maxLength(12)]],
-      unitNumber: ['', [Validators.required, Validators.maxLength(12)]],
-      streetName: ['', Validators.required],
+      floorNumber: ['', [Validators.required, Validators.maxLength(6)]],
+      unitNumber: ['', [Validators.required, Validators.maxLength(6)]],
+      streetName: ['', [Validators.required,Validators.maxLength(64)]],
       postalCode: ['', [Validators.required, , Validators.pattern('^[0-9]*$'), Validators.maxLength(12)]],
       id_country: [''],
       dob: [],
@@ -107,49 +109,53 @@ export class ProfileComponent implements OnInit {
 
   formErrorMessages = {
     id_type: {
-      required: 'Id Type is Required',
+      required: 'Id Type is required.',
     },
     id_number: {
-      required: 'Id Number is Required',
+      required: 'Id number is required.',
+      maxlength: 'Please enter valid id number',
+      pattern: 'Invalid id number',
     },
     gender: {
-      required: 'Gender is Required',
+      required: 'Gender is required.',
     },
     fullName: {
-      required: 'FullName is Required',
+      required: 'FullName is required.',
+      maxlength: 'Word limit Exceed..',
       pattern: 'Please enter a valid name',
     },
     email: {
-      required: 'Email is Required',
-      pattern: 'Valid email is Required',
+      required: 'Email is required.',
+      pattern: 'Please enter valid email address.For example johndoe@domain.com ',
     },
     password: {
-      required: 'Password is Required',
+      required: 'Password is required.',
       minlength: 'Minimum length of password must be 6',
     },
     floorNumber: {
-      required: 'Floor Number is Required',
-      maxlength: 'Invalid Number ',
+      required: 'Floor number is required.',
+      maxlength: 'Please Enter valid floor number',
     },
     unitNumber: {
-      required: 'Unit Number is Required',
-      maxlength: 'Invalid Number ',
+      required: 'Unit number is required.',
+      maxlength: 'Please enter valid unit Number',
     },
     streetName: {
-      required: 'Street Name is Required',
+      required: 'Street name is required.',
+      maxlength: 'Word limit Exceed..',
     },
     postalCode: {
-      required: 'Postal Code is required',
+      required: 'Postal Code is required.',
       pattern: 'Please Enter valid numeric value',
       maxlength: 'Please Enter Valid postal code',
     },
     newPassword: {
-      required: 'New Password is Required',
+      required: 'New Password is required.',
       minlength: 'Minimum length must be 6',
       Notmatching: 'Current Password and New password should Not be same',
     },
     confirmPassword: {
-      required: 'Confirm Password is Required',
+      required: 'Confirm Password is required.',
       minlength: 'Minimum length must be 6',
       matching: 'New Password and confirm password should be same',
     },
@@ -161,7 +167,7 @@ export class ProfileComponent implements OnInit {
     private _headerServ: HeaderService,
     private toastr: ToastrService,
     private spinner: NgxUiLoaderService
-  ) {}
+  ) {this.imageSrc = '../../../../../assets/Image/whiteimage.png';}
 min_date ;
 
   DataURIToBlob(dataURI: string) {
@@ -204,8 +210,14 @@ min_date ;
     this.inputState = !this.inputState;
   }
   togglePassword() {
+    this.x['type']='password'
     this.passwordForm.reset();
     this.disablePassword = !this.disablePassword;
+    if(this.disablePassword===true){
+      this.passwordForm.patchValue({
+        password:'***************'
+      })
+    }
   }
   setImageHandler(result) {
     
@@ -307,7 +319,7 @@ min_date ;
     this.spinner.start();
     const profiledate = {
       ...this.userInfo.value,
-      gender: this.userInfo.value.gender.toLowerCase(),
+      gender: this.userInfo.value.gender?.toLowerCase(),
     };
     this._userServ.updateProfile(profiledate).subscribe(
       (result) => {

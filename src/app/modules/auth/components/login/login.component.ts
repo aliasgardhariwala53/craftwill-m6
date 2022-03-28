@@ -46,11 +46,11 @@ export class LoginComponent implements OnInit {
 
   formErrorMessages = {
     email: {
-      required: 'Email is Required',
-      pattern: 'Valid email is required',
+      required: 'Email is required.',
+      pattern: 'Please enter valid email address.For example johndoe@domain.com ',
     },
     password: {
-      required: 'Password is Required',
+      required: 'Password is required.',
     },
   };
 

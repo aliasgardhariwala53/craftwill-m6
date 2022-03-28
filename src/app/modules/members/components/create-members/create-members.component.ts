@@ -44,12 +44,14 @@ export class CreateMembersComponent implements OnInit {
   idList = ['NRIC', 'Passport', 'FIN', 'Others'];
   createForm() {
     this.personForm = this._fb.group({
-      fullname: ['', [Validators.required, Validators.maxLength(64)]],
+      fullname: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'),Validators.maxLength(32)]],
       id_type: [, Validators.required],
-      id_number: ['', [Validators.required , Validators.maxLength(24)]],
+      id_number: ['', [Validators.required,
+        Validators.pattern('[a-zA-Z0-9]*'),
+        Validators.maxLength(24)]],
       gender: [, Validators.required],
-      floorNumber: ['', [Validators.required , Validators.maxLength(12)]],
-      unitNumber: ['', [Validators.required , Validators.maxLength(12)]],
+      floorNumber: ['', [Validators.required , Validators.maxLength(6)]],
+      unitNumber: ['', [Validators.required , Validators.maxLength(6)]],
       streetName: ['', Validators.required],
       postalCode: ['', [Validators.required, Validators.pattern('^[0-9]*$') , Validators.maxLength(12)]],
       id_country: [, Validators.required],
@@ -57,16 +59,16 @@ export class CreateMembersComponent implements OnInit {
       Relationship: [, Validators.required],
     });
     this.organisationForm = this._fb.group({
-      organisationName: ['', [Validators.required, Validators.maxLength(64)]],
+      organisationName: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'),Validators.maxLength(32)]],
       registration_number: [
         '',
         [Validators.required, Validators.pattern('^[0-9]*$'), Validators.maxLength(24)],
       ],
       id_country: [, Validators.required],
 
-      floorNumber: ['', [Validators.required, Validators.maxLength(12)]],
-      unitNumber: ['', [Validators.required, Validators.maxLength(12)]],
-      streetName: ['', Validators.required],
+      floorNumber: ['', [Validators.required, Validators.maxLength(6)]],
+      unitNumber: ['', [Validators.required, Validators.maxLength(6)]],
+      streetName: ['', [Validators.required,Validators.maxLength(64)]],
       postalCode: ['', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.maxLength(12)]],
     });
     this.personForm.valueChanges.subscribe(() => {
@@ -102,56 +104,59 @@ export class CreateMembersComponent implements OnInit {
 
   formErrorMessages = {
     id_type: {
-      required: 'Id Type is Required',
+      required:'Id type is required.',
     },
     id_number: {
-      required: 'Id Number is Required',
-      maxlength: 'Invalid Number ',
+      required: 'Id number is required.',
+      maxlength: 'Invalid id Number ',
+      pattern: 'Invalid id number',
     },
     gender: {
-      required: 'Gender is Required',
+      required: 'Gender is required.',
     },
     fullname: {
-      required: 'Fullname is Required',
-      maxlength: 'Invalid Name ',
+      required: 'Full name is required.',
+      maxlength: 'Word limit Exceed..',
+      pattern: 'Please enter valid name',
     },
     dob: {
-      required: 'Date of birth is Required',
+      required: 'Date of birth is required.',
     },
 
     floorNumber: {
-      required: 'Floor Number is Required',
-      maxlength: 'Invalid Number ',
+      required: 'Floor number is required.',
+      maxlength: 'Invalid floor number ',
     },
     unitNumber: {
-      required: 'Unit Number is Required',
-      maxlength: 'Invalid Number ',
+      required: 'Unit number is required.',
+      maxlength: 'Invalid unit Number ',
     },
     streetName: {
-      required: 'Street Name is Required',
+      required: 'Street name is required.',
+      maxlength: 'Word limit Exceed..',
     },
     postalCode: {
-      required: 'Postal Code is required',
-      pattern: 'Please Enter valid numeric value',
-      maxlength: 'Please Enter Valid postal code',
+      required: 'Postal code is required.',
+      pattern: 'Please enter valid numeric value',
+      maxlength: 'Please enter valid postal code',
     },
     Relationship: {
-      required: 'Relationship is Required',
+      required: 'Relationship is required.',
       // pattern: 'Please Enter valid numeric value',
     },
     id_country: {
-      required: 'Country is Required',
+      required: 'Country is required.',
       // pattern: 'Please Enter valid numeric value',
     },
     registration_number: {
-      required: 'Registration Number is Required',
+      required: 'Registration number is required.',
       pattern: 'Please Enter valid registration number',
-      maxlength: 'Invalid Number ',
+      maxlength: 'Invalid registration Number ',
     },
     organisationName: {
-      required: 'Organisation is Required',
-      maxlength: 'Invalid Name ',
-      // pattern: 'Please Enter valid numeric value',
+      required: 'Organisation is required.',
+      maxlength: 'Word limit Exceed..',
+      pattern: 'Please enter valid organisation name ',
     },
   };
   memberUpdate() {

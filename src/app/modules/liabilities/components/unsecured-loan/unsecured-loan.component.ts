@@ -31,14 +31,14 @@ forwardRouteLink="/liabilities";
 
   createForm() {
     this.UnSecuredLoan = this._fb.group({
-      loanProvider: ['', [Validators.required]],
+      loanProvider: ['', [Validators.required,Validators.maxLength(32)]],
       loan_Number: ['', [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(16)]],
       loan_Id_Number: [
         '',
         [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(16)],
       ],
       current_Outstanding_Amount: ['', [Validators.required,Validators.maxLength(16)]],
-      description: ['', [Validators.required]],
+      description: ['', [Validators.required,Validators.maxLength(100)]],
     });
     this.UnSecuredLoan.valueChanges.subscribe(() => {
       this.formErrors = valueChanges(
@@ -58,25 +58,27 @@ forwardRouteLink="/liabilities";
 
   formErrorMessages = {
     loanProvider: {
-      required: 'Loan Provider is Required',
+      required: 'Loan Provider is required.',
+      maxlength: 'Word limit Exceed..',
     },
     loan_Number: {
-      required: 'Loan Number is Required',
+      required: 'Loan Number is required.',
       pattern: 'Only numeric values allowed',
       maxlength: 'Please Enter Valid Number',
     },
     loan_Id_Number: {
-      required: 'Loan Id Number is Required',
+      required: 'Loan Id Number is required.',
       pattern: 'Only numeric values allowed',
       maxlength: 'Please Enter Valid Number',
     },
     current_Outstanding_Amount: {
-      required: 'Current Outstanding Amount is Required',
+      required: 'Current Outstanding Amount is required.',
       pattern: 'Only numeric values allowed',
       maxlength: 'Please Enter Valid Number',
     },
     description: {
-      required: 'Description is Required',
+      required: 'Description is required.',
+      maxlength: 'Word limit Exceed..',
     },
   };
 

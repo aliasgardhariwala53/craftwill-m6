@@ -66,7 +66,7 @@ export class OtherAssetsComponent implements OnInit {
   shareData = [];
   createForm() {
     this.OtherAssetsForm = this._fb.group({
-      asset_name: ['', [Validators.required,Validators.pattern('^[a-zA-Z ]*$')]],
+      asset_name: ['', [Validators.required,Validators.pattern('^[a-zA-Z ]*$'),Validators.maxLength(32)]],
       id_No: [
         '',
         [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(20)],
@@ -87,12 +87,13 @@ export class OtherAssetsComponent implements OnInit {
 
   formErrorMessages = {
     asset_name: {
-      required: 'Asset Name is Required',
-      pattern: 'Invalid Name',
+      required: 'Asset name is required.',
+      pattern: 'Invalid asset name',
+      maxlength: 'Word limit Exceed..',
     },
     id_No: {
-      required: 'Id Number is Required',
-      maxlength: 'Please Enter Valid Number',
+      required: 'Id number is required.',
+      maxlength: 'Please enter valid number',
       pattern: 'Only numeric values allowed',
     },
   };

@@ -49,7 +49,7 @@ export class SafeDepositBoxComponent implements OnInit {
   wid='';
   createForm() {
     this.safeDepositboxForm = this._fb.group({
-      safe_Box_Location: ['', [Validators.required]],
+      safe_Box_Location: ['', [Validators.required,Validators.pattern('^[a-zA-Z ]*$'),Validators.maxLength(48)]],
       safe_No: ['', [Validators.pattern('^[0-9]*$'),Validators.maxLength(20)]],
       country: [, [Validators.required]],
       specifyOwnershipType: ['', [Validators.required]],
@@ -71,18 +71,20 @@ export class SafeDepositBoxComponent implements OnInit {
 
   formErrorMessages = {
     safe_Box_Location: {
-      required: 'Safe Box Location  is Required',
+      required: 'Safe Box Location  is required.',
+      maxlength: 'Word limit Exceed..',
+      pattern: 'Please enter valid name',
     },
     safe_No: {
       pattern: 'Only numeric values allowed',
-      maxlength: 'Please Enter Valid Number',
+      maxlength: 'Please enter Valid Number',
     },
     country: {
-      required: 'Country is Required',
+      required: 'Country is required.',
     },
 
     specifyOwnershipType: {
-      required: 'Ownership is Required',
+      required: 'Ownership is required.',
     },
   };
   addDepositbox() {

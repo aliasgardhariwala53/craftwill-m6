@@ -20,6 +20,6 @@ export class TrustService {
     return this._httpServe.post(environment.serverUrl + "trust/filterTrust",obj);
   }
   deleteTrust(id){
-    return this._httpServe.delete(`${environment.serverUrl}deleteAssetsById/${id}`);
+    return this._httpServe.delete(`${environment.serverUrl}trust/deleteTrustById/${id}`);
   }
 }

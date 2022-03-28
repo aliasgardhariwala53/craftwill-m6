@@ -49,7 +49,7 @@ export class InsurancePolicyComponent implements OnInit {
   shareData = [];
   createForm() {
     this.insuranceForm = this._fb.group({
-      policyName: ['', [Validators.required]],
+      policyName: ['', [Validators.required,Validators.pattern('^[a-zA-Z ]*$'),Validators.maxLength(32)]],
       policyNumber: ['', [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(20)]],
       country: [, [Validators.required]],
       specifyOwnershipType: ['', [Validators.required]],
@@ -71,19 +71,21 @@ export class InsurancePolicyComponent implements OnInit {
 
   formErrorMessages = {
     policyName: {
-      required: 'Policy Name  is Required',
+      required: 'Policy name is required.',
+      pattern: 'Invalid policy name',
+      maxlength: 'Word limit Exceed..',
     },
     policyNumber: {
-      required: 'Policy Number  is Required',
+      required: 'Policy number  is required.',
       maxlength: 'Please Enter Valid Number',
       pattern: 'Only numeric values allowed',
     },
     country: {
-      required: 'Country is Required',
+      required: 'Country is required.',
     },
 
     specifyOwnershipType: {
-      required: 'Ownership is Required',
+      required: 'Ownership is required.',
     },
   };
   addinsurance() {

@@ -49,8 +49,8 @@ export class InvestmentAccountComponent implements OnInit {
   wid='';
   createForm() {
     this.InvestmentAccountUser = this._fb.group({
-      accountName: ['', [Validators.required,Validators.pattern('^[a-zA-Z ]*$')]],
-      accountNo: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+      accountName: ['', [Validators.required,Validators.pattern('^[a-zA-Z ]*$'),Validators.maxLength(32)]],
+      accountNo: ['', [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(20)]],
       country: [, [Validators.required]],
       specifyOwnershipType: ['', [Validators.required]],
     });
@@ -71,20 +71,21 @@ export class InvestmentAccountComponent implements OnInit {
 
   formErrorMessages = {
     accountName: {
-      required: 'Account Name  is Required',
-      pattern: 'Please Enter Valid Name',
+      required: 'Account Name  is required.',
+      pattern: 'Please Enter Valid account name',
+      maxlength: 'Word limit Exceed..',
     },
     accountNo: {
-      required: 'Account No  is Required',
-
+      required: 'Account No  is required.',
+      maxlength: 'Please Enter Valid account number',
       pattern: 'Only numeric values allowed',
     },
     country: {
-      required: 'Country is Required',
+      required: 'Country is required.',
     },
 
     specifyOwnershipType: {
-      required: 'Ownership is Required',
+      required: 'Ownership is required.',
     },
   };
   addinvestmentAccount() {

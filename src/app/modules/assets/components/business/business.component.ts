@@ -55,7 +55,7 @@ export class BusinessComponent implements OnInit {
   wid='';
   createForm() {
     this.businessForm = this._fb.group({
-      businessName: ['', [Validators.required]],
+      businessName: ['', [Validators.required,Validators.pattern('^[a-zA-Z ]*$'),Validators.maxLength(32)]],
       UEN_no: ['', [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(20)]],
       country: [, [Validators.required]],
       specifyOwnershipType: ['', [Validators.required]],
@@ -77,19 +77,21 @@ export class BusinessComponent implements OnInit {
 
   formErrorMessages = {
     businessName: {
-      required: 'Business Name  is Required',
+      required: 'Business name is required.',
+      pattern: 'Invalid business Name',
+      maxlength: 'Word limit Exceed..',
     },
     UEN_no: {
-      required: 'UEN No. is Required',
-      maxlength: 'Please Enter Valid Number',
+      required: 'UEN No. is required.',
+      maxlength: 'Please enter valid number',
       pattern: 'Only numeric values allowed',
     },
     country: {
-      required: 'Country is Required',
+      required: 'Country is required.',
     },
 
     specifyOwnershipType: {
-      required: 'Ownership is Required',
+      required: 'Ownership is required.',
     },
   };
 

@@ -49,7 +49,7 @@ export class MoterVehicleComponent implements OnInit {
   shareData = [];
   createForm() {
     this.vehicleForm = this._fb.group({
-      CarModel: ['', [Validators.required]],
+      CarModel: ['', [Validators.required,Validators.pattern('^[a-zA-Z ]*$'),Validators.maxLength(32)]],
       plateNo: ['', [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(8)]],
       country: [, [Validators.required]],
       SpecifyOwnershipType: ['', [Validators.required]],
@@ -71,19 +71,21 @@ export class MoterVehicleComponent implements OnInit {
 
   formErrorMessages = {
     CarModel: {
-      required: 'Vehicle Model is Required',
+      required: 'Vehicle Model is required.',
+      pattern: 'Please Enter Valid model name',
+      maxlength: 'Word limit Exceed..',
     },
     plateNo: {
-      required: 'Plate No  is Required',
+      required: 'Plate No  is required.',
       maxlength: 'Please Enter Valid plate Number',
       pattern: 'Only numeric values allowed',
     },
     country: {
-      required: 'Country is Required',
+      required: 'Country is required.',
     },
 
     SpecifyOwnershipType: {
-      required: 'Ownership is Required',
+      required: 'Ownership is required.',
     },
   };
   addVehicle() {

@@ -38,15 +38,15 @@ export class SecuredLoanComponent implements OnInit {
 
   createForm() {
     this.SecuredLoan = this._fb.group({
-      loanName: ['', [Validators.required]],
-      loanProvider: ['', [Validators.required]],
+      loanName: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'),Validators.maxLength(32)]],
+      loanProvider: ['', [Validators.required,Validators.maxLength(32)]],
       loan_Number: ['', [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(16)]],
       loan_Id_Number: [
         '',
         [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(16)],
       ],
       current_Outstanding_Amount: ['', [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(16)]],
-      description: ['', [Validators.required]],
+      description: ['', [Validators.required,Validators.maxLength(100)]],
       assetId: [[], [Validators.required]],
     });
     this.SecuredLoan.valueChanges.subscribe(() => {
@@ -68,29 +68,33 @@ export class SecuredLoanComponent implements OnInit {
   };
   formErrorMessages = {
     loanName: {
-      required: 'Loan Name is Required',
+      required: 'Loan Name is required.',
+      maxlength: 'Word limit Exceed..',
+      pattern: 'Please enter valid name',
     },
     loanProvider: {
-      required: 'Loan Provider is Required',
+      required: 'Loan Provider is required.',
+      maxlength: 'Word limit Exceed..',
     },
     loan_Number: {
-      required: 'Loan Number is Required',
+      required: 'Loan Number is required.',
       pattern: 'Only numeric values allowed',
-      maxlength: 'Please Enter Valid Number',
+      maxlength: 'Please enter loan valid number',
     },
     loan_Id_Number: {
-      required: 'Loan Id Number is Required',
-      maxlength: 'Please Enter Valid Number',
+      required: 'Loan Id Number is required.',
+      maxlength: 'Please enter valid Number',
       pattern: 'Only numeric values allowed',
     },
     current_Outstanding_Amount: {
-      required: 'Current Outstanding Amount is Required',
+      required: 'Amount is required.',
       pattern: 'Only numeric values allowed',
-      maxlength: 'Please Enter Valid Number',
+      maxlength: 'Please Enter valid Number',
       
     },
     description: {
-      required: 'Description is Required',
+      required: 'Description is required.',
+      maxlength: 'Word limit Exceed..',
     },
     assetId: {
       required: 'Please Select Asset',

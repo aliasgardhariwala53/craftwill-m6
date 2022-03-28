@@ -303,7 +303,7 @@
 
         <div class="text-sm mx-1">Guide Me</div>
       </div>
-      <div  (click)="latestWill()" *ngIf="this.latestWillId !== '' "
+      <div  (click)="latestWill()" *ngIf="this.latestWillId !== ''  && this.latestWillId !== this.wid"
         class="flex flex-row rounded-xl items-center py-1 cursor-pointer border-2 border-[#E0E0E0]"
         [routerLink]="['/will/myWills']" routerLinkActive="router-link-active">
         <div class="mx-2">

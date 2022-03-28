@@ -61,5 +61,6 @@
         (click)="onAddItem()">
         {{ addItemTitle }}
     </div>
+    <div *ngIf="NoItemMessage !=='' && listItem.length ==0" class="font-['GilroySemi'] text-lg text-center">{{NoItemMessage}}</div>
     
 </div>

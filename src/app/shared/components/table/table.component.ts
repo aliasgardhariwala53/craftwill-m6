@@ -1,4 +1,4 @@
-import { Component, OnInit,Input, Output ,EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
+import { Component, OnInit,Input, Output ,EventEmitter, OnChanges, SimpleChanges, HostListener, ViewChild, ElementRef} from '@angular/core';
 import { Router } from '@angular/router';
 
 
@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./table.component.scss']
 })
 export class TableComponent implements OnInit, OnChanges {
+  @ViewChild('dropdown')
+  public dropdown: ElementRef;
   @Input() tableHeadings;
   @Input() tableData = [];
   @Input() classes ;
@@ -18,6 +20,10 @@ export class TableComponent implements OnInit, OnChanges {
   @Input() actionRoute = '';
   @Input() actionList = true;
   @Input() headerToggle = true;
+  @Input() positionDropdown = 'relative';
+  @Input() marginDropdown = 'mt-2';
+  // @Input() marginDropdown = 'mt-9 sm:mt-6 mr-1';
+
   @Input() viewAction = true;
   @Input() editAction = true;
   @Input() deleteAction = true;
@@ -75,6 +81,12 @@ export class TableComponent implements OnInit, OnChanges {
     }
    
   }
+  // @HostListener('window:scroll', ['$event']) 
+  // scrollHandler(event) {
+  //   console.log(this.dropdown);
+  //   const data=false;
+  //   this.dropdown['open']=data;
+  // }
   ngOnInit(): void {
     console.log(this.classes);
     

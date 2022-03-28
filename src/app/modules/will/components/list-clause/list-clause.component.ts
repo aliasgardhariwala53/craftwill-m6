@@ -11,6 +11,7 @@ import { WillService } from 'src/app/services/will.service';
 export class ListClauseComponent implements OnInit {
   @Output() editClauseHandler =new EventEmitter();
   @Output() editAdvisorHandler =new EventEmitter();
+  @Input() editToggle =true;
   memberData = [];
   delayPayoutData;
   recommendedAdvisorData = [];

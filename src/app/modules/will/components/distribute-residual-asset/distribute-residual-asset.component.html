@@ -6,15 +6,15 @@
       </div>
       <div>
         <app-button
-      border="border-2 border-black"
-      (myMethod)="toggleModalTutorial = true"
-      padding="px-10 py-2"
-      backgroundColor="bg-[#fff]"
-      borderRadius="rounded-xl"
-      color="text-[#000]"
-      value="Tutorial"
-      class="hidden md:flex"
-    ></app-button>
+          border="border-2 border-black"
+          (myMethod)="toggleModalTutorial = true"
+          padding="px-10 py-2"
+          backgroundColor="bg-[#fff]"
+          borderRadius="rounded-xl"backgroundColor="bg-[#fff] hover:bg-[#000]"
+        color="text-[#000] hover:text-white"
+          value="Tutorial"
+          class="hidden md:flex"
+        ></app-button>
     <app-button
       value="Tutorial"
       (click)="toggleModalTutorial = true"
@@ -53,8 +53,8 @@
           (myMethod)="toggleModalTutorial = true"
           padding="px-10 py-2"
           backgroundColor="bg-[#fff]"
-          borderRadius="rounded-xl"
-          color="text-[#000]"
+          borderRadius="rounded-xl"backgroundColor="bg-[#fff] hover:bg-[#000]"
+        color="text-[#000] hover:text-white"
           value="Tutorial"
           class="hidden md:flex"
         ></app-button>

@@ -23,19 +23,19 @@ export class PersonalInformationComponent implements OnInit {
   createForm() {
     this.userInfo = this._fb.group({
       id_Number: ['',[Validators.required,
-        Validators.pattern('[a-zA-Z0-9]*'),
+        Validators.pattern('^[0-9]*$'),
         Validators.maxLength(24),
       ]],
       id_Type: [ ,Validators.required],
-      fullName: ['',[Validators.required,Validators.maxLength(64)]],
+      fullName: ['',[Validators.required, Validators.pattern('[a-zA-Z ]*'),Validators.maxLength(32)]],
       gender: [, [Validators.required]],
       email: ['', [
         Validators.required,
         Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
       ],],
-      floorNumber: ['', [Validators.required, Validators.maxLength(12)]],
-      unitNumber: ['', [Validators.required, Validators.maxLength(12)]],
-      streetName: ['',[Validators.required] ],
+      floorNumber: ['', [Validators.required, Validators.maxLength(6)]],
+      unitNumber: ['', [Validators.required, Validators.maxLength(6)]],
+      streetName: ['',[Validators.required,Validators.maxLength(64)] ],
       postalCode: ['', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.maxLength(12)]],
       assetScope: ['singapore',Validators.required],
     });
@@ -78,43 +78,48 @@ export class PersonalInformationComponent implements OnInit {
   }
   formErrorMessages = {
     id_Type: {
-      required: 'Id Type is required',
+      required: 'Id type is required.',
     },
     id_Number: {
-      required: 'Id Number is required',
-      maxlength: 'Please Enter Valid Id number',
-      pattern: 'Invalid Id number',
+      required: 'Id number is required.',
+      maxlength: 'Please enter valid id number',
+      pattern: 'Invalid id number',
     },
     gender: {
-      required: 'Gender is required',
+      required: 'Gender is required.',
     },
     fullName: {
-      required: 'Full name is required',
-      maxlength: 'Please Enter Valid name',
+      required: 'Full name is required.',
+      maxlength: 'Word limit Exceed..',
+      pattern: 'Please enter valid name',
     },
     email: {
-      required: 'Email is required',
-      pattern: 'Valid email is required',
+      required: 'Email is required.',
+      pattern: 'Please enter valid email address.For example johndoe@domain.com ',
     },
     password: {
-      required: 'Password is required',
+      required: 'Password is required.',
       minlength: 'Minimum length of password must be 6',
     },
     floorNumber: {
-      required: 'Floor Number is required',
-      maxlength: 'Please Enter Valid floor Number',
+      required: 'Floor number is required.',
+      maxlength: 'Please Enter valid floor number',
     },
     unitNumber: {
-      required: 'Unit Number is required',
-      maxlength: 'Please Enter Valid unit Number',
+      required: 'Unit number is required.',
+      maxlength: 'Please enter valid unit Number',
     },
     streetName: {
-      required: 'Street Name is required',
+      required: 'Street name is required.',
+      maxlength: 'Word limit Exceed..',
     },
     postalCode: {
-      required: 'Postal Code is required',
-      pattern: 'Please Enter valid numeric value',
-      maxlength: 'Please Enter Valid postal code',
+      required: 'Postal code is required.',
+      pattern: 'Please enter valid numeric value',
+      maxlength: 'Please enter valid postal code',
+    },
+    assetScope: {
+      required: 'Asset Scope is required.',
     },
 
   };

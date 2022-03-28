@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { debounceTime } from 'rxjs';
@@ -23,7 +23,7 @@ export class ListTrustComponent implements OnInit {
   alltrustData = [];
   trustFilterData = [];
   trustSearchData = [];
-  tableHeadings = ['Name of the Trust', 'OwnerShip Type'];
+  tableHeadings = ['Name of the Trust', 'Ownership Type'];
   tableKeys = ['trustName', 'ownerShipType'];
   tableData = [];
   classes = [
@@ -39,6 +39,7 @@ export class ListTrustComponent implements OnInit {
   onClickAction(value) {
     console.log(value);
   }
+
   onChangehandler() {
     console.log(this.searchForm.value);
     if (!this.searchForm.value) {

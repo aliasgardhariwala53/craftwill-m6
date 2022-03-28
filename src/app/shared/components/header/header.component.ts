@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { UserService } from 'src/app/services/user.service';
 import { WillService } from 'src/app/services/will.service';
@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit {
   defaultMale = '../../../../assets/Image/male.png';
   defaultFemale = '../../../../assets/Image/female.png';
   toggleModal: boolean = false;
-  latestWillId:'';
+  latestWillId='';
   latestWillData=[];
   constructor(
     public router: Router,
@@ -27,6 +27,7 @@ export class HeaderComponent implements OnInit {
     private spinner: NgxUiLoaderService,
     private toastr: ToastrService,
     private _route:Router,
+    private route: ActivatedRoute,
     private _willServices: WillService,
   ) {
     this._headerServ.username.subscribe((name) => {
@@ -41,10 +42,18 @@ export class HeaderComponent implements OnInit {
   }
   latestWill() {
     console.log('latest Will');
-    this._route.navigate([`will/createWill`], { queryParams:{id:this.latestWillId}});
+    this._route.navigate([`will/createWill`], { queryParams:{wid:this.latestWillId}});
   }
   willpresent=false;
+  wid='';
   ngOnInit(): void {
+    this.route.queryParams.subscribe(({ wid,re}) => {
+      if (wid) {
+        this.wid = wid;
+      }
+
+     
+    });
     this.spinner.start();
     this._willServices.willpresent.subscribe((result)=>{
       this.willpresent=result;
@@ -81,6 +90,8 @@ export class HeaderComponent implements OnInit {
     });
     this._willServices.getAllWill().subscribe(
       (result) => {
+        console.log(result);
+        
         if(result.data.length > 0){
         this.latestWillData = result.data[result.data.length-1]?.DATE ;
         this.latestWillId=result.data[result.data.length-1]?._id || '';
@@ -89,7 +100,7 @@ export class HeaderComponent implements OnInit {
         this._willServices.latestWillId.next(result.data[result.data.length-1]?._id);
         }
         this.spinner.stop();
-        
+        console.log(this.latestWillId);
       },
       (err) => {
         this.spinner.stop();

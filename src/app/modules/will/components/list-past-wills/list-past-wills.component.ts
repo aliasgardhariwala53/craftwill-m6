@@ -20,8 +20,9 @@ export class ListPastWillsComponent implements OnInit {
   latestWilldata=[];
   constructor(private _userServ:UserService,
      private _willServices: WillService,
-    private _router: Router,
+     public router: Router,
     private toastr: ToastrService,
+    private _route: Router,
     private spinner: NgxUiLoaderService) { }
   tableHeadings = [
     'Past Versions',
@@ -81,6 +82,10 @@ export class ListPastWillsComponent implements OnInit {
        return `${x}.${y}`
      })
     }
+    currentWill(){
+      this._route.navigate(['/will/createWill'], {
+        queryParams: { id: this.latestWillId}});
+    }
     deleteItemHandler(item) {
       this.spinner.start();
       this._willServices.deleteWill(item._id).subscribe(
@@ -104,8 +109,13 @@ export class ListPastWillsComponent implements OnInit {
         }
       );
     }
+    latestWillId='';
+    willpresent=false;
   ngOnInit(): void {
     this.spinner.start();
+    this._willServices.willpresent.subscribe((result)=>{
+      this.willpresent=result;
+    });
     this.searchForm.valueChanges.pipe(debounceTime( 200 )  ).subscribe((e) => {
       console.log(e);
       this.onChangehandler();

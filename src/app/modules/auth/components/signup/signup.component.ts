@@ -8,6 +8,7 @@ import {
 import { Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import {
+  CustomValidators,
   errorHandler,
   passwordValidation,
   valueChanges,
@@ -41,7 +42,7 @@ export class SignupComponent implements OnInit {
     private toastr: ToastrService,
     private spinner: NgxUiLoaderService
   ) {}
-  emailVerifyDisable=false;
+  emailVerifyDisable = false;
   ngOnInit(): void {
     this.createForm();
   }
@@ -49,14 +50,22 @@ export class SignupComponent implements OnInit {
     this.userRegistration = this._fb.group({
       id_type: new FormControl(null, Validators.required),
 
-      id_number: ['',[Validators.required,
-        Validators.pattern('[a-zA-Z0-9]*'),
-        Validators.maxLength(24),
-      ]],
-      fullName: ['', [Validators.required,
-        Validators.pattern('[a-zA-Z ]*'),
-        Validators.maxLength(32),
-      ]],
+      id_number: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('[a-zA-Z0-9]*'),
+          Validators.maxLength(24),
+        ],
+      ],
+      fullName: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('[a-zA-Z ]*'),
+          Validators.maxLength(32),
+        ],
+      ],
     });
     this.accountDetails = this._fb.group(
       {
@@ -68,18 +77,45 @@ export class SignupComponent implements OnInit {
             Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
           ],
         ],
-        password: ['', [Validators.required, Validators.minLength(6),Validators.maxLength(32)]],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(32),
+            Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$')
+          ],
+        ],
         confirmPassword: ['', [Validators.required]],
       },
       {
-        validators: [passwordValidation.match('password', 'confirmPassword')],
+        validators: [
+          passwordValidation.match('password', 'confirmPassword'),
+          // CustomValidators.patternValidator('password', /\d/, {
+          //   oneNumber: true,
+          // }),
+          // CustomValidators.patternValidator('password', /[A-Z]/, {
+          //   oneCapital: true,
+          // }),
+          // CustomValidators.patternValidator('password', /[a-z]/, {
+          //   oneSmall: true,
+          // }),
+          // CustomValidators.patternValidator(
+          //   'password',
+          //   /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/,
+          //   { oneSpecial: true }
+          // ),
+        ],
       }
     );
     this.addressDetails = this._fb.group({
-      floorNumber: ['', [ Validators.maxLength(6)]],
-      unitNumber: ['', [ Validators.maxLength(6)]],
-      streetName: ['' ],
-      postalCode: ['', [ Validators.pattern('^[0-9]*$'), Validators.maxLength(12)]],
+      floorNumber: ['', [Validators.maxLength(6)]],
+      unitNumber: ['', [Validators.maxLength(6)]],
+      streetName: [''],
+      postalCode: [
+        '',
+        [Validators.pattern('^[0-9]*$'), Validators.maxLength(12)],
+      ],
     });
 
     this.userRegistration.valueChanges.subscribe(() => {
@@ -90,6 +126,9 @@ export class SignupComponent implements OnInit {
       );
     });
     this.accountDetails.valueChanges.subscribe(() => {
+      console.log(this.accountDetails.controls['password'].hasError('pattern'));
+      console.log(this.accountDetails.controls['password'].hasError('required'));
+      
       this.formErrors = valueChanges(
         this.accountDetails,
         { ...this.formErrors },
@@ -137,12 +176,19 @@ export class SignupComponent implements OnInit {
     },
     email: {
       required: 'Email is required.',
-      pattern: 'Please enter valid email address.For example johndoe@domain.com ',
+      pattern:
+        'Please enter valid email address.For example johndoe@domain.com ',
     },
     password: {
       required: 'Password is required.',
+      pattern:
+        'Your password must contain at least one uppercase, one lowercase,one special character and one number',
       minlength: 'Minimum length of password must be 6',
       maxlength: 'Password Not Allowed',
+      oneNumber: 'Must contain at least 1 number!',
+      oneCapital: 'Must contain at least 1 in Capital Case!',
+      oneSmall: ' Must contain at least 1 Letter in Small Case!',
+      oneSpecial: ' Must contain at least 1 Special Character!',
     },
     confirmPassword: {
       required: 'Confirm Password is required.',
@@ -183,27 +229,32 @@ export class SignupComponent implements OnInit {
     };
     console.log(obj);
 
-    this._authService.signup(obj).subscribe((result) => {
-      this.spinner.stop();
-      this.toastr.message(result.message, result.success);
-      if (result.message === 'User already exists') {
-        // this.step = 2;
-        this._router.navigate(['/login']);
-        return;
+    this._authService.signup(obj).subscribe(
+      (result) => {
+        this.spinner.stop();
+        this.toastr.message(result.message, result.success);
+        if (result.message === 'User already exists') {
+          // this.step = 2;
+          this._router.navigate(['/login']);
+          return;
+        }
+        if (result.success == true) {
+          this.userRegistration.reset();
+          this.addressDetails.reset();
+          this.accountDetails.reset();
+          this.toastr.message(
+            'Email Verification link has been send to your mail....',
+            true
+          );
+          this._router.navigate(['/'], { queryParams: { en: 'true' } });
+          this.emailVerifyDisable = true;
+        }
+      },
+      (err) => {
+        this.spinner.stop();
+        this.toastr.message(errorHandler(err), false);
       }
-      if (result.success == true) {
-        this.userRegistration.reset();
-        this.addressDetails.reset();
-        this.accountDetails.reset();
-        this.toastr.message("Email Verification link has been send to your mail....",true);
-        this._router.navigate(['/'], { queryParams:{en:"true"}});
-        this.emailVerifyDisable=true;
-        
-      }
-    },(err)=>{
-      this.spinner.stop();
-      this.toastr.message(errorHandler(err),false);
-        });
+    );
   }
 
   next(value) {
@@ -244,8 +295,8 @@ export class SignupComponent implements OnInit {
     this.step = value;
     console.log(this.step);
   }
-  signupSendEmail(){
-    if ( this.accountDetails.invalid) {
+  signupSendEmail() {
+    if (this.accountDetails.invalid) {
       console.log('is 3');
       this.accountDetails.markAllAsTouched();
       this.formErrors = valueChanges(

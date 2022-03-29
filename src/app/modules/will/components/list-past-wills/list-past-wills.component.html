@@ -54,7 +54,7 @@
   </div>
 
   <div class="font-['GilroySemi'] sm:hidden text-lg mt-1">Latest Version</div>
-    <app-table marginDropdown="mt-9 sm:mt-6 mr-1" positionDropdown="fixed" class="h-fit" [deleteAction]="true"  [tableHeadings]='tableHeadingslatest' avtarType="image" (actionButton)="onClickAction($event)"  [tableData]='latestWilldata' [keys]='tableKeys' [classes]="classes" emptyTableMessage="No Latest will Found" (deleteItem)="deleteItemHandler($event)"></app-table>
+    <app-table marginDropdown="mt-9 sm:mt-6 mr-1" positionDropdown="fixed" class="h-fit" [deleteAction]="false"  [tableHeadings]='tableHeadingslatest' avtarType="image" (actionButton)="onClickAction($event)"  [tableData]='latestWilldata' [keys]='tableKeys' [classes]="classes" emptyTableMessage="No Latest will Found" (deleteItem)="deleteItemHandler($event)"></app-table>
     <div class="font-['GilroySemi'] sm:hidden text-lg mt-1">Past Versions</div>
     <app-table  [viewAction]="true" [editAction]="false" [deleteAction]="true" class="h-[75%] sm:h-[69%]" [tableHeadings]='tableHeadings' avtarType="image" (actionButton)="onClickAction($event)"  [tableData]='displayWilldata' [keys]='tableKeys' [classes]="classes" emptyTableMessage="No will Versions Found" (deleteItem)="deleteItemHandler($event)"></app-table>
 

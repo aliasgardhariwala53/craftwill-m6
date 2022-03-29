@@ -100,6 +100,9 @@ export class ListLiabilitiesComponent implements OnInit {
               this.liabilitiesServices.getLiabilitiesData(items)?.loanProvider,
             current_Outstanding_Amount: items.current_Outstanding_Amount,
             type: items.type,
+            isDeletable:true,
+            actionRoute:
+              this.liabilitiesServices.getLiabilitiesData(items)?.actionRoute,
           };
         });
         this.allLiabilities = [...this.LiabilitiesFilterData];
@@ -146,6 +149,7 @@ export class ListLiabilitiesComponent implements OnInit {
             current_Outstanding_Amount: items.current_Outstanding_Amount,
             type: items.type,
             _id: items._id,
+            isDeletable:true,
             actionRoute:
               this.liabilitiesServices.getLiabilitiesData(items)?.actionRoute,
           };

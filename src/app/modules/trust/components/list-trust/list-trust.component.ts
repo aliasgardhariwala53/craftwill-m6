@@ -83,6 +83,8 @@ export class ListTrustComponent implements OnInit {
         return {
           trustName: items.trustName,
           ownerShipType: 'sole',
+          actionRoute: 'trust/createTrust',
+          isDeletable:true,
         };
       });
     });
@@ -108,6 +110,7 @@ export class ListTrustComponent implements OnInit {
           ownerShipType: 'sole',
           _id: items._id,
           actionRoute: 'trust/createTrust',
+          isDeletable:true,
         };
       });
       this.alltrustData = [...this.trustData];

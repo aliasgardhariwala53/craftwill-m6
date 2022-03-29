@@ -114,6 +114,7 @@
             this.appointExecutorForm.value.replacementExecutors
           "
           [actionToggle]="false"
+          NoItemMessage="No executor found"
           addItemRoute="members/createmembers"
           [classes]="classes"
           [dragToggle]="true"
@@ -229,6 +230,7 @@
                 [selectedItems]="
                   this.appointExecutorForm.value.guardianExecutor
                 "
+                NoItemMessage="No member found"
                 [actionToggle]="false"
                 addItemRoute="members/createmembers"
                 [classes]="classes"
@@ -236,7 +238,7 @@
                 addItemRoute="members/createmembers"
                 avtarType="name"
                 imageUrl="../../../../../assets/Icons/Bank Account.svg"
-                addItemTitle="Add Executor"
+                addItemTitle="Add Guardian"
                 [selectionType]="this.appointExecutorForm.value.guardian_executor_type"
               >
               </app-select-box>
@@ -249,15 +251,15 @@
             </div>
             <div>
               <app-button
-                border="border-2 border-black"
-                (myMethod)="toggleModalTutorial = true"
-                padding="px-10 py-2"
-                backgroundColor="bg-[#fff]"
-                borderRadius="rounded-xl"
-                color="text-[#000]"
-                value="Tutorial"
-                class="hidden md:flex"
-              ></app-button>
+              border="border-2 border-black"
+              (myMethod)="toggleModalTutorial = true"
+              padding="px-10 py-2"
+              backgroundColor="bg-[#fff]"
+              borderRadius="rounded-xl"backgroundColor="bg-[#fff] hover:bg-[#000]"
+            color="text-[#000] hover:text-white"
+              value="Tutorial"
+              class="hidden md:flex"
+            ></app-button>
               <app-button
                 value="Tutorial"
                 (click)="toggleModalTutorial = true"
@@ -296,6 +298,7 @@
                 [selectedItems]="
                   this.appointExecutorForm.value.guardianReplacementExecutor
                 "
+                NoItemMessage="No member found"
                 [actionToggle]="false"
                 addItemRoute="members/createmembers"
                 [classes]="classes"

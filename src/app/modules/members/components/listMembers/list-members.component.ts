@@ -116,6 +116,8 @@ export class ListmembersComponent implements OnInit {
           id_number: this.memberServices.getMembersData(items).id_number,
           id_type: this.memberServices.getMembersData(items).id_type,
           type: items.type,
+          isDeletable:items?.isMember || true,
+            actionRoute: 'members/createmembers',
         };
       });
       this.allMemberData = [...this.memberFilterData];
@@ -159,7 +161,7 @@ export class ListmembersComponent implements OnInit {
             dob: this.memberServices.getMembersData(items).dob,
             type: items.type,
             _id: items._id,
-            isDeletable:items.isMember,
+            isDeletable:items?.isMember || true,
             actionRoute: 'members/createmembers',
           };
         });

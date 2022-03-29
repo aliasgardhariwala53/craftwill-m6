@@ -1,4 +1,4 @@
-import { FormGroup, ValidatorFn, AbstractControl } from '@angular/forms';
+import { FormGroup, ValidatorFn, AbstractControl ,ValidationErrors} from '@angular/forms';
 import {ToastrService}  from 'src/app/shared/services/toastr.service';
 import { ToastrService as toast } from "ngx-toastr";
 export const valueChanges = (form: FormGroup, formErrors, errorMessages): any => {
@@ -82,3 +82,42 @@ export const errorHandler = (error) => {
   }
   return message;
 };
+
+
+
+export class CustomValidators {
+  static patternValidator(controlName: string,regex: RegExp, error: ValidationErrors): ValidatorFn {
+    return (controls: AbstractControl): { [key: string]: any } => {
+      const control = controls.get(controlName);
+
+      if (!regex.test(control.value)) {
+        console.log(regex);
+        
+        controls.get(controlName).setErrors(error);
+        return error;
+      } else {
+        return null;
+      }
+      // if (!control.value) {
+      //   // if control is empty return no error
+      //   return null;
+      // }
+
+      // // test the value of the control against the regexp supplied
+      // const valid = regex.test(control.value);
+
+      // // if true, return no error (no error), else return error passed in the second parameter
+      // return valid ? null : error;
+    };
+  }
+
+  static passwordMatchValidator(control: AbstractControl) {
+    const password: string = control.get('password').value; // get password from our password form control
+    const confirmPassword: string = control.get('confirmPassword').value; // get password from our confirmPassword form control
+    // compare is the password math
+    if (password !== confirmPassword) {
+      // if they don't match, set an error in our confirmPassword form control
+      control.get('confirmPassword').setErrors({ NoPassswordMatch: true });
+    }
+  }
+}

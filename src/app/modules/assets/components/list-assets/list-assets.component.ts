@@ -98,6 +98,9 @@ export class ListAssetsComponent implements OnInit {
             country: items.country,
             ownerShip: items.specifyOwnershipType,
             type: items.type,
+            actionRoute: this.assetsServices.getAssetsData(items)?.actionRoute,
+            image: this.assetsServices.getAssetsData(items)?.img,
+            isDeletable:true,
           };
         });
         this.allAssetsinOne = [...this.assetsFilterData];
@@ -173,6 +176,7 @@ return (a/(a+b) * 100);
             _id: items._id,
             actionRoute: this.assetsServices.getAssetsData(items)?.actionRoute,
             image: this.assetsServices.getAssetsData(items)?.img,
+            isDeletable:true,
           };
         });
         this.allAssetsinOne = [...this.allAssetsData];

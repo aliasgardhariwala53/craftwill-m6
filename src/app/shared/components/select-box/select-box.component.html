@@ -57,10 +57,10 @@
         </div>
     </div>
     
+    <div *ngIf="NoItemMessage !=='' && listItem.length ==0" class="flex justify-center items-center font-['GilroySemi'] text-lg text-center">{{NoItemMessage}}</div>
     <div *ngIf="addItemToggle" class=" md:max-h-[120px] bg-[#fff] cursor-pointer flex flex-col rounded-xl border-dashed border-2 border-[#ff6782] py-7 justify-center items-center text-red"
         (click)="onAddItem()">
         {{ addItemTitle }}
     </div>
-    <div *ngIf="NoItemMessage !=='' && listItem.length ==0" class="font-['GilroySemi'] text-lg text-center">{{NoItemMessage}}</div>
     
 </div>

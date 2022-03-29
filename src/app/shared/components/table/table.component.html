@@ -52,7 +52,7 @@
                             clip-rule="evenodd" />
                     </svg>
                 </div>
-                <app-dropdown #dropdown class="ml-1" width="w-[120px] " [positon]="tableData.length===1?'fixed':'relative'"  margin="mt-9 sm:mt-6 mr-1" >
+                <app-dropdown #dropdown class="ml-1" width="w-[120px] " [positon]="tableData.length===1?'fixed':'relative'"  [margin]="tableData.length===1?'mt-9 sm:mt-6 sm:mr-1':'mt-6 sm:mt-2 sm:mr-1'" >
                     <div options class="w-full p-2 bg-white rounded-2xl shadow-lg">
                         <div *ngIf="editAction" (click)="onClickActionButton(item)"
                             class="hover:bg-[#ff6782] flex flex-row rounded-xl py-[5px] px-2 items-center hover:text-[#fff] hover:no-underline cursor-pointer">

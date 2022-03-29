@@ -150,7 +150,9 @@ export class ListAssetsComponent implements OnInit {
       }
     );
   }
-
+percentage(a,b){
+return (a/(a+b) * 100);
+}
 
   ngOnInit(): void {
     this.spinner.start();
@@ -183,8 +185,9 @@ export class ListAssetsComponent implements OnInit {
       this.spinner.stop();
       this.result = res;
       // this.coinPrice = this.result.data.coins.map((coins: any) => coins.price);
-      this.liquidData[0] = this.result?.liquidCount;
-      this.liquidData[1] = this.result?.iliquidCount;
+      
+      this.liquidData[0] = this.percentage(this.result?.liquidCount,this.result?.iliquidCount);
+      this.liquidData[1] = this.percentage(this.result?.iliquidCount,this.result?.liquidCount);
       // console.log(this.coinPrice);
       console.log(this.result);
  
@@ -195,7 +198,6 @@ export class ListAssetsComponent implements OnInit {
           labels: ['Liquid', 'iliquid'],
           datasets: [
             {
-              indexAxis:'y',
               borderRadius: 10,
               data: this.liquidData,
               borderColor: ['#00C5E9','#FFCB67'],
@@ -208,19 +210,33 @@ export class ListAssetsComponent implements OnInit {
         },
         options: {
           responsive: true,
-         maintainAspectRatio: false,
-         plugins: {
-          legend: {
-            display: false
-          }
-        },
-        // scales: {
-        //   x: {
-        //     grid: {
-        //       display: false
-        //     }
-        //   }
-        // }
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+        indexAxis: "y",
+        scales: {
+            x: {
+              min:0,
+              max:100,
+                beginAtZero: true,
+                ticks: {
+                	callback: function(value) {
+                  	return value + '%';
+                  }
+                },
+                grid:{
+                  display:false,
+                }
+            },
+            y:{
+              grid:{
+                display:false,
+              }
+            }
+        }
         },
       });
     });

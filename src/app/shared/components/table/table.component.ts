@@ -67,6 +67,21 @@ export class TableComponent implements OnInit, OnChanges {
     this.selectedItem=null;
     this.toggleModalTutorial=false;
   }
+  positionHandler(i){
+    if (i===0) {
+      console.log(i);
+      return 'fixed';
+      
+    }
+    return 'relative'
+  }
+  scrolldown=false;
+  drophandler(k,tableData){
+    if (k+1 ===tableData.length) {
+      
+      this.scrolldown=true
+    }
+  }
   onCancelDelete(){
     this.toggleModalTutorial=false;
     this.selectedItem=null;

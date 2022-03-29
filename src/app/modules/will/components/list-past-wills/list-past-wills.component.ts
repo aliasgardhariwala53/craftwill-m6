@@ -134,7 +134,7 @@ export class ListPastWillsComponent implements OnInit {
           console.log(items.willName);
           console.log(items);
           return {
-           ...items,image:'../../../../../assets/Icons/latestVersion.svg',actionRoute:'will/createWill',willName:`My will Version ${versionArray[i]}`
+           ...items,isDeletable:true,image:'../../../../../assets/Icons/latestVersion.svg',actionRoute:'will/createWill',willName:`My will Version ${versionArray[i]}`
           };
         });
         this.displayWilldata = [...this.allWillData];

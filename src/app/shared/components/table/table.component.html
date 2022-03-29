@@ -7,9 +7,9 @@
             <div class="w-1/12 text-center">Actions</div>
         </div>
     </div>
-    <div class="flex flex-col space-y-3 overflow-scroll overflow-x-hidden p-1 "  >
+    <div class="flex flex-col space-y-3 overflow-scroll overflow-x-hidden p-1 h-[inherit]"  #scrollMe [scrollTop]="scrolldown?scrollMe.scrollHeight:null">
         <div class="flex flex-col md:flex-row relative font-bold rounded-xl bg-white first-line:shadow-slate-300 p-3 space-x-2 shadow-[0px_0px_5px_rgba(0,0,0,0.3)]"
-            *ngFor="let item of tableData">
+            *ngFor="let item of tableData;let k=index">
             <div class="{{ classes[i] }} flex md:items-center text-ellipsis capitalize" [ngClass]="{
           'absolute top-[32px] left-[65px] md:static  text-[#8c8c8c] md:text-[#000]':
             i === 1
@@ -42,9 +42,9 @@
                 </svg>
             </div>
             <div *ngIf="actionList"
-                class="w-1/12 absolute top-0 bottom-0 md:static right-4 break-words cursor-pointer text-center flex justify-center m-auto">
+                class="w-1/12 absolute top-0 bottom-0 md:relative right-4 break-words cursor-pointer text-center flex justify-center m-auto">
                 <!-- <img class=""  width="24px"  src="../../../../assets/Icons/Back.svg"> -->
-                <div (click)="dropdown.open = !dropdown.open" (clickOutside)="dropdown.open  = false"
+                <div (click)="(dropdown.open = !dropdown.open)  && drophandler(k,tableData)" (clickOutside)="dropdown.open  = false"
                     class="border-[1px] border-[#ff6782] rounded-full p-[3px] m-auto h-fit">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd"
@@ -52,7 +52,7 @@
                             clip-rule="evenodd" />
                     </svg>
                 </div>
-                <app-dropdown #dropdown class="ml-1" width="w-[120px] " [positon]="positionDropdown"  [margin]="marginDropdown" >
+                <app-dropdown #dropdown class="ml-1" width="w-[120px] " [positon]="tableData.length===1?'fixed':'relative'"  margin="mt-9 sm:mt-6 mr-1" >
                     <div options class="w-full p-2 bg-white rounded-2xl shadow-lg">
                         <div *ngIf="editAction" (click)="onClickActionButton(item)"
                             class="hover:bg-[#ff6782] flex flex-row rounded-xl py-[5px] px-2 items-center hover:text-[#fff] hover:no-underline cursor-pointer">
@@ -62,7 +62,7 @@
                             class="hover:bg-[#ff6782] flex flex-row rounded-xl py-[5px] px-2 items-center hover:text-[#fff] hover:no-underline cursor-pointer">
                             <div class="font-bold m-auto">View</div>
                         </div>
-                        <div *ngIf="deleteAction" (click)="onDeleteHandler(item)"
+                        <div *ngIf="deleteAction && item.isDeletable" (click)="onDeleteHandler(item)"
                             class="hover:bg-[#ff6782] flex flex-row rounded-xl py-[5px] px-2 items-center hover:text-[#fff] hover:no-underline cursor-pointer">
                             <div class="font-bold m-auto">Delete</div>
                         </div>

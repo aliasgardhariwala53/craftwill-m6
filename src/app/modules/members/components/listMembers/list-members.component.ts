@@ -9,7 +9,7 @@ import { UserService } from '../../../../services/user.service';
 
 @Component({
   selector: 'app-listmembers',
-  templateUrl: './listmembers.component.html',
+  templateUrl: './list-members.component.html',
   styleUrls: ['./listmembers.component.scss', '../../../../app.component.scss'],
 })
 export class ListmembersComponent implements OnInit {
@@ -159,6 +159,7 @@ export class ListmembersComponent implements OnInit {
             dob: this.memberServices.getMembersData(items).dob,
             type: items.type,
             _id: items._id,
+            isDeletable:items.isMember,
             actionRoute: 'members/createmembers',
           };
         });

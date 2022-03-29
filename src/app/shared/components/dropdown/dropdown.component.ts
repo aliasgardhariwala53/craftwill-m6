@@ -1,4 +1,4 @@
-import { Component, OnInit,Input ,Output,EventEmitter} from '@angular/core';
+import { Component, OnInit,Input ,Output,EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
 
 @Component({
   selector: 'app-dropdown',
@@ -6,7 +6,7 @@ import { Component, OnInit,Input ,Output,EventEmitter} from '@angular/core';
   styleUrls: ['./dropdown.component.scss'],
   exportAs: 'dropdown'
 })
-export class DropdownComponent implements OnInit {
+export class DropdownComponent implements OnInit,OnChanges {
 
   constructor() { }
   @Input() selectedOption = 'Select Option';
@@ -21,7 +21,10 @@ export class DropdownComponent implements OnInit {
   @Input() open = false;
   ngOnInit(): void {
   }
-
+ngOnChanges(changes: SimpleChanges): void {
+  console.log(this.positon);
+  
+}
   selectOption(option): void {
     if (this.changeSelected) { this.selectedOption = option; }
     this.handleSelect.emit(option);

@@ -135,14 +135,14 @@ console.log(totalShare);
     }
     var totalShareTrustFallback = this.distributeResidualAssetsForm.value.fallbackMemberId?.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
 
-    if(totalShareTrustFallback != 100 && this.distributeResidualAssetsForm.value.trustType==='terminate'){
+    if(!(totalShareTrustFallback >= 99.5 &&  totalShareTrustFallback <= 100.99) && this.distributeResidualAssetsForm.value.trustType==='terminate'){
       this.totalShareToggle = true;
       this.totalShareMessage="Total share percentage of trust fallback must be 100";
       return ;
     }
     var totalShareTrustFallbackReplacement = this.distributeResidualAssetsForm.value.fallbackReplacementMemberId?.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
 
-    if(totalShareTrustFallbackReplacement != 100 && this.distributeResidualAssetsForm.value.customType==='custom1'){
+    if(!(totalShareTrustFallbackReplacement >= 99.5 &&  totalShareTrustFallbackReplacement <= 100.99) && this.distributeResidualAssetsForm.value.customType==='custom1'){
       this.totalShareToggle = true;
       this.totalShareMessage="Total share percentage of replacement trust beneficiaries must be 100";
       return ;

@@ -74,7 +74,7 @@ export class BankAccountUserComponent implements OnInit {
         [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(20)],
       ],
       country: [, [Validators.required]],
-      estimateValue: ['', [Validators.required,Validators.maxLength(48)]],
+      estimateValue: ['', [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(16)]],
       specifyOwnershipType: ['', [Validators.required]],
     });
     this.BankAccountUser.valueChanges.subscribe(() => {
@@ -91,7 +91,7 @@ export class BankAccountUserComponent implements OnInit {
     accountNumber: '',
     country: '',
     estimateValue: '',
-    specifyOwnershipType: '',
+ specifyOwnershipType: '',
   };
 
   formErrorMessages = {
@@ -112,6 +112,7 @@ export class BankAccountUserComponent implements OnInit {
     estimateValue: {
       required: 'Estimate value is required.',
       maxlength: 'Please enter valid number',
+ pattern: 'Only numeric values allowed',
     },
     specifyOwnershipType: {
       required: 'Ownership is required.',
@@ -157,15 +158,15 @@ export class BankAccountUserComponent implements OnInit {
         
       ];
     }
-    console.log(this.allAssetsBeneficiary);
-    console.log(this.allassetsResidualType);
+    //console.log(this.allAssetsBeneficiary);
+    //console.log(this.allassetsResidualType);
     
     this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
     
     this._willServices.assetsResidualType.next(this.allassetsResidualType);
   }
   addBankAccount() {
-    console.log(this.BankAccountUser);
+    //console.log(this.BankAccountUser);
 
     if (this.BankAccountUser.invalid) {
       this.BankAccountUser.markAllAsTouched();
@@ -174,16 +175,16 @@ export class BankAccountUserComponent implements OnInit {
         { ...this.formErrors },
         this.formErrorMessages
       );
-      console.log('invalid');
+      //console.log('invalid');
 
       return;
     }
 
     this.totalShareMessage = false;
     var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
-    console.log(totalShare);
-    console.log(this.assetsBeneficiary);
-    console.log(this.allAssetsBeneficiary);
+    //console.log(totalShare);
+    //console.log(this.assetsBeneficiary);
+    //console.log(this.allAssetsBeneficiary);
 
     if(totalShare != 100 && this.fromCreateWill === 'will'){
       this.totalShareMessage = true;
@@ -196,6 +197,7 @@ export class BankAccountUserComponent implements OnInit {
       bankAccount: this.BankAccountUser.value,
       type: 'bankAccount',
       specifyOwnershipType: this.BankAccountUser.value.specifyOwnershipType,
+      estimateValue: this.BankAccountUser.value.estimateValue,
     };
     this.assetsServices.addAssets(bankAccountData).subscribe(
       (result) => {
@@ -225,18 +227,18 @@ export class BankAccountUserComponent implements OnInit {
   }
 
   addSharesMember(value) {
-    console.log(value);
+    //console.log(value);
     this.assetsBeneficiary = value.map((el) => {
       return { ...el, assetId: this.id };
     });
-    console.log(this.assetsBeneficiary);
+    //console.log(this.assetsBeneficiary);
   }
   onUpdateBank() {
 
     var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
-    console.log(totalShare);
-    console.log(this.assetsBeneficiary);
-    console.log(this.allAssetsBeneficiary);
+    //console.log(totalShare);
+    //console.log(this.assetsBeneficiary);
+    //console.log(this.allAssetsBeneficiary);
 
     if(totalShare != 100 && this.fromCreateWill === 'will'){
       this.totalShareMessage = true;
@@ -246,6 +248,7 @@ export class BankAccountUserComponent implements OnInit {
     this.spinner.start();
     const bankAccountData = {
       specifyOwnershipType: this.BankAccountUser.value.specifyOwnershipType,
+      estimateValue: this.BankAccountUser.value.estimateValue,
       country: this.BankAccountUser.value.country,
       bankAccount: this.BankAccountUser.value,
       type: 'bankAccount',
@@ -278,19 +281,19 @@ export class BankAccountUserComponent implements OnInit {
 
       const data = result.data.filter((item, i) => {
         if (item._id === id) {
-          const { bankAccount, country, specifyOwnershipType } = item;
+          const { bankAccount, country, specifyOwnershipType,estimateValue } = item;
           this.BankAccountUser.patchValue({
             bankname: bankAccount.bankname,
             accountNumber: bankAccount.accountNumber,
             country: country,
-            estimateValue: bankAccount.estimateValue,
+            estimateValue: estimateValue,
             specifyOwnershipType: specifyOwnershipType,
           });
           return bankAccount;
         }
         return null;
       });
-      // console.log(data);
+      // //console.log(data);
     });
   }
   ngOnInit(): void {
@@ -309,9 +312,9 @@ export class BankAccountUserComponent implements OnInit {
         this.backRouteLink = '/will/createWill';
         this.forwardRouteLink = '/will/createWill';
         this.fromCreateWill = y;
-        // console.log(this.fromCreateWill);
+        // //console.log(this.fromCreateWill);
         this.wid=wid
-        console.log(this.wid);
+        //console.log(this.wid);
       }
       if (y === 'secure') {
         this.backRouteLink = '/liabilities/securedLoan';
@@ -322,17 +325,17 @@ if (y === 'myWill') {
         this.backRouteLink = '/will/myWills';
         this.forwardRouteLink = '/will/myWills';
         this.fromCreateWill = y;
-        console.log(this.fromCreateWill);
+        //console.log(this.fromCreateWill);
       }
     });
 
 
     this.memberServices.getMembers().subscribe(
       (result) => {
-        // console.log(result.data);
+        // //console.log(result.data);
         this.spinner.stop();
         this.memberData = result.data.map((items, i) => {
-          // console.log(items);
+          // //console.log(items);
           return {
             fullname: this.memberServices.getMembersData(items).fullname,
             Relationship:
@@ -346,7 +349,7 @@ if (y === 'myWill') {
             actionRoute: 'members/createmembers',
           };
         });
-        // console.log(this.allMemberData);
+        // //console.log(this.allMemberData);
       },
       (err) => {
         this.spinner.stop();
@@ -361,15 +364,15 @@ if (y === 'myWill') {
       this.assetsBeneficiary = this.allAssetsBeneficiary?.filter(
         (el) =>  el.assetId === this.id
       );
-      console.log('slectedResidualMembers', this.slectedResidualMembers);
+      //console.log('slectedResidualMembers', this.slectedResidualMembers);
     });
     this._willServices.assetsResidualType.subscribe((value1) => {
       this.allassetsResidualType = value1;
       this.assetsResidualTypeForm.patchValue(this.allassetsResidualType?.find(
         (el) =>  el.assetId === this.id
       )?.value);
-      console.log(this.assetsResidualTypeForm.value);
-      console.log(value1);
+      //console.log(this.assetsResidualTypeForm.value);
+      //console.log(value1);
       
     });
 

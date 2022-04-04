@@ -1,12 +1,12 @@
-<div class="flex flex-col bg-red m-2 p-6 rounded-2xl text-center justify-center  relative  space-y-2 h-fit">
+<div class="flex flex-col bg-red m-2 p-6 rounded-2xl text-center justify-center  relative  space-y-2  overflow-auto h-[90%]">
     <div [routerLink]="['/trust/createTrust']" routerLinkActive="router-link-active"  class="cursor-pointer rounded-full bg-white text-black p-1 absolute right-5 top-5">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="#000" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
     </div>
-    <div class="m-auto"><img src="../../../../../assets/Image/tutorial girl.svg"></div>
+    <div class="m-auto w-[50%] sm:w-full"><img class="m-auto" src="../../../../../assets/Image/tutorial girl.svg"></div>
     <div class="font-[GilroySemi] text-center">WHEN I’M GONE,</div>
-    <div class="font-[GilroyBold] text-3xl text-center mx-4"> HOW WILL MY WISHES BE FULFILLED?</div>
+    <div class="font-[GilroyBold] text-lg sm:text-3xl text-center mx-2 sm:mx-4"> HOW WILL MY WISHES BE FULFILLED?</div>
     <div class="border-t-2 border-t-white w-2/3 mx-auto"></div>
     <div class="text-center font-[GilroySemi]"> All the instructions that you provide in a Will Have to be executed by a person.</div>
 <div class="bg-white rounded-2xl text-black p-3 ">
@@ -14,7 +14,7 @@
     <div class="font-[400] text-center">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</div>
 </div>
 <div class="text-center font-[GilroySemi]">This is where you have to appoint the person whom you trust will follow your Will.</div>
-<div class="w-[30%] relative top-0 left-0 right-0 mt-auto mx-auto" >
+<div class="w-[50%] relative top-0 left-0 right-0 mt-auto mx-auto" >
     <app-button [arrow]="true" value="Continue" routelink="/trust/createTrust" class="sm:hidden"></app-button>
 </div>
 </div>

@@ -47,7 +47,7 @@ export class ProfileComponent implements OnInit {
       email: [''],
       id_type: ['', Validators.required],
       id_number: ['', [Validators.required ,Validators.pattern('[a-zA-Z0-9]*'),
-      Validators.maxLength(24),]],
+      Validators.maxLength(16),]],
       gender: [''],
       floorNumber: ['', [Validators.required, Validators.maxLength(6)]],
       unitNumber: ['', [Validators.required, Validators.maxLength(6)]],
@@ -65,7 +65,7 @@ export class ProfileComponent implements OnInit {
           [Validators.required],
         ],
         newPassword: ['', [Validators.required, Validators.minLength(6)]],
-        confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
+        confirmPassword: ['', [Validators.required]],
       },
       {
         validators: [
@@ -129,7 +129,7 @@ export class ProfileComponent implements OnInit {
       pattern: 'Please enter valid email address.For example johndoe@domain.com ',
     },
     password: {
-      required: 'Password is required.',
+      required: 'Current password is required.',
       minlength: 'Minimum length of password must be 6',
     },
     floorNumber: {
@@ -147,7 +147,7 @@ export class ProfileComponent implements OnInit {
     postalCode: {
       required: 'Postal Code is required.',
       pattern: 'Please Enter valid numeric value',
-      maxlength: 'Please Enter Valid postal code',
+      maxlength: 'Please Enter valid postal code',
     },
     newPassword: {
       required: 'New Password is required.',
@@ -156,7 +156,6 @@ export class ProfileComponent implements OnInit {
     },
     confirmPassword: {
       required: 'Confirm Password is required.',
-      minlength: 'Minimum length must be 6',
       matching: 'New Password and confirm password should be same',
     },
   };
@@ -189,7 +188,7 @@ min_date ;
     if (event.target.value.length === 0) {
       this.showImageUpload = false;
     }
-    console.log(event.target.value);
+    //console.log(event.target.value);
   }
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;
@@ -222,7 +221,7 @@ min_date ;
   setImageHandler(result) {
     
     if ((result.data.gender === 'male' || result.data.gender === 'other') && !result.data.profileImage) {
-      console.log(result.data.gender);
+      //console.log(result.data.gender);
       this.imageSrc = this.defaultMale;
       this._headerServ.image.next(this.defaultMale);
       this.showRemoveButton = false;
@@ -234,7 +233,7 @@ min_date ;
       result.data.profileImage !== '' &&
       result.data.profileImage !== null
     ) {
-      console.log(result);
+      //console.log(result);
       this.imageSrc = `${environment.serverUrl}${result.data.profileImage}`;
       this._headerServ.image.next(
         `${environment.serverUrl}${result.data.profileImage}`
@@ -283,8 +282,8 @@ min_date ;
     let form = new FormData();
     const profilePic = this.DataURIToBlob(this.croppedImage);
     form.append('attachments', profilePic);
-    console.log(profilePic);
-    console.log(form);
+    //console.log(profilePic);
+    //console.log(form);
 
     this._userServ.imageUpload(form).subscribe(
       (result) => {
@@ -323,7 +322,7 @@ min_date ;
     };
     this._userServ.updateProfile(profiledate).subscribe(
       (result) => {
-        console.log(result);
+        //console.log(result);
         this.profileData = (({
           id_type,
           id_number,
@@ -396,7 +395,7 @@ min_date ;
       (err) => {
         this.spinner.stop();
         this.toastr.message(err.text, false);
-        console.log(err);
+        //console.log(err);
       }
     );
   }
@@ -408,20 +407,16 @@ min_date ;
     this._userServ.getProfile().subscribe(
       (result) => {
         this.spinner.stop();
+        this.profileData=(({ subscriptionData, ...o }) => o)(result.data)
         this.profileData = {
-          ...result.data,
+          ...this.profileData,
           gender:
             result.data.gender.charAt(0).toUpperCase() +
             result.data.gender.slice(1),
         };
-        this.userInfo.setValue({
-          ...result.data,
-          gender:
-            result.data.gender.charAt(0).toUpperCase() +
-            result.data.gender.slice(1),
-        });
+        this.userInfo.patchValue( (({ subscriptionData, ...o }) => o)(result.data));
         this._headerServ.username.next(result.data.fullName);
-        console.log(result);
+        //console.log(result);
         this.setImageHandler(result);
       },(err)=>{
         this.spinner.stop();

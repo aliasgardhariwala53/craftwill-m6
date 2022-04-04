@@ -48,7 +48,7 @@ export class CreateMembersComponent implements OnInit {
       id_type: [, Validators.required],
       id_number: ['', [Validators.required,
         Validators.pattern('[a-zA-Z0-9]*'),
-        Validators.maxLength(24)]],
+        Validators.maxLength(16)]],
       gender: [, Validators.required],
       floorNumber: ['', [Validators.required , Validators.maxLength(6)]],
       unitNumber: ['', [Validators.required , Validators.maxLength(6)]],
@@ -62,7 +62,7 @@ export class CreateMembersComponent implements OnInit {
       organisationName: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'),Validators.maxLength(32)]],
       registration_number: [
         '',
-        [Validators.required, Validators.pattern('^[0-9]*$'), Validators.maxLength(24)],
+        [Validators.required, Validators.pattern('^[0-9]*$'), Validators.maxLength(16)],
       ],
       id_country: [, Validators.required],
 
@@ -160,7 +160,7 @@ export class CreateMembersComponent implements OnInit {
     },
   };
   memberUpdate() {
-    console.log(this.personForm);
+    //console.log(this.personForm);
 
     if (this.personForm.invalid) {
       this.personForm.markAllAsTouched();
@@ -169,7 +169,7 @@ export class CreateMembersComponent implements OnInit {
         { ...this.formErrors },
         this.formErrorMessages
       );
-      console.log('invalid');
+      //console.log('invalid');
 
       return;
     }
@@ -184,7 +184,7 @@ export class CreateMembersComponent implements OnInit {
     };
 
     this.membersServices.createMembers(membersASPerson).subscribe((result) => {
-      console.log('result');
+      //console.log('result');
       this.spinner.stop();
       if (result.success) {
         this.personForm.reset();
@@ -237,7 +237,7 @@ export class CreateMembersComponent implements OnInit {
       },
       type: 'memberAsPerson',
     };
-    console.log("updated member");
+    //console.log("updated member");
     
     this.membersServices
       .updateMembers(membersASPerson, this.id)
@@ -261,7 +261,7 @@ export class CreateMembersComponent implements OnInit {
       memberAsOrganisation: { ...this.organisationForm.value },
       type: 'memberAsOrganisation',
     };
-    console.log("updated Organistion");
+    //console.log("updated Organistion");
     
     this.membersServices
       .updateMembers(membersAsOrganisation, this.id)
@@ -281,7 +281,7 @@ export class CreateMembersComponent implements OnInit {
     this.spinner.start();
     this.membersServices.getMembers().subscribe((result) => {
       this.spinner.stop();
-      console.log(result);
+      //console.log(result);
 
       const data = result.data.filter((item, i) => {
         if (item._id === id) {
@@ -318,7 +318,7 @@ export class CreateMembersComponent implements OnInit {
         }
         return null;
       });
-      console.log(data);
+      //console.log(data);
     },(err)=>{
       this.spinner.stop();
       this.toastr.message(errorHandler(err),false);
@@ -338,12 +338,12 @@ export class CreateMembersComponent implements OnInit {
       if (y==='will') {
         this.backRouteLink="/will/createWill";   
         this.fromCreateWill = y;
-        console.log(this.fromCreateWill);
+        //console.log(this.fromCreateWill);
       }
       if (y==='private') {
         this.backRouteLink="/liabilities/privateDebt";   
         this.fromCreateWill = y;
-        console.log(this.fromCreateWill);
+        //console.log(this.fromCreateWill);
       }
 
     });

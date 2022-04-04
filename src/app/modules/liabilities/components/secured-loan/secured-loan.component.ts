@@ -39,8 +39,8 @@ export class SecuredLoanComponent implements OnInit {
   createForm() {
     this.SecuredLoan = this._fb.group({
       loanName: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'),Validators.maxLength(32)]],
-      loanProvider: ['', [Validators.required,Validators.maxLength(32)]],
-      loan_Number: ['', [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(16)]],
+      loanProvider: ['', [Validators.required,Validators.maxLength(16)]],
+      // loan_Number: ['', [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(16)]],
       loan_Id_Number: [
         '',
         [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(16)],
@@ -60,7 +60,7 @@ export class SecuredLoanComponent implements OnInit {
   formErrors = {
     loanName: '',
     loanProvider: '',
-    loan_Number: '',
+    // loan_Number: '',
     loan_Id_Number: '',
     current_Outstanding_Amount: '',
     description: '',
@@ -76,11 +76,11 @@ export class SecuredLoanComponent implements OnInit {
       required: 'Loan Provider is required.',
       maxlength: 'Word limit Exceed..',
     },
-    loan_Number: {
-      required: 'Loan Number is required.',
-      pattern: 'Only numeric values allowed',
-      maxlength: 'Please enter loan valid number',
-    },
+    // loan_Number: {
+    //   required: 'Loan Number is required.',
+    //   pattern: 'Only numeric values allowed',
+    //   maxlength: 'Please enter loan valid number',
+    // },
     loan_Id_Number: {
       required: 'Loan Id Number is required.',
       maxlength: 'Please enter valid Number',
@@ -101,17 +101,17 @@ export class SecuredLoanComponent implements OnInit {
     },
   };
   selectAssets(value) {
-    console.log(value);
+    //console.log(value);
     
     this.SecuredLoan.patchValue({
       assetId: value.map((el)=>el._id),
     });
 
-    console.log(this.SecuredLoan.value.assetId);
+    //console.log(this.SecuredLoan.value.assetId);
   }
   addSecuredLoan() {
 
-    console.log(this.SecuredLoan);
+    //console.log(this.SecuredLoan);
 
     if (this.SecuredLoan.invalid) {
       this.SecuredLoan.markAllAsTouched();
@@ -121,7 +121,7 @@ export class SecuredLoanComponent implements OnInit {
         { ...this.formErrors },
         this.formErrorMessages
       );
-      console.log('invalid');
+      //console.log('invalid');
       return;
     }
     this.spinner.start();
@@ -140,7 +140,7 @@ export class SecuredLoanComponent implements OnInit {
       
     };
     
-    console.log(securedLoanData);
+    //console.log(securedLoanData);
     this.liabilitiesServices.addLiabilities(securedLoanData).subscribe((result) => {
       this.spinner.stop();
       if (result.success) {
@@ -173,7 +173,7 @@ export class SecuredLoanComponent implements OnInit {
       }
     } 
     )}
-    console.log(formvalue);
+    //console.log(formvalue);
     
     const securedLoanData = {
         current_Outstanding_Amount:this.SecuredLoan.value.current_Outstanding_Amount,
@@ -202,17 +202,17 @@ export class SecuredLoanComponent implements OnInit {
     this.spinner.start();
     this.liabilitiesServices.getAllLiabilities().subscribe((result) => {
       this.spinner.stop();
-      console.log(result)
+      //console.log(result)
       
       const data=result.data.filter((item,i)=>{
         if (item._id===id) {
-          console.log(item);
+          //console.log(item);
           
           const {securedLoan,current_Outstanding_Amount} = item;
           this.SecuredLoan.patchValue({
             loanName: securedLoan?.loanName,
             loanProvider: securedLoan?.loanProvider,
-            loan_Number: securedLoan?.loan_Number,
+            // loan_Number: securedLoan?.loan_Number,
             loan_Id_Number: securedLoan?.loan_Id_Number,
             current_Outstanding_Amount: current_Outstanding_Amount,
             description: securedLoan?.description,
@@ -223,13 +223,13 @@ export class SecuredLoanComponent implements OnInit {
           this.selectedAssetsId=securedLoan.addAssets.map((el)=>{
             return { _id:el};
           });
-          console.log(this.selectedAssetsId);
+          //console.log(this.selectedAssetsId);
           
           return securedLoan;
         }
         return null;
       })
-      console.log(data);  
+      //console.log(data);  
     },(err)=>{
       this.spinner.stop();
       this.toastr.message(errorHandler(err),false);
@@ -250,7 +250,7 @@ export class SecuredLoanComponent implements OnInit {
           this.backRouteLink = '/will/myWills';
           this.forwardRouteLink = '/will/myWills';
           this.fromCreateWill = y;
-          console.log(this.fromCreateWill);
+          //console.log(this.fromCreateWill);
         }
         
       }
@@ -258,9 +258,9 @@ export class SecuredLoanComponent implements OnInit {
         this.backRouteLink = '/will/createWill';
         this.forwardRouteLink = '/will/createWill';
         this.fromCreateWill = y;
-        // console.log(this.fromCreateWill);
+        // //console.log(this.fromCreateWill);
         this.wid=wid
-        console.log(this.wid);
+        //console.log(this.wid);
       }
     })
     this.createForm();
@@ -278,7 +278,7 @@ export class SecuredLoanComponent implements OnInit {
           image:this.assetsServices.getAssetsData(items)?.img,
         };
       });
-      console.log(this.assetsData);
+      //console.log(this.assetsData);
       
     },(err)=>{
       this.spinner.stop();

@@ -146,7 +146,7 @@ export class DashboardComponent implements OnInit {
   QuickStats() {
     this._userServ.dashboardStats().subscribe((result) => {
       // this.quickStats = result;
-      console.log(result);
+      //console.log(result);
       this.totalNetWorth = result.totalNetWorth.amount;
       this.totalAssets = result.totalAssets.amount;
       this.totalLiabilities = result.totalLiabilities.amount;
@@ -155,12 +155,12 @@ export class DashboardComponent implements OnInit {
   }
   // @HostListener('window:resize', ['$event'])
   // onResize(event) {
-  //   console.log(window.innerWidth);
+  //   //console.log(window.innerWidth);
   //   if(window.innerWidth>578){
   //     let data = null;
   //     data =25;
   //     this.heightChart1=data;
-  //     console.log(this.heightChart1);
+  //     //console.log(this.heightChart1);
   //   }
   // }
   GraphData() {
@@ -168,34 +168,36 @@ export class DashboardComponent implements OnInit {
       this.spinner.stop();
       this.quickStats = result;
       
-      console.log(this.quickStats);
+      //console.log(this.quickStats);
       
       const newDataAssets=Object.keys(this.quickStats?.assets)?.map((el)=>{
-        console.log(el);
+        //console.log(el);
         const month =el?.split('-')[0].toLowerCase();
         const year =el?.split('-')[1];
-      return  {month,year,value:this.quickStats.assets[el]}
+        const label =el.slice(0, 3) +'-'+year;
+      return  {month,year,value:this.quickStats.assets[el],label}
       })
       const newDataLiability=Object.keys(this.quickStats?.liabilities)?.map((el)=>{
-        console.log(el);
+        //console.log(el);
         const month =el?.split('-')[0].toLowerCase();
         const year =el?.split('-')[1];
-      return  {month,year,value:this.quickStats.liabilities[el]}
+        const label =el.slice(0, 3) +'-'+year;
+      return  {month,year,value:this.quickStats.liabilities[el],label}
       })
-      console.log(newDataAssets);
-      this.labelData=result.assets?.map((el)=>el.month);
+      //console.log(newDataAssets);
+      this.labelData=newDataAssets?.map((el)=>el.label);
       this.assetStats=newDataAssets?.map((el)=>el.value);
       this.liablityStats =newDataLiability?.map((el)=>el.value);
 
-      console.log(newDataAssets?.map((el)=>el.value));
-      console.log(newDataLiability?.map((el)=>el.value));
+      //console.log(newDataAssets?.map((el)=>el.value));
+      //console.log(newDataLiability?.map((el)=>el.value));
       this.barChartData.labels=this.labelData;
       this.barChartData.datasets[0] = { ...this.barChartData.datasets[0], data: this.assetStats};
       const newDataTwo = {
         labels: [],
         datasets: []
       };
-      newDataTwo.labels= newDataAssets?.map((el)=>el.month);
+      newDataTwo.labels= newDataAssets?.map((el)=>el.label);
       newDataTwo.datasets[0] = { ...this.barChartData.datasets, label: 'Assets',
       backgroundColor: '#00C5E9',
       borderRadius: 50,
@@ -218,18 +220,18 @@ export class DashboardComponent implements OnInit {
         this.spinner.stop();
         this.quickStats = result;
         
-        console.log(this.quickStats.data);
+        //console.log(this.quickStats.data);
         
         const newData=Object?.keys(this.quickStats?.data || {})?.map((el)=>{
-          console.log(el);
+          //console.log(el);
           const month =el?.split('-')[0]?.toLowerCase();
           const year =el?.split('-')[1];
         return  {month,year,value:this.quickStats.data[el]}
         })
-        console.log(newData);
+        //console.log(newData);
         this.labelData=newData?.map((el)=>el.month);
         this.assetsDistribution =newData?.map((el)=>el.value);
-        console.log(newData?.map((el)=>el.value));
+        //console.log(newData?.map((el)=>el.value));
         const newDataTwo = {
           labels: [],
           datasets: []
@@ -253,7 +255,7 @@ export class DashboardComponent implements OnInit {
 
     this.route.queryParams.subscribe(({ profile }) => {
       if (profile === 'true') {
-        console.log(profile);
+        //console.log(profile);
         this._router.navigate(['home/profile']);
       }
     });

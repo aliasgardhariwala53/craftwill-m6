@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { SubscriptionService } from 'src/app/services/subscription.service';
 import { UserService } from 'src/app/services/user.service';
 import { WillService } from 'src/app/services/will.service';
 import { environment } from 'src/environments/environment.prod';
@@ -29,6 +30,7 @@ export class HeaderComponent implements OnInit {
     private _route:Router,
     private route: ActivatedRoute,
     private _willServices: WillService,
+    private _subscription: SubscriptionService,
   ) {
     this._headerServ.username.subscribe((name) => {
       this.username = name.split(' ')
@@ -46,7 +48,11 @@ export class HeaderComponent implements OnInit {
   }
   willpresent=false;
   wid='';
+  routeToWill(){
+    
+  }
   ngOnInit(): void {
+    
     this.route.queryParams.subscribe(({ wid,re}) => {
       if (wid) {
         this.wid = wid;
@@ -67,6 +73,9 @@ export class HeaderComponent implements OnInit {
    .map(w => w[0].toUpperCase() + w.substring(1).toLowerCase())
    .join(' ');
 
+   this._subscription.subscriptionActive.next(result.data?.subscriptionData?.isActive || false);
+   this._subscription.subscriptionDetails.next(result.data?.subscriptionData || { isActive:false});
+   this._subscription.isfreeTrialValid.next(result.data?.isfreeTrialValid || true);
       const setImageHandler = (result) => {
         if ((result.data.gender === 'male' || result.data.gender === 'other') && !result.data.profileImage) {
           this.imageSrc = this.defaultMale;

@@ -16,12 +16,12 @@ export class EditSelectBoxComponent implements OnInit {
   selectedItem=[];
   colorArray=[];
   ngOnInit(): void {
-    console.log(this.selectedItem);
+    //console.log(this.selectedItem);
     this.selectedItem = this.deletedItemBySelectMobile;
     this.colorArray=this.selectedItem.map((el)=>el._id);
-    console.log(this.selectedItem);
-    console.log(this.deletedItemBySelectMobile);
-    console.log(this.allItems);
+    //console.log(this.selectedItem);
+    //console.log(this.deletedItemBySelectMobile);
+    //console.log(this.allItems);
   }
   getShortName(obj) { 
     const name =obj[Object.keys(obj)[0]];
@@ -41,13 +41,13 @@ export class EditSelectBoxComponent implements OnInit {
     
       this.getSelectedList.emit(this.selectedItem);
       this.colorArray=this.selectedItem.map((el)=>el._id)
-        console.log(this.selectedItem);
+        //console.log(this.selectedItem);
         this.checkId(value)
       return ;
     }
     let selectedObj = this.allItems.filter((el) => el._id === value);
     const myItem = this.selectedItem.findIndex((el) => el._id === value);
-    console.log(myItem);
+    //console.log(myItem);
     if (myItem !== -1) {
       this.selectedItem =this.selectedItem.filter((el) => el._id !== value);
       this.getSelectedList.emit(this.selectedItem);
@@ -57,12 +57,12 @@ export class EditSelectBoxComponent implements OnInit {
     this.getSelectedList.emit(this.selectedItem);
     }
     this.colorArray=this.selectedItem.map((el)=>el._id)
-    console.log(this.selectedItem);
+    //console.log(this.selectedItem);
     this.checkId(value)
   }
 
   checkId(id){
-    console.log(this.selectedItem?.includes((el)=>el._id===id), id);
+    //console.log(this.selectedItem?.includes((el)=>el._id===id), id);
     
     return this.selectedItem?.includes((el)=>el._id===id)
   }

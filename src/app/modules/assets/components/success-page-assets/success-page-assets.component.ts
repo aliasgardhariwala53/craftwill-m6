@@ -31,7 +31,7 @@ export class SuccessPageAssetsComponent implements OnInit {
         this.forwardRouteLink="/will/createWill";   
         this.wid=wid
         this.fromCreateWill
-        console.log(this.wid); 
+        //console.log(this.wid); 
       }
      if (y==='secure') {
         this.forwardRouteLink="/liabilities/securedLoan";   

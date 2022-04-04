@@ -17,9 +17,9 @@ export class CreateAssetsComponent implements OnInit {
     private route: ActivatedRoute) { }
   selectHandler(value){
     this.routepath=value;
-    console.log(value);
+    //console.log(value);
     
-    console.log(this.routepath);
+    //console.log(this.routepath);
   this.call();
     }
     call(){

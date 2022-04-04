@@ -67,7 +67,7 @@ export class ResetComponent implements OnInit {
   };
 
   resetPassword() {
-    console.log(this.resetForm.value);
+    //console.log(this.resetForm.value);
     if (this.resetForm.invalid) {
       this.resetForm.markAllAsTouched();
       this.formErrors = valueChanges(

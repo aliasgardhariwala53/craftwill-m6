@@ -35,35 +35,35 @@ export class AssetsService {
     switch (item.type) {
       case 'business':
         data.uniqueNumber = item.business.UEN_no || '---';
-        data.name = 'Business';
+        data.name = item.business.businessName || 'NA';
         data.actionRoute = '/assets/business';
         data.img='assets/Icons/Business.svg'
         return data;
         break;
       case 'intellectualProperty':
         data.uniqueNumber = item.intellectualProperty.ip_No || '';
-        data.name = 'Intellectual Property';
+        data.name = item.intellectualProperty.ip_Name || 'NA';
         data.actionRoute = '/assets/intellectualProperty';
         data.img='assets/Icons/Intellectual property.svg'
         return data;
         break;
       case 'insurancePolicy':
         data.uniqueNumber = item.insurancePolicy.policyNumber || '---';
-        data.name = 'Insurance Policy';
+        data.name = item.insurancePolicy.policyName || 'NA';
         data.actionRoute = '/assets/insurancePolicy';
         data.img='assets/Icons/Insurance Policy.svg'
         return data;
         break;
       case 'bankAccount':
         data.uniqueNumber = item.bankAccount.accountNumber || '---';
-        data.name = 'Bank Account';
+        data.name = item.bankAccount.bankname || 'NA';
         data.actionRoute = '/assets/addBank';
         data.img='assets/Icons/Bank Account.svg'
         return data;
         break;
       case 'safeDepositBox':
         data.uniqueNumber = item.safeDepositBox.safe_No || '---';
-        data.name = 'Safe Deposit Box';
+        data.name =  item.safeDepositBox.safe_Box_Location || 'NA';
         data.actionRoute = '/assets/safeDeposit';
         data.img='assets/Icons/Safe Deposite Box.svg'
         return data;
@@ -77,28 +77,28 @@ export class AssetsService {
         break;
       case 'personalPossession':
         data.uniqueNumber = item.personalPossession.id_No || '---';
-        data.name = 'Personal Possession';
+        data.name = item.personalPossession.Name || 'NA';
         data.actionRoute = '/assets/personalPossession';
         data.img='assets/Icons/Personal Possession.svg'
         return data;
         break;
       case 'investmentAccount':
         data.uniqueNumber = item.investmentAccount.accountNo || '---';
-        data.name = 'Investment Account';
+        data.name =  item.investmentAccount.accountName || 'NA';
         data.actionRoute = '/assets/investmentAccount';
         data.img='assets/Icons/Investment Account.svg'
         return data;
         break;
       case 'motorVehicle':
         data.uniqueNumber = item.motorVehicle.plateNo || '---';
-        data.name = 'Motor Vehicle';
+        data.name = item.motorVehicle.CarModel || 'NA';
         data.actionRoute = '/assets/moterVehicle';
         data.img='assets/Icons/Motor.svg'
         return data;
         break;
       case 'otherAssets':
         data.uniqueNumber = item.otherAssets.id_No || '---';
-        data.name = item.otherAssets.asset_name;
+        data.name = item.otherAssets.asset_name || 'NA';
         data.actionRoute = '/assets/otherAssets';
         data.img='assets/Icons/Other Assets.svg'
         return data;

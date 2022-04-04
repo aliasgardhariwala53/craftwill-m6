@@ -61,7 +61,7 @@ export class passwordValidationNotMatch {
 };
 
 export const errorHandler = (error) => {
-  console.log(error.message);
+  //console.log(error.message);
   let message =''
   if (error.status === 403) {
     message = error?.message || 'Request denied';
@@ -91,7 +91,7 @@ export class CustomValidators {
       const control = controls.get(controlName);
 
       if (!regex.test(control.value)) {
-        console.log(regex);
+        //console.log(regex);
         
         controls.get(controlName).setErrors(error);
         return error;

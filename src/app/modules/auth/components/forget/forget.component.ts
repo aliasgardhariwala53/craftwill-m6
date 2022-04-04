@@ -23,7 +23,7 @@ export class ForgetComponent implements OnInit {
 
   createForm(){
     this.forgotForm = this._fb.group({
-      email : ["", [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]]
+      email : ["", [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]]
     })
 
     this.forgotForm.valueChanges.subscribe(() => {
@@ -43,14 +43,14 @@ export class ForgetComponent implements OnInit {
   };
 
   forgotPassword(){
-    console.log(this.forgotForm.value);
+    //console.log(this.forgotForm.value);
     if (this.forgotForm.invalid) {
       this.forgotForm.markAllAsTouched();
       this.formErrors = valueChanges(this.forgotForm, {...this.formErrors}, this.formErrorMessages);
       return;
     }
     this.spinner.start();
-    console.log(this.forgotForm.value);
+    //console.log(this.forgotForm.value);
     this._authServ.forgotPassword(this.forgotForm.value).subscribe((result)=>{
       this.spinner.stop();
       if (result.success) {

@@ -3,36 +3,43 @@
         <div class="p-5">
          <div class="flex items-center ml-3">
             <img  src="../../../../assets/Icons/Back.svg" (click) = "hidePayment()" class="pb-3 pr-3">
-             <p class="text-sm font-medium ml-3">Payment</p>
+             <p class="text-sm font-[GilroySemi] ml-3">Payment</p>
          </div>
 
-         <div class="flex h-full p-[25px] md:p-[50px]">
-             <div class="mt-8">
+         <div class="flex h-full px-6 md:p-[50px]">
+             <div class="w-full">
             <p class="text-lg font-bold text-gray-600">Subscription</p> 
             <p class="text-[50px] font-bold mt-0">${{data?.planPrice ?? 'N/A'}}</p>  
-            <img src="../../../../../../assets/Image/pay-bg.png" class="w-100 mt-10" />
-            <p class="text-lg font-bold text-gray-600 mt-20">Powered by <span>Craftwill</span></p> 
+            <img src="../../../../../../assets/Image/pay-bg.png" class="w-100 mt-10 mx-auto" />
+            <p class="text-lg font-bold text-gray-600 mt-20 text-center">Powered by <span>Craftwill</span></p> 
         </div>
          </div>
         </div>
-        <div [formGroup] = "stripeTest" class="shadow md:shadow-lg h-100 md:p-[80px] p-[40px] md:pb-[40px] pb-[80px]">
-            <!-- <div class="bg-red w-full py-2 text-white text-center rounded-md font-medium">Payment</div> -->
-            <p class="text-sm font-medium mt-5">Name on Card</p>
-            <input type="text"  class="w-full py-1.5 border rounded-md mt-1 px-3" formControlName='name'/>
-            <p class="text-sm font-medium pt-3">Email</p>
-            <input type="email"  class="w-full py-1.5 border rounded-md mt-1 px-3"  formControlName='email'/>
-          <p class="text-sm font-medium pt-5">Card Information</p>
-          <div class="ngx-stripe-card">
+        <div [formGroup] = "stripeTest" class="shadow md:shadow-lg h-100  p-[40px] md:pb-[40px] pb-[80px] m-auto w-full">
+            <!-- <div class="bg-red w-full py-2 text-white text-center rounded-md font-[GilroySemi]">Payment</div> -->
+            <p class="text-lg font-[GilroySemi] mt-5">Name on Card</p>
+            <input type="text"  class="w-full py-1.5 border rounded-md -mt-2 px-3" formControlName='name'/>
+            <div class="text-red-500 errors mx-2">
+                {{ formErrors.name }}
+              </div>
+            <p class="text-lg font-[GilroySemi] pt-3">Email</p>
+            <input type="email"  class="w-full py-1.5 border rounded-md -mt-2 px-3"  formControlName='email'/>
+            <div class="text-red-500 errors mx-2">
+                {{ formErrors.email }}
+              </div>
+          <p class="text-lg font-[GilroySemi] pt-5 ">Card Information</p>
+          <div class="ngx-stripe-card -mt-2">
             <ngx-stripe-card
             [options]="cardOptions"
+            (change)="onChange($event)"
             [elementsOptions]="elementsOptions"
             ></ngx-stripe-card>
+
         </div>
+        <div class="text-red-500 errors mx-2" id="card-errors"></div>
 
-
-
-
-            <button (click)="createToken()" class="bg-red w-full py-2 text-white text-center rounded-md font-medium mt-5">Pay ${{data?.planPrice ?? 'N/A'}}</button> 
+            <button *ngIf="enablePayment" (click)="createToken()" class="bg-red w-full py-2 text-white text-center rounded-md font-[GilroySemi] mt-5">Pay ${{data?.planPrice ?? 'N/A'}}</button> 
+            <button *ngIf="!enablePayment" class="bg-[#ff678266] cursor-not-allowed w-full py-2 text-white text-center rounded-md font-[GilroySemi] mt-5">Pay ${{data?.planPrice ?? 'N/A'}}</button> 
         </div>
     </div>
     <!-- <h1>Payment Element Collapse Example</h1> -->

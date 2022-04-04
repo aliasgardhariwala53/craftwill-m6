@@ -16,6 +16,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { PaymentComponent } from './components/subscription/payment/payment.component';
 import { NgChartsModule } from 'ng2-charts';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { SubscriptionHistoryComponent } from './components/subscription-history/subscription-history.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     ProfileComponent,
     SubscriptionComponent,
     PaymentComponent,
-    DashboardComponent
+    DashboardComponent,
+    SubscriptionHistoryComponent
   ],
   imports: [
     CommonModule,

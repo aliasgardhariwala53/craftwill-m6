@@ -61,7 +61,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     ToastrModule.forRoot(), // ToastrModule added
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
     NgxUiLoaderModule,
-    NgChartsModule 
+    NgChartsModule ,
+    
  
   ],
   schemas:[CUSTOM_ELEMENTS_SCHEMA ],

@@ -1,6 +1,9 @@
 import { Component, OnInit, Output,EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { valueChanges } from 'src/app/helper/formerror.helper';
+import { UserService } from 'src/app/services/user.service';
 import { WillService } from 'src/app/services/will.service';
 
 @Component({
@@ -11,7 +14,7 @@ import { WillService } from 'src/app/services/will.service';
 export class PersonalInformationComponent implements OnInit {
   @Input() reviewDisable=false;
   @Output() onClickNextBtn = new EventEmitter();
-  constructor(private _fb:FormBuilder,private _willServices: WillService) {
+  constructor(private _fb:FormBuilder,     private spinner: NgxUiLoaderService, private _userServ: UserService,private _willServices: WillService) {
    
 
    }
@@ -22,16 +25,16 @@ export class PersonalInformationComponent implements OnInit {
   step=1;
   createForm() {
     this.userInfo = this._fb.group({
-      id_Number: ['',[Validators.required,
-        Validators.pattern('^[0-9]*$'),
-        Validators.maxLength(24),
+      id_number: ['',[Validators.required,
+        Validators.pattern('[a-zA-Z0-9]*'),
+        Validators.maxLength(16),
       ]],
-      id_Type: [ ,Validators.required],
+      id_type: [ ,Validators.required],
       fullName: ['',[Validators.required, Validators.pattern('[a-zA-Z ]*'),Validators.maxLength(32)]],
       gender: [, [Validators.required]],
       email: ['', [
         Validators.required,
-        Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
+        Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$'),
       ],],
       floorNumber: ['', [Validators.required, Validators.maxLength(6)]],
       unitNumber: ['', [Validators.required, Validators.maxLength(6)]],
@@ -50,8 +53,8 @@ export class PersonalInformationComponent implements OnInit {
 
   }
   formErrors = {
-    id_Type: '',
-    id_Number: '',
+    id_type: '',
+    id_number: '',
     gender: '',
     fullName: '',
     email: '',
@@ -64,7 +67,7 @@ export class PersonalInformationComponent implements OnInit {
   };
   onClickNext(){
         if (this.userInfo.invalid) {
-      console.log('is 2');
+      //console.log('is 2');
       this.userInfo.markAllAsTouched();
       this.formErrors = valueChanges(
         this.userInfo,
@@ -73,14 +76,15 @@ export class PersonalInformationComponent implements OnInit {
       );
       return;
     }
+    this.profileUpdate();
     this.onClickNextBtn.emit(2);
     this._willServices.step1.next(this.userInfo.value);
   }
   formErrorMessages = {
-    id_Type: {
+    id_type: {
       required: 'Id type is required.',
     },
-    id_Number: {
+    id_number: {
       required: 'Id number is required.',
       maxlength: 'Please enter valid id number',
       pattern: 'Invalid id number',
@@ -123,6 +127,32 @@ export class PersonalInformationComponent implements OnInit {
     },
 
   };
+  profileUpdate() {
+    if (this.userInfo.invalid) {
+      this.userInfo.markAllAsTouched();
+      this.formErrors = valueChanges(
+        this.userInfo,
+        { ...this.formErrors },
+        this.formErrorMessages
+      );
+      return;
+    }
+    this.spinner.start();
+    const profiledate = {
+      ...this.userInfo.value,
+      gender: this.userInfo.value.gender?.toLowerCase(),
+    };
+    this._userServ.updateProfile(profiledate).subscribe(
+      (result) => {
+        if (result.success) {
+          
+          this.spinner.stop();
+        }
+        this.spinner.stop();
+      },(err)=>{
+        this.spinner.stop();
+          });
+  }
   ngOnInit(): void {
     this.createForm();
     if (this.reviewDisable) {
@@ -131,7 +161,24 @@ export class PersonalInformationComponent implements OnInit {
     this._willServices.step1.subscribe((step1Data) => {
       console.log(step1Data);
       this.userInfo.patchValue(step1Data);
+     
     });
+    this._userServ.getProfile().subscribe(
+      (result) => {
+        console.log(( (({ subscriptionData, ...o }) => o)(result.data)) );
+        
+        this._willServices.step1.next(( (({ subscriptionData, ...o }) => o)(result.data)) );
+        this.spinner.stop();
+        // this.userInfo.setValue({
+        //   ...result.data,
+        //   gender:
+        //     result.data.gender.charAt(0).toUpperCase() +
+        //     result.data.gender.slice(1),
+        // });
+
+      },(err)=>{
+        this.spinner.stop();
+          });
   }
 
 }

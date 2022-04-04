@@ -41,6 +41,21 @@
           {{ formErrors.id_No }}
         </div>
       </div>
+      <div class="form-group">
+        <div class="input-group1">
+          <label class="input_label text-sm ml-1">Estimate Value ($USD)</label>
+          <input
+            type="text"
+            placeholder="Estimate Value"
+            formControlName="estimateValue"
+            class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#F7F7F7] w-[100%] px-2 sm:px-4 py-2  form-control rounded-[14px]  focus:outline-none"
+          />
+        </div>
+
+        <div class="text-red-500 errors mx-2">
+          {{ formErrors.estimateValue }}
+        </div>
+      </div>
     </div>
     <div *ngIf="id == '' && fromCreateWill !== 'will'" class="sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
       <app-button
@@ -73,6 +88,7 @@
             addItemRoute="members/createmembers"
             avtarType="name"
             addItemTitle="Add Distribution"
+    NoItemMessage="No Member found"
           >
           </app-select-box>
         </div>

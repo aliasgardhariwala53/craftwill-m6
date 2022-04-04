@@ -15,7 +15,7 @@ fromCreateWill:string;
   constructor(private routeTo:Router,private route: ActivatedRoute) { }
   selectHandler(value){
   this.routeLink=value;
-  // console.log(value);
+  // //console.log(value);
   this.call()
   }
   call(){

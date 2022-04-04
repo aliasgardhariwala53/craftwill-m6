@@ -1,45 +1,53 @@
-
 <div class="flex flex-col px-8 py-4 space-y-2 overflow-auto h-[90%]">
-  <app-header-toolbar [wid]="wid" routerlink="{{backRouteLink}}" pagetitle="Secured Loan" ></app-header-toolbar>
+  <app-header-toolbar
+    [wid]="wid"
+    routerlink="{{ backRouteLink }}"
+    pagetitle="Secured Loan"
+  ></app-header-toolbar>
 
-  <app-button  value="Tutorial" (click)="toggleModalTutorial=true" class="md:hidden" backgroundColor="bg-[#000]" margin="my-1"></app-button>
+  <app-button
+    value="Tutorial"
+    (click)="toggleModalTutorial = true"
+    class="md:hidden"
+    backgroundColor="bg-[#000]"
+    margin="my-1"
+  ></app-button>
 
-  <form
-  method="POST"
-  [formGroup]="SecuredLoan"
->
-  <div class="grid bold grid-cols-1 sm:grid-cols-2 md:grid-cols-4  lg:grid-cols-5 gap-4 gap-y-0 mt-3">
-    <div class="form-group">
-      <div class="input-group1">
-        <label class="input_label text-sm ml-1">Loan Name</label>
-        <input
-          type="text"
-          placeholder="Loan Name"
-          formControlName="loanName"
-          class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#F7F7F7] w-[100%] px-2 sm:px-4 py-2  form-control rounded-[14px]  focus:outline-none"
-        />
-      </div>
+  <form method="POST" [formGroup]="SecuredLoan">
+    <div
+      class="grid bold grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-0 mt-3"
+    >
+      <div class="form-group">
+        <div class="input-group1">
+          <label class="input_label text-sm ml-1">Loan Name</label>
+          <input
+            type="text"
+            placeholder="Loan Name"
+            formControlName="loanName"
+            class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#F7F7F7] w-[100%] px-2 sm:px-4 py-2 form-control rounded-[14px] focus:outline-none"
+          />
+        </div>
 
-      <div class="text-red-500 errors mx-2">
-        {{ formErrors.loanName }}
+        <div class="text-red-500 errors mx-2">
+          {{ formErrors.loanName }}
+        </div>
       </div>
-    </div>
-    <div class="form-group">
-      <div class="input-group1">
-        <label class="input_label text-sm ml-1">Loan Provider</label>
-        <input
-          type="text"
-          placeholder="Loan Provider"
-          formControlName="loanProvider"
-          class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#F7F7F7] w-[100%] px-2 sm:px-4 py-2  form-control rounded-[14px]  focus:outline-none"
-        />
-      </div>
+      <div class="form-group">
+        <div class="input-group1">
+          <label class="input_label text-sm ml-1">Loan Provider</label>
+          <input
+            type="text"
+            placeholder="Loan Provider"
+            formControlName="loanProvider"
+            class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#F7F7F7] w-[100%] px-2 sm:px-4 py-2 form-control rounded-[14px] focus:outline-none"
+          />
+        </div>
 
-      <div class="text-red-500 errors mx-2">
-        {{ formErrors.loanProvider }}
+        <div class="text-red-500 errors mx-2">
+          {{ formErrors.loanProvider }}
+        </div>
       </div>
-    </div>
-    <div class="form-group">
+      <!-- <div class="form-group">
       <div class="input-group1">
         <label class="input_label text-sm ml-1">Loan  Number</label>
         <input
@@ -53,63 +61,67 @@
       <div class="text-red-500 errors mx-2">
         {{ formErrors.loan_Number }}
       </div>
+    </div> -->
+      <div class="form-group">
+        <div class="input-group1">
+          <label class="input_label text-sm ml-1">Loan Id Number</label>
+          <input
+            type="text"
+            placeholder="Loan Id Number"
+            formControlName="loan_Id_Number"
+            class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#F7F7F7] w-[100%] px-2 sm:px-4 py-2 form-control rounded-[14px] focus:outline-none"
+          />
+        </div>
+
+        <div class="text-red-500 errors mx-2">
+          {{ formErrors.loan_Id_Number }}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group1">
+          <label class="input_label text-sm ml-1"
+            >Current Outstanding Amount</label
+          >
+          <input
+            type="text"
+            placeholder="Current Outstanding Amount"
+            formControlName="current_Outstanding_Amount"
+            class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#F7F7F7] w-[100%] px-2 sm:px-4 py-2 form-control rounded-[14px] focus:outline-none"
+          />
+        </div>
+
+        <div class="text-red-500 errors mx-2">
+          {{ formErrors.current_Outstanding_Amount }}
+        </div>
+      </div>
     </div>
-    <div class="form-group">
-      <div class="input-group1">
-        <label class="input_label text-sm ml-1">Loan Id Number</label>
-        <input
-          type="text"
-          placeholder="Loan Id Number"
-          formControlName="loan_Id_Number"
-          class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#F7F7F7] w-[100%] px-2 sm:px-4 py-2  form-control rounded-[14px]  focus:outline-none"
-        />
-      </div>
 
-      <div class="text-red-500 errors mx-2">
-        {{ formErrors.loan_Id_Number }}
-      </div>
-    </div>
-    <div class="form-group">
-      <div class="input-group1">
-        <label class="input_label text-sm ml-1">Current Outstanding Amount</label>
-        <input
-          type="text"
-          placeholder="Current Outstanding Amount"
-          formControlName="current_Outstanding_Amount"
-          class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#F7F7F7] w-[100%] px-2 sm:px-4 py-2  form-control rounded-[14px]  focus:outline-none"
-        />
-      </div>
-
-      <div class="text-red-500 errors mx-2">
-        {{ formErrors.current_Outstanding_Amount }}
-      </div>
-    </div>
-
-  </div>
-
-
-<div class="md:w-1/2">
-    <div class="form-group">
+    <div class="md:w-1/2">
+      <div class="form-group">
         <div class="input-group1">
           <label class="input_label text-sm ml-1">Description</label>
           <textarea
             type="text"
             placeholder="Description"
             formControlName="description"
-            class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#F7F7F7] w-[100%] px-2 sm:px-4 py-2  form-control rounded-[14px]  focus:outline-none min-h-[100px]"
+            class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#F7F7F7] w-[100%] px-2 sm:px-4 py-2 form-control rounded-[14px] focus:outline-none min-h-[100px]"
           ></textarea>
         </div>
-  
+
         <div class="text-red-500 errors mx-2">
           {{ formErrors.description }}
         </div>
       </div>
-</div>
-<div class="w-full">
-    <div class="font-extrabold">Select or Add the Asset Pledged as Collateral for this Loan.</div>
-    <div class="rounded-xl bg_grey flex flex-col p-4 overflow-auto sm:overflow-hidden h-[100vh] sm:h-auto max-h-[400px]" >
-    <div>Select and add assets</div>
-    <!-- <div class="grid bold grid-cols-1 sm:grid-cols-2 md:grid-cols-4  lg:grid-cols-6 gap-4 ">
+    </div>
+    <div class="w-full">
+      <div class="font-extrabold">
+        Select or Add the Asset Pledged as Collateral for this Loan.
+      </div>
+      <div
+        class="rounded-xl bg_grey flex flex-col p-4 overflow-auto sm:overflow-hidden h-[100vh] sm:h-auto max-h-[400px]"
+      >
+        <div>Select and add assets</div>
+        <!-- <div class="grid bold grid-cols-1 sm:grid-cols-2 md:grid-cols-4  lg:grid-cols-6 gap-4 ">
         <div class="bg-[#fff]  flex flex-col rounded-2xl  p-3 shadow-[0_0px_10px_rgba(0,0,0,0.1)] space-y-2 cursor-pointer  visited:bg-gray-700" *ngFor='let asset of assetsData' (click)="selectAssets(asset._id)" >
          
             <div><img src="../../../../../assets/Icons/Bank Account.svg"></div>
@@ -131,23 +143,51 @@
           {{ formErrors.addAssets }}
         </div>
     </div> -->
-    <app-select-box [actionToggle]="false" [addItemToggle]="false" [key]="key" [listItem]="assetsData" [selectedItems]="selectedAssetsId" [classes]="classes" addItemRoute="assets/createAssets" (onSelectId)="selectAssets($event)" avtarType="image" imageUrl="../../../../../assets/Icons/Bank Account.svg" addItemTitle="Add Assets"> </app-select-box> 
-    </div>      
-</div>
-<div *ngIf="id =='' " class=" sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
-    <app-button (myMethod)="addSecuredLoan()" value="Add Liability" id="submitButtonId" padding="px-4 py-6 sm:py-3 " borderRadius="rounded-2xl" [arrow]="true"></app-button>
-</div>
-<div *ngIf="id !=='' " class=" sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
-    <app-button (myMethod)="onUpdateSecuredLoan()" value="Update Liability" id="submitButtonId" padding="px-4 py-6 sm:py-3 " borderRadius="rounded-2xl" [arrow]="true"></app-button>
-</div>
-  <div class="text-green-500">{{responseMessage}}</div>
+        <app-select-box
+          [actionToggle]="false"
+          [addItemToggle]="false"
+          [key]="key"
+          [listItem]="assetsData"
+          [selectedItems]="selectedAssetsId"
+          [classes]="classes"
+          addItemRoute="assets/createAssets"
+          (onSelectId)="selectAssets($event)"
+          avtarType="image"
+          NoItemMessage="No Assets found"
+          imageUrl="../../../../../assets/Icons/Bank Account.svg"
+          addItemTitle="Add Assets"
+        >
+        </app-select-box>
+      </div>
+      <div class="text-red-500 errors mx-2">
+        {{ formErrors.assetId }}
+      </div>
+    </div>
+    <div *ngIf="id == ''" class="sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
+      <app-button
+        (myMethod)="addSecuredLoan()"
+        value="Add Liability"
+        id="submitButtonId"
+        padding="px-4 py-6 sm:py-3 "
+        borderRadius="rounded-2xl"
+        [arrow]="true"
+      ></app-button>
+    </div>
+    <div *ngIf="id !== ''" class="sm:w-6/12 md:w-4/12 lg:w-2/12 my-4">
+      <app-button
+        (myMethod)="onUpdateSecuredLoan()"
+        value="Update Liability"
+        id="submitButtonId"
+        padding="px-4 py-6 sm:py-3 "
+        borderRadius="rounded-2xl"
+        [arrow]="true"
+      ></app-button>
+    </div>
+    <div class="text-green-500">{{ responseMessage }}</div>
   </form>
-
 </div>
-<app-modal-filter [modalBody]='modalBody2' [showModal]="toggleModalTutorial">
-
+<app-modal-filter [modalBody]="modalBody2" [showModal]="toggleModalTutorial">
   <ng-template #modalBody2>
-    <app-tutorial  (onClose)='toggleModalTutorial=false'>
-    </app-tutorial>
+    <app-tutorial (onClose)="toggleModalTutorial = false"> </app-tutorial>
   </ng-template>
 </app-modal-filter>

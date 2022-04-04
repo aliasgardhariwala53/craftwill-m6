@@ -18,6 +18,7 @@ import { DistributeResidualAssetComponent } from './components/distribute-residu
 import { ClausesComponent } from './components/clauses/clauses.component';
 import { ListClauseComponent } from './components/list-clause/list-clause.component';
 import { ReviewWillComponent } from './components/review-will/review-will.component';
+import { DirectiveModule } from 'src/app/directive/directive.module';
 
 
 
@@ -43,7 +44,8 @@ import { ReviewWillComponent } from './components/review-will/review-will.compon
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    NgSelectModule
-  ]
+    NgSelectModule,
+    DirectiveModule
+  ],
 })
 export class WillModule { }

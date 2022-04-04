@@ -7,6 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 export class HeaderService {
 
   constructor() { }
+
   username=new BehaviorSubject("User Name");
   image=new BehaviorSubject('');
  

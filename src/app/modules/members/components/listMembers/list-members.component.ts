@@ -10,7 +10,7 @@ import { UserService } from '../../../../services/user.service';
 @Component({
   selector: 'app-listmembers',
   templateUrl: './list-members.component.html',
-  styleUrls: ['./listmembers.component.scss', '../../../../app.component.scss'],
+  styleUrls: ['./list-members.component.scss', '../../../../app.component.scss'],
 })
 export class ListmembersComponent implements OnInit {
   searchForm = new FormControl(null);
@@ -63,16 +63,16 @@ export class ListmembersComponent implements OnInit {
   ];
 
   onClickAction(value) {
-    console.log(value);
+    //console.log(value);
   }
   onChangehandler() {
-    console.log(this.searchForm.value);
+    //console.log(this.searchForm.value);
     if (!this.searchForm.value) {
       this.allMemberData = [...this.MemberData];
     }
     this.allMemberData = this.MemberData.map((items) => {
       for (const property in items) {
-        console.log(items[property]);
+        //console.log(items[property]);
         if (
           items[property]
             .toString()
@@ -88,7 +88,7 @@ export class ListmembersComponent implements OnInit {
     this.spinner.start();
     this.memberServices.deleteMember(item._id).subscribe(
       (result) => {
-        console.log(result);
+        //console.log(result);
         this.spinner.stop();
         if (result.success == true) {
           this.MemberData = this.MemberData.filter((el) => el._id !== item._id);
@@ -97,7 +97,7 @@ export class ListmembersComponent implements OnInit {
         }
       },
       (err) => {
-        console.log(err);
+        //console.log(err);
         this.spinner.stop();
         this.toastr.message('Error deleting Members data !!', false);
       }
@@ -105,7 +105,7 @@ export class ListmembersComponent implements OnInit {
   }
   onFilterHandler(value) {
     this.spinner.start();
-    console.log('helllooo', value);
+    //console.log('helllooo', value);
     this.memberServices.filterMembers(value).subscribe((result) => {
       this.spinner.stop();
       this.memberFilterData = result.map((items, i) => {
@@ -141,15 +141,15 @@ export class ListmembersComponent implements OnInit {
   ngOnInit(): void {
     this.spinner.start();
     this.searchForm.valueChanges.pipe(debounceTime(200)).subscribe((e) => {
-      console.log(e);
+      //console.log(e);
       this.onChangehandler();
     });
     this.memberServices.getMembers().subscribe(
       (result) => {
-        // console.log(result.data);
+        // //console.log(result.data);
         this.spinner.stop();
         this.MemberData = result.data.map((items, i) => {
-          console.log(items);
+          //console.log(items);
 
           return {
             fullname: this.memberServices.getMembersData(items).fullname,
@@ -166,7 +166,7 @@ export class ListmembersComponent implements OnInit {
           };
         });
         this.allMemberData = [...this.MemberData];
-        // console.log(this.allMemberData);
+        // //console.log(this.allMemberData);
       },
       (err) => {
         this.spinner.stop();

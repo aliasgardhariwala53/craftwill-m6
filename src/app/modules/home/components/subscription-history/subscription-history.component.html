@@ -1,0 +1,22 @@
+<div class="flex flex-col px-8   pt-3 sm:pt-4 pb-4 h-[80vh] sm:h-[80vh] top-40 ">
+    <div class="flex flex-col sm:flex-row w-full ">
+      <div class="w-full sm:w-1/5">
+        <app-header-toolbar
+        routerlink="/home/subscription"
+        pagetitle="Receipts"
+      ></app-header-toolbar>
+  
+      </div>
+
+      <div class="w-full sm:w-4/5 flex justify-between flex-row relative mr-2 mt-2 sm:mt-0">
+        <div class="w-full sm:w-3/5 m-auto">
+          <input id="mySearchField" [ngClass]="{'md:hidden': !showSearch}" type="search" class="w-full sm:w-4/5 px-4 py-3 sm:py-2 bg-[#f7f7f7] form-control  rounded-[10px] md:rounded-3xl form-control outline-none font-['GilroyBold']" placeholder="Search" [formControl]="searchForm" >
+        </div>
+      <div (click)="focusMethod()" class="ml-auto w-4/12   sm:w-fit items-center hidden md:flex cursor-pointer "><img class="ml-auto h-[38px] w-[38px]" src='../../../../../assets/Icons/Group 4361.svg'></div>
+      </div>
+    </div>
+
+      <app-table  [viewAction]="true" [actionToggle]="false" [editAction]="false" [deleteAction]="true" class="h-[75%] sm:h-[69%]" [tableHeadings]='tableHeadings'  (actionButton)="onClickAction($event)"  [tableData]='subscriptionData' [keys]='tableKeys' [classes]="classes" emptyTableMessage="No Subscription History" (deleteItem)="deleteItemHandler($event)"></app-table>
+  
+  
+  </div>

@@ -87,8 +87,8 @@ export class ReviewWillComponent implements OnInit, OnChanges {
     }));
   }
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.step3lender);
-    console.log(this.step3liabilities);
+    //console.log(this.step3lender);
+    //console.log(this.step3liabilities);
     this.step3lender = this.step3liabilities['lender'];
   }
   idMapper(arr){
@@ -101,8 +101,8 @@ export class ReviewWillComponent implements OnInit, OnChanges {
     }))
   }
   onCreateWill() {
-    console.log("created will callll");
-    console.log(this.step3);
+    //console.log("created will callll");
+    //console.log(this.step3);
     
     const obj = {
       ...this.step1,
@@ -143,7 +143,7 @@ export class ReviewWillComponent implements OnInit, OnChanges {
     );
   }
   onEditClick(step) {
-    console.log(step);
+    //console.log(step);
     this.onEdit.emit(step);
   }
   onUpdateWill(){
@@ -183,7 +183,7 @@ export class ReviewWillComponent implements OnInit, OnChanges {
   }
   getShortName(obj) { 
     const name =obj[Object.keys(obj)[0]] ;
-  console.log(name);
+  //console.log(name);
   
     if (name && typeof(name)=='string') {
       return name?.split(' ')?.map(n => n[0])?.join('')?.toUpperCase()?.substr(0,2);
@@ -231,10 +231,10 @@ export class ReviewWillComponent implements OnInit, OnChanges {
 
         this.memberServices.getMembers().subscribe(
           (result) => {
-            // console.log(result.data);
+            // //console.log(result.data);
             this.spinner.stop();
             this.memberData = result.data.map((items, i) => {
-              console.log(items);
+              //console.log(items);
 
               return {
                 fullname: this.memberServices.getMembersData(items).fullname,
@@ -249,15 +249,15 @@ export class ReviewWillComponent implements OnInit, OnChanges {
                 actionRoute: 'members/createmembers',
               };
             });
-            // console.log(this.allMemberData);
+            // //console.log(this.allMemberData);
 
             this._willServices.step4.subscribe((step4) => {
               this.step4ResidualAssets = this.mergeBy_Id(step4['specifyResidualAssetBenificiary'],this.memberData)  || [];
-              console.log(step4);
-              console.log(this.step4ResidualAssets);
+              //console.log(step4);
+              //console.log(this.step4ResidualAssets);
             });
             this._willServices.step2.subscribe((step2Data) => {
-              console.log(step2Data);
+              //console.log(step2Data);
               this.primary_executor_type = step2Data['primary_executor_type'];
               this.replacement_executor_type = step2Data['replacement_executor_type'];
               this.primaryExecutors = this.mergeBy_Id(step2Data['primaryExecutors'],this.memberData);
@@ -286,15 +286,15 @@ export class ReviewWillComponent implements OnInit, OnChanges {
     });
     this._willServices.step3AssetData.subscribe((step3AssetData) => {
       this.step3AssetData = step3AssetData;
-      console.log(this.step3AssetData);
+      //console.log(this.step3AssetData);
     });
     this.liabilitiesServices.getAllLiabilities().subscribe(
       (result) => {
-        console.log(result);
+        //console.log(result);
         
         this.spinner.stop();
         this.allLiabilitiesData = result.data.map((items, i) => {
-          // console.log(items);
+          // //console.log(items);
           const obj ={
             loanName:
               this.liabilitiesServices.getLiabilitiesData(items)?.loanName,
@@ -314,17 +314,17 @@ export class ReviewWillComponent implements OnInit, OnChanges {
           }else if(items.type==="privateDept"){
             obj['lender'] = items?.privateDept?.lender;
           }
-          console.log(obj);
+          //console.log(obj);
           
           return obj;
         });
         this._willServices.step3.subscribe((step3Data) => {
           this.step3liabilities = this.mergeBy_Id(step3Data['liabilitiesData'],this.allLiabilitiesData);
-          console.log(this.step3liabilities);
-          console.log(step3Data['liabilitiesData']);
+          //console.log(this.step3liabilities);
+          //console.log(step3Data['liabilitiesData']);
 
           this.step3assets = step3Data['assets'];
-          console.log(step3Data);
+          //console.log(step3Data);
           this.step3trust = step3Data['trust'];
           // this.step3liabilities = this.step3liabilities?.map((el) => {
           //   const newData = { ...el };
@@ -334,8 +334,8 @@ export class ReviewWillComponent implements OnInit, OnChanges {
           //     });
           //   } else if (el?.type === 'privateDept') {
           //     newData.lender = el['lender']?.map((a) => {
-          //       console.log(this.memberData);
-          //       console.log(a);
+          //       //console.log(this.memberData);
+          //       //console.log(a);
 
           //       return this.memberData?.find((el2) => el2?._id === a);
           //     });
@@ -365,9 +365,9 @@ export class ReviewWillComponent implements OnInit, OnChanges {
       this.step3 = step3;
       this.step4 = step4;
       this.step5 = step5;
-console.log(step4);
+//console.log(step4);
 
-      console.log(step1, step2, step3, step4, step5);
+      //console.log(step1, step2, step3, step4, step5);
     });
   }
 }

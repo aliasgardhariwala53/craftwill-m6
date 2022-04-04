@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
+          // Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
         ],
       ],
       password: ['', [Validators.required]],
@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
   formErrorMessages = {
     email: {
       required: 'Email is required.',
-      pattern: 'Please enter valid email address.For example johndoe@domain.com ',
+      // pattern: 'Please enter valid email address',
     },
     password: {
       required: 'Password is required.',
@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
 
   submit() {
     if (this.userLogin.invalid) {
-      console.log('hello');
+      //console.log('hello');
 
       this.userLogin.markAllAsTouched();
       this.formErrors = valueChanges(
@@ -76,11 +76,11 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.spinner.start();
-    console.log(this.userLogin.value);
+    //console.log(this.userLogin.value);
 
     this._authService.login(this.userLogin.value).subscribe(
       (result) => {
-        console.log(result);
+        //console.log(result);
         this.spinner.stop();
         this.toastr.message(result.message, result.success);
         if (result.success === true) {

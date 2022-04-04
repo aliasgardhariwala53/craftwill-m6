@@ -44,24 +44,24 @@ export class ListPastWillsComponent implements OnInit {
 
     onClickAction(value){
       this._willServices.globalReload.next(true);
-      console.log(value);
+      //console.log(value);
       
     }
     onChangehandler() {
-      console.log(this.searchForm.value);
+      //console.log(this.searchForm.value);
       if (!this.searchForm.value || this.searchForm.value === null) {
         this.displayWilldata = [...this.allWillData];
       }
 
       this.displayWilldata = this.allWillData.map((items) => {
         for (const property in items) {
-          console.log(items[property]);
-          if(items[property].toString().toLowerCase().includes(this.searchForm.value.toLowerCase())){
+          //console.log(items[property]);
+          if(items[property]?.toString().toLowerCase().includes(this.searchForm.value.toLowerCase())){
             return items
           }
         }
       }).filter(items => items!== undefined);
-      console.log(this.displayWilldata);
+      //console.log(this.displayWilldata);
     }
     focusMethod() {
       this.showSearch=!this.showSearch;
@@ -90,7 +90,7 @@ export class ListPastWillsComponent implements OnInit {
       this.spinner.start();
       this._willServices.deleteWill(item._id).subscribe(
         (result) => {
-          console.log(result);
+          //console.log(result);
           this.spinner.stop();
           if (result.success == true) {
             this.allWillData = this.allWillData.filter((el) => el._id !== item._id);
@@ -103,7 +103,7 @@ export class ListPastWillsComponent implements OnInit {
           }
         },
         (err) => {
-          console.log(err);
+          //console.log(err);
           this.spinner.stop();
           this.toastr.message('Error deleting Will data !!', false);
         }
@@ -117,7 +117,7 @@ export class ListPastWillsComponent implements OnInit {
       this.willpresent=result;
     });
     this.searchForm.valueChanges.pipe(debounceTime( 200 )  ).subscribe((e) => {
-      console.log(e);
+      //console.log(e);
       this.onChangehandler();
     });
     this._willServices.getAllWill().subscribe(
@@ -125,14 +125,14 @@ export class ListPastWillsComponent implements OnInit {
         
         if (result.data.length > 0 ) {
           this._willServices.willpresent.next(true);
-          console.log(result.data?.length);
-          console.log(this._willServices.willpresent.getValue());
+          //console.log(result.data?.length);
+          //console.log(this._willServices.willpresent.getValue());
           
         }
         const versionArray=this.version(result?.data);
         this.allWillData = result.data?.map((items, i) => {
-          console.log(items.willName);
-          console.log(items);
+          //console.log(items.willName);
+          //console.log(items);
           return {
            ...items,isDeletable:true,image:'../../../../../assets/Icons/latestVersion.svg',actionRoute:'will/createWill',willName:`My will Version ${versionArray[i]}`
           };

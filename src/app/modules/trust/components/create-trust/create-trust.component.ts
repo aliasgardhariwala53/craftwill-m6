@@ -159,7 +159,7 @@ export class CreateTrustComponent implements OnInit,OnChanges {
       this.onClickIndividualCheckBox();
     });
     this.TrustForm.get("primaryTrusteeOwnership").valueChanges.subscribe(selectedValue => {
-      console.log(selectedValue);
+      //console.log(selectedValue);
       if(selectedValue==='sole'){
         this.TrustForm.patchValue({
           primaryTrusteeMember:this.TrustForm.value.primaryTrusteeMember?.slice(0,1)
@@ -167,7 +167,7 @@ export class CreateTrustComponent implements OnInit,OnChanges {
       }
     })
     this.TrustForm.get("repelacementTrusteeOwnership").valueChanges.subscribe(selectedValue => {
-      console.log(selectedValue);
+      //console.log(selectedValue);
       if(selectedValue==='sole'){
 
         this.TrustForm.patchValue({
@@ -176,7 +176,7 @@ export class CreateTrustComponent implements OnInit,OnChanges {
       }
     })
     this.TrustForm.get("primaryTrusteeMember").valueChanges.subscribe(selectedValue => {
-      console.log(selectedValue);
+      //console.log(selectedValue);
       this.memberDataRepelacementTrustee=this.memberData.filter(el => {
         return !selectedValue?.find(element => {
            return element._id === el._id;
@@ -203,7 +203,7 @@ export class CreateTrustComponent implements OnInit,OnChanges {
     },
   };
   onSelectPowers(e) {
-    console.log();
+    //console.log();
     this.powerChecked = e.target.checked;
     if (e.target.checked) {
       this.onFilterTrustee();
@@ -227,7 +227,7 @@ export class CreateTrustComponent implements OnInit,OnChanges {
   }
   addTrustForm() {
 
-    console.log(this.TrustForm);
+    //console.log(this.TrustForm);
 
     if (this.TrustForm.invalid) {
       this.TrustForm.markAllAsTouched();
@@ -237,7 +237,7 @@ export class CreateTrustComponent implements OnInit,OnChanges {
         { ...this.formErrors },
         this.formErrorMessages
       );
-      console.log('invalid');
+      //console.log('invalid');
       return;
     }
     var totalShare = this.selectedItemFromEdit?.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
@@ -248,7 +248,7 @@ export class CreateTrustComponent implements OnInit,OnChanges {
       return ;
     }
     this.spinner.start();
-    console.log(this.TrustForm.value);
+    //console.log(this.TrustForm.value);
 
     this.trustServices.addTrust(this.TrustForm.value).subscribe(
       (result) => {
@@ -278,7 +278,7 @@ export class CreateTrustComponent implements OnInit,OnChanges {
   }
   getRemainingMembers(value){
     this.deletedMemberTrustfallback=value;
-        console.log(value);
+        //console.log(value);
         this.TrustForm.patchValue({
           memberDataTrustfallback:value,
         })
@@ -301,7 +301,7 @@ export class CreateTrustComponent implements OnInit,OnChanges {
   }
   onUpdateTrust() {
     var totalShare = this.selectedItemFromEdit?.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
-    console.log(totalShare);
+    //console.log(totalShare);
 
     if(!(totalShare >= 99.5 &&  totalShare <= 100.99) && this.fromCreateWill === 'will'){
       this.totalShareToggle = true;
@@ -309,13 +309,13 @@ export class CreateTrustComponent implements OnInit,OnChanges {
       return ;
     }
     this.spinner.start();
-    console.log(this.trustPowerArray);
+    //console.log(this.trustPowerArray);
 
     this.trustServices.updateTrust(this.TrustForm.value, this.id).subscribe(
       (result) => {
         this.spinner.stop();
         if (result.success) {
-          console.log(this.allpayoutTrust);
+          //console.log(this.allpayoutTrust);
 
           const trust = { 
             trustData: this.id,
@@ -351,10 +351,10 @@ export class CreateTrustComponent implements OnInit,OnChanges {
 
           };
           this.trustAdditionalData={...trust}
-          console.log('trust', this.trustAdditionalData);
+          //console.log('trust', this.trustAdditionalData);
           this.allTrustAdditionalData=this.allTrustAdditionalData.filter((el)=>el.trustData!==this.id);
           this.allTrustAdditionalData=[...this.allTrustAdditionalData,this.trustAdditionalData];
-          console.log('trust', this.allTrustAdditionalData);
+          //console.log('trust', this.allTrustAdditionalData);
           this._willServices.allTrustAdditionalData.next(this.allTrustAdditionalData);
 
                     
@@ -383,10 +383,10 @@ export class CreateTrustComponent implements OnInit,OnChanges {
     this.trustServices.getTrust().subscribe(
       (result) => {
         this.spinner.stop();
-        console.log(result);
+        //console.log(result);
 
         const data = result.data.users.filter((item, i) => {
-          console.log(item);
+          //console.log(item);
 
           if (item._id === id) {
             const { bankAccount, country, specifyOwnershipType } = item;
@@ -398,7 +398,7 @@ export class CreateTrustComponent implements OnInit,OnChanges {
           }
           return null;
         });
-        console.log(data);
+        //console.log(data);
       },
       (err) => {
         this.spinner.stop();
@@ -417,7 +417,7 @@ export class CreateTrustComponent implements OnInit,OnChanges {
     if (this.powerChecked) {
       this.onFilterTrustee();
     }
-    console.log(this.trustPowerArray);
+    //console.log(this.trustPowerArray);
   }
 
   selectMemberTrustee(value) {
@@ -428,7 +428,7 @@ export class CreateTrustComponent implements OnInit,OnChanges {
 
 
   selectMemberReplacementTrustee(value) {
-    console.log('selectMemberReplacementTrustee', value);
+    //console.log('selectMemberReplacementTrustee', value);
     this.TrustForm.patchValue({
       repelacementTrusteeMember:value,
     });
@@ -444,21 +444,21 @@ export class CreateTrustComponent implements OnInit,OnChanges {
     this.newpayoutList=this.newpayoutList.map((el,i)=>{
       return {...el,...el?.addAPayout,payoutNo:`Payouts ${i+1}`}
     });
- console.log(this.payoutList);
+ //console.log(this.payoutList);
  
   }
   get TrusteePower() {
     return this.TrustForm.get('trusteePower') as FormArray;
   }
   mergeBymember (a1, a2) { 
-    console.log(a1, 'a1', a2 ,'a2');
+    //console.log(a1, 'a1', a2 ,'a2');
     
     return a1?.map(itm => ({
          ...a2?.find((item) => (item?._id === itm?.member) && item),
          share:itm?.specifyShares,
      }))};
   mergeByidStr (a1, a2) { 
-    console.log(a1, 'a1', a2 ,'a2');
+    //console.log(a1, 'a1', a2 ,'a2');
 
     return a1?.map(itm => {
       if(itm._id){
@@ -491,22 +491,22 @@ export class CreateTrustComponent implements OnInit,OnChanges {
         this.backRouteLink = '/will/createWill';
         this.forwardRouteLink = '/will/createWill';
         this.fromCreateWill = y;
-        console.log(this.fromCreateWill);
+        //console.log(this.fromCreateWill);
         this.wid=wid;
       }
       if (y === 'myWill') {
         this.backRouteLink = '/will/myWills';
         this.forwardRouteLink = '/will/myWills';
         this.fromCreateWill = y;
-        console.log(this.fromCreateWill);
+        //console.log(this.fromCreateWill);
       }
     });
     this.memberServices.getMembers().subscribe(
       (result) => {
-        // console.log(result.data);
+        // //console.log(result.data);
         this.spinner.stop();
         this.memberData = result.data.map((items, i) => {
-          // console.log(items);
+          // //console.log(items);
 
           return {
             fullname: this.memberServices.getMembersData(items).fullname,
@@ -522,12 +522,12 @@ export class CreateTrustComponent implements OnInit,OnChanges {
           };
         });
         this.memberDataRepelacementTrustee=this.memberData;
-        // console.log(this.allMemberData);
+        // //console.log(this.allMemberData);
         this._willServices.allTrustAdditionalData.subscribe((value) => {
           this.allTrustAdditionalData=value;
           this.trustAdditionalData = (value.filter((el) => el.trustData === this.id))[0];
           const data = (value.filter((el) => el.trustData === this.id))[0];
-          console.log(this.trustAdditionalData);
+          //console.log(this.trustAdditionalData);
           if(this.trustAdditionalData){
     
             this.TrustForm.patchValue({
@@ -554,23 +554,23 @@ export class CreateTrustComponent implements OnInit,OnChanges {
             this.TrusteePower.patchValue(data?.addTrust?.specifyTrusteePowers);
             if (data?.addTrust?.specifyTrusteePowers.legth !==0) {
               this.powerChecked=true;            }
-            console.log(this.TrustForm.value.trusteePower);
+            //console.log(this.TrustForm.value.trusteePower);
            
-            this.selectedItemFromEdit=this.mergeBymember(data?.trustFallback?.memberData,this.memberData),
-            this.deletedMemberTrustfallback=this.mergeBymember(data?.trustFallback?.memberData,this.memberData),
-            console.log(this.selectedItemFromEdit);
-            console.log(data);
+            this.selectedItemFromEdit=this.mergeBymember(data?.trustFallback?.memberData,this.memberData);
+            this.deletedMemberTrustfallback=this.mergeBymember(data?.trustFallback?.memberData,this.memberData);
+            //console.log(this.selectedItemFromEdit);
+            //console.log(data);
             
           }
         });
         this._willServices.allpayoutTrust.subscribe((value) => {
           this.allpayoutTrust=[...value];
           const dataPayout = [...value.filter((el) => el.trustId === this.id)];
-          console.log(this.payoutList);
-          console.log(dataPayout);
+          //console.log(this.payoutList);
+          //console.log(dataPayout);
           this.payoutList=dataPayout
-          console.log(value);
-          console.log(this.payoutList);
+          //console.log(value);
+          //console.log(this.payoutList);
           this.newpayoutList=dataPayout.map((el)=>{
             return{...el,addAPayout:{
               ...el.addAPayout,
@@ -578,7 +578,7 @@ export class CreateTrustComponent implements OnInit,OnChanges {
             }}
           })
           this.newpayoutList=this.newpayoutList.map((el) => ({trustId:el?.trustId,...el?.addAPayout}));
-          console.log(this.newpayoutList);
+          //console.log(this.newpayoutList);
     
         });
       },

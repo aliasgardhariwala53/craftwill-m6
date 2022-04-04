@@ -19,6 +19,7 @@ export class TableComponent implements OnInit, OnChanges {
   @Input() emptyTableMessage = '';
   @Input() actionRoute = '';
   @Input() actionList = true;
+  @Input() actionToggle = true;
   @Input() headerToggle = true;
   @Input() positionDropdown = 'relative';
   @Input() marginDropdown = 'mt-2';
@@ -69,7 +70,7 @@ export class TableComponent implements OnInit, OnChanges {
   }
   positionHandler(i){
     if (i===0) {
-      console.log(i);
+      //console.log(i);
       return 'fixed';
       
     }
@@ -87,10 +88,10 @@ export class TableComponent implements OnInit, OnChanges {
     this.selectedItem=null;
   }
   getShortName(fullName) { 
-    console.log(fullName);
+    //console.log(fullName);
     
     if (fullName) {
-      return fullName.split(' ').map(n => n[0]).join('').toUpperCase();
+      return fullName?.split(' ')?.map(n => n[0])?.join('')?.toUpperCase();
     } else {
       return "AA"
     }
@@ -98,17 +99,17 @@ export class TableComponent implements OnInit, OnChanges {
   }
   // @HostListener('window:scroll', ['$event']) 
   // scrollHandler(event) {
-  //   console.log(this.dropdown);
+  //   //console.log(this.dropdown);
   //   const data=false;
   //   this.dropdown['open']=data;
   // }
   ngOnInit(): void {
-    console.log(this.classes);
+    //console.log(this.classes);
     
   }
   
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
+    //console.log(changes);
     
   }
 

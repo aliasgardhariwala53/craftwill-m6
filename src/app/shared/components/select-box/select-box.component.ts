@@ -77,9 +77,9 @@ sharePercentage(e, itemId){
     this.shareIdInputArray = [...newarr];
   }
  this.onSelectId.emit(this.mergeOny( this.selectedItem,this.shareIdInputArray));
- console.log(this.mergeOny( this.selectedItem,this.shareIdInputArray));
- console.log(this.selectedItem);
- console.log(this.shareIdInputArray);
+ //console.log(this.mergeOny( this.selectedItem,this.shareIdInputArray));
+ //console.log(this.selectedItem);
+ //console.log(this.shareIdInputArray);
  
 }
 mergeOny(a1,a2){
@@ -100,7 +100,7 @@ mergeOny(a1,a2){
         ...itm
     }))};
 clicl(value){
-  console.log(value);
+  //console.log(value);
   
 }
 onClickActionButton(Item){
@@ -132,7 +132,7 @@ onSelectItem(value){
   
     this.onSelectId.emit(this.selectedItem);
     this.colorArray=this.selectedItem?.map((el)=>el._id)
-      console.log(this.selectedItem);
+      //console.log(this.selectedItem);
       this.checkId(value)
     return ;
   }
@@ -147,12 +147,12 @@ onSelectItem(value){
   this.onSelectId.emit(this.mergeById( this.selectedItem,this.shareIdInputArray));
   }
   this.colorArray=this.selectedItem?.map((el)=>el._id)
-  console.log(this.mergeById( this.selectedItem,this.shareIdInputArray));
+  //console.log(this.mergeById( this.selectedItem,this.shareIdInputArray));
   this.checkId(value);
   
 }
 checkId(id){
-  console.log(this.selectedItem?.includes((el)=>el._id===id), id);
+  //console.log(this.selectedItem?.includes((el)=>el._id===id), id);
   
   return this.selectedItem?.includes((el)=>el._id===id)
 }
@@ -196,7 +196,7 @@ drop(event: CdkDragDrop<string[]>) {
     return;
   }
   moveItemInArray(this.listItem, event.previousIndex, event.currentIndex);
-  // console.log(this.selectedItem);
+  // //console.log(this.selectedItem);
   
 }
 
@@ -205,16 +205,16 @@ shareDisplay(_id){
 }
 ngOnChanges(changes: SimpleChanges) {
   
-  // console.log(changes);
+  // //console.log(changes);
   this.shareMemberList= this.memberListShare;
   this.selectedItem = this.selectedItems;
   this.colorArray=this.selectedItem?.map((el)=>el._id);
-  console.log(this.selectedItem);
+  //console.log(this.selectedItem);
   
 }
 
 ngOnInit(): void {
-  // console.log(this.memberListShare);
+  // //console.log(this.memberListShare);
   
   this.route.queryParams.subscribe(({ wid }) => {
     if (wid) {

@@ -74,7 +74,7 @@ export class MyWillComponent implements OnInit {
     'w-10/12 m-0 sm:w-[11%] break-words capitalize text  ',
   ];
   onClickAction(value) {
-    console.log(value);
+    //console.log(value);
   }
 
   currentWill(){
@@ -135,7 +135,7 @@ export class MyWillComponent implements OnInit {
               actionRoute: 'trust/createTrust',
             };
           });
-          console.log(this.alltrustData);
+          //console.log(this.alltrustData);
           
         },(err)=>{
           this.spinner.stop();

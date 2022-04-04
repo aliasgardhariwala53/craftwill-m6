@@ -49,10 +49,11 @@ export class IntellectualPropertyComponent implements OnInit {
   wid='';
   createForm() {
     this.IntellectualPropertyForm = this._fb.group({
-      ip_Name: ['', [Validators.required,Validators.pattern('^[a-zA-Z ]*$')],Validators.maxLength(32)],
+      ip_Name: ['', [Validators.required,Validators.pattern('^[a-zA-Z ]*$'),Validators.maxLength(32)]],
       ip_No: ['', [Validators.pattern('^[0-9]*$'), Validators.maxLength(20)]],
       country: [, [Validators.required]],
-      SpecifyOwnershipType: ['', [Validators.required]],
+      specifyOwnershipType: ['', [Validators.required]],
+estimateValue: ['', [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(16)]],
     });
     this.IntellectualPropertyForm.valueChanges.subscribe(() => {
       this.formErrors = valueChanges(
@@ -66,7 +67,8 @@ export class IntellectualPropertyComponent implements OnInit {
     ip_Name: '',
     ip_No: '',
     country: '',
-    SpecifyOwnershipType: '',
+    estimateValue: '',
+ specifyOwnershipType: '',
   };
 
   formErrorMessages = {
@@ -83,12 +85,17 @@ export class IntellectualPropertyComponent implements OnInit {
       required: 'Country is required.',
     },
 
-    SpecifyOwnershipType: {
+    specifyOwnershipType: {
       required: 'Ownership is required.',
+    },
+    estimateValue: {
+      required: 'Estimate value is required.',
+      maxlength: 'Please enter valid number',
+ pattern: 'Only numeric values allowed',
     },
   };
   addProperty() {
-    console.log(this.IntellectualPropertyForm);
+    //console.log(this.IntellectualPropertyForm);
 
     if (this.IntellectualPropertyForm.invalid) {
       this.IntellectualPropertyForm.markAllAsTouched();
@@ -97,15 +104,15 @@ export class IntellectualPropertyComponent implements OnInit {
         { ...this.formErrors },
         this.formErrorMessages
       );
-        console.log('invalid');
+        //console.log('invalid');
 
       return;
     }
 
     var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
-    console.log(totalShare);
-    console.log(this.assetsBeneficiary);
-    console.log(this.allAssetsBeneficiary);
+    //console.log(totalShare);
+    //console.log(this.assetsBeneficiary);
+    //console.log(this.allAssetsBeneficiary);
 
     if(totalShare != 100 && this.fromCreateWill === 'will'){
       this.totalShareMessage = true;
@@ -115,8 +122,8 @@ export class IntellectualPropertyComponent implements OnInit {
     this.spinner.start();
     const intellectualData = {
       country: this.IntellectualPropertyForm.value.country,
-      specifyOwnershipType:
-        this.IntellectualPropertyForm.value.SpecifyOwnershipType,
+      specifyOwnershipType:this.IntellectualPropertyForm.value.specifyOwnershipType,
+        estimateValue:this.IntellectualPropertyForm.value.estimateValue,
       intellectualProperty: this.IntellectualPropertyForm.value,
       type: 'intellectualProperty',
     };
@@ -148,9 +155,9 @@ export class IntellectualPropertyComponent implements OnInit {
 
   onUpdateIntellectualProperty() {
     var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
-    console.log(totalShare);
-    console.log(this.assetsBeneficiary);
-    console.log(this.allAssetsBeneficiary);
+    //console.log(totalShare);
+    //console.log(this.assetsBeneficiary);
+    //console.log(this.allAssetsBeneficiary);
 
     if(totalShare != 100 && this.fromCreateWill === 'will'){
       this.totalShareMessage = true;
@@ -160,8 +167,8 @@ export class IntellectualPropertyComponent implements OnInit {
     this.spinner.start();
     const intellectualData = {
       country: this.IntellectualPropertyForm.value.country,
-      specifyOwnershipType:
-        this.IntellectualPropertyForm.value.specifyOwnershipType,
+      specifyOwnershipType:this.IntellectualPropertyForm.value.specifyOwnershipType,
+        estimateValue:this.IntellectualPropertyForm.value.estimateValue,
       intellectualProperty: this.IntellectualPropertyForm.value,
       type: 'intellectualProperty',
     };
@@ -183,7 +190,7 @@ export class IntellectualPropertyComponent implements OnInit {
               ...this.assetsBeneficiary,
             ];
           }
-          console.log(this.allAssetsBeneficiary);
+          //console.log(this.allAssetsBeneficiary);
 
           this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
           if (this.wid !== '') {
@@ -205,31 +212,34 @@ export class IntellectualPropertyComponent implements OnInit {
     this.spinner.start();
     this.assetsServices.getAssets().subscribe((result) => {
       this.spinner.stop();
-      console.log(result);
+      //console.log(result);
 
       const data = result.data.filter((item, i) => {
         if (item._id === id) {
-          const { intellectualProperty, country, specifyOwnershipType } = item;
+          const { intellectualProperty, country, specifyOwnershipType,estimateValue } = item;
+          console.log(item);
+          
           this.IntellectualPropertyForm.patchValue({
             ip_Name: intellectualProperty.ip_Name,
             ip_No: intellectualProperty.ip_No,
             country: country,
-            SpecifyOwnershipType: specifyOwnershipType,
+            specifyOwnershipType: specifyOwnershipType,
+            estimateValue:estimateValue,
           });
           return intellectualProperty;
         }
         return null;
       });
-      console.log(data);
+      //console.log(data);
     });
   }
   addSharesMember(value) {
-    console.log(value);
+    //console.log(value);
 
     this.assetsBeneficiary = value.map((el) => {
       return { ...el, type: 'intellectualProperty' };
     });
-    console.log(this.assetsBeneficiary);
+    //console.log(this.assetsBeneficiary);
   }
   ngOnInit(): void {
     this.route.queryParams.subscribe(({ id, x, y ,wid}) => {
@@ -245,9 +255,9 @@ export class IntellectualPropertyComponent implements OnInit {
         this.backRouteLink = '/will/createWill';
         this.forwardRouteLink = '/will/createWill';
         this.fromCreateWill = y;
-        console.log(this.fromCreateWill);
+        //console.log(this.fromCreateWill);
         this.wid=wid
-        console.log(this.wid);
+        //console.log(this.wid);
       }
       if (y === 'secure') {
         this.backRouteLink = '/liabilities/securedLoan';
@@ -258,15 +268,15 @@ export class IntellectualPropertyComponent implements OnInit {
         this.backRouteLink = '/will/myWills';
         this.forwardRouteLink = '/will/myWills';
         this.fromCreateWill = y;
-        console.log(this.fromCreateWill);
+        //console.log(this.fromCreateWill);
       }
     });
     this.memberServices.getMembers().subscribe(
       (result) => {
-        // console.log(result.data);
+        // //console.log(result.data);
         this.spinner.stop();
         this.memberData = result.data.map((items, i) => {
-          console.log(items);
+          //console.log(items);
 
           return {
             fullname: this.memberServices.getMembersData(items).fullname,
@@ -281,7 +291,7 @@ export class IntellectualPropertyComponent implements OnInit {
             actionRoute: 'members/createmembers',
           };
         });
-        // console.log(this.allMemberData);
+        // //console.log(this.allMemberData);
       },
       (err) => {
         this.spinner.stop();
@@ -290,7 +300,7 @@ export class IntellectualPropertyComponent implements OnInit {
     );
     this._willServices.assetsBeneficiary.subscribe((value) => {
       this.allAssetsBeneficiary = value;
-      console.log('assetsBeneficiary', value);
+      //console.log('assetsBeneficiary', value);
       this.slectedResidualMembers = this.allAssetsBeneficiary?.filter(
         (el) =>  el.assetId === this.id
       );

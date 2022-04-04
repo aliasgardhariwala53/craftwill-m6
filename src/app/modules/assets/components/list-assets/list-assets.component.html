@@ -88,26 +88,15 @@
       <app-button  value="Create New Assets" routelink="/assets/createAssets"></app-button>
     </div>
   </div>
-<!-- canvas -->
-
-<!-- <canvas
-      baseChart
-      [data]="barChartData1"
-      [options]="barChartOptions1"
-      [type]="'bar'"
-      width="100"
-      height="25"
-    >
-    </canvas> --> 
     <div class="bg-[#F7F7F7] rounded-2xl p-2 my-2">
       <canvas id="canvas" class="h-[150px] sm:h-[200px]">{{chart}}</canvas>
 
     </div>
 <!-- canvas -->
-  <app-table  [viewAction]="false" (deleteItem)="deleteItemHandler($event)" [tableHeadings]="tableHeadings" avtarType="image" (actionButton)="onClickAction($event)" class="overflow-scroll h-[45vh]" [tableData]="allAssetsinOne"
+  <app-table  [viewAction]="false" (deleteItem)="deleteItemHandler($event)" [tableHeadings]="tableHeadings" avtarType="image" (actionButton)="onClickAction($event)" class="overflow-scroll max-h-[400px] sm:max-h-full sm:h-[45vh] pb-12" [tableData]="allAssetsinOne"
     [keys]="tableKeys" [classes]="classes" emptyTableMessage="No Assets Found">
   </app-table>
-  <div class=" md:hidden left-0 right-0 bottom-0 bg-white w-full mt-auto">
+  <div class=" md:hidden left-0 right-0 bottom-0 bg-[#fff] m-auto absolute w-[83%]  rounded-2xl">
     <app-button [plus]="true" value="Create New Assets" routelink="/assets/createAssets" class="md:hidden"
       margin="my-1"></app-button>
   </div>

@@ -49,17 +49,17 @@ export class ListLiabilitiesComponent implements OnInit {
     'w-2/12 break-words hidden sm:flex ',
   ];
   onClickAction(value) {
-    console.log(value);
+    //console.log(value);
   }
   onChangehandler() {
     if (!this.searchForm.value) {
-      console.log(this.searchForm.value);
+      //console.log(this.searchForm.value);
       this.allLiabilities = [...this.LiabilitiesData];
     }
     this.allLiabilities = this.LiabilitiesData.map((items) => {
       for (const property in items) {
-        console.log(items[property]);
-        if(items[property].toString().toLowerCase().includes(this.searchForm.value.toLowerCase())){
+        //console.log(items[property]);
+        if(items[property]?.toString().toLowerCase().includes(this.searchForm.value.toLowerCase())){
           return items
         }
       }
@@ -69,7 +69,7 @@ export class ListLiabilitiesComponent implements OnInit {
     this.spinner.start();
     this.liabilitiesServices.deleteLiability(item._id).subscribe(
       (result) => {
-        console.log(result);
+        //console.log(result);
         this.spinner.stop();
         if (result.success == true) {
           this.LiabilitiesData = this.LiabilitiesData.filter((el) => el._id !== item._id);
@@ -78,7 +78,7 @@ export class ListLiabilitiesComponent implements OnInit {
         }
       },
       (err) => {
-        console.log(err);
+        //console.log(err);
         this.spinner.stop();
         this.toastr.message('Error deleting Liability data !!', false);
       }
@@ -86,11 +86,13 @@ export class ListLiabilitiesComponent implements OnInit {
   }
   onFilterHandler(value) {
     this.spinner.start();
-    console.log('helllooo', value);
+    //console.log('helllooo', value);
     this.liabilitiesServices.filterLiabilities(value).subscribe(
       (result) => {
         this.spinner.stop();
         this.LiabilitiesFilterData = result.map((items, i) => {
+          console.log(items);
+          
           return {
             loanName:
               this.liabilitiesServices.getLiabilitiesData(items)?.loanName,
@@ -131,13 +133,14 @@ export class ListLiabilitiesComponent implements OnInit {
   ngOnInit(): void {
     this.spinner.start();
     this.searchForm.valueChanges.pipe(debounceTime( 200 )  ).subscribe((e) => {
-      console.log(e);
+      //console.log(e);
       this.onChangehandler();
     });
     this.liabilitiesServices.getAllLiabilities().subscribe(
       (result) => {
         this.spinner.stop();
         this.LiabilitiesData = result.data.map((items, i) => {
+            console.log(items);
           return {
             loanName:
               this.liabilitiesServices.getLiabilitiesData(items)?.loanName,

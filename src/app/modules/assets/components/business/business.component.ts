@@ -59,6 +59,7 @@ export class BusinessComponent implements OnInit {
       UEN_no: ['', [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(20)]],
       country: [, [Validators.required]],
       specifyOwnershipType: ['', [Validators.required]],
+estimateValue: ['', [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(16)]],
     });
     this.businessForm.valueChanges.subscribe(() => {
       this.formErrors = valueChanges(
@@ -72,7 +73,8 @@ export class BusinessComponent implements OnInit {
     businessName: '',
     UEN_no: '',
     country: '',
-    specifyOwnershipType: '',
+    estimateValue: '',
+ specifyOwnershipType: '',
   };
 
   formErrorMessages = {
@@ -93,11 +95,16 @@ export class BusinessComponent implements OnInit {
     specifyOwnershipType: {
       required: 'Ownership is required.',
     },
+    estimateValue: {
+      required: 'Estimate value is required.',
+      maxlength: 'Please enter valid number',
+ pattern: 'Only numeric values allowed',
+    },
   };
 
 
   addBusiness() {
-    console.log(this.businessForm);
+    //console.log(this.businessForm);
 
     if (this.businessForm.invalid) {
       this.businessForm.markAllAsTouched();
@@ -106,15 +113,15 @@ export class BusinessComponent implements OnInit {
         { ...this.formErrors },
         this.formErrorMessages
       );
-        console.log('invalid');
+        //console.log('invalid');
 
       return;
     }
 
     var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
-    console.log(totalShare);
-    console.log(this.assetsBeneficiary);
-    console.log(this.allAssetsBeneficiary);
+    //console.log(totalShare);
+    //console.log(this.assetsBeneficiary);
+    //console.log(this.allAssetsBeneficiary);
 
     if(totalShare != 100 && this.fromCreateWill === 'will'){
       this.totalShareMessage = true;
@@ -125,6 +132,7 @@ export class BusinessComponent implements OnInit {
     const businessData = {
       country: this.businessForm.value.country,
       specifyOwnershipType: this.businessForm.value.specifyOwnershipType,
+      estimateValue: this.businessForm.value.estimateValue,
       business: this.businessForm.value,
       type: 'business',
       GiftBenificiary: this.businessForm.value.GiftBenificiary,
@@ -156,18 +164,18 @@ export class BusinessComponent implements OnInit {
     );
   }
   addSharesMember(value) {
-    console.log(value);
+    //console.log(value);
 
     this.assetsBeneficiary = value.map((el) => {
       return { ...el, assetId: this.id };
     });
-    console.log(this.assetsBeneficiary);
+    //console.log(this.assetsBeneficiary);
   }
   onUpdateBusiness() {
     var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
-    console.log(totalShare);
-    console.log(this.assetsBeneficiary);
-    console.log(this.allAssetsBeneficiary);
+    //console.log(totalShare);
+    //console.log(this.assetsBeneficiary);
+    //console.log(this.allAssetsBeneficiary);
 
     if(totalShare != 100 && this.fromCreateWill === 'will'){
       this.totalShareMessage = true;
@@ -178,6 +186,7 @@ export class BusinessComponent implements OnInit {
     const businessData = {
       country: this.businessForm.value.country,
       specifyOwnershipType: this.businessForm.value.specifyOwnershipType,
+      estimateValue: this.businessForm.value.estimateValue,
       business: this.businessForm.value,
       type: 'business',
     };
@@ -192,7 +201,7 @@ export class BusinessComponent implements OnInit {
             this.allAssetsBeneficiary=this.allAssetsBeneficiary.filter((el)=>el.assetId !== this.id);
             this.allAssetsBeneficiary=[...this.allAssetsBeneficiary,...this.assetsBeneficiary]
           }
-          console.log(this.allAssetsBeneficiary);
+          //console.log(this.allAssetsBeneficiary);
           
           this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
           this.businessForm.reset();
@@ -217,22 +226,23 @@ export class BusinessComponent implements OnInit {
     this.assetsServices.getAssets().subscribe(
       (result) => {
         this.spinner.stop();
-        console.log(result);
+        //console.log(result);
 
         const data = result.data.filter((item, i) => {
           if (item._id === id) {
-            const { business, country, specifyOwnershipType } = item;
+            const { business, country, specifyOwnershipType,estimateValue } = item;
             this.businessForm.patchValue({
               businessName: business.businessName,
               UEN_no: business.UEN_no,
               country: country,
               specifyOwnershipType: specifyOwnershipType,
+              estimateValue: estimateValue,
             });
             return business;
           }
           return null;
         });
-        console.log(data);
+        //console.log(data);
       },
       (err) => {
         this.spinner.stop();
@@ -242,7 +252,7 @@ export class BusinessComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.previousRoute);
+    //console.log(this.previousRoute);
 
     this.route.queryParams.subscribe(({ id, x, y,wid }) => {
       if (id) {
@@ -257,9 +267,9 @@ export class BusinessComponent implements OnInit {
         this.backRouteLink = '/will/createWill';
         this.forwardRouteLink = '/will/createWill';
         this.fromCreateWill = y;
-        console.log(this.fromCreateWill);
+        //console.log(this.fromCreateWill);
         this.wid=wid
-        console.log(this.wid);
+        //console.log(this.wid);
       }
       if (y === 'secure') {
         this.backRouteLink = '/liabilities/securedLoan';
@@ -270,15 +280,15 @@ if (y === 'myWill') {
         this.backRouteLink = '/will/myWills';
         this.forwardRouteLink = '/will/myWills';
         this.fromCreateWill = y;
-        console.log(this.fromCreateWill);
+        //console.log(this.fromCreateWill);
       }
     });
     this.memberServices.getMembers().subscribe(
       (result) => {
-        // console.log(result.data);
+        // //console.log(result.data);
         this.spinner.stop();
         this.memberData = result.data.map((items, i) => {
-          console.log(items);
+          //console.log(items);
 
           return {
             fullname: this.memberServices.getMembersData(items).fullname,
@@ -293,7 +303,7 @@ if (y === 'myWill') {
             actionRoute: 'members/createmembers',
           };
         });
-        // console.log(this.allMemberData);
+        // //console.log(this.allMemberData);
       },
       (err) => {
         this.spinner.stop();
@@ -302,7 +312,7 @@ if (y === 'myWill') {
     );
     this._willServices.assetsBeneficiary.subscribe((value) => {
       this.allAssetsBeneficiary = value;
-      console.log('assetsBeneficiary', value);
+      //console.log('assetsBeneficiary', value);
       this.slectedResidualMembers = this.allAssetsBeneficiary?.filter(
         (el) =>  el.assetId === this.id
       );

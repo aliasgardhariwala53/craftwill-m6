@@ -6,6 +6,7 @@ import { WillService } from 'src/app/services/will.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MembersService } from 'src/app/services/members.service';
+import { HeaderService } from 'src/app/services/header.service';
 @Component({
   selector: 'app-create-will',
   templateUrl: './create-will.component.html',
@@ -21,7 +22,11 @@ export class CreateWillComponent implements OnInit {
      private route: ActivatedRoute,
      private _route: Router,
      private memberServices: MembersService,
-    ) { }
+     private _headerServ: HeaderService,
+    ) { 
+
+
+    }
     wid;
     globalReload;
   pageTitle='Personal Information';
@@ -58,7 +63,7 @@ export class CreateWillComponent implements OnInit {
   next(value) {
     this.step+=1;
     this.setPageInfo()
-    console.log(value);
+    //console.log(value);
     this._willServices.currentStep.next(this.step);
   }
   onbackClause(value){
@@ -119,7 +124,7 @@ this.step =6;
     this._willServices.getAllWill().subscribe(
       (result) => {
         this.spinner.stop();
-        console.log("result",result);
+        //console.log("result",result);
         if (result.data.length > 0 ) {
           this._willServices.willpresent.next(true);
         }
@@ -149,7 +154,7 @@ assets,
 trust,
 specifyResidualAssetBenificiary,
 trustFallback,clauses} =this.willData;
-console.log(assets);
+//console.log(assets);
 
 const step1 ={
   id_Type,
@@ -175,7 +180,7 @@ const step2 ={
   guardianReplacementExecutor:this.idMapperToObj(guardianReplacementExecutor),
 
 }
-console.log(step2);
+//console.log(step2);
 
 const step3 ={
   liabilitiesData:this.idMapperToObj(liabilitiesData),
@@ -184,9 +189,9 @@ trust:trust.map((el)=>({_id:el.trustData})),
 }
 this._willServices.allTrustAdditionalData.next(trust);
 const payout =trust.map((el)=>el.payouts);
-console.log(payout.flat());
+//console.log(payout.flat());
 this._willServices.allpayoutTrust.next(payout.flat());
-console.log(step3);
+//console.log(step3);
 this.step3Data =step3;
 const step4 ={
   specifyResidualAssetBenificiary:specifyResidualAssetBenificiary.map((el)=>({_id:el?.member,share:el?.specifyShares})),
@@ -195,7 +200,7 @@ const step4 ={
 const step5 ={
   ...clauses
 }
-console.log(step4);
+//console.log(step4);
 
 const newStep3 =step3['assets']?.map((el)=>({_id:el?.assetData})) || null;
 this._willServices.step3AssetData.next(newStep3);
@@ -204,7 +209,7 @@ this._willServices.step3AssetData.next(newStep3);
 // sttep3 assets meber function
     let assetsBeneficiary = []
 const getData =this.step3Data['assets'].map((item)=>{
-      console.log(this.memberData);
+      //console.log(this.memberData);
       
       return {...item.membersData.map((el)=>{
         const temp = {
@@ -216,7 +221,7 @@ const getData =this.step3Data['assets'].map((item)=>{
         return temp;
       })}
 });
-    console.log(assetsBeneficiary);
+    //console.log(assetsBeneficiary);
 if (this._willServices.assetsBeneficiary.getValue().length==0) {
    this._willServices.assetsBeneficiary.next(assetsBeneficiary);
 }

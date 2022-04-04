@@ -88,7 +88,7 @@ export class AppointExecutorComponent implements OnInit {
     this.appointExecutorForm
       .get('primary_executor_type')
       .valueChanges.subscribe((selectedValue) => {
-        console.log(selectedValue);
+        //console.log(selectedValue);
         if (selectedValue === 'sole') {
           this.selectedItemFromEdit =
             this.appointExecutorForm.value.primaryExecutors.slice(0, 1);
@@ -103,7 +103,7 @@ export class AppointExecutorComponent implements OnInit {
     this.appointExecutorForm
       .get('replacement_executor_type')
       .valueChanges.subscribe((selectedValue) => {
-        console.log(selectedValue);
+        //console.log(selectedValue);
         if (selectedValue === 'sole') {
           this.appointExecutorForm.patchValue({
             replacementExecutors:
@@ -114,7 +114,7 @@ export class AppointExecutorComponent implements OnInit {
     this.appointExecutorForm
       .get('guardian_executor_type')
       .valueChanges.subscribe((selectedValue) => {
-        console.log(selectedValue);
+        //console.log(selectedValue);
         if (selectedValue === 'sole') {
           this.appointExecutorForm.patchValue({
             guardianExecutor:
@@ -125,7 +125,7 @@ export class AppointExecutorComponent implements OnInit {
     this.appointExecutorForm
       .get('guardian_replacement_executor_type')
       .valueChanges.subscribe((selectedValue) => {
-        console.log(selectedValue);
+        //console.log(selectedValue);
         if (selectedValue === 'sole') {
           this.appointExecutorForm.patchValue({
             guardianReplacementExecutor:
@@ -139,7 +139,7 @@ export class AppointExecutorComponent implements OnInit {
     this.appointExecutorForm
       .get('primaryExecutors')
       .valueChanges.subscribe((selectedValue) => {
-        console.log(selectedValue);
+        //console.log(selectedValue);
         this.memberDataExecutor = this.memberData.filter((el) => {
           return !selectedValue?.find((element) => {
             return element._id === el._id;
@@ -149,7 +149,7 @@ export class AppointExecutorComponent implements OnInit {
     this.appointExecutorForm
       .get('guardianExecutor')
       .valueChanges.subscribe((selectedValue) => {
-        console.log(selectedValue);
+        //console.log(selectedValue);
         this.memberDataGuardianExecutor = this.memberData.filter((el) => {
           return !selectedValue?.find((element) => {
             return element._id === el._id;
@@ -172,11 +172,11 @@ export class AppointExecutorComponent implements OnInit {
   };
   selectCircularMembers(value) {
     this.deletedItemsInArray = value;
-    console.log(value);
+    //console.log(value);
     this.appointExecutorForm.patchValue({
       primaryExecutors: value,
     });
-    console.log(this.appointExecutorForm.value.primaryExecutors);
+    //console.log(this.appointExecutorForm.value.primaryExecutors);
   }
   selectMemberExecutor(value) {
     this.selectedItemFromEdit = value;
@@ -184,14 +184,14 @@ export class AppointExecutorComponent implements OnInit {
     this.appointExecutorForm.patchValue({
       primaryExecutors: this.selectedItemFromEdit,
     });
-    console.log(this.appointExecutorForm.value.primaryExecutors);
+    //console.log(this.appointExecutorForm.value.primaryExecutors);
   }
   selectMemberReplacementExecutor(value) {
-    console.log(value);
+    //console.log(value);
     this.appointExecutorForm.patchValue({
       replacementExecutors: value,
     });
-    // console.log(this.appointExecutorForm.value.replacement_executor_type);
+    // //console.log(this.appointExecutorForm.value.replacement_executor_type);
   }
   selectMemberGuardian(value) {
     // let guardianId: Array<any> = this.appointExecutorForm.value.guardianExecutor;
@@ -206,7 +206,7 @@ export class AppointExecutorComponent implements OnInit {
     });
   }
   mergeById(a1, a2) {
-    console.log(a1, 'a1', a2, 'a2');
+    //console.log(a1, 'a1', a2, 'a2');
 
     return a1?.map((itm) => ({
       ...a2?.find((item) => item?._id === itm?._id && item),
@@ -214,7 +214,7 @@ export class AppointExecutorComponent implements OnInit {
     }));
   }
   filterById(a1, a2) {
-    console.log(a1, 'a1', a2, 'a2');
+    //console.log(a1, 'a1', a2, 'a2');
     return a1?.filter((el) => {
       return !a2?.includes((el2) => el2._id === el._id);
     });
@@ -226,13 +226,13 @@ export class AppointExecutorComponent implements OnInit {
   }
   onClickNext() {
     this.onClickNextBtn.emit(3);
-    console.log(this.appointExecutorForm.value);
+    //console.log(this.appointExecutorForm.value);
     this._willServices.step2.next(this.appointExecutorForm.value);
   }
   onUpdate(value) {}
   getAge(value) {
     const data = moment().diff(moment(value, 'YYYY-MM-DD'), 'years');
-    console.log(data);
+    //console.log(data);
     return data;
   }
   ngOnInit(): void {
@@ -241,11 +241,11 @@ export class AppointExecutorComponent implements OnInit {
     this.memberServices.getMembers().subscribe(
       (result) => {
         this.spinner.stop();
-        // console.log(result.data);
+        // //console.log(result.data);
 
         this.memberData = result.data
           .map((items, i) => {
-            // console.log(items);
+            // //console.log(items);
 
             return {
               fullname: this.memberServices.getMembersData(items).fullname,
@@ -261,20 +261,20 @@ export class AppointExecutorComponent implements OnInit {
             };
           })
           ?.filter((el) => {
-            console.log(el.dob);
-            console.log(this.getAge(el.dob));
+            //console.log(el.dob);
+            //console.log(this.getAge(el.dob));
             return this.getAge(el.dob) > 20;
           });
-        console.log(this.memberData);
+        //console.log(this.memberData);
 
         this.memberData = this.memberData;
-        console.log(this.memberData);
+        //console.log(this.memberData);
 
         this.memberDataExecutor = this.memberData;
         this.memberDataGuardianExecutor = this.memberData;
-        // console.log(this.allMemberData);
+        // //console.log(this.allMemberData);
         this._willServices.step2.subscribe((step2Data) => {
-          console.log(step2Data['primaryExecutors']);
+          //console.log(step2Data['primaryExecutors']);
           this.appointExecutorForm.patchValue(step2Data);
           this.selectedItemFromEdit = step2Data['primaryExecutors'];
           this.memberDataEditBox = this.filterById(
@@ -285,7 +285,7 @@ export class AppointExecutorComponent implements OnInit {
             step2Data['primaryExecutors'],
             this.memberData
           );
-          console.log(this.selectedItemFromEdit);
+          //console.log(this.selectedItemFromEdit);
         });
         this.memberDataEditBox = this.filterById(
           this.memberData,
@@ -296,7 +296,7 @@ export class AppointExecutorComponent implements OnInit {
           this.memberData
         );
         this.deletedItemsInArray = this.selectedItemFromEdit;
-        console.log(this.deletedItemsInArray);
+        //console.log(this.deletedItemsInArray);
       },
       (err) => {
         this.spinner.stop();

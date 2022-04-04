@@ -141,7 +141,7 @@ addClause(){
     appointBeneficiaries:this.appointBeneficiaries,
     beneficiaryManagedBy:this.beneficiaryManagedBy,
   }
-  console.log(data);
+  //console.log(data);
   
     this._willServices.delayPayoutData.next(data);
   }
@@ -149,7 +149,7 @@ addClause(){
 
   onSaveAdvisor(){
     if ( this.advisorForm.invalid) {
-      console.log('is 2');
+      //console.log('is 2');
       this.advisorForm.markAllAsTouched();
       this.formErrors = valueChanges(
         this.advisorForm,
@@ -165,15 +165,15 @@ addClause(){
     this.advisorForm.patchValue({
       advisorId:totallength 
     })
-    console.log(this.advisorForm.value);
+    //console.log(this.advisorForm.value);
     
     this.allAdvisorArray.push(this.advisorForm.value);
     this._willServices.recommendedAdvisorData.next(this.allAdvisorArray);
     this.advisorForm.reset();
   }
   onUpdateAdvisor(){
-    console.log(this.allAdvisorArray);
-    console.log(this.advisorForm.value);
+    //console.log(this.allAdvisorArray);
+    //console.log(this.advisorForm.value);
     this.allAdvisorArray = this.allAdvisorArray.map(ad => {
       if(ad.advisorId === this.advisorForm.value.advisorId){
         return this.advisorForm.value
@@ -188,12 +188,12 @@ addClause(){
     this.advisorForm.reset();
   }
   onClickEditAdvisor(item){
-    console.log(item);
+    //console.log(item);
     this.advisorUpdate=true;
     this.clauseType = 'clause2';
         this.onClickContinue();
     const edit =this.allAdvisorArray?.find((el)=>el.advisorId===item.advisorId);
-    console.log(this.allAdvisorArray);
+    //console.log(this.allAdvisorArray);
     
     this.advisorForm.patchValue({...item});
   }
@@ -204,7 +204,7 @@ addClause(){
     this.onbackClause.emit(this.clauseType);
     this.viewClause="listClause"
     // this.clauseType="";
-    console.log(this.finalWordsForm.value);
+    //console.log(this.finalWordsForm.value);
     this._willServices.finalWordsData.next(this.finalWordsForm.value);
     this.finalWordsForm.reset();
   }
@@ -225,7 +225,7 @@ addClause(){
   }
   onClickContinue(){
     this.setPageInfo();
-    console.log(this.clauseType);
+    //console.log(this.clauseType);
     this.showClauseModal=false;
   }
   editClause(num){
@@ -281,7 +281,7 @@ addClause(){
   }
   getAge(value) {
     const data = moment().diff(moment(value, 'YYYY-MM-DD'), 'years');
-    console.log(data);
+    //console.log(data);
     return data;
   }
   ngOnInit(): void {
@@ -291,10 +291,10 @@ addClause(){
     this.spinner.start();
     this.memberServices.getMembers().subscribe(
       (result) => {
-        // console.log(result.data);
+        // //console.log(result.data);
         this.spinner.stop();
         this.memberData = result.data.map((items, i) => {
-          console.log(items);
+          //console.log(items);
 
           return {
             fullname: this.memberServices.getMembersData(items).fullname,
@@ -310,11 +310,11 @@ addClause(){
           };
         });
         // ?.filter((el) => {
-        //   console.log(el.dob);
-        //   console.log(this.getAge(el.dob));
+        //   //console.log(el.dob);
+        //   //console.log(this.getAge(el.dob));
         //   return this.getAge(el.dob) > 20;
         // });;
-        // console.log(this.allMemberData);
+        // //console.log(this.allMemberData);
       },
       (err) => {
         this.spinner.stop();
@@ -322,10 +322,10 @@ addClause(){
       }
     );
     this._willServices.delayPayoutData.subscribe((value) => {
-      console.log(value);
+      //console.log(value);
       
       this.beneficiaryManagedBy=value?.beneficiaryManagedBy || 'delay1';
-      console.log( this.beneficiaryManagedBy);
+      //console.log( this.beneficiaryManagedBy);
       
       this.appointBeneficiaries=value?.appointBeneficiaries.map((el)=>{
         if (el._id) {
@@ -336,34 +336,34 @@ addClause(){
       }) || [];
     });
     this._willServices.recommendedAdvisorData.subscribe((value) => {
-      console.log(value);
+      //console.log(value);
       this.allAdvisorArray=value;
     });
     this._willServices.finalWordsData.subscribe((value) => {
-      console.log(value);
+      //console.log(value);
       this.finalWordsForm.patchValue(value);
     });
     this._willServices.translationData.subscribe((value) => {
-      console.log(value);
+      //console.log(value);
       this.translateType=value;
     });
     this._willServices.customClauseData.subscribe((value) => {
-      console.log(value);
+      //console.log(value);
       this.customClauseForm.patchValue(value);
     });
     this._willServices.step5.subscribe((value) => {
-      console.log(value);
+      //console.log(value);
       if(value['additionalClauses']){
         
         const { delayed_payout,recommendedAdvisor,finalWords,translation,customClause} =value['additionalClauses'];
-        console.log(delayed_payout,recommendedAdvisor,finalWords,translation,customClause);
+        //console.log(delayed_payout,recommendedAdvisor,finalWords,translation,customClause);
         
     this._willServices.delayPayoutData.next(delayed_payout);
     this._willServices.recommendedAdvisorData.next(recommendedAdvisor);
     this._willServices.finalWordsData.next(finalWords);
     this._willServices.translationData.next(translation);
     this._willServices.customClauseData.next(customClause);
-        console.log(value);
+        //console.log(value);
       }
       return;
     });

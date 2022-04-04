@@ -83,10 +83,10 @@ forwardRouteLink="/liabilities";
     this.PrivateDebtForm.patchValue({
       memberId: value.map((el)=>el._id),
     });
-    console.log(this.PrivateDebtForm.value.memberId);
+    //console.log(this.PrivateDebtForm.value.memberId);
   }
   addPrivateDebt() {
-    console.log(this.PrivateDebtForm);
+    //console.log(this.PrivateDebtForm);
 
     if (this.PrivateDebtForm.invalid) {
       this.PrivateDebtForm.markAllAsTouched();
@@ -95,7 +95,7 @@ forwardRouteLink="/liabilities";
         { ...this.formErrors },
         this.formErrorMessages
       );
-      console.log('invalid');
+      //console.log('invalid');
 
       return;
     }
@@ -114,8 +114,8 @@ forwardRouteLink="/liabilities";
       privateDept: formvalue,
       type: 'privateDept',
     };
-    console.log(formvalue);
-    console.log(privateDebtData);
+    //console.log(formvalue);
+    //console.log(privateDebtData);
     
     this.liabilitiesServices.addLiabilities(privateDebtData).subscribe(
       (result) => {
@@ -158,8 +158,8 @@ forwardRouteLink="/liabilities";
       privateDept: formvalue,
       type: 'privateDept',
     };
-    console.log(formvalue);
-    console.log(privateDebtData);
+    //console.log(formvalue);
+    //console.log(privateDebtData);
     this.liabilitiesServices.updateLiabilities(privateDebtData, this.id).subscribe(
       (result) => {
         this.spinner.stop();
@@ -183,7 +183,7 @@ forwardRouteLink="/liabilities";
     this.spinner.start();
     this.liabilitiesServices.getAllLiabilities().subscribe((result) => {
       this.spinner.stop();
-      console.log(result);
+      //console.log(result);
 
       const data = result.data.filter((item, i) => {
         if (item._id === id) {
@@ -204,8 +204,8 @@ forwardRouteLink="/liabilities";
         }
         return null;
       });
-      console.log(this.PrivateDebtForm.value);
-      console.log(this.slectedList);
+      //console.log(this.PrivateDebtForm.value);
+      //console.log(this.slectedList);
     });
   }
 
@@ -224,24 +224,24 @@ forwardRouteLink="/liabilities";
         this.backRouteLink="/will/createWill"; 
         this.forwardRouteLink = '/will/createWill';  
         this.fromCreateWill = y;
-        console.log(this.fromCreateWill);
+        //console.log(this.fromCreateWill);
         this.wid=wid
-        console.log(this.wid);
+        //console.log(this.wid);
       }
       if (y === 'myWill') {
         this.backRouteLink = '/will/myWills';
         this.forwardRouteLink = '/will/myWills';
         this.fromCreateWill = y;
-        console.log(this.fromCreateWill);
+        //console.log(this.fromCreateWill);
       }
     });
     this.createForm();
     this.memberServices.getMembers().subscribe(
       (result) => {
-        // console.log(result.data);
+        // //console.log(result.data);
         this.spinner.stop();
         this.memberData = result.data.map((items, i) => {
-          console.log(items);
+          //console.log(items);
 
           return {
             fullname: this.memberServices.getMembersData(items).fullname,
@@ -255,7 +255,7 @@ forwardRouteLink="/liabilities";
             actionRoute: 'members/createmembers',
           };
         });
-        // console.log(this.allMemberData);
+        // //console.log(this.allMemberData);
       },
       (err) => {
         this.spinner.stop();

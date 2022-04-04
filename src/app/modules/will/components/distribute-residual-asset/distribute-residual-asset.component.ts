@@ -56,7 +56,7 @@ export class DistributeResidualAssetComponent implements OnInit {
       );
     });
     this.distributeResidualAssetsForm.get("fallbackMemberId")?.valueChanges.subscribe(selectedValue => {
-      console.log(selectedValue);
+      //console.log(selectedValue);
    
       this.memberDataFallbackReplacement=this.memberData.filter(el => {
         return !selectedValue?.find(element => {
@@ -80,34 +80,34 @@ export class DistributeResidualAssetComponent implements OnInit {
     },
   };
   clickModal(){
-    console.log(this.distributeResidualAssetsForm.value.trustType);  
+    //console.log(this.distributeResidualAssetsForm.value.trustType);  
   }
 
   selectResidualAssetsMember(value) {
     this.distributeResidualAssetsForm.patchValue({
       specifyResidualAssetBenificiary: value,
     });
-    console.log(this.distributeResidualAssetsForm.value.specifyResidualAssetBenificiary);
+    //console.log(this.distributeResidualAssetsForm.value.specifyResidualAssetBenificiary);
 
     
   }
   selectFallbackMember(value) {
-    console.log(value);
+    //console.log(value);
 
     this.slectedFallbackMembers = value;
     this.distributeResidualAssetsForm.patchValue({
       fallbackMemberId: value,
     });
-    console.log(this.distributeResidualAssetsForm.value.fallbackMemberId);
+    //console.log(this.distributeResidualAssetsForm.value.fallbackMemberId);
   }
   slecteFallbackReplaceMember(value) {
-    console.log(value);
+    //console.log(value);
 
     this.slectedFallbackMembers = value;
     this.distributeResidualAssetsForm.patchValue({
       fallbackReplacementMemberId: value,
     });
-    console.log(this.distributeResidualAssetsForm.value.fallbackReplacementMemberId);
+    //console.log(this.distributeResidualAssetsForm.value.fallbackReplacementMemberId);
   }
   // split
   splitToggle:boolean=false;
@@ -126,7 +126,7 @@ export class DistributeResidualAssetComponent implements OnInit {
   }
   onClickNext(){
     var totalShare = this.distributeResidualAssetsForm.value.specifyResidualAssetBenificiary?.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
-console.log(totalShare);
+//console.log(totalShare);
 
     if(!(totalShare >= 99.5 &&  totalShare <= 100.99)){
       this.totalShareToggle = true;
@@ -158,7 +158,7 @@ console.log(totalShare);
         memberData:this.distributeResidualAssetsForm.value.trustType==='terminate'?this.distributeResidualAssetsForm.value.fallbackMemberId:(this.distributeResidualAssetsForm.value.customType==='custom1'?this.distributeResidualAssetsForm.value.fallbackReplacementMemberId:null)
       }
     }
-console.log(data);
+//console.log(data);
 
     this._willServices.step4.next(data);
   }
@@ -170,14 +170,14 @@ console.log(data);
   }
   getAge(value) {
     const data = moment().diff(moment(value, 'YYYY-MM-DD'), 'years');
-    console.log(data);
+    //console.log(data);
     return data;
   }
   ngOnInit(): void {
     this.createForm();
     this.spinner.start();
     this._willServices.step4.subscribe((step4Data) => {
-      console.log(step4Data);
+      //console.log(step4Data);
       
       this.distributeResidualAssetsForm.patchValue(
         {
@@ -188,14 +188,14 @@ console.log(data);
           fallbackReplacementMemberId:step4Data['trustFallback']?.trustType==='custom'?step4Data['trustFallback']?.memberData || []:[],
         }
       );
-      console.log(step4Data);
+      //console.log(step4Data);
     });
     this.memberServices.getMembers().subscribe(
       (result) => {
-        // console.log(result.data);
+        // //console.log(result.data);
         this.spinner.stop();
         this.memberData = result.data.map((items, i) => {
-          console.log(items);
+          //console.log(items);
 
           return {
             fullname: this.memberServices.getMembersData(items).fullname,
@@ -211,12 +211,12 @@ console.log(data);
           };
         });
         // ?.filter((el) => {
-        //   console.log(el.dob);
-        //   console.log(this.getAge(el.dob));
+        //   //console.log(el.dob);
+        //   //console.log(this.getAge(el.dob));
         //   return this.getAge(el.dob) > 20;
         // });
         this.memberDataFallbackReplacement=this.memberData;
-        // console.log(this.allMemberData);
+        // //console.log(this.allMemberData);
       },
       (err) => {
         this.spinner.stop();

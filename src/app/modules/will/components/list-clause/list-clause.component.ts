@@ -53,7 +53,7 @@ this.editClauseHandler.emit(num);
       (result) => {
         this.spinner.stop();
         this.memberData = result.data.map((items, i) => {
-          console.log(items);
+          //console.log(items);
 
           return {
             fullname: this.memberServices.getMembersData(items).fullname,
@@ -68,10 +68,10 @@ this.editClauseHandler.emit(num);
             actionRoute: 'members/createmembers',
           };
         });
-        // console.log(this.allMemberData);
+        // //console.log(this.allMemberData);
         this._willServices.delayPayoutData.subscribe((value) => {
           this.delayPayoutData = value;
-          console.log(value);
+          //console.log(value);
 
           this.delayType = value?.beneficiaryManagedBy;
           (this.appointBeneficiaries = value?.appointBeneficiaries.map((el) => {
@@ -82,27 +82,27 @@ this.editClauseHandler.emit(num);
           })),
             (this.appointBeneficiaries =
               this.mergeById(this.appointBeneficiaries, this.memberData) || []);
-          console.log(this.appointBeneficiaries);
+          //console.log(this.appointBeneficiaries);
         });
       },
       (err) => {}
     );
 
     this._willServices.recommendedAdvisorData.subscribe((value) => {
-      console.log(value);
+      //console.log(value);
 
       this.recommendedAdvisorData = value;
     });
     this._willServices.finalWordsData.subscribe((value) => {
-      console.log(value);
+      //console.log(value);
       this.finalWordsData = value;
     });
     this._willServices.translationData.subscribe((value) => {
-      console.log(value);
+      //console.log(value);
       this.translationData = value;
     });
     this._willServices.customClauseData.subscribe((value) => {
-      console.log(value);
+      //console.log(value);
       this.customClauseData = value;
     });
   }

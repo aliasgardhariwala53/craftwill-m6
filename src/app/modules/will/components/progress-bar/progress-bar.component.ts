@@ -40,7 +40,7 @@ export class ProgressBarComponent implements OnInit {
       this.step3 = step3;
       this.step4 = step4;
       this.step5 = step5;
-      console.log(step1, step2, step3, step4, step5);
+      //console.log(step1, step2, step3, step4, step5);
     });
   }
 

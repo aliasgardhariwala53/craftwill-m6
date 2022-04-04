@@ -43,8 +43,8 @@ export class MembersService {
         return data;
         break;
       case 'memberAsOrganisation':
-        data.Relationship = '---';
-        data.fullname = item.memberAsOrganisation.organisationName || '';
+        data.Relationship = 'Organization';
+        data.fullname = item.memberAsOrganisation.organisationName || 'NA';
         data.gender = item.memberAsOrganisation.gender || 'NA';
         data.id_type = item.memberAsOrganisation.gender || 'NA';
         data.id_number = item.memberAsOrganisation.registration_number || '';

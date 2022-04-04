@@ -16,7 +16,7 @@ export class FormComponent implements OnInit {
 @Output() submitForm = new EventEmitter;
   constructor() { }
   ngOnInit(): void {
-    console.log(this.formErrors);
+    //console.log(this.formErrors);
   }
 submit(){
   this.submitForm.emit();

@@ -30,7 +30,7 @@ drop(event: CdkDragDrop<string[]>) {
     return;
   }
   moveItemInArray(this.listItem, event.previousIndex, event.currentIndex);
-  // console.log(this.selectedItem);
+  // //console.log(this.selectedItem);
   
 }
 getShortName(obj) { 
@@ -62,7 +62,7 @@ onSelectItem(value){
   this.onSelectId.emit(this.mergeById( this.selectedItem,this.shareIdInputArray));
   }
   this.colorArray=this.selectedItem.map((el)=>el._id)
-  console.log(this.mergeById( this.selectedItem,this.shareIdInputArray));
+  //console.log(this.mergeById( this.selectedItem,this.shareIdInputArray));
   this.checkId(value);
   
 }
@@ -70,7 +70,7 @@ delete(index: any) {
   this.listItem.splice(index,1);
 }
 checkId(id){
-  console.log(this.selectedItem?.includes((el)=>el._id===id), id);
+  //console.log(this.selectedItem?.includes((el)=>el._id===id), id);
   
   return this.selectedItem?.includes((el)=>el._id===id)
 }
@@ -80,7 +80,7 @@ onAddItem(){
 benificiary=true;
 x;
 memberhadler(trustId,i){
-  console.log(this.allAppointMembers);
+  //console.log(this.allAppointMembers);
   
   this.x=this.allAppointMembers.filter((el)=>(el?.trustId === trustId))[i];
   // this.benificiary=(x?.ifBenificiaryAttains===x?.ifBenificiaryIs===x?.customField===x?.ifBenificiaryTurns==='');
@@ -91,10 +91,10 @@ ngOnChanges(changes: SimpleChanges) {
   this.selectedItem = this.selectedItems;
   this.allAppointMembers = this.listItem;
  
-  console.log(this.listItem);
+  //console.log(this.listItem);
 }
   ngOnInit(): void {
-    console.log(this.listItem);
+    //console.log(this.listItem);
   }
 
 }

@@ -71,7 +71,7 @@
 
   <app-table [viewAction]="false"  [deleteAction]="true" (deleteItem)="deleteItemHandler($event)" class="overflow-scroll h-[71vh]" [tableHeadings]="tableHeadings" (actionButton)="onClickAction($event)" [tableData]="allLiabilities"
     [keys]="tableKeys" [classes]="classes" emptyTableMessage="No Liabilities Found"></app-table>
-  <div class=" md:hidden left-0 right-0 bottom-1 w-full mt-auto bg-white">
+  <div class=" md:hidden left-0 right-0 bottom-0 bg-[#fff] m-auto absolute w-[83%] rounded-2xl">
     <app-button [plus]="true" value="Create New Liabilities" routelink="/liabilities/createLiabilities"
       class="md:hidden"></app-button>
   </div>

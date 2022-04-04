@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { HttpService } from 'src/app/services/http.service';
 import { environment } from 'src/environments/environment';
 
@@ -6,6 +7,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class UserService {
+
   constructor(private _httpServe: HttpService) {}
   getProfile() {
     return this._httpServe.get(environment.serverUrl + 'users/getUser');
@@ -28,14 +30,10 @@ export class UserService {
   }
 
 
-  upgradePlanApi(obj) {
-    return this._httpServe.post(environment.serverUrl + 'subscription/product', obj);
-  }
 
-
-  paymentApi(obj) {
-    return this._httpServe.post(environment.serverUrl + 'subscription/stripePayment', obj);
-  }
+  // paymentApi(obj) {
+  //   return this._httpServe.post(environment.serverUrl + 'subscription/stripePayment', obj);
+  // }
 
 
   dashboardStats(){

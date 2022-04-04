@@ -109,6 +109,11 @@ body{
   .bg-red{
    background-color: #ff6782;
    color:white;
+   
+  }
+  .bg-red:hover{
+    background-color: #fd4e6e;
+   color:white;
   }
   .text-red{
     color: #ff6782 !important;
@@ -279,6 +284,7 @@ cursor: not-allowed;
 {
 
   padding-left :3px !important;
+  margin-top: 3px !important;
 }
 .ng-select .ng-select-container .ng-value-container .ng-placeholder{
   padding-left :7px ;
@@ -415,7 +421,6 @@ border-radius: 10px;
 }
 .custom.ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input{
   padding-left: 10px;
-  margin-top: 5px;
 }
 .members.ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input{
 

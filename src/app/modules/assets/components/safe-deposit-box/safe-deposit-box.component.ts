@@ -53,6 +53,7 @@ export class SafeDepositBoxComponent implements OnInit {
       safe_No: ['', [Validators.pattern('^[0-9]*$'),Validators.maxLength(20)]],
       country: [, [Validators.required]],
       specifyOwnershipType: ['', [Validators.required]],
+estimateValue: ['', [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(16)]],
     });
     this.safeDepositboxForm.valueChanges.subscribe(() => {
       this.formErrors = valueChanges(
@@ -66,7 +67,8 @@ export class SafeDepositBoxComponent implements OnInit {
     safe_Box_Location: '',
     safe_No: '',
     country: '',
-    specifyOwnershipType: '',
+    estimateValue: '',
+ specifyOwnershipType: '',
   };
 
   formErrorMessages = {
@@ -86,9 +88,14 @@ export class SafeDepositBoxComponent implements OnInit {
     specifyOwnershipType: {
       required: 'Ownership is required.',
     },
+    estimateValue: {
+      required: 'Estimate value is required.',
+      maxlength: 'Please enter valid number',
+ pattern: 'Only numeric values allowed',
+    },
   };
   addDepositbox() {
-    console.log(this.safeDepositboxForm);
+    //console.log(this.safeDepositboxForm);
 
     if (this.safeDepositboxForm.invalid) {
       this.safeDepositboxForm.markAllAsTouched();
@@ -97,15 +104,15 @@ export class SafeDepositBoxComponent implements OnInit {
         { ...this.formErrors },
         this.formErrorMessages
       );
-        console.log('invalid');
+        //console.log('invalid');
 
       return;
     }
 
     var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
-    console.log(totalShare);
-    console.log(this.assetsBeneficiary);
-    console.log(this.allAssetsBeneficiary);
+    //console.log(totalShare);
+    //console.log(this.assetsBeneficiary);
+    //console.log(this.allAssetsBeneficiary);
 
     if(totalShare != 100 && this.fromCreateWill === 'will'){
       this.totalShareMessage = true;
@@ -116,6 +123,7 @@ export class SafeDepositBoxComponent implements OnInit {
     const safeDepositData = {
       country: this.safeDepositboxForm.value.country,
       specifyOwnershipType: this.safeDepositboxForm.value.specifyOwnershipType,
+      estimateValue: this.safeDepositboxForm.value.estimateValue,
       safeDepositBox: this.safeDepositboxForm.value,
       type: 'safeDepositBox',
     };
@@ -147,9 +155,9 @@ export class SafeDepositBoxComponent implements OnInit {
 
   onUpdateSafeDepositBox() {
     var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
-    console.log(totalShare);
-    console.log(this.assetsBeneficiary);
-    console.log(this.allAssetsBeneficiary);
+    //console.log(totalShare);
+    //console.log(this.assetsBeneficiary);
+    //console.log(this.allAssetsBeneficiary);
 
     if(totalShare != 100 && this.fromCreateWill === 'will'){
       this.totalShareMessage = true;
@@ -160,6 +168,7 @@ export class SafeDepositBoxComponent implements OnInit {
     const safeDepositData = {
       country: this.safeDepositboxForm.value.country,
       specifyOwnershipType: this.safeDepositboxForm.value.specifyOwnershipType,
+      estimateValue: this.safeDepositboxForm.value.estimateValue,
       safeDepositBox: this.safeDepositboxForm.value,
       type: 'safeDepositBox',
     };
@@ -174,7 +183,7 @@ export class SafeDepositBoxComponent implements OnInit {
             this.allAssetsBeneficiary=this.allAssetsBeneficiary.filter((el)=>el.assetId !== this.id);
             this.allAssetsBeneficiary=[...this.allAssetsBeneficiary,...this.assetsBeneficiary]
           }
-          console.log(this.allAssetsBeneficiary);
+          //console.log(this.allAssetsBeneficiary);
           
           this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
           this.safeDepositboxForm.reset();
@@ -194,34 +203,35 @@ export class SafeDepositBoxComponent implements OnInit {
     );
   }
   addSharesMember(value) {
-    console.log(value);
+    //console.log(value);
 
     this.assetsBeneficiary = value.map((el) => {
       return { ...el, assetId: this.id };
     });
-    console.log(this.assetsBeneficiary);
+    //console.log(this.assetsBeneficiary);
   }
   getdata(id) {
     this.spinner.start();
     this.assetsServices.getAssets().subscribe(
       (result) => {
         this.spinner.stop();
-        console.log(result);
+        //console.log(result);
 
         const data = result.data.filter((item, i) => {
           if (item._id === id) {
-            const { safeDepositBox, country, specifyOwnershipType } = item;
+            const { safeDepositBox, country, specifyOwnershipType,estimateValue } = item;
             this.safeDepositboxForm.patchValue({
               safe_Box_Location: safeDepositBox.safe_Box_Location,
               safe_No: safeDepositBox.safe_No,
               country,
               specifyOwnershipType,
+              estimateValue,
             });
             return safeDepositBox;
           }
           return null;
         });
-        console.log(data);
+        //console.log(data);
       },
       (err) => {
         this.spinner.stop();
@@ -245,9 +255,9 @@ export class SafeDepositBoxComponent implements OnInit {
         this.backRouteLink = '/will/createWill';
         this.forwardRouteLink = '/will/createWill';
         this.fromCreateWill = y;
-        console.log(this.fromCreateWill);
+        //console.log(this.fromCreateWill);
         this.wid=wid
-        console.log(this.wid);
+        //console.log(this.wid);
         
       }
       if (y === 'secure') {
@@ -259,16 +269,16 @@ if (y === 'myWill') {
         this.backRouteLink = '/will/myWills';
         this.forwardRouteLink = '/will/myWills';
         this.fromCreateWill = y;
-        console.log(this.fromCreateWill);
+        //console.log(this.fromCreateWill);
         
       }
     });
     this.memberServices.getMembers().subscribe(
       (result) => {
-        // console.log(result.data);
+        // //console.log(result.data);
         this.spinner.stop();
         this.memberData = result.data.map((items, i) => {
-          console.log(items);
+          //console.log(items);
 
           return {
             fullname: this.memberServices.getMembersData(items).fullname,
@@ -283,7 +293,7 @@ if (y === 'myWill') {
             actionRoute: 'members/createmembers',
           };
         });
-        // console.log(this.allMemberData);
+        // //console.log(this.allMemberData);
       },
       (err) => {
         this.spinner.stop();
@@ -293,7 +303,7 @@ if (y === 'myWill') {
     this._willServices.assetsBeneficiary.subscribe((value) => {
       this.allAssetsBeneficiary = value;
 
-      console.log('assetsBeneficiary', value);
+      //console.log('assetsBeneficiary', value);
       this.slectedResidualMembers = this.allAssetsBeneficiary?.filter(
         (el) =>  el.assetId === this.id
       );

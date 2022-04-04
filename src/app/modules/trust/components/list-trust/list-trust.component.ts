@@ -37,18 +37,18 @@ export class ListTrustComponent implements OnInit {
 
   ) {}
   onClickAction(value) {
-    console.log(value);
+    //console.log(value);
   }
 
   onChangehandler() {
-    console.log(this.searchForm.value);
+    //console.log(this.searchForm.value);
     if (!this.searchForm.value) {
       this.alltrustData = [...this.trustData];
     }
     this.alltrustData = this.trustData.map((items) => {
       for (const property in items) {
-        console.log(items[property]);
-        if(items[property].toString().toLowerCase().includes(this.searchForm.value.toLowerCase())){
+        //console.log(items[property]);
+        if(items[property]?.toString().toLowerCase().includes(this.searchForm.value.toLowerCase())){
           return items
         }
       }
@@ -58,7 +58,7 @@ export class ListTrustComponent implements OnInit {
     this.spinner.start();
     this.trustServices.deleteTrust(item._id).subscribe(
       (result) => {
-        console.log(result);
+        //console.log(result);
         this.spinner.stop();
         if (result.success == true) {
           this.trustData = this.trustData.filter((el) => el._id !== item._id);
@@ -67,7 +67,7 @@ export class ListTrustComponent implements OnInit {
         }
       },
       (err) => {
-        console.log(err);
+        //console.log(err);
         this.spinner.stop();
         this.toastr.message('Error deleting trust data !!', false);
       }
@@ -75,10 +75,10 @@ export class ListTrustComponent implements OnInit {
   }
   onFilterHandler(value) {
     this.spinner.start();
-    console.log('helllooo', value);
+    //console.log('helllooo', value);
     this.trustServices.filterTrust(value).subscribe((result) => {
       this.spinner.stop();
-      console.log('sdasdasdadas', result);
+      //console.log('sdasdasdadas', result);
       this.alltrustData = result.map((items, i) => {
         return {
           trustName: items.trustName,
@@ -98,7 +98,7 @@ export class ListTrustComponent implements OnInit {
   ngOnInit(): void {
     this.spinner.start();
     this.searchForm.valueChanges.pipe(debounceTime( 200 )  ).subscribe((e) => {
-      console.log(e);
+      //console.log(e);
       this.onChangehandler();
     });
     this.trustServices.getTrust().subscribe((result) => {

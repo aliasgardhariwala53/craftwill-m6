@@ -5,6 +5,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { SubscriptionComponent } from './components/subscription/subscription.component';
 import { HomeComponent } from './home.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component'
+import { SubscriptionHistoryComponent } from './components/subscription-history/subscription-history.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,11 @@ const routes: Routes = [
        path:"subscription",
        canActivate:[AuthGuard],
         component:SubscriptionComponent,
+      },
+      {
+       path:"subscriptionHistory",
+       canActivate:[AuthGuard],
+        component:SubscriptionHistoryComponent,
       },
 
     ]

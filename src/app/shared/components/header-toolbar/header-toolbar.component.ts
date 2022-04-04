@@ -22,7 +22,7 @@ export class HeaderToolbarComponent implements OnInit {
   constructor(private route:Router) { }
   toggleModal:boolean;
   ngOnInit(): void {
-    console.log(this.routerlink);
+    //console.log(this.routerlink);
     
   }
 

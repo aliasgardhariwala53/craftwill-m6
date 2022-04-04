@@ -53,6 +53,8 @@ export class InsurancePolicyComponent implements OnInit {
       policyNumber: ['', [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(20)]],
       country: [, [Validators.required]],
       specifyOwnershipType: ['', [Validators.required]],
+estimateValue: ['', [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(16)]],
+
     });
     this.insuranceForm.valueChanges.subscribe(() => {
       this.formErrors = valueChanges(
@@ -66,7 +68,8 @@ export class InsurancePolicyComponent implements OnInit {
     policyName: '',
     policyNumber: '',
     country: '',
-    specifyOwnershipType: '',
+    estimateValue: '',
+ specifyOwnershipType: '',
   };
 
   formErrorMessages = {
@@ -87,9 +90,14 @@ export class InsurancePolicyComponent implements OnInit {
     specifyOwnershipType: {
       required: 'Ownership is required.',
     },
+    estimateValue: {
+      required: 'Estimate value is required.',
+      maxlength: 'Please enter valid number',
+ pattern: 'Only numeric values allowed',
+    },
   };
   addinsurance() {
-    console.log(this.insuranceForm);
+    //console.log(this.insuranceForm);
 
     if (this.insuranceForm.invalid) {
       this.insuranceForm.markAllAsTouched();
@@ -98,15 +106,15 @@ export class InsurancePolicyComponent implements OnInit {
         { ...this.formErrors },
         this.formErrorMessages
       );
-        console.log('invalid');
+        //console.log('invalid');
 
       return;
     }
 
     var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
-    console.log(totalShare);
-    console.log(this.assetsBeneficiary);
-    console.log(this.allAssetsBeneficiary);
+    //console.log(totalShare);
+    //console.log(this.assetsBeneficiary);
+    //console.log(this.allAssetsBeneficiary);
 
     if(totalShare != 100 && this.fromCreateWill === 'will'){
       this.totalShareMessage = true;
@@ -117,6 +125,7 @@ export class InsurancePolicyComponent implements OnInit {
     const insurancePolicytData = {
       country: this.insuranceForm.value.country,
       specifyOwnershipType: this.insuranceForm.value.specifyOwnershipType,
+      estimateValue: this.insuranceForm.value.estimateValue,
       insurancePolicy: this.insuranceForm.value,
       type: 'insurancePolicy',
     };
@@ -149,9 +158,9 @@ export class InsurancePolicyComponent implements OnInit {
 
   onUpdateInsurancePolicy() {
     var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
-    console.log(totalShare);
-    console.log(this.assetsBeneficiary);
-    console.log(this.allAssetsBeneficiary);
+    //console.log(totalShare);
+    //console.log(this.assetsBeneficiary);
+    //console.log(this.allAssetsBeneficiary);
 
     if(totalShare != 100 && this.fromCreateWill === 'will'){
       this.totalShareMessage = true;
@@ -162,6 +171,7 @@ export class InsurancePolicyComponent implements OnInit {
     const insurancePolicytData = {
       country: this.insuranceForm.value.country,
       specifyOwnershipType: this.insuranceForm.value.specifyOwnershipType,
+      estimateValue: this.insuranceForm.value.estimateValue,
       insurancePolicy: this.insuranceForm.value,
       type: 'insurancePolicy',
     };
@@ -176,7 +186,7 @@ export class InsurancePolicyComponent implements OnInit {
             this.allAssetsBeneficiary=this.allAssetsBeneficiary.filter((el)=> el.assetId !== this.id);
             this.allAssetsBeneficiary=[...this.allAssetsBeneficiary,...this.assetsBeneficiary]
           }
-          console.log(this.allAssetsBeneficiary);
+          //console.log(this.allAssetsBeneficiary);
           
           this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
           this.insuranceForm.reset();
@@ -199,31 +209,32 @@ export class InsurancePolicyComponent implements OnInit {
     this.spinner.start();
     this.assetsServices.getAssets().subscribe((result) => {
       this.spinner.stop();
-      console.log(result);
+      //console.log(result);
 
       const data = result.data.filter((item, i) => {
         if (item._id === id) {
-          const { insurancePolicy, country, specifyOwnershipType } = item;
+          const { insurancePolicy, country, specifyOwnershipType,estimateValue } = item;
           this.insuranceForm.patchValue({
             policyName: insurancePolicy.policyName,
             policyNumber: insurancePolicy.policyNumber,
             country: country,
             specifyOwnershipType: specifyOwnershipType,
+            estimateValue,
           });
           return insurancePolicy;
         }
         return null;
       });
-      console.log(data);
+      //console.log(data);
     });
   }
   addSharesMember(value) {
-    console.log(value);
+    //console.log(value);
 
     this.assetsBeneficiary = value.map((el) => {
       return { ...el, assetId: this.id };
     });
-    console.log(this.assetsBeneficiary);
+    //console.log(this.assetsBeneficiary);
   }
   ngOnInit(): void {
     this.createForm();
@@ -242,7 +253,7 @@ export class InsurancePolicyComponent implements OnInit {
         this.forwardRouteLink = '/will/createWill';
         this.fromCreateWill = y;
         this.wid=wid
-        console.log(this.wid);
+        //console.log(this.wid);
       }
       if (y === 'secure') {
         this.backRouteLink = '/liabilities/securedLoan';
@@ -253,17 +264,17 @@ if (y === 'myWill') {
         this.backRouteLink = '/will/myWills';
         this.forwardRouteLink = '/will/myWills';
         this.fromCreateWill = y;
-        console.log(this.fromCreateWill);
+        //console.log(this.fromCreateWill);
       }
     });
 
 
     this.memberServices.getMembers().subscribe(
       (result) => {
-        // console.log(result.data);
+        // //console.log(result.data);
         this.spinner.stop();
         this.memberData = result.data.map((items, i) => {
-          // console.log(items);
+          // //console.log(items);
           return {
             fullname: this.memberServices.getMembersData(items).fullname,
             Relationship:
@@ -277,7 +288,7 @@ if (y === 'myWill') {
             actionRoute: 'members/createmembers',
           };
         });
-        // console.log(this.allMemberData);
+        // //console.log(this.allMemberData);
       },
       (err) => {
         this.spinner.stop();
@@ -286,7 +297,7 @@ if (y === 'myWill') {
     );
     this._willServices.assetsBeneficiary.subscribe((value) => {
       this.allAssetsBeneficiary = value;
-      console.log('assetsBeneficiary', value);
+      //console.log('assetsBeneficiary', value);
       this.slectedResidualMembers = this.allAssetsBeneficiary?.filter(
         (el) =>  el.assetId === this.id
       );

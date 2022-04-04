@@ -52,6 +52,7 @@ export class RealEstateComponent implements OnInit {
       address: ['', [Validators.required]],
       country: [, [Validators.required]],
       specifyOwnershipType: ['', [Validators.required]],
+estimateValue: ['', [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(16)]],
     });
     this.realEstateForm.valueChanges.subscribe(() => {
       this.formErrors = valueChanges(
@@ -64,7 +65,8 @@ export class RealEstateComponent implements OnInit {
   formErrors = {
     address: '',
     country: '',
-    specifyOwnershipType: '',
+    estimateValue: '',
+ specifyOwnershipType: '',
   };
 
   formErrorMessages = {
@@ -78,9 +80,14 @@ export class RealEstateComponent implements OnInit {
     specifyOwnershipType: {
       required: 'Ownership is required.',
     },
+    estimateValue: {
+      required: 'Estimate value is required.',
+      maxlength: 'Please enter valid number',
+ pattern: 'Only numeric values allowed',
+    },
   };
   addRealEstatet() {
-    console.log(this.realEstateForm);
+    //console.log(this.realEstateForm);
 
     if (this.realEstateForm.invalid) {
       this.realEstateForm.markAllAsTouched();
@@ -89,15 +96,15 @@ export class RealEstateComponent implements OnInit {
         { ...this.formErrors },
         this.formErrorMessages
       );
-        console.log('invalid');
+        //console.log('invalid');
 
       return;
     }
 
     var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
-    console.log(totalShare);
-    console.log(this.assetsBeneficiary);
-    console.log(this.allAssetsBeneficiary);
+    //console.log(totalShare);
+    //console.log(this.assetsBeneficiary);
+    //console.log(this.allAssetsBeneficiary);
 
     if(totalShare != 100 && this.fromCreateWill === 'will'){
       this.totalShareMessage = true;
@@ -108,6 +115,7 @@ export class RealEstateComponent implements OnInit {
     const realEstateData = {
       country: this.realEstateForm.value.country,
       specifyOwnershipType: this.realEstateForm.value.specifyOwnershipType,
+      estimateValue: this.realEstateForm.value.estimateValue,
       realEstate: this.realEstateForm.value,
       type: 'realEstate',
     };
@@ -140,9 +148,9 @@ export class RealEstateComponent implements OnInit {
 
   onUpdateRealEstate() {
     var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
-    console.log(totalShare);
-    console.log(this.assetsBeneficiary);
-    console.log(this.allAssetsBeneficiary);
+    //console.log(totalShare);
+    //console.log(this.assetsBeneficiary);
+    //console.log(this.allAssetsBeneficiary);
 
     if(totalShare != 100 && this.fromCreateWill === 'will'){
       this.totalShareMessage = true;
@@ -153,6 +161,7 @@ export class RealEstateComponent implements OnInit {
     const realEstateData = {
       country: this.realEstateForm.value.country,
       specifyOwnershipType: this.realEstateForm.value.specifyOwnershipType,
+      estimateValue: this.realEstateForm.value.estimateValue,
       realEstate: this.realEstateForm.value,
       type: 'realEstate',
     };
@@ -167,7 +176,7 @@ export class RealEstateComponent implements OnInit {
             this.allAssetsBeneficiary=this.allAssetsBeneficiary.filter((el)=>el.assetId!==this.id);
             this.allAssetsBeneficiary=[...this.allAssetsBeneficiary,...this.assetsBeneficiary]
           }
-          console.log(this.allAssetsBeneficiary);
+          //console.log(this.allAssetsBeneficiary);
              
             this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
        
@@ -192,21 +201,22 @@ export class RealEstateComponent implements OnInit {
     this.assetsServices.getAssets().subscribe(
       (result) => {
         this.spinner.stop();
-        console.log(result);
+        //console.log(result);
 
         const data = result.data.filter((item, i) => {
           if (item._id === id) {
-            const { realEstate, country, specifyOwnershipType } = item;
+            const { realEstate, country, specifyOwnershipType,estimateValue } = item;
             this.realEstateForm.patchValue({
               address: realEstate.address,
               country,
               specifyOwnershipType,
+              estimateValue,
             });
             return realEstate;
           }
           return null;
         });
-        console.log(data);
+        //console.log(data);
       },
       (err) => {
         this.spinner.stop();
@@ -215,9 +225,9 @@ export class RealEstateComponent implements OnInit {
     );
   }
   addSharesMember(value) {
-    console.log(value);  
+    //console.log(value);  
     this.assetsBeneficiary= value.map((el)=>{return{...el,assetId:this.id}})
-    console.log(this.assetsBeneficiary);
+    //console.log(this.assetsBeneficiary);
   }
   ngOnInit(): void {
 
@@ -234,7 +244,7 @@ export class RealEstateComponent implements OnInit {
         this.forwardRouteLink = '/will/createWill';
         this.fromCreateWill = y;
         this.wid=wid
-        console.log(this.fromCreateWill);
+        //console.log(this.fromCreateWill);
       }
       if (y === 'secure') {
         this.backRouteLink = '/liabilities/securedLoan';
@@ -245,12 +255,12 @@ if (y === 'myWill') {
         this.backRouteLink = '/will/myWills';
         this.forwardRouteLink = '/will/myWills';
         this.fromCreateWill = y;
-        console.log(this.fromCreateWill);
+        //console.log(this.fromCreateWill);
       }
     });
     this._willServices.assetsBeneficiary.subscribe((value) => {
       this.allAssetsBeneficiary=value;
-      console.log("assetsBeneficiary",value);
+      //console.log("assetsBeneficiary",value);
       this.slectedResidualMembers = this.allAssetsBeneficiary?.filter(
         (el) =>  el.assetId === this.id
       );
@@ -261,10 +271,10 @@ if (y === 'myWill') {
     });
     this.memberServices.getMembers().subscribe(
       (result) => {
-        // console.log(result.data);
+        // //console.log(result.data);
         this.spinner.stop();
         this.memberData = result.data.map((items, i) => {
-          console.log(items);
+          //console.log(items);
 
           return {
             fullname: this.memberServices.getMembersData(items).fullname,
@@ -279,7 +289,7 @@ if (y === 'myWill') {
             actionRoute: 'members/createmembers',
           };
         });
-        // console.log(this.allMemberData);
+        // //console.log(this.allMemberData);
       },
       (err) => {
         this.spinner.stop();

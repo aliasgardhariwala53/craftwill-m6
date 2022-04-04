@@ -15,10 +15,11 @@ export class ButtonComponent implements OnInit {
   @Input() padding:string='px-3 py-3 sm:py-2';
   @Input() margin:string='';
   @Input() borderRadius:string='rounded-xl';
-  @Input() backgroundColor:string='bg-[#FF6782]';
+  @Input() backgroundColor:string='bg-[#FF6782] hover:bg-[#fd4e6e]';
   @Input() color:string='text-white';
   @Input() border:string='';
   @Input() text:string='text-base';
+  @Input() backgroundHover:string='';
   @Output() myMethod= new EventEmitter();
   constructor(private route:Router) { }
 

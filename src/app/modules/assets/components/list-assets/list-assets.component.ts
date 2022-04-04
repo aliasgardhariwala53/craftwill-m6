@@ -36,7 +36,7 @@ export class ListAssetsComponent implements OnInit {
   tableData = [];
   classes = [
     'w-10/12 m-0 sm:w-7/12 break-words  ',
-    'w-10/12 m-0 sm:w-[12%] break-words  text',
+    'w-10/12 m-0 sm:w-[12%] break-words ',
     'w-1/12 break-words hidden md:flex ',
     'w-1/12 break-words hidden md:flex ',
   ];
@@ -69,25 +69,25 @@ export class ListAssetsComponent implements OnInit {
   ) {Chart.register(...registerables);}
   public countries: any = countries;
   onChangehandler() {
-    console.log(this.searchForm.value);
+    //console.log(this.searchForm.value);
     if (!this.searchForm.value || this.searchForm.value === null) {
       this.allAssetsinOne = [...this.allAssetsData];
     }
-    console.log(this.allAssetsData);
+    //console.log(this.allAssetsData);
     // let filteredArr = []
     this.allAssetsinOne = this.allAssetsData.map((items) => {
       for (const property in items) {
-        console.log(items[property]);
+        //console.log(items[property]);
         if(items[property]?.toString()?.toLowerCase()?.includes(this.searchForm.value?.toLowerCase())){
           return items
         }
       }
     })?.filter(items => items!== undefined);
-    console.log(this.allAssetsinOne);
+    //console.log(this.allAssetsinOne);
   }
   onFilterHandler(value) {
     this.spinner.start();
-    console.log('helllooo', value);
+    //console.log('helllooo', value);
     this.assetsServices.filterAssets(value).subscribe(
       (result) => {
         this.spinner.stop();
@@ -113,7 +113,7 @@ export class ListAssetsComponent implements OnInit {
   }
 
   onClickAction(value) {
-    console.log(value);
+    //console.log(value);
   }
  
 
@@ -138,7 +138,7 @@ export class ListAssetsComponent implements OnInit {
     this.spinner.start();
     this.assetsServices.deleteAssets(item._id).subscribe(
       (result) => {
-        console.log(result);
+        //console.log(result);
         this.spinner.stop();
         if (result.success == true) {
           this.allAssetsData = this.allAssetsData.filter((el) => el._id !== item._id);
@@ -147,7 +147,7 @@ export class ListAssetsComponent implements OnInit {
         }
       },
       (err) => {
-        console.log(err);
+        //console.log(err);
         this.spinner.stop();
         this.toastr.message('Error deleting Members data !!', false);
       }
@@ -160,13 +160,15 @@ return (a/(a+b) * 100);
   ngOnInit(): void {
     this.spinner.start();
     this.searchForm.valueChanges.pipe(debounceTime( 200 )  ).subscribe((e) => {
-      console.log(e);
+      //console.log(e);
       this.onChangehandler();
     });
     this.assetsServices.getAssets().subscribe(
       (result) => {
         this.spinner.stop();
         this.allAssetsData = result.data.map((items, i) => {
+          console.log(items);
+          
           return {
             nameofAssets: this.assetsServices.getAssetsData(items)?.name,
             uniqueNumber: this.assetsServices.getAssetsData(items)?.uniqueNumber,
@@ -192,8 +194,8 @@ return (a/(a+b) * 100);
       
       this.liquidData[0] = this.percentage(this.result?.liquidCount,this.result?.iliquidCount);
       this.liquidData[1] = this.percentage(this.result?.iliquidCount,this.result?.liquidCount);
-      // console.log(this.coinPrice);
-      console.log(this.result);
+      // //console.log(this.coinPrice);
+      //console.log(this.result);
  
 
       this.chart = new Chart('canvas', {

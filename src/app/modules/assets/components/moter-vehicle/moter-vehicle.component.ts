@@ -52,7 +52,8 @@ export class MoterVehicleComponent implements OnInit {
       CarModel: ['', [Validators.required,Validators.pattern('^[a-zA-Z ]*$'),Validators.maxLength(32)]],
       plateNo: ['', [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(8)]],
       country: [, [Validators.required]],
-      SpecifyOwnershipType: ['', [Validators.required]],
+      specifyOwnershipType: ['', [Validators.required]],
+estimateValue: ['', [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(16)]],
     });
     this.vehicleForm.valueChanges.subscribe(() => {
       this.formErrors = valueChanges(
@@ -66,7 +67,8 @@ export class MoterVehicleComponent implements OnInit {
     CarModel: '',
     plateNo: '',
     country: '',
-    SpecifyOwnershipType: '',
+    estimateValue: '',
+ specifyOwnershipType: '',
   };
 
   formErrorMessages = {
@@ -84,12 +86,17 @@ export class MoterVehicleComponent implements OnInit {
       required: 'Country is required.',
     },
 
-    SpecifyOwnershipType: {
+    specifyOwnershipType: {
       required: 'Ownership is required.',
+    },
+    estimateValue: {
+      required: 'Estimate value is required.',
+      maxlength: 'Please enter valid number',
+ pattern: 'Only numeric values allowed',
     },
   };
   addVehicle() {
-    console.log(this.vehicleForm);
+    //console.log(this.vehicleForm);
 
     if (this.vehicleForm.invalid) {
       this.vehicleForm.markAllAsTouched();
@@ -98,15 +105,15 @@ export class MoterVehicleComponent implements OnInit {
         { ...this.formErrors },
         this.formErrorMessages
       );
-        console.log('invalid');
+        //console.log('invalid');
 
       return;
     }
 
     var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
-    console.log(totalShare);
-    console.log(this.assetsBeneficiary);
-    console.log(this.allAssetsBeneficiary);
+    //console.log(totalShare);
+    //console.log(this.assetsBeneficiary);
+    //console.log(this.allAssetsBeneficiary);
 
     if(totalShare != 100 && this.fromCreateWill === 'will'){
       this.totalShareMessage = true;
@@ -117,6 +124,7 @@ export class MoterVehicleComponent implements OnInit {
     const VehicletData = {
       country: this.vehicleForm.value.country,
       specifyOwnershipType: this.vehicleForm.value.specifyOwnershipType,
+      estimateValue: this.vehicleForm.value.estimateValue,
       motorVehicle: this.vehicleForm.value,
       type: 'motorVehicle',
     };
@@ -148,9 +156,9 @@ export class MoterVehicleComponent implements OnInit {
 
   onUpdateMotorVehicle() {
     var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
-    console.log(totalShare);
-    console.log(this.assetsBeneficiary);
-    console.log(this.allAssetsBeneficiary);
+    //console.log(totalShare);
+    //console.log(this.assetsBeneficiary);
+    //console.log(this.allAssetsBeneficiary);
 
     if(totalShare != 100 && this.fromCreateWill === 'will'){
       this.totalShareMessage = true;
@@ -161,6 +169,7 @@ export class MoterVehicleComponent implements OnInit {
     const VehicletData = {
       country: this.vehicleForm.value.country,
       specifyOwnershipType: this.vehicleForm.value.specifyOwnershipType,
+      estimateValue: this.vehicleForm.value.estimateValue,
       motorVehicle: this.vehicleForm.value,
       type: 'motorVehicle',
     };
@@ -182,7 +191,7 @@ export class MoterVehicleComponent implements OnInit {
               ...this.assetsBeneficiary,
             ];
           }
-          console.log(this.allAssetsBeneficiary);
+          //console.log(this.allAssetsBeneficiary);
     
             this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
       
@@ -207,22 +216,23 @@ export class MoterVehicleComponent implements OnInit {
     this.assetsServices.getAssets().subscribe(
       (result) => {
         this.spinner.stop();
-        console.log(result);
+        //console.log(result);
 
         const data = result.data.filter((item, i) => {
           if (item._id === id) {
-            const { motorVehicle, country, specifyOwnershipType } = item;
+            const { motorVehicle, country, specifyOwnershipType ,estimateValue} = item;
             this.vehicleForm.patchValue({
               CarModel: motorVehicle.CarModel,
               plateNo: motorVehicle.plateNo,
               country: country,
-              SpecifyOwnershipType: specifyOwnershipType,
+              specifyOwnershipType: specifyOwnershipType,
+              estimateValue,
             });
             return motorVehicle;
           }
           return null;
         });
-        console.log(data);
+        //console.log(data);
       },
       (err) => {
         this.spinner.stop();
@@ -231,9 +241,9 @@ export class MoterVehicleComponent implements OnInit {
     );
   }
   addSharesMember(value) {
-    console.log(value);  
+    //console.log(value);  
     this.assetsBeneficiary= value.map((el)=>{return{...el,assetId:this.id}})
-    console.log(this.assetsBeneficiary);
+    //console.log(this.assetsBeneficiary);
   }
 
   ngOnInit(): void {
@@ -252,8 +262,8 @@ export class MoterVehicleComponent implements OnInit {
         this.forwardRouteLink = '/will/createWill';
         this.fromCreateWill = y;
         this.wid=wid
-        console.log(this.wid);
-        console.log(this.fromCreateWill);
+        //console.log(this.wid);
+        //console.log(this.fromCreateWill);
       }
       if (y === 'secure') {
         this.backRouteLink = '/liabilities/securedLoan';
@@ -264,12 +274,12 @@ if (y === 'myWill') {
         this.backRouteLink = '/will/myWills';
         this.forwardRouteLink = '/will/myWills';
         this.fromCreateWill = y;
-        console.log(this.fromCreateWill);
+        //console.log(this.fromCreateWill);
       }
     });
     this._willServices.assetsBeneficiary.subscribe((value) => {
       this.allAssetsBeneficiary=value;
-      console.log("assetsBeneficiary",value);
+      //console.log("assetsBeneficiary",value);
       this.slectedResidualMembers = this.allAssetsBeneficiary?.filter(
         (el) =>  el.assetId === this.id
       );
@@ -280,10 +290,10 @@ if (y === 'myWill') {
     });
     this.memberServices.getMembers().subscribe(
       (result) => {
-        // console.log(result.data);
+        // //console.log(result.data);
         this.spinner.stop();
         this.memberData = result.data.map((items, i) => {
-          console.log(items);
+          //console.log(items);
 
           return {
             fullname: this.memberServices.getMembersData(items).fullname,
@@ -298,7 +308,7 @@ if (y === 'myWill') {
             actionRoute: 'members/createmembers',
           };
         });
-        // console.log(this.allMemberData);
+        // //console.log(this.allMemberData);
       },
       (err) => {
         this.spinner.stop();

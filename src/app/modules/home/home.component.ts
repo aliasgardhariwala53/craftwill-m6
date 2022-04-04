@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
 
   this.route.queryParams.subscribe(({ profile }) => {
     if (profile==="true") {
-      console.log(profile);
+      //console.log(profile);
       this._router.navigate(['home/profile']);
     }
   });

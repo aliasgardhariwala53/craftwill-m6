@@ -56,6 +56,21 @@
           {{ formErrors.country }}
         </div>
       </div>
+      <div class="form-group">
+        <div class="input-group1">
+          <label class="input_label text-sm ml-1">Estimate Value ($USD)</label>
+          <input
+            type="text"
+            placeholder="Estimate Value"
+            formControlName="estimateValue"
+            class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#F7F7F7] w-[100%] px-2 sm:px-4 py-2  form-control rounded-[14px]  focus:outline-none"
+          />
+        </div>
+
+        <div class="text-red-500 errors mx-2">
+          {{ formErrors.estimateValue }}
+        </div>
+      </div>
     </div>
     <div
       class="my-4 flex flex-col w-full md:w-3/12 lg:w-2/12 p-3 items-center bg_grey rounded-3xl font-semibold"
@@ -118,6 +133,7 @@
           addItemRoute="members/createmembers"
           avtarType="name"
           addItemTitle="Add members"
+          NoItemMessage="No Member found"
           >
           </app-select-box>
         </div>

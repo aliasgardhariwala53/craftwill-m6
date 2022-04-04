@@ -26,21 +26,21 @@ export class ListShareComponent implements OnInit {
   }
   ngOnChanges(changes: SimpleChanges) {
   
-    // console.log(changes);
-    // console.log(this.memberListShare);
+    // //console.log(changes);
+    // //console.log(this.memberListShare);
     this.allAssetsBeneficiary=this.memberListShare?.filter((el)=>el.assetId===this._id);
     
   }
   ngOnInit(): void {
 
-    // console.log(this.memberListShare);
+    // //console.log(this.memberListShare);
 
     
   }
   delete(index: any) {
     
     this.allAssetsBeneficiary.splice(index,1);
-    console.log(this.memberListShare);
+    //console.log(this.memberListShare);
     this.selectedListItem.emit(this.allAssetsBeneficiary);
   }
 

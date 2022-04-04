@@ -78,12 +78,12 @@ export class PayoutComponent implements OnInit {
     });
   }
   onSelectFallback(e) {
-    console.log();
+    //console.log();
     this.fallbackChecked = e.target.checked;
   }
   selectCircularMembers(value){
     this.deletedItemsInArray=value;
-        console.log(value);
+        //console.log(value);
         this.payoutForm.patchValue({
           appointBenificiaries:value,
         })  
@@ -127,7 +127,7 @@ export class PayoutComponent implements OnInit {
 if (this.formValueChanges) {
   this.onSaveData.emit(addAPayout);
 }
-    console.log(addAPayout);
+    //console.log(addAPayout);
     
     this.onClickback.emit();
   }
@@ -136,10 +136,10 @@ if (this.formValueChanges) {
     this.createForm();
     this.memberServices.getMembers().subscribe(
       (result) => {
-        // console.log(result.data);
+        // //console.log(result.data);
         this.spinner.stop();
         this.memberData = result.data.map((items, i) => {
-          // console.log(items);
+          // //console.log(items);
 
           return {
             fullname: this.memberServices.getMembersData(items).fullname,
@@ -154,7 +154,7 @@ if (this.formValueChanges) {
             actionRoute: 'members/createmembers',
           };
         });
-        // console.log(this.allMemberData);
+        // //console.log(this.allMemberData);
       },
       (err) => {
         this.spinner.stop();

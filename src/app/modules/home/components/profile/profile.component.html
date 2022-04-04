@@ -162,10 +162,18 @@
           <div class="w-1/3 sm:w-auto">
             <div class="input-group1">
               <label class="input_label text-sm sm:text-base font-[GilroySemi]">ID Country</label>
-              <input type="text" placeholder="ID Country" [ngClass]="{ input_bg: inputState }"
+              <!-- <input type="text" placeholder="ID Country" [ngClass]="{ input_bg: inputState }"
                 [attr.disabled]="inputState ? '' : null" [ngStyle]="{ cursor: inputState ? 'not-allowed' : 'default' }"
                 formControlName="id_country"
-                class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#F0F0F0] w-[100%] px-2 sm:px-4 py-2  form-control rounded-[14px]  focus:outline-none" />
+                class="font-[GilroyBold] sm:font-[GilroySemi] bg-[#F0F0F0] w-[100%] px-2 sm:px-4 py-2  form-control rounded-[14px]  focus:outline-none" /> -->
+
+                <ng-select
+                [readonly]="inputState"
+                class="custom-selector profile w-full"
+                placeholder="ID Country"
+                [items]="countries"
+                formControlName="id_country"
+                ></ng-select>
             </div>
 
             <div class="text-red-500 errors mx-2">

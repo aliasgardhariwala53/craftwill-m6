@@ -29,6 +29,7 @@
     "ng-click-outside": "^9.0.1",
     "ng2-charts": "^3.0.8",
     "ngx-image-cropper": "^6.0.1",
+    "ngx-skeleton-loader": "^5.0.0",
     "ngx-spinner": "^13.1.1",
     "ngx-stripe": "^13.0.0",
     "ngx-toastr": "^14.2.1",

@@ -4,7 +4,7 @@
             <div class="{{ classes[i] }} flex md:items-center" *ngFor="let item of tableHeadings; let i = index">
                 {{ item }}
             </div>
-            <div class="w-1/12 text-center">Actions</div>
+            <div *ngIf="actionToggle" class="w-1/12 text-center">Actions</div>
         </div>
     </div>
     <div class="flex flex-col space-y-3 overflow-scroll overflow-x-hidden p-1 h-[inherit]"  #scrollMe [scrollTop]="scrolldown?scrollMe.scrollHeight:null">
@@ -24,7 +24,7 @@
                 </div>
                 {{ item[key] || key }}
             </div>
-            <div *ngIf="!actionList"
+            <div *ngIf="actionToggle && !actionList"
                 class="w-1/12 absolute top-0 bottom-0 md:static right-4 break-words cursor-pointer text-center flex justify-center m-auto">
                 <!-- <img class=""  width="24px"  src="../../../../assets/Icons/Back.svg"> -->
                 <svg class="-rotate-180 m-auto" (click)="onClickActionButton(item)" xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +41,7 @@
                     </g>
                 </svg>
             </div>
-            <div *ngIf="actionList"
+            <div *ngIf="actionToggle &&  actionList"
                 class="w-1/12 absolute top-0 bottom-0 md:relative right-4 break-words cursor-pointer text-center flex justify-center m-auto">
                 <!-- <img class=""  width="24px"  src="../../../../assets/Icons/Back.svg"> -->
                 <div (click)="(dropdown.open = !dropdown.open)  && drophandler(k,tableData)" (clickOutside)="dropdown.open  = false"
@@ -52,7 +52,7 @@
                             clip-rule="evenodd" />
                     </svg>
                 </div>
-                <app-dropdown #dropdown class="ml-1" width="w-[120px] " [positon]="tableData.length===1?'fixed':'relative'"  [margin]="tableData.length===1?'mt-9 sm:mt-6 sm:mr-1':'mt-6 sm:mt-2 sm:mr-1'" >
+                <app-dropdown #dropdown class="ml-1" width="w-[120px] " [positon]="tableData.length===1 && keys[0]==='willName'?'fixed':'relative'"  [margin]="tableData.length===1  && keys[0]==='willName'?'mt-9 sm:mt-6 sm:mr-1':'mt-6 sm:mt-2 sm:mr-1'" >
                     <div options class="w-full p-2 bg-white rounded-2xl shadow-lg">
                         <div *ngIf="editAction" (click)="onClickActionButton(item)"
                             class="hover:bg-[#ff6782] flex flex-row rounded-xl py-[5px] px-2 items-center hover:text-[#fff] hover:no-underline cursor-pointer">

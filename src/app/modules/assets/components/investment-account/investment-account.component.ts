@@ -53,6 +53,7 @@ export class InvestmentAccountComponent implements OnInit {
       accountNo: ['', [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(20)]],
       country: [, [Validators.required]],
       specifyOwnershipType: ['', [Validators.required]],
+estimateValue: ['', [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(16)]],
     });
     this.InvestmentAccountUser.valueChanges.subscribe(() => {
       this.formErrors = valueChanges(
@@ -66,7 +67,8 @@ export class InvestmentAccountComponent implements OnInit {
     accountName: '',
     accountNo: '',
     country: '',
-    specifyOwnershipType: '',
+    estimateValue: '',
+ specifyOwnershipType: '',
   };
 
   formErrorMessages = {
@@ -87,9 +89,14 @@ export class InvestmentAccountComponent implements OnInit {
     specifyOwnershipType: {
       required: 'Ownership is required.',
     },
+    estimateValue: {
+      required: 'Estimate value is required.',
+      maxlength: 'Please enter valid number',
+ pattern: 'Only numeric values allowed',
+    },
   };
   addinvestmentAccount() {
-    console.log(this.InvestmentAccountUser);
+    //console.log(this.InvestmentAccountUser);
 
     if (this.InvestmentAccountUser.invalid) {
       this.InvestmentAccountUser.markAllAsTouched();
@@ -98,14 +105,14 @@ export class InvestmentAccountComponent implements OnInit {
         { ...this.formErrors },
         this.formErrorMessages
       );
-        console.log('invalid');
+        //console.log('invalid');
 
       return;
     }
   var totalShare = this.assetsBeneficiary.map((el)=>Number(el.share) || 0).reduce((prev,curr)=>prev+curr,0);
-    console.log(totalShare);
-    console.log(this.assetsBeneficiary);
-    console.log(this.allAssetsBeneficiary);
+    //console.log(totalShare);
+    //console.log(this.assetsBeneficiary);
+    //console.log(this.allAssetsBeneficiary);
 
     if(totalShare != 100 && this.fromCreateWill === 'will'){
       this.totalShareMessage = true;
@@ -117,6 +124,8 @@ export class InvestmentAccountComponent implements OnInit {
       country: this.InvestmentAccountUser.value.country,
       specifyOwnershipType:
         this.InvestmentAccountUser.value.specifyOwnershipType,
+        estimateValue:
+        this.InvestmentAccountUser.value.estimateValue,
       investmentAccount: this.InvestmentAccountUser.value,
       type: 'investmentAccount',
     };
@@ -152,6 +161,8 @@ export class InvestmentAccountComponent implements OnInit {
       country: this.InvestmentAccountUser.value.country,
       specifyOwnershipType:
         this.InvestmentAccountUser.value.specifyOwnershipType,
+        estimateValue:
+        this.InvestmentAccountUser.value.estimateValue,
       investmentAccount: this.InvestmentAccountUser.value,
       type: 'investmentAccount',
     };
@@ -173,7 +184,7 @@ export class InvestmentAccountComponent implements OnInit {
               ...this.assetsBeneficiary,
             ];
           }
-          console.log(this.allAssetsBeneficiary);
+          //console.log(this.allAssetsBeneficiary);
       
             this._willServices.assetsBeneficiary.next(this.allAssetsBeneficiary);
    
@@ -198,22 +209,23 @@ export class InvestmentAccountComponent implements OnInit {
     this.assetsServices.getAssets().subscribe(
       (result) => {
         this.spinner.stop();
-        console.log(result);
+        //console.log(result);
 
         const data = result.data.filter((item, i) => {
           if (item._id === id) {
-            const { investmentAccount, country, specifyOwnershipType } = item;
+            const { investmentAccount, country, specifyOwnershipType,estimateValue } = item;
             this.InvestmentAccountUser.patchValue({
               accountName: investmentAccount.accountName,
               accountNo: investmentAccount.accountNo,
               country,
               specifyOwnershipType,
+              estimateValue,
             });
             return investmentAccount;
           }
           return null;
         });
-        console.log(data);
+        //console.log(data);
       },
       (err) => {
         this.spinner.stop();
@@ -222,9 +234,9 @@ export class InvestmentAccountComponent implements OnInit {
     );
   }
   addSharesMember(value) {
-    console.log(value);  
+    //console.log(value);  
     this.assetsBeneficiary= value.map((el)=>{return{...el,assetId:this.id}})
-    console.log(this.assetsBeneficiary);
+    //console.log(this.assetsBeneficiary);
   }
   ngOnInit(): void {
 
@@ -242,8 +254,8 @@ export class InvestmentAccountComponent implements OnInit {
         this.forwardRouteLink = '/will/createWill';
         this.fromCreateWill = y;
         this.wid=wid
-        console.log(this.wid);
-        console.log(this.fromCreateWill);
+        //console.log(this.wid);
+        //console.log(this.fromCreateWill);
       }
       if (y === 'secure') {
         this.backRouteLink = '/liabilities/securedLoan';
@@ -254,15 +266,15 @@ if (y === 'myWill') {
         this.backRouteLink = '/will/myWills';
         this.forwardRouteLink = '/will/myWills';
         this.fromCreateWill = y;
-        console.log(this.fromCreateWill);
+        //console.log(this.fromCreateWill);
       }
     });
     this.memberServices.getMembers().subscribe(
       (result) => {
-        // console.log(result.data);
+        // //console.log(result.data);
         this.spinner.stop();
         this.memberData = result.data.map((items, i) => {
-          console.log(items);
+          //console.log(items);
 
           return {
             fullname: this.memberServices.getMembersData(items).fullname,
@@ -277,7 +289,7 @@ if (y === 'myWill') {
             actionRoute: 'members/createmembers',
           };
         });
-        // console.log(this.allMemberData);
+        // //console.log(this.allMemberData);
       },
       (err) => {
         this.spinner.stop();
@@ -286,7 +298,7 @@ if (y === 'myWill') {
     );
     this._willServices.assetsBeneficiary.subscribe((value) => {
       this.allAssetsBeneficiary=value;
-      console.log("assetsBeneficiary",value);
+      //console.log("assetsBeneficiary",value);
       this.slectedResidualMembers = this.allAssetsBeneficiary?.filter(
         (el) =>  el.assetId === this.id
       );

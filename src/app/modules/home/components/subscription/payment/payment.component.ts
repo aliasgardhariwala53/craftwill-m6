@@ -4,6 +4,7 @@ import {
   StripePaymentElementComponent,
 } from 'ngx-stripe';
 import {
+  StripeCardElementChangeEvent,
   StripeCardElementOptions,
   StripeElementsOptions,
 } from '@stripe/stripe-js';
@@ -16,6 +17,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { ToastrService } from 'src/app/shared/services/toastr.service';
 import { resetFakeAsyncZone } from '@angular/core/testing';
+import { valueChanges } from 'src/app/helper/formerror.helper';
+import { SubscriptionService } from 'src/app/services/subscription.service';
 
 
 @Component({
@@ -31,14 +34,56 @@ export class PaymentComponent implements OnInit, OnChanges {
   @Output() closePayment = new EventEmitter();
 
  stripeTest : any ;
-
+ enablePayment=false;
   createForm(){
     this.stripeTest = this.fb.group({
-      name: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
+      name: ['', [Validators.required,Validators.pattern('^[a-zA-Z ]*$'),Validators.maxLength(32)]],
+      email: ['', [Validators.required,  Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$')]],
     });
+    this.stripeTest.valueChanges.subscribe(()=>{
+      this.formErrors = valueChanges(
+        this.stripeTest,
+        { ...this.formErrors },
+        this.formErrorMessages
+      );
+    })
   }
+  onChange(event: StripeCardElementChangeEvent) {
+    const displayError = document.getElementById('card-errors');
+    //console.log(event);
+    
+    if (event.empty) {
+      displayError.textContent = "Card details are required ";
+      displayError.textContent = "Card details are required ";
+      this.enablePayment=false;
+      return;
+    }
+    if (event.error) {
+      displayError.textContent = event.error.message;
 
+    } else {
+      displayError.textContent = '';
+      this.enablePayment=true;
+    }
+  }
+  formErrors = {
+    name: '',
+    email: '',
+  };
+
+  formErrorMessages = {
+    name: {
+      required: 'Name is required.',
+      pattern: 'Invalid Name',
+      maxlength: 'Word limit Exceed..',
+    },
+    email: {
+      required: 'Email is required.',
+      pattern:
+      'Please enter valid email address. For example johndoe@domain.com ',
+    },
+
+  };
   elementsOptions: StripeElementsOptions = {
     locale: 'en',
   };
@@ -68,27 +113,35 @@ export class PaymentComponent implements OnInit, OnChanges {
   constructor(
     private fb: FormBuilder,
     private stripeService: StripeService,
-    private userService: UserService,
+    private subscription: SubscriptionService,
     private toastr: ToastrService,
     private spinner: NgxUiLoaderService
 
 
   ) {}
 
-  ngOnInit() {
-    this.createForm()
-  }
+
 
   ngOnChanges(changes: SimpleChanges): void {
       if (changes['data'].currentValue) {
-        console.log(changes['data'].currentValue, 'Ddata');
+        //console.log(changes['data'].currentValue, 'Ddata');
         this.newData = changes['data'].currentValue;
       }
   }
 
   asdf = '';
-
   createToken(): void {
+    if (this.stripeTest.invalid) {
+      this.stripeTest.markAllAsTouched();
+      this.formErrors = valueChanges(
+        this.stripeTest,
+        { ...this.formErrors },
+        this.formErrorMessages
+      );
+
+      //console.log('invalid');
+      return;
+      }
     this.spinner.start();
     const name = this.stripeTest.get('name').value;
     this.stripeService
@@ -96,11 +149,14 @@ export class PaymentComponent implements OnInit, OnChanges {
       .subscribe((result) => {
         if (result.token) {
           // Use the token
-          console.log(result.token.id);
+          console.log(result);
           this.pay(result.token.id);
         } else if (result.error) {
           // Error creating the token
-          console.log(result.error.message);
+          this.spinner.stop();
+          this.toastr.message(result.error.message, false);
+          document.getElementById('card-errors').textContent=result.error.message;
+          //console.log(result.error.message);
         }
       });
   }
@@ -112,14 +168,37 @@ export class PaymentComponent implements OnInit, OnChanges {
       customerTOken: token,
       name: this.stripeTest.value.name,
       stripeEmail: this.stripeTest.value.email,
+      // priceId: this.stripeTest.value.email,
+      // priceId : "price_1Kj18mJrEVeMChFE8FQtb5bm"
+      // priceId : "price_1KjO1cJrEVeMChFEiW4aBXDE"
+
+      // "stripeEmail": "ali@gmail.com",
+      // "name": "ALia Bhatt Dhariwala",
+      // "customerTOken" : "tok_1KjMmyJrEVeMChFEj2kX6p1g",
+      // "priceId" : "price_1Kj18mJrEVeMChFE8FQtb5bm"
     };
-    this.userService.paymentApi(body).subscribe((result) => {
+    this.subscription.paymentApi(body).subscribe((result) => {
       console.log(result);
 
-      if(result.status == "succeeded"){
+      if(result.success){
         this.spinner.stop();
         this.toastr.message('Payment Success!!!', true);
         this.stripeTest.reset();
+        this.closePayment.emit();
+        this.payment = false;
+        this.subscription.subscriptionActive.next(result?.data?.isActive);
+        this.subscription.canceledSubscription.next(false);
+        const {subscriptionStartDate=new Date(),subscriptionEndDate=new Date(),amount=0,isActive=false,_id,isCancelled,priceId=''} = result?.data;
+        this.subscription.subscriptionDetails.next({
+         subscriptionStartDate,
+        subscriptionEndDate,
+        amount,
+        priceId,
+        isActive,
+        _id,
+        isCancelled,
+        });
+
       }
       else{
         this.spinner.stop();
@@ -127,11 +206,15 @@ export class PaymentComponent implements OnInit, OnChanges {
       }
     });
 
-    console.log(body);
+    //console.log(body);
   }
 
   hidePayment() {
     this.closePayment.emit();
     this.payment = false;
+  }
+  ngOnInit() {
+    this.createForm()
+
   }
 }

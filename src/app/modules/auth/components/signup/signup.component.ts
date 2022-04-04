@@ -55,7 +55,7 @@ export class SignupComponent implements OnInit {
         [
           Validators.required,
           Validators.pattern('[a-zA-Z0-9]*'),
-          Validators.maxLength(24),
+          Validators.maxLength(16),
         ],
       ],
       fullName: [
@@ -74,7 +74,7 @@ export class SignupComponent implements OnInit {
           '',
           [
             Validators.required,
-            Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
+            Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$'),
           ],
         ],
         password: [
@@ -126,8 +126,8 @@ export class SignupComponent implements OnInit {
       );
     });
     this.accountDetails.valueChanges.subscribe(() => {
-      console.log(this.accountDetails.controls['password'].hasError('pattern'));
-      console.log(this.accountDetails.controls['password'].hasError('required'));
+      //console.log(this.accountDetails.controls['password'].hasError('pattern'));
+      //console.log(this.accountDetails.controls['password'].hasError('required'));
       
       this.formErrors = valueChanges(
         this.accountDetails,
@@ -213,7 +213,7 @@ export class SignupComponent implements OnInit {
   };
   submit() {
     this.spinner.start();
-    console.log('Helloo');
+    //console.log('Helloo');
 
     let obj = {
       id_type: this.userRegistration.value.id_type,
@@ -227,7 +227,7 @@ export class SignupComponent implements OnInit {
       streetName: this.addressDetails.value.streetName,
       postalCode: this.addressDetails.value.postalCode,
     };
-    console.log(obj);
+    //console.log(obj);
 
     this._authService.signup(obj).subscribe(
       (result) => {
@@ -259,7 +259,7 @@ export class SignupComponent implements OnInit {
 
   next(value) {
     if (value == 2 && this.userRegistration.invalid) {
-      console.log('is 2');
+      //console.log('is 2');
       this.userRegistration.markAllAsTouched();
       this.formErrors = valueChanges(
         this.userRegistration,
@@ -269,7 +269,7 @@ export class SignupComponent implements OnInit {
       return;
     }
     if (value == 3 && this.accountDetails.invalid) {
-      console.log('is 3');
+      //console.log('is 3');
       this.accountDetails.markAllAsTouched();
       this.formErrors = valueChanges(
         this.accountDetails,
@@ -279,7 +279,7 @@ export class SignupComponent implements OnInit {
       return;
     }
     if (value == 4 && this.addressDetails.invalid) {
-      console.log('is 4');
+      //console.log('is 4');
       this.addressDetails.markAllAsTouched();
       this.formErrors = valueChanges(
         this.addressDetails,
@@ -290,14 +290,14 @@ export class SignupComponent implements OnInit {
     }
 
     if (value == 3) {
-      console.log('is 5');
+      //console.log('is 5');
     }
     this.step = value;
-    console.log(this.step);
+    //console.log(this.step);
   }
   signupSendEmail() {
     if (this.accountDetails.invalid) {
-      console.log('is 3');
+      //console.log('is 3');
       this.accountDetails.markAllAsTouched();
       this.formErrors = valueChanges(
         this.accountDetails,

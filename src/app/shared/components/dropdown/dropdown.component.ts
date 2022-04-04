@@ -22,7 +22,7 @@ export class DropdownComponent implements OnInit,OnChanges {
   ngOnInit(): void {
   }
 ngOnChanges(changes: SimpleChanges): void {
-  console.log(this.positon);
+  //console.log(this.positon);
   
 }
   selectOption(option): void {

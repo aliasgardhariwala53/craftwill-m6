@@ -31,8 +31,8 @@ forwardRouteLink="/liabilities";
 
   createForm() {
     this.UnSecuredLoan = this._fb.group({
-      loanProvider: ['', [Validators.required,Validators.maxLength(32)]],
-      loan_Number: ['', [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(16)]],
+      loanProvider: ['', [Validators.required,Validators.pattern('^[a-zA-Z ]*$'),Validators.maxLength(32)]],
+      // loan_Number: ['', [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(16)]],
       loan_Id_Number: [
         '',
         [Validators.required, Validators.pattern('^[0-9]*$'),Validators.maxLength(16)],
@@ -50,7 +50,7 @@ forwardRouteLink="/liabilities";
   }
   formErrors = {
     loanProvider: '',
-    loan_Number: '',
+    // loan_Number: '',
     loan_Id_Number: '',
     current_Outstanding_Amount: '',
     description: '',
@@ -60,12 +60,13 @@ forwardRouteLink="/liabilities";
     loanProvider: {
       required: 'Loan Provider is required.',
       maxlength: 'Word limit Exceed..',
+      pattern: 'Invalid Loan provider name',
     },
-    loan_Number: {
-      required: 'Loan Number is required.',
-      pattern: 'Only numeric values allowed',
-      maxlength: 'Please Enter Valid Number',
-    },
+    // loan_Number: {
+    //   required: 'Loan Number is required.',
+    //   pattern: 'Only numeric values allowed',
+    //   maxlength: 'Please Enter Valid Number',
+    // },
     loan_Id_Number: {
       required: 'Loan Id Number is required.',
       pattern: 'Only numeric values allowed',
@@ -83,7 +84,7 @@ forwardRouteLink="/liabilities";
   };
 
   addUnSecuredLoan() {
-    console.log(this.UnSecuredLoan);
+    //console.log(this.UnSecuredLoan);
 
     if (this.UnSecuredLoan.invalid) {
       this.UnSecuredLoan.markAllAsTouched();
@@ -92,11 +93,11 @@ forwardRouteLink="/liabilities";
         { ...this.formErrors },
         this.formErrorMessages
       );
-      console.log('invalid');
+      //console.log('invalid');
       return;
     }
     this.spinner.start();
-    console.log(this.UnSecuredLoan.value);
+    //console.log(this.UnSecuredLoan.value);
     const unSecuredLoanData = {
       current_Outstanding_Amount:
         this.UnSecuredLoan.value.current_Outstanding_Amount,
@@ -152,7 +153,7 @@ forwardRouteLink="/liabilities";
     this.spinner.start();
     this.liabilitiesServices.getAllLiabilities().subscribe((result) => {
       this.spinner.stop();
-      console.log(result);
+      //console.log(result);
       
       const data=result.data.filter((item,i)=>{
         if (item._id===id) {
@@ -160,7 +161,7 @@ forwardRouteLink="/liabilities";
           this.UnSecuredLoan.patchValue({
             loanName: unsecuredLoan.loanName,
             loanProvider: unsecuredLoan.loanProvider,
-            loan_Number: unsecuredLoan.loan_Number,
+            // loan_Number: unsecuredLoan.loan_Number,
             loan_Id_Number: unsecuredLoan.loan_Id_Number,
             current_Outstanding_Amount: current_Outstanding_Amount,
             description: unsecuredLoan.description,
@@ -170,7 +171,7 @@ forwardRouteLink="/liabilities";
         }
         return null;
       })
-      console.log(data);
+      //console.log(data);
       
 
      
@@ -194,15 +195,15 @@ forwardRouteLink="/liabilities";
         this.backRouteLink = '/will/createWill';
         this.forwardRouteLink = '/will/createWill';
         this.fromCreateWill = y;
-        // console.log(this.fromCreateWill);
+        // //console.log(this.fromCreateWill);
         this.wid=wid
-        console.log(this.wid);
+        //console.log(this.wid);
       }
       if (y === 'myWill') {
         this.backRouteLink = '/will/myWills';
         this.forwardRouteLink = '/will/myWills';
         this.fromCreateWill = y;
-        console.log(this.fromCreateWill);
+        //console.log(this.fromCreateWill);
       }
     })
   }
